@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/10/24 17:12:32 by sheila           ###   ########.fr       */
+/*   Updated: 2024/10/29 16:05:28 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void init_env(t_minishell *mshell)
             mshell->env.keys[i] = ft_strdup(key[0]);
 		if (key[1] != NULL)
             mshell->env.values[i] = ft_strdup(key[1]);
-        printf("Key: %s, Value: %s\n", mshell->env.keys[i], mshell->env.values[i]);
+        //printf("Key: %s, Value: %s\n", mshell->env.keys[i], mshell->env.values[i]);
         free(key[0]);
         free(key[1]);
         free(key);
@@ -80,6 +80,21 @@ void    init_struct(t_minishell *mshell, t_env *env, char **envp)
     }
     mshell->envp[i] = NULL;
     init_env(mshell);
+}
+
+void    ft_env(t_env env)
+{
+    int i;
+    
+    i = -1;
+    while(env.keys[++i])
+    {
+        ft_putstr_fd(env.keys[i], STDOUT_FILENO);
+        ft_putstr_fd("=", STDOUT_FILENO);
+        ft_putstr_fd(env.values[i], STDOUT_FILENO);
+        ft_putstr_fd("\n", STDOUT_FILENO);
+    }
+    return;
 }
 
 /*int main(int argc, char **argv, char **envp)

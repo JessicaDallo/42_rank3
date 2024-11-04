@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/10/25 15:07:52 by sheila           ###   ########.fr       */
+/*   Updated: 2024/10/30 18:34:23 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*go_path(char *env)
 void    ft_cd(t_minishell *mshell, char *args)
 {
     char    *oldpwd;
-    char    pwd[_PC_PATH_MAX];
+    char    pwd[PATH_MAX];
     char    *path;
     
     if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
@@ -39,7 +39,7 @@ void    ft_cd(t_minishell *mshell, char *args)
         return;
     }
     if (!args || (args[0] == '~'))
-        path = go_path("HOME");
+        path = expand_tilde(args);
     else if (args [0] == '-')
     {
         path = go_path("OLDPWD");
@@ -58,20 +58,20 @@ void    ft_cd(t_minishell *mshell, char *args)
     env_renew(mshell, "PWD", pwd);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-    t_minishell mshell;
+//int main(int argc, char **argv, char **envp)
+//{
+//    t_minishell mshell;
 
-    init_struct(&mshell, &mshell.env, envp);
+//    init_struct(&mshell, &mshell.env, envp);
     
-    if (argc > 2)
-    {
-        ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
-        return (1);
-    }
-    if (argc == 2)
-        ft_cd(&mshell, argv[1]);
-    else
-        ft_cd(&mshell, NULL);
-    return (0);
-}
+//    if (argc > 2)
+//    {
+//        ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+//        return (1);
+//    }
+//    if (argc == 2)
+//        ft_cd(&mshell, argv[1]);
+//    else
+//        ft_cd(&mshell, NULL);
+//    return (0);
+//}

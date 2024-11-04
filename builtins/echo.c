@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/10/22 13:57:13 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/03 19:18:19 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int ft_echo(t_minishell *mshell)
     }
     while(mshell->argv[i])
 	{
+        if(mshell->argv[i] == '$')
+        {
+            if(is_expand(mshell->argv[i]) == 0);
+                expand_vars(mshell->argv[i]);
+        }
         ft_putstr_fd(mshell->argv[i], STDOUT_FILENO);
         if (mshell->argv[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
