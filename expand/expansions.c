@@ -5,70 +5,86 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 13:06:49 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/03 19:15:26 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
+/*   Updated: 2024/11/07 19:33:28 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-//int	expand_vars(t_minishell *mshell, char *argv)
-int	expand_vars(char *argv)
+void	handle_expansions(t_minishell *mshell, char **line)
 {
-	char	*temp;
-	
-	temp = NULL;
-	while(*argv)
+	exit_expand(mshell, line);
+	vars_expand(mshell, line);
+}
+
+char	*get_position(char *line)
+{
+	while(*line)
 	{
-		if(*argv == '$')
+		if (*line == '\'')
 		{
-			if(ft_strcmp(argv, "$?") == 0)
-				//return(mshell->e_code);
-				return(ft_putstr_fd("111", STDOUT_FILENO), 1);
-			else
-			{
-				temp = getenv(argv + 1); //ou usar a funçao *get_var
-				if (temp)
-					return(ft_putstr_fd(temp, STDOUT_FILENO), 1);
-				else
-					return(ft_putstr_fd("", STDOUT_FILENO), 1);
-			}	
+			line++;
+			while(*line && *line != '\'')
+				line++;
 		}
-		argv++;
+		if(*line == '\"')
+		{
+			line++;
+			while(*line && *line != '\"')
+			{
+				if(*line == '$' && (ft_isalnum(*line) || line == '_'))
+					return(line);
+				line++;
+			}
+		}
+		if (line == '$' && (ft_isalnum(*line) || line == '_'))
+			line++;
+		return(line);
 	}
+	return (NULL);
 }
 
-char *expand_tilde(char *argv)
+void	update_line(char **line, char *value, char *str)
 {
+	char	*new_line;
 	char	*temp;
-		
-	if (!argv || argv[0] == '~')
-	{
-		if ((strcmp(argv, "~") == 0))
-			temp = go_path("HOME");
-		else
-			temp = ft_strjoin((go_path("HOME")), (argv + 1));
-	}
-	return(temp);
+
+	if(!*line && !value)
+		temp = ft_strdup("");
+	else if(!*line && value)
+		temp = ft_strdup(value);
+	else if (!value)
+		temp = ft_strdup(*line);
+	else
+		temp = ft_strjoin(*line, value);
+	new_line = ft_strjoin(temp, value);
+	free(temp);
+	free(*line);
+	*line = new_line;
 }
 
-int	is_expand(char *argv)
+void	vars_expand(t_minishell *mshell, char **line)
 {
-	int	flag;
+	char	*key;
+	char	*value;
+	char	*var_pos;
+	size_t	len;
 
-	flag = 0;
-	while(*argv)
+	var_pos = get_position(*line);
+	if(var_pos)
 	{
-		if(*argv == '\'')
-			flag = 1;
-		argv++;
+		len = 0;
+		while((ft_isalnum(*var_pos) || *var_pos == '_'))
+		{
+			len++;
+			var_pos++;
+		}
+		*var_pos = '\0';
+		key = ft_substr(var_pos, 1, len);
+		value = get_value(mshell, key);
+		update_line(line, value, (var_pos + 1 + len));
+		free(key);
+		vars_expand(mshell, line);
 	}
-	return(flag);
 }
-
-
-//int main()
-//{
-//	expand_vars("$teste");
-//    return 0;
-//}

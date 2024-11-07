@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/03 19:18:19 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 12:29:43 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-int ft_echo(t_minishell *mshell)
+/*int ft_echo(t_minishell *mshell)
 {
     int newline = 1;
 	int	i = 1;
@@ -25,7 +25,7 @@ int ft_echo(t_minishell *mshell)
 	{
         if(mshell->argv[i] == '$')
         {
-            if(is_expand(mshell->argv[i]) == 0);
+            if(is_expand(mshell->argv[i]) == 0)
                 expand_vars(mshell->argv[i]);
         }
         ft_putstr_fd(mshell->argv[i], STDOUT_FILENO);
@@ -36,7 +36,7 @@ int ft_echo(t_minishell *mshell)
     if (newline)
 	    ft_putstr_fd("\n", STDOUT_FILENO);
     return (0);
-}
+}*/
 
 /*int main(int argc, char **argv)
 {

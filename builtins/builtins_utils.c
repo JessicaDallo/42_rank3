@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:09:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/10/29 16:05:39 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 18:24:57 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,6 @@ void	perror_msg(char *cmd, char *str)
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-char	*get_var(t_minishell *mshell, char *key)
-{
-    int i;
-
-    i = -1;
-	while (mshell->env.keys[++i])
-	{
-		if (ft_strcmp(mshell->env.keys[i], key) == 0)
-			return (mshell->env.values[i]);
-	}
-	return (NULL);
 }
 
 int	is_builtin(t_minishell *mshell)

@@ -6,64 +6,87 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:56:31 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/10/28 18:30:01 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 18:33:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void ft_unset(t_minishell *mshell, char **vars)
+//int	get_varname(char *key)
+//{
+//	while(*key)
+//	{
+//		if(!(ft_isalnum(key) || key == '_'))
+//			return(1);
+//		key++;
+//	}
+//	return(0);
+//}
+
+void    remove_env(t_minishell *mshell, char *key)
 {
-    int i;
-    size_t len;
-    
-    if (!*vars)
-        return;
-    while(*vars)
+    t_env   *temp;
+    t_env   *aux;
+
+    temp = mshell->env;
+    aux = NULL;
+    while(temp)
     {
-        len = ft_strlen(*vars);
-        i = 0;
-        while (mshell->env.keys[i])
+        if(ft_strcmp(temp->key, key) == 0)
         {
-            if (strncmp(mshell->env.keys[i], *vars, len) == 0)
-            {
-                free(mshell->env.keys[i]);
-                free(mshell->env.values[i]);
-                while (mshell->env.keys[i + 1])
-                {
-                    mshell->env.keys[i] = mshell->env.keys[i + 1];
-                    mshell->env.values[i] = mshell->env.values[i + 1];
-                    i ++;
-                }
-                mshell->env.keys[i] = NULL;   
-                mshell->env.values[i] = NULL;
-                mshell->env.n_env--;
-                break;
-            }
-            i++;
+            if (aux)
+                aux->next = temp->next;
+            else
+                mshell->env = temp->next;
+            free(temp->key);
+            free(temp->value);
+            free(temp);
+            mshell->env_size--;
+            return;
         }
-        vars++;
+        aux = temp; 
+        temp = temp->next; 
+        }
+}
+
+void ft_unset(t_minishell *mshell, char **keys)
+{
+    while(*keys)
+    {
+        if (!*keys)
+            return;
+        remove_env(mshell, *keys);
+        keys++;
     }
 }
 
-//int main(int argc, char **argv, char **envp)
-//{
-//    t_minishell mshell;
-//    //t_env env;
+/*int main(int argc, char **argv, char **envp)
+{
+    t_minishell    mshell;
+    t_env   *temp;
 
-//    init_struct(&mshell, &mshell.env, envp);
+    init_struct(&mshell, envp);
     
-//    printf("\n--- Antes do unset ---\n");
-//        int i = -1;
-//    while (mshell.env.keys[++i])
-//        printf("%s = %s\n", mshell.env.keys[i], mshell.env.values[i]);
-//    if (argc > 1)
-//        ft_unset(&mshell, argv);
+    printf("\n--- Antes do unset ---\n");
     
-//    printf("\n--- Após o unset ---\n");
-//    i = -1;
-//    while (mshell.env.keys[++i])
-//        printf("%s = %s\n", mshell.env.keys[i], mshell.env.values[i]);
+    temp = mshell.env;
+    while (temp)
+    {
+        printf("%s = %s\n", temp->key, temp->value);
+        temp = temp->next;
+    }
+    printf("\nSIZE_ENV = %d\n", mshell.env_size);
+    if (argc > 1)
+        ft_unset(&mshell, ++argv);
+    
+    printf("\n--- Após o export ---\n");
 
-//    return 0;
-//}
+    temp = mshell.env;
+    while (temp)
+    {
+       printf("%s = %s\n", temp->key, temp->value);
+       temp = temp->next;
+    }
+    printf("\nSIZE_ENV = %d\n", mshell.env_size);
+    return 0;
+}*/

@@ -6,84 +6,95 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/10/28 13:30:23 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 18:20:12 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void    get_value(t_minishell *mshell, char *value, int n)
+char    *get_value(t_minishell *mshell, char *key)
 {
-    if(value)
-	    mshell->env.values[n] = ft_strdup(value);
-    else
-        mshell->env.values[n] = ft_strdup("");
+    t_env   *temp;
+
+    temp = mshell->env;
+	while (temp != NULL)
+    {
+        if (ft_strcmp(temp->key, key) == 0)
+			return(temp->value);
+        temp = temp->next;
+    }
+    return(NULL);
 }
 
-void    get_newkey(t_minishell *mshell, char **temp)
+void    update_env(t_minishell *mshell, char *key, char *value)
 {
-    int i;
-    int flag;
+    t_env   *temp;
 
-    i = -1;
-    flag = 0;
-	while (mshell->env.keys[++i])
+    temp = mshell->env;
+	while (temp != NULL)
     {
-        if (strncmp(mshell->env.keys[i], temp[0], (ft_strlen(temp[0])+1)) == 0)
+        if (ft_strcmp(temp->key, key) == 0)
         {
-			free(mshell->env.values[i]);
-			flag = 1;
-            get_value(mshell, temp[1], i);
+			free(temp->value);
+            if(value)
+	            temp->value = ft_strdup(value);
+            else
+                temp->value = ft_strdup("");
             break;
 		}
+        temp = temp->next;
 	}
-    if(!flag)
-	{
-		mshell->env.keys[mshell->env.n_env] = ft_strdup(temp[0]);
-        get_value(mshell, temp[1], mshell->env.n_env);
-		mshell->env.n_env++;
-	}
+    if(!temp)
+        add_env(mshell, key, value);
+    return;
 }
 
-void ft_export(t_minishell *mshell, char **vars)
+void ft_export(t_minishell *mshell, char **line)
 {
-	char	**temp;
+	char	**new_env;
 
-    while(*vars)
+    while(*line)
     {
-        if (!*vars)
+        if (!*line)
             return;
-        temp = ft_split(*vars, '=');
-	    if(!temp)
+        new_env = ft_split(*line, '=');
+	    if(!new_env)
 		    return;
-        get_newkey(mshell, temp);
-        free(temp[0]);
-        free(temp[1]);
-        free(temp);
-        vars++;
+        update_env(mshell, new_env[0], new_env[1]);
+        free(new_env[0]);
+        free(new_env[1]);
+        free(new_env);
+        line++;
     }
-    mshell->env.keys[mshell->env.n_env] = NULL;
-    mshell->env.values[mshell->env.n_env] = NULL;
 }
 
 /*int main(int argc, char **argv, char **envp)
 {
-    t_minishell mshell;
-    t_env env;
+    t_minishell    mshell;
+    t_env   *temp;
 
-    init_struct(&mshell, &env, envp);
+    init_struct(&mshell, envp);
     
     printf("\n--- Antes do export ---\n");
-        int i = -1;
-    while (mshell.env.keys[++i])
-        printf("%s = %s\n", mshell.env.keys[i], mshell.env.values[i]);
+    
+    temp = mshell.env;
+    while (temp)
+    {
+        printf("%s = %s\n", temp->key, temp->value);
+        temp = temp->next;
+    }
+    printf("\nSIZE_ENV = %d\n", mshell.env_size);
     if (argc > 1)
         ft_export(&mshell, ++argv);
     
     printf("\n--- Após o export ---\n");
-    i = -1;
-    while (mshell.env.keys[++i])
-        printf("%s=%s\n", mshell.env.keys[i], mshell.env.values[i]);
 
+    temp = mshell.env;
+    while (temp)
+    {
+       printf("%s = %s\n", temp->key, temp->value);
+       temp = temp->next;
+    }
+    printf("\nSIZE_ENV = %d\n", mshell.env_size);
     return 0;
 }*/
