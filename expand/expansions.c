@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/07 19:33:28 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 23:02:14 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,30 @@ void	update_line(char **line, char *value, char *str)
 	*line = new_line;
 }
 
-void	vars_expand(t_minishell *mshell, char **line)
+void	expand_variables(t_minishell *mshell, char **line)
 {
+	char	*var_pos;
 	char	*key;
 	char	*value;
-	char	*var_pos;
-	size_t	len;
+	int		len;
 
-	var_pos = get_position(*line);
-	if(var_pos)
+	var_pos = find_var_position(**line);
+	while (var_pos)
 	{
-		len = 0;
-		while((ft_isalnum(*var_pos) || *var_pos == '_'))
+		if (var_pos > *line && *(var_pos - 1) == '\\')
 		{
-			len++;
-			var_pos++;
+			ft_memmove(var_pos - 1, var_pos, ft_strlen(var_pos) + 1);
+			var_pos = find_var_position(var_pos);
+			continue;
 		}
-		*var_pos = '\0';
+		len = 0;
+		while (is_varname(var_pos[len + 1]))
+			len++;
 		key = ft_substr(var_pos, 1, len);
+		*var_pos = '\0';
 		value = get_value(mshell, key);
-		update_line(line, value, (var_pos + 1 + len));
+		update_input(line, value, var_pos + 1 + len);
 		free(key);
-		vars_expand(mshell, line);
+		var_pos = find_var_position(*line);
 	}
 }

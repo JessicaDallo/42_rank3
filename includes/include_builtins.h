@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/07 18:20:02 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/07 23:04:57 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,10 @@ char	*go_path(char *env);
 void	perror_msg(char *cmd, char *str);
 
 /*--------------------- EXPANSIONS ---------------------*/
-void	check_expand(char **argv);
-int		is_expand(char *argv);
-bool	open_quotes(char **argv);
-char	*expand_tilde(char *argv);
-int		expand_vars(char *argv);
-char	*expand_tilde(char *argv);
-
+void	handle_expansions(t_minishell *mshell, char **line);
+void	var_expande(t_minishell *mshell, char **line);
+char	*get_position(char *line);
+void	update_line(char **line, char *value, char *str);
 
 
 #endif
