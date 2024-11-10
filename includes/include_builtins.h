@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/07 23:04:57 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/09 19:19:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ void	perror_msg(char *cmd, char *str);
 
 /*--------------------- EXPANSIONS ---------------------*/
 void	handle_expansions(t_minishell *mshell, char **line);
-void	var_expande(t_minishell *mshell, char **line);
 char	*get_position(char *line);
+//void	update_line(char **line, char *value, char *e_code, char *str);
 void	update_line(char **line, char *value, char *str);
+void	expand_var(t_minishell *mshell, char **line);
+void	expand_exit(t_minishell *mshell, char **line);
 
 
 #endif

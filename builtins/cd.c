@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/07 12:33:29 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:01:34 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,36 +27,36 @@ char	*go_path(char *env)
     return(path);
 }
 
-//void    ft_cd(t_minishell *mshell, char *args)
-//{
-//    char    *oldpwd;
-//    char    pwd[PATH_MAX];
-//    char    *path;
+void    ft_cd(t_minishell *mshell, char *args)
+{
+    char    *oldpwd;
+    char    pwd[PATH_MAX];
+    char    *path;
     
-//    if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
-//    {
-//        perror("getcwd() error:");
-//        return;
-//    }
-//    if (!args || (args[0] == '~'))
-//        path = expand_tilde(args);
-//    else if (args [0] == '-')
-//    {
-//        path = go_path("OLDPWD");
-//        ft_putstr_fd(path, STDOUT_FILENO);
-//    }
-//    //else if (args [0] == '.' && args[1] == '.')
-//    //    path = "..";
-//    //else if(args[0] == '.')
-//    //    return;
-//    else
-//        path = args;
-//    if(chdir(path) != 0)
-//        perror("cd");
-//    env_renew(mshell, "OLDPWD", oldpwd);
-//    getcwd(pwd, sizeof(pwd));
-//    env_renew(mshell, "PWD", pwd);
-//}
+    if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
+    {
+        perror("getcwd() error:");
+        return;
+    }
+    if (!args || (args[0] == '~'))
+        path = go_path("HOME");
+    else if (args [0] == '-')
+    {
+        path = go_path("OLDPWD");
+        ft_putstr_fd(path, STDOUT_FILENO);
+    }
+    //else if (args [0] == '.' && args[1] == '.')
+    //    path = "..";
+    //else if(args[0] == '.')
+    //    return;
+    else
+        path = args;
+    if(chdir(path) != 0)
+        perror("cd");
+    update_env(mshell, "OLDPWD",oldpwd);
+    getcwd(pwd, sizeof(pwd));
+    update_env(mshell, "PWD", pwd);
+}
 
 //int main(int argc, char **argv, char **envp)
 //{

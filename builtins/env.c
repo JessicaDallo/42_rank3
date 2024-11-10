@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/07 18:22:08 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:09:59 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,3 +109,17 @@ void    init_struct(t_minishell *mshell, char **envp)
     //printf("%d\n", mshell.env->n_env);
     return 0;
 }*/
+
+//void ft_env(t_env env);
+
+//int main(int argc, char **argv, char **envp)
+//{
+//    t_minishell mshell;
+	
+//	(void)argv;
+//	(void)argc;
+//   init_struct(&mshell, &mshell.env, envp);
+//   if (argc >1)
+//		ft_env(mshell.env);
+//   return 0;
+//}
