@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/09 18:01:34 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:45:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ void    ft_cd(t_minishell *mshell, char *args)
         path = go_path("OLDPWD");
         ft_putstr_fd(path, STDOUT_FILENO);
     }
-    //else if (args [0] == '.' && args[1] == '.')
-    //    path = "..";
-    //else if(args[0] == '.')
-    //    return;
     else
         path = args;
     if(chdir(path) != 0)

@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   sintax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/11 17:41:02 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/13 11:37:11 by sheila            #+#    #+#             */
+/*   Updated: 2024/11/13 12:08:09 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-int ft_pwd(void)
+/*int	open_quotes(char *str)
 {
-    char pwd[PATH_MAX];
-    if (getcwd(pwd, sizeof(pwd)) != NULL)
-        ft_putstr_fd(pwd, STDOUT_FILENO);
-    else
-		  perror_msg("pwd", "pwd");
-    //ft_putstr_fd("\n", STDOUT_FILENO);
-    return (0);
+	int	quotes;
+	quotes = 0;
+	while(*str)
+	{
+		if(*str == '\'' || *str == '\"')
+			quotes++;
+		str++;
+	}
+	return((quotes % 2));
 }
 
-/*int main(void)
+char	*check_syntax(char	**input)
 {
-	ft_pwd();
-	return (0);
+	int i;
+	i = -1;
+	while(input[++i])
+	{
+		if(open_quotes(input[i]))
+			ft_putstr_fd("You forgot some quote open\n", STDOUT_FILENO);
+	}
 }*/

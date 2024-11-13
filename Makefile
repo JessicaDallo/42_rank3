@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/11/09 18:12:24 by sheila           ###   ########.fr        #
+#    Updated: 2024/11/11 16:40:56 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,10 @@ LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
 BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
 EXPANSIONS = expansions.c
-#REDIRECTS = 
+#REDIRECTS =
+ERROR = error.c free.c 
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS)) 
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) 
 OBJS = ${SRC:.c=.o}
 
 %.o : %.c

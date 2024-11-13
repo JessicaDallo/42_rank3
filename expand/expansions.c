@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/10 00:43:52 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:47:11 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	handle_expansions(t_minishell *mshell, char **line)
 {
-	printf("Iniciando handle_expansions com a linha: %s\n", *line);
 	expand_exit(mshell, line);
-	printf("Após expand_exit: %s\n", *line);
+	//printf("Após expand_exit: %s\n", *line);
 	expand_var(mshell, line);
-	printf("Após expand_var: %s\n", *line);
+	//printf("Após expand_var: %s\n", *line);
 }
 
 char	*get_position(char *line)
@@ -36,12 +35,12 @@ char	*get_position(char *line)
 			line++;
 			while (*line && *line != '\"')
 			{
-				if (*line == '$' && ((ft_isalnum(*(line + 1)) || *(line + 1) == '_') || *(line + 1) == '?'))
+				if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
 					return line;
 				line++;
 			}
 		}
-		if (*line == '$' && ((ft_isalnum(*(line + 1)) || *(line + 1) == '_') || *(line + 1) == '?'))
+		if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
 			return line;
 		line++;
 	}
@@ -67,6 +66,33 @@ void update_line(char **line, char *value, char *str)
 	*line = new_line;
 }
 
+char	*get_epos(char *line)
+{
+	while (*line)
+	{
+		if (*line == '\'')
+		{
+			line++;
+			while (*line && *line != '\'')
+				line++;
+		}
+		if (*line == '\"')
+		{
+			line++;
+			while (*line && *line != '\"')
+			{
+				if (*line == '$' && *(line + 1) == '?')
+					return line;
+				line++;
+			}
+		}
+		if (*line == '$' && *(line + 1) == '?')
+			return line;
+		line++;
+	}
+	return NULL;
+}
+
 void expand_exit(t_minishell *mshell, char **line)
 {
     char 	*e_pos;
@@ -74,8 +100,8 @@ void expand_exit(t_minishell *mshell, char **line)
 	char	*temp;
 	char	*exit;
 		
-	e_pos = get_position(*line);
-	if (e_pos && *(e_pos + 1) == '?')
+	e_pos = get_epos(*line);
+	while (e_pos)
 	{
 		exit = ft_itoa(mshell->e_code);
         temp = ft_strjoin((ft_substr(*line, 0, e_pos - *line)), exit);
@@ -83,7 +109,7 @@ void expand_exit(t_minishell *mshell, char **line)
         free(temp);
         free(*line);
         *line = new_line;
-		e_pos = get_position(*line);
+		e_pos = get_epos(*line);
     }
 }
 
@@ -109,15 +135,12 @@ void expand_var(t_minishell *mshell, char **line)
     }
 }
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
     t_minishell mshell;
     init_struct(&mshell, envp);
-
-	printf("$USER=%s\n", get_value(&mshell, "USER"));
-	printf("$HOME=%s\n", get_value(&mshell, "HOME"));
 
     char *line = strdup("echo o $? usuário é $USER $? $HOME $?");
     mshell.e_code = 127;
@@ -125,9 +148,9 @@ int main(int argc, char **argv, char **envp)
         perror("Falha ao alocar memória para a linha");
         return EXIT_FAILURE;
     }
-    printf("Linha original: %s\n", line);
+    printf("\nLinha original: %s\n", line);
     handle_expansions(&mshell, &line);
-    printf("Linha expandida: %s\n", line);
+    printf("\nLinha expandida: %s\n", line);
     free(line);
     return EXIT_SUCCESS;
-}
+}*/

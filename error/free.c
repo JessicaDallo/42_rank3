@@ -1,30 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/11 17:41:02 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
+/*   Updated: 2024/11/13 11:30:23 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-int ft_pwd(void)
+void	free_array(char **str) //env
 {
-    char pwd[PATH_MAX];
-    if (getcwd(pwd, sizeof(pwd)) != NULL)
-        ft_putstr_fd(pwd, STDOUT_FILENO);
-    else
-		  perror_msg("pwd", "pwd");
-    //ft_putstr_fd("\n", STDOUT_FILENO);
-    return (0);
+	int	i;
+	
+	if(!str)
+		return;
+	i = 0;
+	while(str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	str = NULL;
 }
 
-/*int main(void)
+void	free_envlist(t_env *env)
 {
-	ft_pwd();
-	return (0);
-}*/
+	t_env	*aux;
+
+	while(env)
+	{
+		aux = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = aux;
+	}
+}
+
+void	clear_mshell(t_minishell *mshell)
+{
+	if(mshell->env)
+		free_envlist(mshell->env);
+	if(mshell->envp)
+		free_array(mshell->envp);
+}

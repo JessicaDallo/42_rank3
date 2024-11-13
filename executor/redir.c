@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 22:11:06 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/04 15:04:45 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/12 20:31:57 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	redir_error(char *file, char *redir)
 
 void	handle_redir(char *file, char *redir)
 {
+	//falta tratar das expansoes de variaveis e tilde
 	if(!ft_strcmp(redir, "<"))
 		redir_input(file);
 	else if(!ft_strcmp(redir, ">"))
@@ -87,3 +88,8 @@ void	handle_redir(char *file, char *redir)
 	else if(!ft_strcmp(redir, "2>>"))
 		redir_error(file, redir);
 }
+
+/*void	run_redir()
+{
+	
+}*/
