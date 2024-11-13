@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/10/22 13:57:13 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:48:49 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int ft_echo(t_minishell *mshell)
 {
     int newline = 1;
 	int	i = 1;
-    if (mshell->argv[1] && ft_strncmp(mshell->argv[1], "-n", 3) == 0)
+    if (mshell->line[1] && ft_strncmp(mshell->line[1], "-n", 3) == 0)
 	{
         newline = 0;
         i++;
     }
-    while(mshell->argv[i])
+    while(mshell->line[i])
 	{
-        ft_putstr_fd(mshell->argv[i], STDOUT_FILENO);
-        if (mshell->argv[i + 1])
+        ft_putstr_fd(mshell->line[i], STDOUT_FILENO);
+        if (mshell->line[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
     }
@@ -33,13 +33,13 @@ int ft_echo(t_minishell *mshell)
     return (0);
 }
 
-/*int main(int argc, char **argv)
+/*int main(int argc, char **line)
 {
 	(void)argc;
     t_minishell mshell;
     ft_bzero(&mshell, sizeof(mshell));
-    argv++;
-	mshell.argv = argv;
+    line++;
+	mshell.line = line;
     ft_echo(&mshell);
 	return(0);
 }*/

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/10/22 13:56:53 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/13 12:10:11 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,42 @@ int	is_num(char *str)
 	return (1);
 }
 
-int	ft_exit(t_minishell *mshell)
+int	get_exit(t_minishell *mshell)
 {
 	mshell->e_code = 0;
-	if (mshell->argv[1] && mshell->argv[2] != NULL)
+	if (mshell->line[1] && mshell->line[2] != NULL)
 	{
-		ft_putstr_fd("exit\nexit: too many arguments\n", STDOUT_FILENO);
+		error_msg("exit", "too many arguments\n");
 		return(mshell->e_code = 1);
 	}
-    else if (mshell->argv[1] && !is_num(mshell->argv[1]))
+    else if (mshell->line[1] && !is_num(mshell->line[1]))
 	{
-		ft_putstr_fd("exit: numeric argument required", STDOUT_FILENO);
+		error_msg("exit", "numeric argument required");
 		exit((mshell->e_code = 2));
 	}
-	else if (mshell->argv[1])
+	else if (mshell->line[1])
     {
-        if (is_num(mshell->argv[1]) < 0)
-			mshell->e_code = 256 + ft_atoi(mshell->argv[1]);
+        if (is_num(mshell->line[1]) < 0)
+			mshell->e_code = 256 + ft_atoi(mshell->line[1]);
 		else
-			mshell->e_code = ft_atoi(mshell->argv[1]) % 256;
+			mshell->e_code = ft_atoi(mshell->line[1]) % 256;
 		exit(mshell->e_code);
     }
     else
         exit(mshell->e_code);
+}
+
+void	ft_exit(t_minishell *mshell)
+{
+	int	exit_code;
+
+	//rl_clear_history();
+	close_fds();
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	exit_code = get_exit(mshell);
+	clear_mshell(mshell);
+	exit(exit_code);
+	
 }
 
 /*int	main(int ac, char **av)
@@ -60,7 +73,7 @@ int	ft_exit(t_minishell *mshell)
 	{
 		t_minishell	mshell;
 		ft_bzero(&mshell, sizeof(mshell));
-		mshell.argv = av +1;
+		mshell.line = av +1;
 		ft_exit(&mshell);
 	}
 	return(0);
