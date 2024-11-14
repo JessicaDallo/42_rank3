@@ -1,5 +1,20 @@
 #include "../include/minishell.h"
 
+static bool val_quot(char *arg)
+{
+	arg++;
+	while (*arg)
+	{
+		if(*arg == '"' && *(arg - 1) != '\\')
+		{
+			arg++;
+			return (true);
+		}
+		arg++;
+	}
+	return (false);
+}
+
 static bool val_pipe(char *arg, int was_cmd)
 {
 	was_cmd = 0;
@@ -68,7 +83,12 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (*arg)
 	{
-		if (*arg == '|')
+		if (*arg == '"')
+		{
+			if(!val_quot(arg))
+				return (printf("ERROR quotation\n"));
+		}
+		else if (*arg == '|')
 		{
 			if(!val_pipe(arg, was_cmd) || !was_cmd)
 				return (printf("ERROR pipe\n"));
