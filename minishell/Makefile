@@ -1,19 +1,23 @@
 NAME = minishell
 
-LIBFT = ./include/libft/libft.a
+LIBFT = ./libft/libft.a
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I./include/libft -I/usr/include/readline
+CFLAGS = -g -Wall -Wextra -Werror -I./libft -I/usr/readline
 LDFLAGS = -lreadline
 RM = rm -rf
 
-SRC = main.c tokens.c validate.c
+SRC =	main.c \
+	./parsing/validate.c \
+	./parsing/tokens.c \
+	./parsing/create_list.c
+
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C ./include/libft
+	$(MAKE) -C ./libft
 
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) $(LIBFT) -o $(NAME)
@@ -21,10 +25,10 @@ $(NAME): $(OBJ) $(LIBFT)
 
 clean:
 	$(RM) $(OBJ)
-	$(MAKE) clean -C ./include/libft
+	$(MAKE) clean -C ./libft
 
 fclean: clean
-	$(MAKE) fclean -C ./include/libft
+	$(MAKE) fclean -C ./libft
 	$(RM) $(NAME) $(OBJ)
 
 re: fclean all
