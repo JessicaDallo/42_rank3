@@ -55,7 +55,7 @@ int	ft_count_words(char *arg, char c)
 		arg++;
 	}
 	// Se o caractere atual não for um delimitador e não estivermos dentro de um comando, contamos um novo comando/palavra
-	if (*arg && (*arg != '<' && *arg != '>') && !was_cmd &&  *arg != '|')//o pipe entra aqui 
+	if (*arg && (*arg != '<' && *arg != '>') && !was_cmd &&  *arg != '|')
 	{
 		count++;
 		was_cmd = 1;  // Estamos dentro de um comando
@@ -63,7 +63,7 @@ int	ft_count_words(char *arg, char c)
 	// Se o caractere for um delimitador especial (|, <, >), ele encerra o comando atual
 	if (*arg == '|' || *arg == '<' || *arg == '>')
 	{
-		if((*(arg + 1) != '<' && *(arg + 1) != '>') || *arg == '|')//o pipe entra aqui tbm 
+		if((*(arg + 1) != '<' && *(arg + 1) != '>') || *arg == '|')
 			count++;
 		was_cmd = 0; // Estamos fora de um comando
 	}
