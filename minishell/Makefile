@@ -10,7 +10,8 @@ RM = rm -rf
 SRC =	main.c \
 	./parsing/validate.c \
 	./parsing/tokens.c \
-	./parsing/create_list.c
+	./parsing/create_list.c \
+	./parsing/ft_free.c
 
 OBJ = $(SRC:.c=.o)
 

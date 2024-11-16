@@ -113,11 +113,11 @@ int	val_sintax(char *arg)
 	return (0);
 }
 
-void validate(char *input)
+int validate(char *input)
 {
 	if(!input)
-		return ;
+		return 1;
 	input = eup_str(input);
 	printf("%s\n", input);
-	val_sintax(input);
+	return (val_sintax(input));
 }

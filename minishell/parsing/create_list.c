@@ -1,24 +1,29 @@
 #include "../include/minishell.h"
 
-int	get_type(char *cmd )
+int	get_type(char *cmd)
 {
 	if(ft_strcmp (cmd, "|") == 0)
 		return PIPE;
-	else if(ft_strcmp(cmd, "<") == 0 || ft_strcmp(cmd, ">") == 0 || ft_strcmp(cmd, "<<") == 0 || ft_strcmp(cmd, ">>") == 0)
-		return REDIR;
+	else if(ft_strcmp(cmd, ">") == 0)
+		return OUTPUT_REDIR;
+	else if (ft_strcmp(cmd, ">>") == 0)
+		return APPEND_REDIR;
+	else if(ft_strcmp(cmd, "<") == 0)
+		return INPUT_REDIR;
+	else if(ft_strcmp(cmd, "<<") == 0)
+		return HEREDOC;
 	else 
 		return CMD;
 }
 
-t_token *create_token(char *arg)
+t_token *create_token(char *arg, token_type type)
 {
 	t_token *new_token;
-	int type;
 
 	new_token = calloc(1, sizeof(t_token));
 	if(!new_token)
 		return (NULL);
-	type = get_type(arg);
+	//type = get_type(arg, flg_red);
 	new_token->type = type;
 	new_token->value = ft_strdup(arg);
 	new_token->next = NULL;
@@ -26,15 +31,15 @@ t_token *create_token(char *arg)
 	return (new_token);
 }
 
-void add_token(t_token **token, char *arg)
+void add_token(t_token **token, char *arg, token_type type)
 {
 	t_token *temp;
 	t_token *new_token;
 
-	new_token = create_token(arg);
+	new_token = create_token(arg, type);
 	if(!new_token)
 		return ;
-	if(token == NULL)
+	if(*token == NULL)
 	{
 		*token = new_token;
 		return ;

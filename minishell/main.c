@@ -16,7 +16,8 @@ int main ()
 
 		//printf("%s\n", input);
 		
-		validate(input);
+		if (validate(input) > 0)
+			continue;
 		get_tokens(input);
 		//get_tokens(input);
 		//t_token **tokens = tokenize(const char *input)

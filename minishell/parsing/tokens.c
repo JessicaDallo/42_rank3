@@ -41,70 +41,83 @@ char	**find_cmd(char *arg, char **cmd)
 	return (cmd);
 }
 
+int	count(char **arg, char c)
+{
+	static int i = 0;
+	static int was_cmd = 0;
+
+	while (**arg == c)
+	{
+		was_cmd = 0;
+		(*arg)++;
+	}
+	if (**arg && (**arg != '<' && **arg != '>') && !was_cmd &&  **arg != '|')
+	{
+		i++;
+		was_cmd = 1;
+	}
+	if (**arg == '|' || **arg == '<' || **arg == '>')
+	{
+		if((*(*arg + 1) != '<' && *(*arg + 1) != '>') || **arg == '|')
+			i++;
+		was_cmd = 0;
+	}
+	return (i);
+}
+
 int	ft_count_words(char *arg, char c)
 {
-	int count = 0;
-	int was_cmd = 0;
+	static int len_word = 0;
 
 	while (*arg)
 	{
-	// Pula os delimitadores (espaços)
-	while (*arg == c)
-	{
-		was_cmd = 0;
-		arg++;
+		//if (*arg == '"' || *arg == '\'')
+
+		len_word = count(&arg, c);
+		if (*arg)
+			arg++;
 	}
-	// Se o caractere atual não for um delimitador e não estivermos dentro de um comando, contamos um novo comando/palavra
-	if (*arg && (*arg != '<' && *arg != '>') && !was_cmd &&  *arg != '|')
-	{
-		count++;
-		was_cmd = 1;  // Estamos dentro de um comando
-	}
-	// Se o caractere for um delimitador especial (|, <, >), ele encerra o comando atual
-	if (*arg == '|' || *arg == '<' || *arg == '>')
-	{
-		if((*(arg + 1) != '<' && *(arg + 1) != '>') || *arg == '|')
-			count++;
-		was_cmd = 0; // Estamos fora de um comando
-	}
-	// Avança para o próximo caractere
-	if (*arg)
-		arg++;
-	}
-	return count;
+	return (len_word);
 }
-
-
 
 void	get_tokens(char *arg)
 {
 	t_token *token;
 	char **cmd;
 	int len_token;
+	token_type type;
 
 	len_token = 0;
 	len_token = ft_count_words(arg, ' ');
 	printf("%d -> numeros de palavras \n", len_token);
 	cmd = ft_calloc(sizeof(char *), len_token);
-	if(!cmd)
+	if(!cmd) 
 		return ;
 	cmd = find_cmd(arg, cmd);
 	int i = 0;
+	//essa parte não é necessária
 	while(cmd[i])
 	{
+	
 		printf("%s ->array\n",cmd[i]);
 		i++;
 	}
 	i = 0;
-	token = create_token(cmd[i]);
-	while (cmd[++i] != NULL)
+	token = NULL;
+	while (cmd[i] != NULL)
 	{
-		add_token(&token, cmd[i]);
+		type = get_type(cmd[i]);
+		if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
+			i++;
+		add_token(&token, cmd[i], type);
+		i++;
 	}
+	ft_free_array(cmd);
 	t_token *temp = token;
 	while(temp)
 	{
-		printf("token value -> %s\n",temp->value);
+		printf("token value -> %s\n tokentype -> %d\n",temp->value, temp->type);
 		temp = temp->next;
 	}
+	ft_free_token(&token);
 }

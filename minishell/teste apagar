@@ -1,0 +1,51 @@
+
+int	ft_count_words(char *arg, char c)
+{
+	int count = 0;
+	int was_cmd = 0;
+
+	while (*arg)
+	{
+	// Pula os delimitadores (espaços)
+	while (*arg == c)
+	{
+		was_cmd = 0;
+		arg++;
+	}
+	// Se o caractere atual não for um delimitador e não estivermos dentro de um comando, contamos um novo comando/palavra
+	if (*arg && (*arg != '<' && *arg != '>') && !was_cmd &&  *arg != '|')
+	{
+		count++;
+		was_cmd = 1;  // Estamos dentro de um comando
+	}
+	// Se o caractere for um delimitador especial (|, <, >), ele encerra o comando atual
+	if (*arg == '|' || *arg == '<' || *arg == '>')
+	{
+		if((*(arg + 1) != '<' && *(arg + 1) != '>') || *arg == '|')
+			count++;
+		was_cmd = 0; // Estamos fora de um comando
+	}
+	// Avança para o próximo caractere
+	if (*arg)
+		arg++;
+	}
+	return count;
+}
+
+
+
+
+
+
+
+
+l"s" -l
+
+echo "asdasdas asd sdadsdas"
+
+< ab.txt
+
+node
+valor = ab.txt
+tipo = redir
+

@@ -11,7 +11,10 @@ typedef enum
 {
 	CMD,       // Comando
 	PIPE,      // Pipe |
-	REDIR,   // Redirecionamento >> << < >
+	OUTPUT_REDIR, // Redirecionamento de saida > subscreve o arquivo inteiro 
+	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
+	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
+	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
 } token_type;
 
 typedef struct	s_token
@@ -22,17 +25,23 @@ typedef struct	s_token
 }	t_token;
 
 //validate
-void	validate(char *arg);
+int	validate(char *arg);
 
-
+//tokens 
 void	get_tokens(char *arg);
 int	ft_count_words(char *arg, char c);
 char	**find_cmd(char *arg, char **cmd);
+int	count(char **arg, char c);
 
-t_token *create_token( char *arg);
-void add_token(t_token **token, char *arg);
+//create_list
+t_token *create_token(char *arg,  token_type type);
+void add_token(t_token **token, char *arg,  token_type type);
 //void free_token(t_token *token);
-int	get_type(char *cmd );
+int	get_type(char *cmd);
+
+//ft_free
+void	ft_free_array(char **cmd);
+void	ft_free_token(t_token **token);
 
 
 # endif
