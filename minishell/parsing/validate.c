@@ -86,25 +86,25 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (*arg)
 	{
-		if (*arg == '"' || *arg == '\'')
-		{
-			if(!val_quot(&arg))
-				return (printf("ERROR quotation\n"));
-		}
-		else if (*arg == '|')
+		if (*arg == '|')
 		{
 			if(!val_pipe(&arg, was_cmd) || !was_cmd)
 				return (printf("ERROR pipe\n"));
 		}
-		else if (*arg == '>')
+		if (*arg == '>')
 		{
 			if(!val_red(&arg, was_cmd))
 				return (printf("ERROR redir\n"));
 		}
-		else if (*arg == '<')
+		if (*arg == '<')
 		{
 			if(!val_red_in(&arg, was_cmd))
 				return (printf("ERROR redir\n"));
+		}
+		if (*arg == '"' || *arg == '\'')
+		{
+			if(!val_quot(&arg))
+				return (printf("ERROR quotation\n"));
 		}
 		if(*arg != ' ')
 			was_cmd = 1;
@@ -113,11 +113,11 @@ int	val_sintax(char *arg)
 	return (0);
 }
 
-int validate(char *input)
+int validate(char **input)
 {
-	if(!input)
-		return 1;
-	input = eup_str(input);
-	printf("%s\n", input);
-	return (val_sintax(input));
+	if(!*input)
+		return (1);
+	*input = eup_str(*input);
+	printf("%s\n", *input);
+	return (val_sintax(*input));
 }

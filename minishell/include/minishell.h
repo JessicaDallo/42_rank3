@@ -25,13 +25,17 @@ typedef struct	s_token
 }	t_token;
 
 //validate
-int	validate(char *arg);
+int	validate(char **arg);
 
 //tokens 
 void	get_tokens(char *arg);
 int	ft_count_words(char *arg, char c);
 char	**find_cmd(char *arg, char **cmd);
-int	count(char **arg, char c);
+void	quote_pointer(char **arg, char c);
+
+int	quote_count(char *arg, char c);
+
+bool delimiter(char **arg);
 
 //create_list
 t_token *create_token(char *arg,  token_type type);

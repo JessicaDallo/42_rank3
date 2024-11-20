@@ -16,7 +16,7 @@ int main ()
 
 		//printf("%s\n", input);
 		
-		if (validate(input) > 0)
+		if (validate(&input) > 0)
 			continue;
 		get_tokens(input);
 		//get_tokens(input);
