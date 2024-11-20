@@ -129,19 +129,10 @@ void	get_tokens(char *arg)
 
 	len_token = 0;
 	len_token = ft_count_words(arg, ' ');
-	printf("%d -> numeros de palavras \n", len_token);
 	cmd = ft_calloc(sizeof(char *), len_token);
 	if(!cmd) 
 		return ;
 	cmd = find_cmd(arg, cmd);
-	int i = 0;
-	//essa parte não é necessária
-	while(cmd[i])
-	{
-	
-		printf("%s ->array\n",cmd[i]);
-		i++;
-	}
 	i = 0;
 	token = NULL;
 	while (cmd[i] != NULL)
@@ -152,12 +143,10 @@ void	get_tokens(char *arg)
 		add_token(&token, cmd[i], type);
 		i++;
 	}
-	//ft_free_array(cmd);
 	t_token *temp = token;
 	while(temp)
 	{
 		printf("token value -> %s\n tokentype -> %d\n",temp->value, temp->type);
 		temp = temp->next;
 	}
-	//ft_free_token(&token);
 }

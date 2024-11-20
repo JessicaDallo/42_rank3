@@ -118,6 +118,5 @@ int validate(char **input)
 	if(!*input)
 		return (1);
 	*input = eup_str(*input);
-	printf("%s\n", *input);
 	return (val_sintax(*input));
 }
