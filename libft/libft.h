@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:34:50 by sheila            #+#    #+#             */
-/*   Updated: 2024/10/24 20:00:59 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/21 15:47:12 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,10 @@ int		ft_strchr_gnl(char *str, int c);
 char	*ft_strjoin_gnl(char *str, char *buffer);
 char	*ft_get_line(char *str);
 char	*ft_get_newstr(char *str);
+
+int		ft_strnlen(char *str, int n);
+char	*ft_strncpy(char *dest, const char *src, int n);
+char	*ft_strndup(char *s, size_t n);
+char	*eup_str(char *str);
 
 #endif

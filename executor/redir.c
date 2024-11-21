@@ -6,12 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 22:11:06 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/12 20:31:57 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:32:15 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/include_builtins.h"
-
 
 void	redir_input(char *file)
 {
@@ -89,7 +88,3 @@ void	handle_redir(char *file, char *redir)
 		redir_error(file, redir);
 }
 
-/*void	run_redir()
-{
-	
-}*/

@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/06 09:57:18 by shrodrig          #+#    #+#              #
-#    Updated: 2024/10/24 20:01:28 by sheila           ###   ########.fr        #
+#    Updated: 2024/11/21 15:48:18 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME = libft.a
 FT_IS = ft_isprint.c ft_isascii.c ft_isalnum.c ft_isdigit.c \
 		ft_isalpha.c
 
-FT_TO = ft_tolower.c ft_toupper.c ft_atoi.c ft_itoa.c ft_atoi_base.c flood_fill.c
+FT_TO = ft_tolower.c ft_toupper.c ft_atoi.c ft_itoa.c ft_atoi_base.c \
+		flood_fill.c ft_eupstr.c
 
 FT_PUT = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putendl.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
@@ -30,7 +31,7 @@ FT_LST = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 FT_STR = ft_split.c ft_strchr.c ft_strcmp.c ft_strdup.c ft_striteri.c \
 		ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
 		ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
-		ft_strtrim.c ft_substr.c
+		ft_strtrim.c ft_substr.c ft_strnlen.c ft_strncpy.c ft_strndup.c
 
 FT_PRINTF = ft_printf.c ft_print_std.c ft_print_unsigned.c \
 		ft_print_hex.c ft_print_pointer.c

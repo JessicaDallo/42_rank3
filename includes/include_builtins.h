@@ -6,12 +6,12 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/13 18:34:00 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/21 15:33:54 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_H
-# define MS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 #include "../libft/libft.h"
 #include <unistd.h>
@@ -25,12 +25,32 @@
 #include <stdbool.h> 
 #include <signal.h>
 #include <wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
+typedef enum
+{
+	CMD,       // Comando
+	PIPE,      // Pipe |
+	OUTPUT_REDIR, // Redirecionamento de saida > subscreve o arquivo inteiro 
+	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
+	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
+	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
+} token_type;
+
+typedef struct	s_token
+{
+	token_type type;
+	char *value;
+	struct s_token *next;
+}	t_token;
 
 typedef	struct s_cmd
 {
 	char	*name;
+	char	**line;
 	char 	*path;
+	int		pipe[2];
 	
 	struct s_cmd	*next;	
 }	t_cmd;
@@ -47,19 +67,18 @@ typedef	struct s_minishell
 {
 	t_env	*env;
 	t_cmd	*cmd;
+	
 	char	**envp;
-	char	**line;
 	int		e_code;
 	int		env_size;
 	pid_t	pid;
 	
-	struct s_minishell	*next;
 }	t_minishell;
 
 
 
 /*------------------------------------- BUILTINS -------------------------------------*/
-int		is_builtin(t_minishell *mshell);
+int		is_builtin(t_minishell *mshell, t_cmd *cmd);
 int		ft_echo(t_minishell *mshell);
 void    ft_env(t_env *env);
 void	init_struct(t_minishell *mshell, char **envp);
@@ -98,6 +117,29 @@ void	perror_msg(char *cmd, char *str);
 void	close_fds(void);
 
 
+/*------------------------------------- JESSICA -------------------------------------*/
+//validate
+int	validate(char **arg);
+
+//tokens 
+void	get_tokens(char *arg);
+int	ft_count_words(char *arg, char c);
+char	**find_cmd(char *arg, char **cmd);
+void	quote_pointer(char **arg, char c);
+
+int	quote_count(char *arg, char c);
+
+bool delimiter(char **arg);
+
+//create_list
+t_token *create_token(char *arg,  token_type type);
+void add_token(t_token **token, char *arg,  token_type type);
+//void free_token(t_token *token);
+int	get_type(char *cmd);
+
+//ft_free
+void	ft_free_array(char **cmd);
+void	ft_free_token(t_token **token);
 
 
 #endif
