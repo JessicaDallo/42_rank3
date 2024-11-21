@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/13 11:30:23 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:25:58 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,27 @@ void	free_envlist(t_env *env)
 	}
 }
 
+void	free_cmd(t_cmd	*cmd)
+{
+	t_cmd	*aux;
+	
+	while(cmd)
+	{
+		aux = cmd->next;
+		free(cmd->name);
+		free(cmd->path);
+		free_array(cmd->line);
+		free(cmd);
+		cmd = aux;
+	}
+}
+
 void	clear_mshell(t_minishell *mshell)
 {
 	if(mshell->env)
 		free_envlist(mshell->env);
 	if(mshell->envp)
 		free_array(mshell->envp);
+	if(mshell->cmd)
+		free_cmd(mshell->cmd);
 }

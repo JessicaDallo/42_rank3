@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/13 18:38:34 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:31:44 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,18 @@ void	executable(t_minishell *mshell, t_cmd *cmd)
 {
 	char	*executable;
 	
-	executable = get_execpath(mshell, cmd);	
+	if(!cmd->line)
+		return;
+	if(!cmd->line[0]);
+		return;
+	executable = get_execpath(mshell, cmd);
+	if(execve(executable, cmd->line, mshell->env))
+	{
+		error_msg(cmd->name, "Command not found");
+		mshell->e_code = 127;
+		clear_mshell(mshell);
+	}
+	return;
 }
 
 /*void	wait_childs(t_minishell *mshell, t_cmd *cmd)
