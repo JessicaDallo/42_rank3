@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 15:33:54 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/23 17:55:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,20 @@ typedef enum
 typedef struct	s_token
 {
 	token_type type;
-	char *value;
+	char	*name;
+	char	**value;
 	struct s_token *next;
 }	t_token;
 
-typedef	struct s_cmd
-{
-	char	*name;
-	char	**line;
-	char 	*path;
-	int		pipe[2];
+//typedef	struct s_cmd
+//{
+//	char	*name;
+//	char	**line;
+//	char 	*path;
+//	int		pipe[2];
 	
-	struct s_cmd	*next;	
-}	t_cmd;
+//	struct s_cmd	*next;	
+//}	t_cmd;
 
 typedef	struct s_env
 {
@@ -66,7 +67,7 @@ typedef	struct s_env
 typedef	struct s_minishell
 {
 	t_env	*env;
-	t_cmd	*cmd;
+	t_token	*token;
 	
 	char	**envp;
 	int		e_code;
@@ -78,7 +79,7 @@ typedef	struct s_minishell
 
 
 /*------------------------------------- BUILTINS -------------------------------------*/
-int		is_builtin(t_minishell *mshell, t_cmd *cmd);
+int		is_builtin(t_minishell *mshell, t_token *token);
 int		ft_echo(t_minishell *mshell);
 void    ft_env(t_env *env);
 void	init_struct(t_minishell *mshell, char **envp);
@@ -105,6 +106,9 @@ char	*get_epos(char *line);
 void	update_line(char **line, char *value, char *str);
 void	expand_var(t_minishell *mshell, char **line);
 void	expand_exit(t_minishell *mshell, char **line);
+void    handle_input(char c, char **output, int s_quote, int d_quote);
+char    *handle_quotes(char *str, int s_quote, int d_quote);
+
 
 
 

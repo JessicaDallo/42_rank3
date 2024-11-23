@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/06 09:57:18 by shrodrig          #+#    #+#              #
-#    Updated: 2024/11/21 15:48:18 by sheila           ###   ########.fr        #
+#    Updated: 2024/11/21 16:41:22 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ FT_LST = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 FT_STR = ft_split.c ft_strchr.c ft_strcmp.c ft_strdup.c ft_striteri.c \
 		ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
 		ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
-		ft_strtrim.c ft_substr.c ft_strnlen.c ft_strncpy.c ft_strndup.c
+		ft_strtrim.c ft_substr.c ft_strnlen.c ft_strncpy.c ft_strndup.c \
+		ft_appendchar.c
 
 FT_PRINTF = ft_printf.c ft_print_std.c ft_print_unsigned.c \
 		ft_print_hex.c ft_print_pointer.c

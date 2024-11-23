@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/11 17:47:11 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:43:44 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void update_line(char **line, char *value, char *str)
 		temp = ft_strjoin(*line, value);
 	new_line = ft_strjoin(temp, str);
 	free(temp);
-	free(*line);
+	//free(*line);
 	*line = new_line;
 }
 
@@ -135,22 +135,39 @@ void expand_var(t_minishell *mshell, char **line)
     }
 }
 
-/*int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
     t_minishell mshell;
     init_struct(&mshell, envp);
 
-    char *line = strdup("echo o $? usuário é $USER $? $HOME $?");
+    char *line = strdup("");
+	char input[256];
     mshell.e_code = 127;
-    if (!line) {
+    if (!line)
+	{
         perror("Falha ao alocar memória para a linha");
         return EXIT_FAILURE;
     }
+	printf("Digite uma string para o echo: ");
+    if (!fgets(input, sizeof(input), stdin))
+	{
+        perror("Erro ao ler entrada");
+        return 1;
+    }
+	line = input;
     printf("\nLinha original: %s\n", line);
     handle_expansions(&mshell, &line);
-    printf("\nLinha expandida: %s\n", line);
-    free(line);
+	char	*result = (char *)malloc(sizeof(char) * (ft_strlen(line) + 1));
+	if (!result)
+	{
+        perror("Falha ao alocar memória para a linha");
+        return EXIT_FAILURE;
+    }
+	result = handle_quotes(line, 0, 0);
+    printf("\nLinha expandida:%s\n", result);
+    //free(line);
+	free(result);
     return EXIT_SUCCESS;
-}*/
+}
