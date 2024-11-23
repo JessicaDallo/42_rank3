@@ -1,37 +1,69 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
+#    Updated: 2024/11/21 15:37:43 by sheila           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
-LIBFT = ./libft/libft.a
-
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I./libft -I/usr/readline
-LDFLAGS = -lreadline
-RM = rm -rf
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -g
+INCLUDE = -I ./includes
+LIBFT_PATH = libft
+LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
-SRC =	main.c \
-	./parsing/validate.c \
-	./parsing/tokens.c \
-	./parsing/create_list.c \
-	./parsing/ft_free.c
+BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
+EXPANSIONS = expansions.c
+#REDIRECTS =
+ERROR = error.c free.c
+VALIDATE = validate.c val_delimiters.c
+TOKENS = tokens.c create_list.c
 
-OBJ = $(SRC:.c=.o)
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
+OBJS = ${SRC:.c=.o}
 
-all: $(NAME)
+%.o : %.c
+		${CC} ${CFLAGS} ${INCLUDE} -c $< -o ${<:.c=.o}
 
-$(LIBFT):
-	$(MAKE) -C ./libft
+$(NAME): ${OBJS}
+		make -C ${LIBFT_PATH}
+		${CC} ${OBJS} ${LIBFT} -o ${NAME}
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) $(LIBFT) -o $(NAME)
-
+all: ${NAME}
 
 clean:
-	$(RM) $(OBJ)
-	$(MAKE) clean -C ./libft
+		make -C ${LIBFT_PATH} clean
+		${RM} ${OBJS}
 
 fclean: clean
-	$(MAKE) fclean -C ./libft
-	$(RM) $(NAME) $(OBJ)
+		make -C ${LIBFT_PATH} fclean
+		${RM} ${NAME}
 
 re: fclean all
 
+#leaks: readline.supp
+#	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
+
+#readline.supp:
+#	@echo "{" > readline.supp
+#	@echo "    leak readline" >> readline.supp
+#	@echo "    Memcheck:Leak" >> readline.supp
+#	@echo "    ..." >> readline.supp
+#	@echo "    fun:readline" >> readline.supp
+#	@echo "}" >> readline.supp
+#	@echo "{" >> readline.supp
+#	@echo "    leak add_history" >> readline.supp
+#	@echo "    Memcheck:Leak" >> readline.supp
+#	@echo "    ..." >> readline.supp
+#	@echo "    fun:add_history" >> readline.supp
+#	@echo "}" >> readline.supp
+
 .PHONY: all clean fclean re
+
