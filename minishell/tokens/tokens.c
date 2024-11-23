@@ -169,7 +169,7 @@ void	get_tokens(char *arg)
 	t_token *temp = token;
 	while(temp)
 	{
-		printf("token value -> %s\n tokentype -> %d\n",temp->value, temp->type);
+		printf("token value -> %s\n tokentype -> %d\n",temp->value[0], temp->type);
 		temp = temp->next;
 	}
 }
