@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"include_builtins.h": "c",
-		"errno.h": "c",
-		"limits.h": "c"
-	}
-}
