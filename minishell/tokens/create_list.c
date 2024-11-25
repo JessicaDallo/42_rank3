@@ -29,6 +29,10 @@ int len_array(char **arg)
 
 void  handle_value(char **arg, t_token **token)
 {
+	while(ft_strcmp(*arg, "export") == 1)
+		arg++;
+	arg++;
+	printf("%s -> handle value\n", *arg);
 	int len = len_array(arg);
 	printf("%d LEN HANDLE\n",len);
 	if ((*token)->value == NULL)
@@ -61,8 +65,7 @@ t_token *create_token(char *arg, token_type type)
 		return (NULL);
 	new_token->type = type;
 	new_token->name = ft_strdup(arg);
-	//if(ft_strcmp(*arg, "export") == 0)
-	//	 handle_value(arg, new_token);
+	new_token->value = NULL;
 	new_token->next = NULL;
 
 	return (new_token);

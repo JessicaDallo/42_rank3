@@ -168,11 +168,9 @@ void	get_tokens(char *arg)
 	// }
 
 	i = 0;
+	int	flg = 0;
 	int j = 0;
 	token = NULL;
-	//int flag =0;
-	// O PROBLEMA É QUE ELE NÃO MEXE NO CMD 
-	// LA DENTRO ESTÁ TUDO CERTO!
 	while (cmd[i])
 	{
 		type = get_type(cmd[i]);
@@ -189,33 +187,60 @@ void	get_tokens(char *arg)
 				token->value[j] = cmd[i];
 				j++;
 				i++;
+				flg = 1;
 			}
 		}
+//	verificar sem funcao de aspas e ver como o rpogrmam se comporta
+
 		if(cmd[i] == NULL)
 					break ;
+		if(flg)
+		{
+			flg = 0;
+			continue ;
+		}
 		i++;
 	}
 
 	t_token *temp = token;
+	// while(temp)
+	// {
+	// 	i = 0;
+	// 	if (!temp->value)
+	// 	{
+	// 		printf("temp->value is NULL.\n");
+	// 		// break; // ou continue, dependendo da lógica.
+	// 	}
+	// 	while(temp->value[i])
+	// 	{
+			
+	// 		printf("token value -> %s \n", temp->value[i]);
+	// 		i++;
+	// 	}
+	// 	printf("token name -> %s\ntoken type -> %d\n",temp->name, temp->type);
+	// 	if (!temp->next)
+	// 	{
+   	// 		 printf("Reached end of list or temp->next is NULL.\n");
+   	// 		 break;
+	// 	}
+	// 	temp = temp->next;
+	// }
 	while(temp)
 	{
-		i = 0;
-		while(temp->value[i])
+		if (temp->value != NULL)
 		{
-			if (!temp->value)
-			{
-    			printf("temp->value is NULL.\n");
-   				 break; // ou continue, dependendo da lógica.
-			}
-			printf("token value -> %s \n", temp->value[i]);
-			i++;
+ 		   i = 0;
+ 	  	 while (temp->value[i] != NULL)
+  		  {
+  		      printf("token value -> %s\n", temp->value[i]);
+  	 	     i++;
+  		  }
+		}
+		else
+		{
+ 		   printf("temp->value is NULL\n");
 		}
 		printf("token name -> %s\ntoken type -> %d\n",temp->name, temp->type);
-		if (!temp->next)
-		{
-   			 printf("Reached end of list or temp->next is NULL.\n");
-   			 break;
-		}
 		temp = temp->next;
 	}
 }
