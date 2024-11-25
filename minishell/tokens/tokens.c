@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
 
 char	**find_cmd(char *arg, char **cmd)
 {
@@ -156,20 +156,66 @@ void	get_tokens(char *arg)
 		printf("%s ->array\n",cmd[i]);
 		i++;
 	}
+	// i = 0;
+	// token = NULL;
+	// while (cmd[i] != NULL)
+	// {
+	// 	type = get_type(cmd[i]);
+	// 	if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
+	// 		i++;
+	// 	add_token(&token, cmd[i], type);
+	// 	i++;
+	// }
+
 	i = 0;
+	int j = 0;
 	token = NULL;
-	while (cmd[i] != NULL)
+	//int flag =0;
+	// O PROBLEMA É QUE ELE NÃO MEXE NO CMD 
+	// LA DENTRO ESTÁ TUDO CERTO!
+	while (cmd[i])
 	{
 		type = get_type(cmd[i]);
 		if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
 			i++;
 		add_token(&token, cmd[i], type);
+		if(ft_strcmp(cmd[i], "export") == 0)
+		{
+			i++;
+			handle_value(cmd, &token);
+			while(!is_delimiter(cmd[i]))
+			{
+				token->value[j] = ft_calloc(sizeof(char), ft_strlen(cmd[i] + 1));
+				token->value[j] = cmd[i];
+				j++;
+				i++;
+			}
+		}
+		if(cmd[i] == NULL)
+					break ;
 		i++;
 	}
+
 	t_token *temp = token;
 	while(temp)
 	{
-		printf("token value -> %s\n tokentype -> %d\n",temp->value[0], temp->type);
+		i = 0;
+		while(temp->value[i])
+		{
+			if (!temp->value)
+			{
+    			printf("temp->value is NULL.\n");
+   				 break; // ou continue, dependendo da lógica.
+			}
+			printf("token value -> %s \n", temp->value[i]);
+			i++;
+		}
+		printf("token name -> %s\ntoken type -> %d\n",temp->name, temp->type);
+		if (!temp->next)
+		{
+   			 printf("Reached end of list or temp->next is NULL.\n");
+   			 break;
+		}
 		temp = temp->next;
 	}
 }

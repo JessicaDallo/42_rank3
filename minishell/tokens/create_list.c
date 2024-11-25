@@ -10,7 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
+
+bool is_delimiter(char *arg)
+{
+	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<") == 0 || !arg)
+		return (true);
+	return (false);
+}
+
+int len_array(char **arg)
+{
+	int i = 0;
+	while(!is_delimiter(arg[i]))
+		i++;
+	return (i);
+}
+
+void  handle_value(char **arg, t_token **token)
+{
+	int len = len_array(arg);
+	printf("%d LEN HANDLE\n",len);
+	if ((*token)->value == NULL)
+		(*token)->value = ft_calloc(sizeof(char *), len);
+}
+
 
 int	get_type(char *cmd)
 {
@@ -37,7 +61,8 @@ t_token *create_token(char *arg, token_type type)
 		return (NULL);
 	new_token->type = type;
 	new_token->name = ft_strdup(arg);
-//	if (!)
+	//if(ft_strcmp(*arg, "export") == 0)
+	//	 handle_value(arg, new_token);
 	new_token->next = NULL;
 
 	return (new_token);
