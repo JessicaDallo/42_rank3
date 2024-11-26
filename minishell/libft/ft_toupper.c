@@ -2,33 +2,32 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2023/10/06 17:24:05 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:24:05 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/24 14:31:53 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:55:47 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Converts lowercase letters to uppercases.
+RETURN VALUE: The converted letter or c, if conversion is not possible.
+*/
+
 #include "libft.h"
 
-//muda para letra minuscula
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
-	{
-		c = c - 32;
-	}
+		c -= 32;
 	return (c);
 }
-
-// int	main(void)
-// {
-// 	char x = 'z';
-// 	printf("%c\n", ft_toupper(x));
-// 	printf("%c\n", toupper(x));
-// 	return (0);
-// }
+/*
+int	main(void)
+{
+	int	x = 's';
+	printf("Before: %i \n", x);
+	ft_toupper(x);
+	printf("After: %i",ft_toupper(x));
+}*/

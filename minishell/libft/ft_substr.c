@@ -3,50 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 23:07:07 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/17 19:26:21 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/09 16:32:58 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:55:31 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Allocates (with malloc) and returns a substring from string 's'. The
+substring begins at index 'start' and is of maximum size 'len'.
+RETURN VALUE: The substring. NULL if the allocation fails.
+*/
+
 #include "libft.h"
 
-// pega uma str e copia apartir de um caractere x ate o caractere y
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*sub;
+	char	*dest;
 	size_t	i;
+	size_t	j;
 
+	i = start;
+	j = 0;
 	if (!s)
 		return (NULL);
-	if (start >= (unsigned int)ft_strlen(s))
-		return (ft_strdup(""));
-	i = ft_strlen(s + start);
-	if (i < len)
-		len = i;
-	sub = (char *)malloc(sizeof(char) * (len + 1));
-	if (sub == 0)
-		return (0);
-	ft_strlcpy(sub, s + start, len + 1);
-	return (sub);
+	if (start > ft_strlen(s))
+	{
+		dest = malloc(1);
+		dest[0] = '\0';
+		return (dest);
+	}
+	if (len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	dest = malloc(sizeof(char) * len + 1);
+	if (!dest)
+		return (NULL);
+	while (j < len && i < (ft_strlen (s)))
+		dest[j++] = s[i++];
+	dest[j] = '\0';
+	return (dest);
 }
-// void	ft_putstr_fd(char *s, int fd)
-// {
-// 	while (*s)
-// 	{
-// 		write (fd, s, 1);
-// 		s++;
-// 	}
-// }
-// void	ft_putendl_fd(char *s, int fd)
-// {
-// 	ft_putstr_fd(s, fd);
-// 	write (fd, "\n", 1);
-// }
-// int	main(void)
-// {
-// 	char	str[] = "jessica jessica";
-// 	ft_putendl_fd(ft_substr(str, 0, 4), 1);
-// 	return (0);
-// }
+/*
+int	main(void)
+{
+	char	*test;
+
+	test = ft_substr("Hello World", 1, 4);
+	printf("Substr: %s\n", test);
+}*/

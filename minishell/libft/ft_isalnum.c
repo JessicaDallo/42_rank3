@@ -2,33 +2,39 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:11 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:11 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 08:47:35 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:51:37 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Checks for an alphanumeric character
+RETURN VALUE: Nonzero if the character c falls into the tested class, and 
+zero if not. 
+*/
+
 #include "libft.h"
 
-//verifica se é um numero ou algarismos
-int	ft_isalnum(char c)
+int	ft_isalnum(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
-			&& c <= '9'))
-	{
+	if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z'))
 		return (1);
-	}
-	return (0);
+	else
+		return (0);
 }
+
 /*int	main(void)
 {
-	int x = 'a';
-	printf("%d\n", ft_isdigit(x));
-	printf("%d\n", isdigit(x));
+	char	teste = '5';
+	int		resultado = ft_isalnum(teste);
+
+	if (resultado == 1)
+		printf("É Alfanumérico\n");
+	else
+		printf("Não é Alfanumérico\n");
 	return (0);
 }*/

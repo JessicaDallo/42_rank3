@@ -2,42 +2,42 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:33 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:33 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/27 23:44:40 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:52:39 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Scans the initial n bytes of the memory area pointed to by s for the
+first instance of c.
+RETURN VALUE: A pointer to the matching byte or NULL if the character does
+not occur in the given memory area.
+*/
+
 #include "libft.h"
 
-// procura por um caractere em uma string
-void	*ft_memchr(const void *str, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned char	*s;
+	unsigned char	*prt;
+	size_t			x;
 
-	s = (unsigned char *)str;
-	c = (unsigned char)c;
-	while (n && *s != c)
+	prt = (unsigned char *)s;
+	x = 0;
+	while (x < n)
 	{
-		s++;
-		n--;
+		if (prt[x] == (unsigned char)c)
+			return ((void *)s + x);
+		x++;
 	}
-	if (n)
-		return ((void *)s);
-	else
-		return (NULL);
+	return (NULL);
 }
-// int	main(void)
-// {
-// 	const char str[] = "jessica gosta de arroz";
-// 	const char ch = 'o';
 
-// 	printf("%s\n", (char *)ft_memchr(str, ch, 22));
-// 	printf("%s\n", (char *)memchr(str, ch, 20));
-// 	return (0);
-// }
+/*int	main(void)
+{
+	char str[] = "Hello, World!";
+	printf ("String After (original): %s\n", memchr(str, ',', sizeof(str)));
+	printf ("String After: %s\n", ft_memchr(str, ',', sizeof(str)));
+}*/

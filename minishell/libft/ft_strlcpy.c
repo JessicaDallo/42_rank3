@@ -3,37 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 20:07:47 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/24 16:44:47 by marvin           ###   ########.fr       */
+/*   Created: 2023/09/24 14:26:36 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/09 15:27:14 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DEF: Copies up to size - 1 characters from the NUL-terminated string src to 
+dst, NUL-terminating the result.
+RETURN VALUE: The length of src. 
+*/
+
 #include "libft.h"
 
-//copia da str origem para a destino 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
+	size_t	cont;
 	size_t	i;
 
 	i = 0;
-	if (!size)
-		return (ft_strlen(src));
-	while (src[i] && i < size - 1)
+	cont = 0;
+	while (src[cont] != '\0')
+		cont++;
+	if (size != 0)
 	{
-		dst[i] = src[i];
-		i++;
+		while (src[i] != '\0' && i < (size -1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	return (cont);
 }
-// int main () {
-// 	char dst[] = "abcabcabc";
-// 	char src[] = "abcabc";
-// 	printf ("%ld\n", ft_strlcpy(dst, src, 4));
-// 	printf("%s\n", dst);
-// 	printf ("%ld\n", strlcpy(dst, src, 4));
-// 	printf("%s\n", dst);
-// 	return (0);
-// }
+/*
+int	main(void)
+{
+	char		orig[] = "Hello";
+	char		destiny[] = "Ola mundo";
+	unsigned int	num;
+
+	num = 3;
+	num = ft_strlcpy(destiny, orig, num);
+	printf("orig aft: %s\n dest aft: %s\n size aft: %d", orig, destiny, num);
+}*/

@@ -3,46 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 17:29:22 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/24 18:59:33 by marvin           ###   ########.fr       */
+/*   Created: 2023/09/24 14:28:39 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:53:49 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*  
+DEF: Appends the NUL-terminated string src to the end of dst. It will append at 
+most size - strlen(dst) - 1 bytes, NUL-terminating the result.
+RETURN VALUE: The initial length of dst plus the length of src.
+*/
+
 #include "libft.h"
 
-//usada para juntar e contar o tamanho da string 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	slen;
-	size_t	dlen;
+	size_t	lenghts;
 	size_t	i;
+	size_t	lsrc;
+	size_t	ldst;
 
-	slen = ft_strlen(src);
-	dlen = ft_strlen(dst);
 	i = 0;
-	if (!dst && !src)
+	lenghts = 0;
+	lsrc = ft_strlen(src);
+	ldst = ft_strlen(dst);
+	if (size > ldst)
+		lenghts = ldst + lsrc;
+	else
+		lenghts = lsrc + size;
+	while (src[i] != '\0' && size > (ldst + 1))
 	{
-		return (0);
-	}
-	if (size == 0 || size <= dlen)
-	{
-		return (size + slen);
-	}
-	while (src[i] != '\0' && (i + dlen) < size - 1)
-	{
-		dst[dlen + i] = src[i];
+		dst[ldst] = src[i];
+		ldst++;
 		i++;
 	}
-	dst[dlen + i] = 0;
-	return (slen + dlen);
+	dst[ldst] = '\0';
+	return (lenghts);
 }
-// int main () 
-// {
-// 	char *dst = "jessica";
-// 	char *src = "jessica";
-// 	printf ("%d\n", ft_strlcat(dst, src, 7));
-// 	printf ("%d\n", strlcat*dst, src, 5));
-// 	return (0);
-// }
+
+/*int	main(void)
+{
+	char		orig[] = "<3 Nino";
+	char	destino[20] = "Luninha";
+	unsigned int	nb = 14;
+
+	nb = ft_strlcat(destino, orig, nb);
+	printf("DEST +: %s\n nb:%i\n", destino, nb);
+}*/

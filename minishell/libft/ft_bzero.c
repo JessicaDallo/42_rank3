@@ -2,28 +2,35 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:07 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:07 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 09:19:04 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:51:19 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DEF: Erases the data in the n bytes of the memory starting at the location
+pointed by s, by writing zeros ('\0') to that area.
+RETURN VALUE: none
+*/
+
 #include "libft.h"
 
-//percorre a str com a função do memset e coloca o valor nulo em toda str.
 void	ft_bzero(void *s, size_t n)
 {
-	ft_memset(s, '\0', n);
+	unsigned char	*str;
+	size_t			i;
+
+	i = 0;
+	str = (unsigned char *) s;
+	while (i < n)
+		str[i++] = '\0';
 }
-/*int	main(void)
+/*int main(void)
 {
-		char str[] = "oito";
-		ft_bzero(str, 4);
-		printf("%s\n", str);
-	return (0);
+    char str[] = "Hello World";
+    printf("Before: %s\n", str);
+    ft_bzero(str, sizeof(str));
+    printf("After: %s\n", str);
 }*/

@@ -2,42 +2,51 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:40 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:40 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/27 23:41:38 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:52:52 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Copies n bytes from memory area src to memory area dst. The memory
+**	areas may overlap.
+RETURN VALUE: A pointer to dest.
+*/
 #include "libft.h"
 
-// copia n bytes de uma string para outra
-void	*ft_memmove(void *str1, const void *str2, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	if (!str1 && !str2)
-	{
+	char	*s;
+	char	*d;
+
+	s = (char *)src;
+	d = (char *)dest;
+	if (!dest && !src)
 		return (NULL);
-	}
-	if (str1 > str2)
+	if (d > s)
 	{
-		while (n--)
+		while (n > 0)
 		{
-			((unsigned char *)str1)[n] = ((const char *)str2)[n];
+			n--;
+			d[n] = s[n];
 		}
 	}
-	else if (str2 > str1)
-		ft_memcpy(str1, str2, n);
-	return (str1);
+	else
+		ft_memcpy(d, s, n);
+	return (dest);
 }
-// int	main(void)
-// {
-// 	char orig[] = "jessica abcd";
-// 	char dest[] = "12347878978";
-// 	printf("%s\n", (char *)ft_memmove(dest, orig, 11));
-// 	printf("%s\n", (char *)memmove(dest, orig, 11));
-// 	return (0);
-// }
+
+/*int	main(void)
+{
+	char	src[] = "Hello World!";
+	char	dest[30];
+	int		n = 5;
+	
+	printf("Destiny (before): %s \n", dest);
+	ft_memmove(dest, src, n);
+	printf("Source: %s \n", src);
+	printf("Destiny (after): %s", dest);
+}*/

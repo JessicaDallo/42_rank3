@@ -2,50 +2,47 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:01 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:01 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/01 18:51:04 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:51:08 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DEF: Converts the inicial portion of the string pointed to by nptr to int.
+RETURN VALUE: The converted value.*/
+
 #include "libft.h"
 
-// faz a conversão de char to integer
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	sinal;
+	int	sin;
 	int	result;
+	int	i;
 
+	sin = 1;
 	i = 0;
-	sinal = 1;
 	result = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	while (nptr[i] == 32 || (nptr [i] >= 9 && nptr[i] <= 13))
 		i++;
-	if (str[i] == 45 || str[i] == 43)
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (str[i] == 45)
-		{
-			sinal = sinal * -1;
-		}
+		if (nptr[i] == '-')
+			sin = sin * -1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		result = result * 10 + (str[i] - 48);
+		result = result * 10 + nptr[i] - '0';
 		i++;
 	}
-	return (result * sinal);
+	return (result * sin);
 }
-/*int	main(void)
+/*int     main (void)
 {
-	char x[] = " 	-1234";
-	printf("%d\n", ft_atoi(x));
-	printf("%d\n", atoi(x));
-	return (0);
+        char    teste[] = "   ---+--+123ab123";
+
+        printf("ft_atoi: %i\n", ft_atoi(teste));
+        printf("atoi: %i", atoi(teste));
 }*/

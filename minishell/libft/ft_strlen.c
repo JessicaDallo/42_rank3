@@ -2,34 +2,37 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 16:39:33 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 16:39:33 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/09 12:30:50 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:54:46 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Calculates the string pointed to by str, excluding terminating null byte.
+RETURN VALUE: The number of bytes in the string pointed to by s.
+*/
+
 #include "libft.h"
 
-//conta quantos caracteres contem na str
-int	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }
 
-// int  main(void)
-// {
-//      char x[] = "jessica";
-//      printf("%zu\n", ft_strlen(x));
-//      printf("%zu\n", strlen(x));
-//      return (0);
-// }
+/*int	main(void)
+{
+	char *strin g= "hello world";
+	int length= ft_strlen(string);
+	
+	printf("O comprimento da string é '%d'\n", length)
+	printf("O comprimento da string é '%i'\n", ft_strlen(string));
+    return 0;
+}*/

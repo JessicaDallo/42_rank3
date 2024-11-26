@@ -3,74 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 19:25:34 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/15 19:25:34 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/16 08:05:40 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:51:57 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*  
+DEF: Allocates (with malloc) and returns a string representing the integer
+received as an argument. Negatives numbers must be handled. 
+RETURN VALUE: The string representing the integer. NULL if the allocation
+fails. 
+*/
+
 #include "libft.h"
-#include <unistd.h>
 
-//faz a conversão de integer para char
-int	ft_abs(int n)
+static int	decimal(long n)
 {
-	if (n < 0)
-		return (-n);
-	return (n);
-}
+	int	size;
 
-int	ft_size(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n < 0)
+	size = 0;
+	if (n <= 0)
 	{
 		n *= -1;
-		i++;
+		size++;
 	}
-	if (n == 0)
-		i++;
-	while (n != 0)
+	while (n > 0)
 	{
-		n = n / 10;
-		i++;
+		n /= 10;
+		size++;
 	}
-	return (i);
+	return (size);
 }
 
 char	*ft_itoa(int n)
 {
-	int		size;
-	char	*str;
+	char				*str;
+	int					i;
+	long int			num;
 
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	size = ft_size(n);
-	str = (char *) malloc(sizeof(char) * (size + 1));
+	num = n;
+	i = decimal (num);
+	str = malloc(sizeof(char) * (i + 1));
 	if (!str)
-		return (0);
-	str[size] = '\0';
-	if (n == 0)
-		str[size - 1] = '0';
-	if (n < 0)
-		str[0] = '-';
-	while (n != 0)
+		return (NULL);
+	str[i--] = '\0';
+	if (num == 0)
+		str[0] = '0';
+	else if (num < 0)
 	{
-		str[size - 1] = ft_abs(n % 10) + '0';
-		n = n / 10;
-		size--;
+		str[0] = '-';
+		num *= -1;
+	}
+	while (num > 0)
+	{
+		str[i--] = num % 10 + '0';
+		num /= 10;
 	}
 	return (str);
 }
-
-// int main()
-// {
-// 	int	x = 1995;
-// 	int	y = -1995;
-// 	printf("%s", ft_itoa(i));
-// 	printf("%s", ft_itoa(j));
-//	return (0);
-// }
+/*
+int	main(void)
+{
+	int n = 1036;
+	char *itoa = ft_itoa(n);
+	printf("%s\n\n", itoa);
+}*/

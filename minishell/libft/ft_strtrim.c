@@ -3,41 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 23:23:50 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/24 16:45:13 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/12 09:59:35 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:55:26 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// copia uma parte da string denominada de comeco e fim,
-	//fazndo o maloc para uma nova string para ter o valor correto de bytes
+/*	
+DEF: Allocates (with malloc) and returns a copy of s1 with the characters
+specified in 'set' removed from the beginning and the end of the string.
+RETURN VALUE: The trimmed string or NULL, if the allocation fails.
+*/
 
 #include "libft.h"
 
-//corta o caractere desejado do inicio e do fim sa string 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		start;
-	int		end;
-	char	*s3;
+	size_t		i;
+	size_t		j;
+	char		*dest;
 
 	if (!s1 || !set)
 		return (NULL);
-	end = ft_strlen(s1) - 1;
-	start = 0;
-	while (s1[start] && ft_strchr(set, s1[start]))
-		start++;
-	while (s1[end] && ft_strchr(set, s1[end]))
-		end--;
-	s3 = ft_substr(s1, start, end - start + 1);
-	return (s3);
+	i = ft_strlen(s1);
+	j = 0;
+	while (s1[j] && ft_strchr(set, s1[j]))
+		j++;
+	while (i > 0 && ft_strchr(set, s1[i - 1]))
+		i--;
+	dest = ft_substr(s1, j, i - j);
+	if (!dest)
+		return (0);
+	return (dest);
 }
-
-// int	main (void)
-// {
-// 	char x[] = " 123456 ";
-// 	char y[] = " ";
-// 	printf("%s\n", ft_strtrim(x, y));
-// 	return (0);
-// }
+/*
+int	main(void)
+{
+	printf("%s\n", ft_strtrim("lorem ipsum dolor sit amet\n", "tel"));
+	return (0);
+}*/

@@ -3,37 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 20:24:13 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/24 16:44:15 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/09 13:26:06 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:53:31 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*  
+DEF: Returns a pointer to a new string which is a duplicate of the string s.
+RETURN VALUE: A pointer to the duplicated string. NULL if insufficient memory 
+was available. 
+*/
+
 #include "libft.h"
 
-// copia uma string para outra, mas com alocação de memoria correta
 char	*ft_strdup(const char *s)
 {
-	char	*str;
-	size_t	i;
+	char	*dup;
+	size_t	size;
 
-	i = 0;
-	str = (char *)malloc(ft_strlen(s) * sizeof(char) + 1);
-	if (str == NULL)
+	size = ft_strlen(s) + 1;
+	dup = (char *)malloc(size);
+	if (!dup)
 		return (NULL);
-	while (s[i] != '\0')
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = 0;
-	return (str);
+	ft_memcpy(dup, s, size);
+	return (dup);
 }
-// int main (void)
-// {
-// 	char *result;
-// 	char word[] = "jessica";
-// 	result = ft_strdup(word);
-// 	printf("%s", result);
-// }
+
+/*int	main(void)
+{
+	char	*test = ft_strdup("Hello World");
+	printf("String dup: %s\n", test);
+	
+	free(test);
+}*/

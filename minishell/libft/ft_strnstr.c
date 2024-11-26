@@ -3,37 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/07 22:54:46 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/24 19:02:07 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/05 09:27:28 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 17:59:17 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DEF: Locates the first occurence of the null-terminated string little in the 
+string big, where not more than len characters are sarched.
+RETURN VALUE: If little is an empty string, big is returned; if little occurs
+nowhere in big, NULL is returned; otherwise a pointer to the firstcharacter of 
+the first occurence of little is returned.
+*/
+
 #include "libft.h"
 
-//procura um char em uma string, em uma quantidade x de 
-//caracteres se encontrar retorna uma string do caracter para frente 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
+	size_t	j;
 
-	i = ft_strlen(little);
-	if (*little == 0)
+	i = 0;
+	if (little[0] == '\0')
 		return ((char *)big);
-	while (*big && i <= len)
+	while (big[i] != '\0' && i < len)
 	{
-		if (*big == *little && ft_strncmp(big, little, i) == 0)
-			return ((char *)big);
-		big++;
-		len--;
+		j = 0;
+		while (big[i + j] == little[j] && big[i + j] != '\0' && i + j < len)
+		{
+			if (little[j + 1] == '\0')
+				return ((char *)&big[i]);
+			j++;
+		}
+		i++;
 	}
 	return (NULL);
 }
-// int	main (void)
-// {
-// 	char x[] = "jessica";
-// 	char y[] = "ss";
-// 	printf("%s\n", (char *)ft_strnstr(x, y, 4));
-// 	return (0);
-// }
+/*
+int	main(void)
+{
+	char	str1[] = {"123456789"};
+	char	str2[] = {"457"};
+	size_t	len = ft_strlen(str1);
+
+	printf("ft_strnstr %s\n", ft_strnstr(str1, str2, len));
+}*/

@@ -3,40 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 14:12:51 by jesilva-          #+#    #+#             */
-/*   Updated: 2023/09/04 15:04:19 by jesilva-         ###   ########.fr       */
+/*   Created: 2024/10/24 19:59:44 by sheila            #+#    #+#             */
+/*   Updated: 2024/10/24 20:00:04 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <stdio.h>
+#include "libft.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	const unsigned char	*str1;
+	const unsigned char	*str2;
 
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0')
+	if (!s1 || !s2)
+		return (-1);
+	str1 = (const unsigned char *)s1;
+	str2 = (const unsigned char *)s2;
+	while (*str1 && *str2)
 	{
-		if (s1[i] != s2[i])
-		{
-			return (s1[i] - s2[i]);
-		}
-		i++;
+		if (*str1++ != *str2++)
+			return (*(str1 - 1) - *(str2 - 1));
 	}
-	return (s1[i] - s2[i]);
+	return (*str1 - *str2);
 }
-
-/*int main (int argc, char *argv[])
-{
-	int i = 0;
-	
-	if (argc > 2)
-	{
-		i = ft_strcmp(argv[1], argv[2]);
-	}
-
-	printf("%d\n", i);
-	return (0);
-}*/

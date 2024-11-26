@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 14:59:28 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/31 14:59:28 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/18 11:20:25 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:53:02 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DESCRIPTION: Outputs the character ’c’ to the given file descriptor.
+RETURN VALUE: None.*/
+
 #include "libft.h"
 
-int	ft_putchar(char c)
+void	ft_putchar(char c)
 {
-	write (1, &c, 1);
-	return (1);
+	write(1, &c, 1);
 }

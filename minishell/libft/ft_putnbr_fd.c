@@ -3,33 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jesilva- <jesilva-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 10:31:26 by jesilva-          #+#    #+#             */
-/*   Updated: 2023/10/25 13:31:55 by jesilva-         ###   ########.fr       */
+/*   Created: 2023/10/18 12:31:56 by shrodrig          #+#    #+#             */
+/*   Updated: 2023/11/01 18:53:09 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*Outputs the integer ’n’ to the given file descriptor.
+RETURN VALUE: None.*/
+
 #include "libft.h"
 
-// escreve um integer de acordo com o descritor desejado
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (n == -2147483648)
-		return (ft_putstr_fd("-2147483648", fd));
+	long int	num;
+
+	num = n;
 	if (n < 0)
 	{
-		ft_putchar_fd('-', fd);
-		n = -n;
+		write(fd, "-", 1);
+		num *= -1;
 	}
-	if (n >= 10)
-	{
-		ft_putnbr_fd((n / 10), fd);
-	}
-	ft_putchar_fd((n % 10 + '0'), fd);
+	else
+		num = n;
+	if (num >= 10)
+		ft_putnbr_fd(num / 10, fd);
+	ft_putchar_fd((char)(num % 10 + '0'), fd);
 }
-// int     main ()
-// {
-//         ft_putnbr_fd(1234, 1);
-//         return(0);
-// }

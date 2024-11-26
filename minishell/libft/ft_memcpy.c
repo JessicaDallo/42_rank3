@@ -2,41 +2,48 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: jessicadallo <jessicadallo@student.42.f    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2023/10/06 17:23:36 by jessicadall       #+#    #+#             */
-/*   Updated: 2023/10/06 17:23:36 by jessicadall      ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/24 13:33:15 by sheila            #+#    #+#             */
+/*   Updated: 2023/11/01 18:52:46 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+DEF: Copies n bytes from memory area src to memory area dest. The memory 
+area must not overlap.
+RETURN VALUE: Returns a pointer to dest. 
+*/
+
 #include "libft.h"
 
-// copia n bytes de uma string para outra
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	size_t	i;
+	unsigned int	x;
+	char			*d;
+	const char		*s;
 
-	i = 0;
+	x = 0;
+	d = dest;
+	s = src;
 	if (!dest && !src)
-	{
 		return (NULL);
-	}
-	while (i < n)
+	while (x < n)
 	{
-		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
-		i++;
+		d[x] = s[x];
+		x++;
 	}
 	return (dest);
 }
 
-// int	main(void)
-// {
-// 	char x[] = "jessica";
-// 	printf("%s\n", (char *)ft_memcpy(x, "oculos", 5));
-// 	printf("%s\n", (char *)memcpy(x, "oculos", 5));
-// 	return (0);
-// }
+/*int	main(void)
+{
+	char    src[] = "Hello World!";
+	char    dest[20];
+	int     n = sizeof(src);
+
+	ft_memcpy(dest, src, n);
+	printf("Source: %s \n", src);
+	printf("Destiny: %s", dest);
+}*/

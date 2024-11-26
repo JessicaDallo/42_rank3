@@ -3,56 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/22 10:59:50 by marvin            #+#    #+#             */
-/*   Updated: 2023/12/22 10:59:50 by marvin           ###   ########.fr       */
+/*   Created: 2023/11/24 19:57:31 by shrodrig          #+#    #+#             */
+/*   Updated: 2024/06/11 17:44:29 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_check(char *stash)
+int	ft_strchr_gnl(char *str, int c)
 {
 	int	i;
 
 	i = 0;
-	if (!stash)
+	if (!str || !c)
 		return (0);
-	while (stash[i] != '\0')
+	while (str[i])
 	{
-		if (stash[i] == '\n' || stash[i] == '\0')
+		if (str[i] == c)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-char	*ft_strjoingt(char *stash, char *temp)
+char	*ft_strjoin_gnl(char *str, char *buffer)
 {
+	char	*newstr;
 	int		i;
 	int		j;
-	char	*temp_stash;
 
-	i = 0;
-	j = 0;
-	if (!stash)
+	if (!str)
 	{
-		stash = malloc(sizeof(char));
-		stash[0] = '\0';
+		str = (char *)malloc(sizeof(char) * 1);
+		str[0] = '\0';
 	}
-	temp_stash = (char *)malloc(sizeof(char) * ((ft_strlen
-					(stash) + ft_strlen(temp)) + 1));
-	if (!stash)
+	newstr = (char *)malloc(ft_strlen(str) + ft_strlen(buffer) + 1);
+	if (!newstr)
 		return (NULL);
-	while (stash[i] != '\0')
-	{
-		temp_stash[i] = stash[i];
-		i++;
-	}
-	while (temp[j] != '\0')
-		temp_stash[i++] = temp[j++];
-	free (stash);
-	temp_stash[i] = '\0';
-	return (temp_stash);
+	i = -1;
+	j = 0;
+	if (str)
+		while (str[++i])
+			newstr[i] = str[i];
+	while (buffer[j])
+		newstr[i++] = buffer[j++];
+	newstr[i] = '\0';
+	free (str);
+	return (newstr);
 }
