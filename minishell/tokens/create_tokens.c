@@ -12,34 +12,6 @@
 
 #include "../includes/include_builtins.h"
 
-bool is_delimiter(char *arg)
-{
-	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<") == 0 || !arg)
-		return (true);
-	return (false);
-}
-
-int len_array(char **arg)
-{
-	int i = 0;
-	while(!is_delimiter(arg[i]))
-		i++;
-	return (i);
-}
-
-void  handle_value(char **arg, t_token **token)
-{
-	while(ft_strcmp(*arg, "export") == 1)
-		arg++;
-	arg++;
-	printf("%s -> handle value\n", *arg);
-	int len = len_array(arg);
-	printf("%d LEN HANDLE\n",len);
-	if ((*token)->value == NULL)
-		(*token)->value = ft_calloc(sizeof(char *), len);
-}
-
-
 int	get_type(char *cmd)
 {
 	if(ft_strcmp (cmd, "|") == 0)

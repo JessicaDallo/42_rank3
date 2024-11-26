@@ -24,7 +24,7 @@ EXPANSIONS = expansions.c
 #REDIRECTS =
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
-TOKENS = tokens.c create_list.c
+TOKENS = tokens.c create_tokens.c tokens_utils.c
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
 OBJS = ${SRC:.c=.o}

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/include_builtins.h"
 
 char	**find_cmd(char *arg, char **cmd)
@@ -156,16 +155,7 @@ void	get_tokens(char *arg)
 		printf("%s ->array\n",cmd[i]);
 		i++;
 	}
-	// i = 0;
-	// token = NULL;
-	// while (cmd[i] != NULL)
-	// {
-	// 	type = get_type(cmd[i]);
-	// 	if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
-	// 		i++;
-	// 	add_token(&token, cmd[i], type);
-	// 	i++;
-	// }
+//	verificar sem funcao de aspas e ver como o rpogrmam se comporta
 
 	i = 0;
 	int	flg = 0;
@@ -183,15 +173,14 @@ void	get_tokens(char *arg)
 			handle_value(cmd, &token);
 			while(!is_delimiter(cmd[i]))
 			{
-				token->value[j] = ft_calloc(sizeof(char), ft_strlen(cmd[i] + 1));
+				token->value[j] = ft_strdup(cmd[i]);
 				token->value[j] = cmd[i];
 				j++;
 				i++;
 				flg = 1;
 			}
 		}
-//	verificar sem funcao de aspas e ver como o rpogrmam se comporta
-
+		token->value[j] = NULL;
 		if(cmd[i] == NULL)
 					break ;
 		if(flg)
@@ -201,46 +190,19 @@ void	get_tokens(char *arg)
 		}
 		i++;
 	}
-
 	t_token *temp = token;
-	// while(temp)
-	// {
-	// 	i = 0;
-	// 	if (!temp->value)
-	// 	{
-	// 		printf("temp->value is NULL.\n");
-	// 		// break; // ou continue, dependendo da lógica.
-	// 	}
-	// 	while(temp->value[i])
-	// 	{
-			
-	// 		printf("token value -> %s \n", temp->value[i]);
-	// 		i++;
-	// 	}
-	// 	printf("token name -> %s\ntoken type -> %d\n",temp->name, temp->type);
-	// 	if (!temp->next)
-	// 	{
-   	// 		 printf("Reached end of list or temp->next is NULL.\n");
-   	// 		 break;
-	// 	}
-	// 	temp = temp->next;
-	// }
-	while(temp)
+	while (temp)
 	{
+		printf("token name -> %s\n", temp->name);
 		if (temp->value != NULL)
 		{
- 		   i = 0;
- 	  	 while (temp->value[i] != NULL)
-  		  {
-  		      printf("token value -> %s\n", temp->value[i]);
-  	 	     i++;
-  		  }
+			int j = 0;
+			while (temp->value[j])
+			{
+				printf("token value -> %s\n", temp->value[j]);
+				j++;
+			}
 		}
-		else
-		{
- 		   printf("temp->value is NULL\n");
-		}
-		printf("token name -> %s\ntoken type -> %d\n",temp->name, temp->type);
-		temp = temp->next;
+	temp = temp->next;
 	}
 }
