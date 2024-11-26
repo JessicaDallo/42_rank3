@@ -148,19 +148,19 @@ void	get_tokens(char *arg)
 	if(!cmd) 
 		return ;
 	cmd = find_cmd(arg, cmd);
-	i = 0;
-	while(cmd[i])
-	{
+	//print se split foi feito corretamente 
+	// i = 0;
+	// while(cmd[i])
+	// {
 	
-		printf("%s ->array\n",cmd[i]);
-		i++;
-	}
-//	verificar sem funcao de aspas e ver como o rpogrmam se comporta
-
+	// 	printf("%s ->array\n",cmd[i]);
+	// 	i++;
+	// }
 	i = 0;
 	int	flg = 0;
 	int j = 0;
 	token = NULL;
+	//cria a lista de tokens
 	while (cmd[i])
 	{
 		type = get_type(cmd[i]);
@@ -170,6 +170,7 @@ void	get_tokens(char *arg)
 		if(ft_strcmp(cmd[i], "export") == 0)
 		{
 			i++;
+			//adiciona array token->value
 			handle_value(cmd, &token);
 			while(!is_delimiter(cmd[i]))
 			{
@@ -190,19 +191,20 @@ void	get_tokens(char *arg)
 		}
 		i++;
 	}
-	t_token *temp = token;
-	while (temp)
-	{
-		printf("token name -> %s\n", temp->name);
-		if (temp->value != NULL)
-		{
-			int j = 0;
-			while (temp->value[j])
-			{
-				printf("token value -> %s\n", temp->value[j]);
-				j++;
-			}
-		}
-	temp = temp->next;
-	}
+	//print se tokens foi feito corretamente.
+	// t_token *temp = token;
+	// while (temp)
+	// {
+	// 	printf("token name -> %s\n", temp->name);
+	// 	if (temp->value != NULL)
+	// 	{
+	// 		int j = 0;
+	// 		while (temp->value[j])
+	// 		{
+	// 			printf("token value -> %s\n", temp->value[j]);
+	// 			j++;
+	// 		}
+	// 	}
+	// temp = temp->next;
+	// }
 }
