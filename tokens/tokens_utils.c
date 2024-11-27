@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens.c                                           :+:      :+:    :+:   */
+/*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 15:33:08 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 15:33:08 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/27 09:49:43 by jesilva-          #+#    #+#             */
+/*   Updated: 2024/11/27 09:49:47 by jesilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,44 +41,6 @@ void  handle_value(char **arg, t_token **token)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void	ft_print_tokens(t_token *token)
-{
-	t_token *temp = token;
-		while (temp)
-		{
-			printf("token name -> %s\n", temp->name);
-			if (temp->value != NULL)
-			{
-				int j = 0;
-				while (temp->value[j])
-				{
-					printf("token value -> %s\n", temp->value[j]);
-					j++;
-				}
-			}
-		temp = temp->next;
-		}
-}
 
 
 void	ft_print_array(char **cmd)

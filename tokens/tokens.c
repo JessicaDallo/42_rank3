@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 15:33:08 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 15:33:08 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/27 09:49:28 by jesilva-          #+#    #+#             */
+/*   Updated: 2024/11/27 09:49:32 by jesilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,7 @@ void	get_tokens(char *arg)
 		return ;
 	cmd = find_cmd(arg, cmd);
 	//print se split foi feito corretamente 
-	// i = 0;
-	// while(cmd[i])
-	// {
-	
-	// 	printf("%s ->array\n",cmd[i]);
-	// 	i++;
-	// }
+	ft_print_array(cmd);
 	i = 0;
 	int	flg = 0;
 	int j = 0;
@@ -184,9 +178,9 @@ void	get_tokens(char *arg)
 				j++;
 				i++;
 				flg = 1;
+				token->value[j] = NULL;
 			}
 		}
-		token->value[j] = NULL;
 		if(cmd[i] == NULL)
 					break ;
 		if(flg)
@@ -197,19 +191,20 @@ void	get_tokens(char *arg)
 		i++;
 	}
 	//print se tokens foi feito corretamente.
-	// t_token *temp = token;
-	// while (temp)
-	// {
-	// 	printf("token name -> %s\n", temp->name);
-	// 	if (temp->value != NULL)
-	// 	{
-	// 		int j = 0;
-	// 		while (temp->value[j])
-	// 		{
-	// 			printf("token value -> %s\n", temp->value[j]);
-	// 			j++;
-	// 		}
-	// 	}
-	// temp = temp->next;
-	// }
+	t_token *temp = token;
+		while (temp)
+		{
+			printf("token name -> %s\n", temp->name);
+			if (temp->value != NULL)
+			{
+				int j = 0;
+				while (temp->value[j])
+				{
+					printf("token value -> %s\n", temp->value[j]);
+					j++;
+				}
+			}
+		temp = temp->next;
+		}
 }
+

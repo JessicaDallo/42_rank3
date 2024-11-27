@@ -142,9 +142,8 @@ bool	delimiter(char **arg);
 bool	is_delimiter(char *arg);
 t_token	*create_token(char *arg, token_type type);
 
-//void	ft_print_tokens(t_token *token);
-//void	ft_print_array(char **cmd);
-
+void	ft_print_tokens(t_token *token);
+void	ft_print_array(char **cmd);
 
 
 #endif
