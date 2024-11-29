@@ -43,21 +43,22 @@ t_token *create_token(char *arg, token_type type)
 	return (new_token);
 }
 
-void add_token(t_token **token, char *arg, token_type type)
+t_token *add_token(t_token **token, char *arg, token_type type)
 {
 	t_token *temp;
 	t_token *new_token;
 
 	new_token = create_token(arg, type);
 	if(!new_token)
-		return ;
+		return NULL;
 	if(*token == NULL)
 	{
 		*token = new_token;
-		return ;
+		return *token;
 	}
 	temp = *token;
 	while(temp->next != NULL)
 		temp = temp->next;
 	temp->next = new_token;
+	return(temp);
 }

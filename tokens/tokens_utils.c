@@ -28,9 +28,9 @@ int len_array(char **arg)
 }
 
 //faz o malloc na estrutura token->value
-void  handle_value(char **arg, t_token **token)
+void  handle_value(char **arg, t_token **token, char *str)
 {
-	while(ft_strcmp(*arg, "export") == 1)
+	while(ft_strcmp(*arg, str) == 1)
 		arg++;
 	arg++;
 	printf("%s -> handle value\n", *arg);

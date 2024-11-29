@@ -131,8 +131,8 @@ bool	val_red_in(char **arg, int was_cmd);
 /*------------------------------------ TOKENS -------------------------------------*/
 void	get_tokens(char *arg);
 void	quote_pointer(char **arg, char c);
-void	add_token(t_token **token, char *arg,  token_type type);
-void	handle_value(char **arg, t_token **token);
+t_token	*add_token(t_token **token, char *arg,  token_type type);
+void	handle_value(char **arg, t_token **token, char *str);
 int		ft_count_words(char *arg, char c);
 int		quote_count(char *arg, char c);
 int		get_type(char *cmd);
@@ -142,8 +142,8 @@ bool	delimiter(char **arg);
 bool	is_delimiter(char *arg);
 t_token	*create_token(char *arg, token_type type);
 
-void	ft_print_tokens(t_token *token);
 void	ft_print_array(char **cmd);
+
 
 
 #endif

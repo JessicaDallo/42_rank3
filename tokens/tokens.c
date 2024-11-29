@@ -139,10 +139,12 @@ int	ft_count_words(char *arg, char c)
 	return (i);
 }
 
+
 void	get_tokens(char *arg)
 {
 	token_type type;
 	t_token *token;
+	t_token *temp;
 	char **cmd;
 	int len_token;
 	int	i;
@@ -165,20 +167,19 @@ void	get_tokens(char *arg)
 		type = get_type(cmd[i]);
 		if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
 			i++;
-		add_token(&token, cmd[i], type);
-		if(ft_strcmp(cmd[i], "export") == 0)
+		temp = add_token(&token, cmd[i], type);
+		if(type == CMD)
 		{
 			i++;
 			//adiciona array token->value
-			handle_value(cmd, &token);
+			handle_value(cmd, &temp, cmd[i]);
 			while(!is_delimiter(cmd[i]))
 			{
-				token->value[j] = ft_strdup(cmd[i]);
-				token->value[j] = cmd[i];
+				temp->value[j] = ft_strdup(cmd[i]);
 				j++;
 				i++;
 				flg = 1;
-				token->value[j] = NULL;
+				temp->value[j] = NULL;
 			}
 		}
 		if(cmd[i] == NULL)
@@ -186,12 +187,13 @@ void	get_tokens(char *arg)
 		if(flg)
 		{
 			flg = 0;
+			j = 0;
 			continue ;
 		}
 		i++;
 	}
 	//print se tokens foi feito corretamente.
-	t_token *temp = token;
+	temp = token;
 		while (temp)
 		{
 			printf("token name -> %s\n", temp->name);
