@@ -162,27 +162,29 @@ void	get_tokens(char *arg)
 	int j = 0;
 	token = NULL;
 	//cria a lista de tokens
-	while (cmd[i])
+	while (*cmd)
 	{
-		type = get_type(cmd[i]);
-		if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
-			i++;
-		temp = add_token(&token, cmd[i], type);
+		type = get_type(*cmd);
+		if (ft_strcmp(*cmd, "<") == 0 || ft_strcmp(*cmd, ">") == 0 || ft_strcmp(*cmd, "<<") == 0 || ft_strcmp(*cmd, ">>") == 0)
+			cmd++;
+		temp = add_token(&token, *cmd, type);
 		if(type == CMD)
 		{
-			i++;
+			cmd++;
 			//adiciona array token->value
-			handle_value(cmd, &temp, cmd[i]);
+			//AGORA VOCE VAI TESTAR TRABALHAR COM O CMD COMO PONTEIRO NÃO COM ITERADOR 
+			//TALVEZ APENAS TALVEZ FUNCIONE  
+			handle_value(cmd, &temp, *cmd);
 			while(!is_delimiter(cmd[i]))
 			{
-				temp->value[j] = ft_strdup(cmd[i]);
+				temp->value[j] = ft_strdup(*cmd);
 				j++;
-				i++;
+				cmd++;
 				flg = 1;
 				temp->value[j] = NULL;
 			}
 		}
-		if(cmd[i] == NULL)
+		if(*cmd == NULL)
 					break ;
 		if(flg)
 		{
@@ -190,7 +192,7 @@ void	get_tokens(char *arg)
 			j = 0;
 			continue ;
 		}
-		i++;
+		cmd++;
 	}
 	//print se tokens foi feito corretamente.
 	temp = token;
