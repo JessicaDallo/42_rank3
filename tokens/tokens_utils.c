@@ -14,7 +14,7 @@
 
 bool is_delimiter(char *arg)
 {
-	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<") == 0 || !arg)
+	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, ">") == 0 || !arg)
 		return (true);
 	return (false);
 }
@@ -32,7 +32,6 @@ void  handle_value(char **arg, t_token **token, char *str)
 {
 	while(ft_strcmp(*arg, str) == 1)
 		arg++;
-	arg++;
 	printf("%s -> handle value\n", *arg);
 	int len = len_array(arg);
 	printf("%d LEN HANDLE\n",len);

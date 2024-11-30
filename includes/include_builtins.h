@@ -20,11 +20,11 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <linux/limits.h>
+//#include <linux/limits.h>
 #include <fcntl.h>
 #include <stdbool.h> 
 #include <signal.h>
-#include <wait.h>
+//#include <wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 

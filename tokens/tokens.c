@@ -14,7 +14,7 @@
 
 char	**find_cmd(char *arg, char **cmd)
 {
-	static int init = 0;
+	int init = 0;
 	int	i;
 	int	j;
 
@@ -129,7 +129,7 @@ int	ft_count_words(char *arg, char c)
 		}
 		else if (delimiter(&arg))
 		{
-			if (*arg == '|')
+		//	if (*arg == '|')
 				i++;
 			was_cmd = 0;
 		}
@@ -147,7 +147,7 @@ void	get_tokens(char *arg)
 	t_token *temp;
 	char **cmd;
 	int len_token;
-	int	i;
+//	int	i;
 
 	len_token = 0;
 	len_token = ft_count_words(arg, ' ');
@@ -157,7 +157,7 @@ void	get_tokens(char *arg)
 	cmd = find_cmd(arg, cmd);
 	//print se split foi feito corretamente 
 	ft_print_array(cmd);
-	i = 0;
+	//i = 0;
 	int	flg = 0;
 	int j = 0;
 	token = NULL;
@@ -168,25 +168,29 @@ void	get_tokens(char *arg)
 		if (ft_strcmp(*cmd, "<") == 0 || ft_strcmp(*cmd, ">") == 0 || ft_strcmp(*cmd, "<<") == 0 || ft_strcmp(*cmd, ">>") == 0)
 			cmd++;
 		temp = add_token(&token, *cmd, type);
+		if(type == PIPE)
+		{
+			cmd++;
+			continue;
+		}
 		if(type == CMD)
 		{
 			cmd++;
-			//adiciona array token->value
-			//AGORA VOCE VAI TESTAR TRABALHAR COM O CMD COMO PONTEIRO NÃO COM ITERADOR 
-			//TALVEZ APENAS TALVEZ FUNCIONE  
+			//adiciona array token->value 
 			handle_value(cmd, &temp, *cmd);
-			while(!is_delimiter(cmd[i]))
+			while(!is_delimiter(*cmd))
 			{
 				temp->value[j] = ft_strdup(*cmd);
 				j++;
 				cmd++;
 				flg = 1;
-				temp->value[j] = NULL;
+				//temp->value[j] = NULL;
 			}
+		temp->value[j] = NULL;
 		}
 		if(*cmd == NULL)
 					break ;
-		if(flg)
+		if(flg || is_delimiter(*cmd))
 		{
 			flg = 0;
 			j = 0;
@@ -199,6 +203,7 @@ void	get_tokens(char *arg)
 		while (temp)
 		{
 			printf("token name -> %s\n", temp->name);
+			printf("token type -> %d\n", temp->type);
 			if (temp->value != NULL)
 			{
 				int j = 0;
