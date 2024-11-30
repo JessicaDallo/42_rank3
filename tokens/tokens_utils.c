@@ -32,9 +32,9 @@ void  handle_value(char **arg, t_token **token, char *str)
 {
 	while(ft_strcmp(*arg, str) == 1)
 		arg++;
-	printf("%s -> handle value\n", *arg);
+	//printf("%s -> handle value\n", *arg);
 	int len = len_array(arg);
-	printf("%d LEN HANDLE\n",len);
+	//printf("%d LEN HANDLE\n",len);
 	if ((*token)->value == NULL)
 		(*token)->value = ft_calloc(sizeof(char *), len);
 }

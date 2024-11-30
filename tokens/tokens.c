@@ -147,7 +147,6 @@ void	get_tokens(char *arg)
 	t_token *temp;
 	char **cmd;
 	int len_token;
-//	int	i;
 
 	len_token = 0;
 	len_token = ft_count_words(arg, ' ');
@@ -156,8 +155,7 @@ void	get_tokens(char *arg)
 		return ;
 	cmd = find_cmd(arg, cmd);
 	//print se split foi feito corretamente 
-	ft_print_array(cmd);
-	//i = 0;
+	//ft_print_array(cmd);
 	int	flg = 0;
 	int j = 0;
 	token = NULL;
@@ -184,7 +182,6 @@ void	get_tokens(char *arg)
 				j++;
 				cmd++;
 				flg = 1;
-				//temp->value[j] = NULL;
 			}
 		temp->value[j] = NULL;
 		}
@@ -199,21 +196,21 @@ void	get_tokens(char *arg)
 		cmd++;
 	}
 	//print se tokens foi feito corretamente.
-	temp = token;
-		while (temp)
-		{
-			printf("token name -> %s\n", temp->name);
-			printf("token type -> %d\n", temp->type);
-			if (temp->value != NULL)
-			{
-				int j = 0;
-				while (temp->value[j])
-				{
-					printf("token value -> %s\n", temp->value[j]);
-					j++;
-				}
-			}
-		temp = temp->next;
-		}
+	// temp = token;
+	// 	while (temp)
+	// 	{
+	// 		printf("token name -> %s\n", temp->name);
+	// 		printf("token type -> %d\n", temp->type);
+	// 		if (temp->value != NULL)
+	// 		{
+	// 			int j = 0;
+	// 			while (temp->value[j])
+	// 			{
+	// 				printf("token value -> %s\n", temp->value[j]);
+	// 				j++;
+	// 			}
+	// 		}
+	// 	temp = temp->next;
+	// 	}
 }
 
