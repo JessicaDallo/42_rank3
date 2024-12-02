@@ -133,7 +133,7 @@ int	ft_count_words(char *arg, char c)
 	return (i);
 }
 
-void	get_tokens(char *arg)
+void	get_tokens(char *arg, t_minishell *mshell)
 {
 	t_token *token;
 	char **cmd;
@@ -157,10 +157,13 @@ void	get_tokens(char *arg)
 		add_token(&token, cmd[i], type);
 		i++;
 	}
-	t_token *temp = token;
-	while(temp)
-	{
-		printf("token value -> %s\n tokentype -> %d\n",temp->value, temp->type);
-		temp = temp->next;
-	}
+	mshell->tokens = malloc(sizeof(t_token));
+	mshell->tokens = token;
+	//t_token *temp = token;
+	//i = 0;
+	//while(temp)
+	//{
+	//	printf("token value -> %s\n tokentype -> %d\n",temp->value[i++], temp->type);
+	//	temp = temp->next;
+	//}
 }

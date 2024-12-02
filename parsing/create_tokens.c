@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
 
 int	get_type(char *cmd)
 {
@@ -35,9 +35,9 @@ t_token *create_token(char *arg, token_type type)
 	new_token = calloc(1, sizeof(t_token));
 	if(!new_token)
 		return (NULL);
-	//type = get_type(arg, flg_red);
 	new_token->type = type;
-	new_token->value = ft_strdup(arg);
+	new_token->name = ft_strdup(arg);
+	new_token->value = NULL;
 	new_token->next = NULL;
 
 	return (new_token);
@@ -61,18 +61,3 @@ void add_token(t_token **token, char *arg, token_type type)
 		temp = temp->next;
 	temp->next = new_token;
 }
-
-// void free_token(t_token *token)
-// {
-// 	t_token *temp;
-
-// 	if(!token)
-// 		return ;
-// 	while(temp)
-// 	{
-// 		temp = head;
-// 		head = head->next;
-// 		free(temp->value);
-// 		free(temp);
-// 	}
-// }

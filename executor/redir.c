@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 22:11:06 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/14 15:32:15 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/26 16:05:53 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/include_builtins.h"
+#include "include_builtins.h"
 
 void	redir_input(char *file)
 {

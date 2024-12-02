@@ -6,14 +6,14 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/14 15:07:49 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/01 14:06:29 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
 
-int	is_num(char *str)
+/*int	is_num(char *str)
 {
     if(!str)
         return (0);
@@ -32,22 +32,22 @@ int	is_num(char *str)
 int	get_exit(t_minishell *mshell)
 {
 	mshell->e_code = 0;
-	if (mshell->cmd->line[1] && mshell->cmd->line[2] != NULL)
+	if (mshell->token->value[0] != NULL)
 	{
 		error_msg("exit", "too many arguments\n");
 		return(mshell->e_code = 1);
 	}
-    else if (mshell->cmd->line[1] && !is_num(mshell->cmd->line[1]))
+    else if (!is_num(mshell->token->value[0]))
 	{
 		error_msg("exit", "numeric argument required");
 		exit((mshell->e_code = 2));
 	}
-	else if (mshell->cmd->line[1])
+	else if (mshell->token->value[0])
     {
-        if (is_num(mshell->cmd->line[1]) < 0)
-			mshell->e_code = 256 + ft_atoi(mshell->cmd->line[1]);
+        if (is_num(mshell->token->value[0]) < 0)
+			mshell->e_code = 256 + ft_atoi(mshell->token->value[0]);
 		else
-			mshell->e_code = ft_atoi(mshell->cmd->line[1]) % 256;
+			mshell->e_code = ft_atoi(mshell->token->value[0]) % 256;
 		exit(mshell->e_code);
     }
     else
@@ -65,7 +65,7 @@ void	ft_exit(t_minishell *mshell)
 	clear_mshell(mshell);
 	exit(exit_code);
 	
-}
+}*/
 
 /*int	main(int ac, char **av)
 {
@@ -73,7 +73,7 @@ void	ft_exit(t_minishell *mshell)
 	{
 		t_minishell	mshell;
 		ft_bzero(&mshell, sizeof(mshell));
-		mshell.cmd->line = av +1;
+		mshell.token->line = av +1;
 		ft_exit(&mshell);
 	}
 	return(0);

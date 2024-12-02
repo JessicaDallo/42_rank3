@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:34:50 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 16:40:57 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/01 19:43:28 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stddef.h>
 # include <stdarg.h>
 # include <fcntl.h>
+#include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

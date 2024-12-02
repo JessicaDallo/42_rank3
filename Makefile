@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/11/22 13:29:21 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/01 14:06:01 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,14 @@ LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
 BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
-EXPANSIONS = expansions.c quotes.c
+SYNTAX = expansions.c quotes.c signal.c
 #REDIRECTS =
+EXEC = redir.c here_doc.c execve.c test.c exec_cmd.c
 ERROR = error.c free.c
-PARSING = validate.c tokens.c create_list.c ft_free.c 
+PARSING = validate.c tokens.c create_tokens.c val_delimiters.c tokens_utils.c
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix parsing/, $(PARSING)) main.c
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX))  $(addprefix error/, $(ERROR)) $(addprefix parsing/, $(PARSING)) \
+		$(addprefix executor/, $(EXEC)) main_sheila.c
 OBJS = ${SRC:.c=.o}
 
 %.o : %.c

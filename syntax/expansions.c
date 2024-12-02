@@ -3,45 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/22 16:43:44 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/02 17:42:25 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void	handle_expansions(t_minishell *mshell, char **line)
+void	handle_expansions(t_minishell *mshell, char **line, int flag)
 {
-	expand_exit(mshell, line);
+	expand_exit(mshell, line, flag);
 	//printf("Após expand_exit: %s\n", *line);
-	expand_var(mshell, line);
+	expand_var(mshell, line, flag);
 	//printf("Após expand_var: %s\n", *line);
 }
 
-char	*get_position(char *line)
+bool is_expand(char *delim)
+{
+	if (ft_strchr(delim, '\''))
+		return(false);
+	else if (ft_strchr(delim, '\"'))
+		return (false);
+	else
+	return(true);
+}
+
+char	*get_position(char *line, int flag)
 {
 	while (*line)
 	{
-		if (*line == '\'')
+		if(flag)
 		{
-			line++;
-			while (*line && *line != '\'')
-				line++;
-		}
-		if (*line == '\"')
-		{
-			line++;
-			while (*line && *line != '\"')
+			if (*line == '\'')
 			{
-				if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
-					return line;
 				line++;
+				while (*line && *line != '\'')
+					line++;
+			}
+			if (*line == '\"')
+			{
+				line++;
+				while (*line && *line != '\"')
+				{
+					if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
+						return (line);
+					line++;
+				}
 			}
 		}
 		if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
-			return line;
+			return (line);
 		line++;
 	}
 	return NULL;
@@ -62,28 +75,31 @@ void update_line(char **line, char *value, char *str)
 		temp = ft_strjoin(*line, value);
 	new_line = ft_strjoin(temp, str);
 	free(temp);
-	//free(*line);
+	free(*line);
 	*line = new_line;
 }
 
-char	*get_epos(char *line)
+char	*get_epos(char *line, int flag)
 {
 	while (*line)
 	{
-		if (*line == '\'')
+		if(flag)
 		{
-			line++;
-			while (*line && *line != '\'')
-				line++;
-		}
-		if (*line == '\"')
-		{
-			line++;
-			while (*line && *line != '\"')
+			if (*line == '\'')
 			{
-				if (*line == '$' && *(line + 1) == '?')
-					return line;
 				line++;
+				while (*line && *line != '\'')
+					line++;
+			}
+			if (*line == '\"')
+			{
+				line++;
+				while (*line && *line != '\"')
+				{
+					if (*line == '$' && *(line + 1) == '?')
+						return line;
+					line++;
+				}
 			}
 		}
 		if (*line == '$' && *(line + 1) == '?')
@@ -93,14 +109,14 @@ char	*get_epos(char *line)
 	return NULL;
 }
 
-void expand_exit(t_minishell *mshell, char **line)
+void expand_exit(t_minishell *mshell, char **line, int flag)
 {
     char 	*e_pos;
 	char	*new_line;
 	char	*temp;
 	char	*exit;
 		
-	e_pos = get_epos(*line);
+	e_pos = get_epos(*line, flag);
 	while (e_pos)
 	{
 		exit = ft_itoa(mshell->e_code);
@@ -109,18 +125,18 @@ void expand_exit(t_minishell *mshell, char **line)
         free(temp);
         free(*line);
         *line = new_line;
-		e_pos = get_epos(*line);
+		e_pos = get_epos(*line, flag);
     }
 }
 
-void expand_var(t_minishell *mshell, char **line)
+void expand_var(t_minishell *mshell, char **line, int flag)
 {
     char *var_pos;
     char *key;
     char *value;
     int len;
 
-    var_pos = get_position(*line);
+    var_pos = get_position(*line, flag);
     while (var_pos)
 	{
         len = 0;
@@ -131,11 +147,11 @@ void expand_var(t_minishell *mshell, char **line)
         value = get_value(mshell, key);
         update_line(line, value, var_pos + len + 1);
         free(key);
-        var_pos = get_position(*line);
+        var_pos = get_position(*line, flag);
     }
 }
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
@@ -143,7 +159,7 @@ int main(int argc, char **argv, char **envp)
     init_struct(&mshell, envp);
 
     char *line = strdup("");
-	char input[256];
+	char input[256] = "END";
     mshell.e_code = 127;
     if (!line)
 	{
@@ -170,4 +186,19 @@ int main(int argc, char **argv, char **envp)
     //free(line);
 	free(result);
     return EXIT_SUCCESS;
-}
+}*/
+
+// int main(int argc, char **argv, char **envp)
+// {
+//     (void)argc;
+//     (void)argv;
+//     t_minishell mshell;
+    
+//     //int i = 0;
+//     init_struct(&mshell, envp);
+//     char *teste = ft_strdup("DUPLA \"$USER\" - SIMPLES '$USER' - EXIT_CODE $? - SEM_ASPAS $USER - MIX \"\'$USER\'\"");
+    
+//     printf("\n--- Antes da expansao ---\n, %s\n", teste);
+//     handle_expansions(&mshell, &teste, 1);
+//     printf("\n--- Após o expansao ---\n, %s\n", teste);
+// }
