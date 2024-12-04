@@ -22,11 +22,12 @@ LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
 EXPANSIONS = expansions.c
 #REDIRECTS =
+SINTAX = sintax.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
 TOKENS = tokens.c create_tokens.c tokens_utils.c
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) $(addprefix sintax/, $(SINTAX)) main.c
 OBJS = ${SRC:.c=.o}
 
 %.o : %.c

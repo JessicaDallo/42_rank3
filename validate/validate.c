@@ -41,7 +41,9 @@ int	val_sintax(char *arg)
 		}
 		if(*arg != ' ')
 			was_cmd = 1;
-		arg++;
+		if(*arg != '\0')
+			arg++;
+		break ;
 	}
 	return (0);
 }
@@ -50,6 +52,9 @@ int validate(char **input)
 {
 	if(!*input)
 		return (1);
-	*input = eup_str(*input);
+	//*input = eup_str(*input);
+	printf("%s -> IMPUT\n", *input);
+	input = (input);
+	printf("%s -> IMPUT AFTER\n", *input);
 	return (val_sintax(*input));
 }

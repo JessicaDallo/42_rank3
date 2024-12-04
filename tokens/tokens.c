@@ -43,7 +43,7 @@ char	**find_cmd(char *arg, char **cmd)
 		else if(arg[i] == '"' || arg[i] == '\'')
 		{
 			i = i + quote_count(&arg[i], arg[i]);
-			if(*arg == ' ' || delimiter(&arg))
+			if(arg[i] == ' ' || delimiter(&arg) || arg[i] == '"' || arg[i] == '\'')
 			{
 				cmd[j++] = ft_strndup(&arg[init], i - init);
 				init = i;
@@ -118,7 +118,7 @@ int	ft_count_words(char *arg, char c)
 		if(*arg == '"' || *arg == '\'')
 		{
 			quote_pointer(&arg, *arg);
-			if(*arg == ' ' || delimiter(&arg))
+			if(*arg == ' ' || delimiter(&arg) || *arg == '"' || *arg == '\'')
 				i++;
 			arg++;
 		}
@@ -133,8 +133,9 @@ int	ft_count_words(char *arg, char c)
 				i++;
 			was_cmd = 0;
 		}
-		if (arg)
-			arg++;
+		if (*arg == '\0')
+			return i;
+		arg++;
 	}
 	return (i);
 }
@@ -155,7 +156,7 @@ void	get_tokens(char *arg)
 		return ;
 	cmd = find_cmd(arg, cmd);
 	//print se split foi feito corretamente 
-	//ft_print_array(cmd);
+	ft_print_array(cmd);
 	int	flg = 0;
 	int j = 0;
 	token = NULL;
@@ -171,10 +172,11 @@ void	get_tokens(char *arg)
 			cmd++;
 			continue;
 		}
-		if(type == CMD)
+		if(type == CMD || type == OUTPUT_REDIR)
 		{
 			cmd++;
-			//adiciona array token->value 
+			//adiciona array token->value s
+			//POSSIVEL ERRO NÃO VERIFICAR SE É DELIMITADOR ANTES DO MALLOC 
 			handle_value(cmd, &temp, *cmd);
 			while(!is_delimiter(*cmd))
 			{
@@ -187,7 +189,7 @@ void	get_tokens(char *arg)
 		}
 		if(*cmd == NULL)
 					break ;
-		if(flg || is_delimiter(*cmd))
+		if(flg && ft_strcmp(*cmd, "|") == 0)
 		{
 			flg = 0;
 			j = 0;
@@ -196,21 +198,21 @@ void	get_tokens(char *arg)
 		cmd++;
 	}
 	//print se tokens foi feito corretamente.
-	// temp = token;
-	// 	while (temp)
-	// 	{
-	// 		printf("token name -> %s\n", temp->name);
-	// 		printf("token type -> %d\n", temp->type);
-	// 		if (temp->value != NULL)
-	// 		{
-	// 			int j = 0;
-	// 			while (temp->value[j])
-	// 			{
-	// 				printf("token value -> %s\n", temp->value[j]);
-	// 				j++;
-	// 			}
-	// 		}
-	// 	temp = temp->next;
-	// 	}
+	temp = token;
+		while (temp)
+		{
+			printf("token name -> %s\n", temp->name);
+			printf("token type -> %d\n", temp->type);
+			if (temp->value != NULL)
+			{
+				int j = 0;
+				while (temp->value[j])
+				{
+					printf("token value -> %s\n", temp->value[j]);
+					j++;
+				}
+			}
+		temp = temp->next;
+		}
 }
 

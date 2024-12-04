@@ -117,6 +117,11 @@ void	error_msg(char *cmd, char *str);
 void	perror_msg(char *cmd, char *str);
 void	close_fds(void);
 
+/*------------------------------------- SINTAX -------------------------------------*/
+char    *handle_quotes(char *str, int s_quote, int d_quote);
+
+
+
 
 /*------------------------------------- JESSICA -------------------------------------*/
 
