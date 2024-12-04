@@ -41,16 +41,14 @@ typedef enum
 typedef struct	s_token
 {
 	token_type type;
-	char *name;
-	char **value;
+	char *input;
 	struct s_token *next;
 }	t_token;
 
+
 typedef	struct s_cmd
 {
-	char	*name;
-	char	**line;
-	char 	*path;
+	t_token *token;
 	int		pipe[2];
 	
 	struct s_cmd	*next;	
@@ -121,8 +119,6 @@ void	close_fds(void);
 char    *handle_quotes(char *str, int s_quote, int d_quote);
 
 
-
-
 /*------------------------------------- JESSICA -------------------------------------*/
 
 /*------------------------------------ VALIDATE -------------------------------------*/
@@ -134,18 +130,18 @@ bool	val_red(char **arg, int was_cmd);
 bool	val_red_in(char **arg, int was_cmd);
 
 /*------------------------------------ TOKENS -------------------------------------*/
-void	get_tokens(char *arg);
-void	quote_pointer(char **arg, char c);
-t_token	*add_token(t_token **token, char *arg,  token_type type);
-void	handle_value(char **arg, t_token **token, char *str);
-int		ft_count_words(char *arg, char c);
-int		quote_count(char *arg, char c);
-int		get_type(char *cmd);
-int		len_array(char **arg);
-char	**find_cmd(char *arg, char **cmd);
-bool	delimiter(char **arg);
-bool	is_delimiter(char *arg);
-t_token	*create_token(char *arg, token_type type);
+void	handle_imput(char *input);
+// void	quote_pointer(char **arg, char c);
+// t_token	*add_token(t_token **token, char *arg,  token_type type);
+// void	handle_value(char **arg, t_token **token, char *str);
+// int		ft_count_words(char *arg, char c);
+// int		quote_count(char *arg, char c);
+// int		get_type(char *cmd);
+// int		len_array(char **arg);
+// char	**find_cmd(char *arg, char **cmd);
+// bool	delimiter(char **arg);
+// bool	is_delimiter(char *arg);
+// t_token	*create_token(char *arg, token_type type);
 
 void	ft_print_array(char **cmd);
 

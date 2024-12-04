@@ -42,20 +42,20 @@ void	free_envlist(t_env *env)
 	}
 }
 
-void	free_cmd(t_cmd	*cmd)
-{
-	t_cmd	*aux;
+// void	free_cmd(t_cmd	*cmd)
+// {
+// 	t_cmd	*aux;
 	
-	while(cmd)
-	{
-		aux = cmd->next;
-		free(cmd->name);
-		free(cmd->path);
-		free_array(cmd->line);
-		free(cmd);
-		cmd = aux;
-	}
-}
+// 	while(cmd)
+// 	{
+// 		aux = cmd->next;
+// 		free(cmd->name);
+// 		free(cmd->path);
+// 		free_array(cmd->line);
+// 		free(cmd);
+// 		cmd = aux;
+// 	}
+// }
 
 void	clear_mshell(t_minishell *mshell)
 {
@@ -63,6 +63,6 @@ void	clear_mshell(t_minishell *mshell)
 		free_envlist(mshell->env);
 	if(mshell->envp)
 		free_array(mshell->envp);
-	if(mshell->cmd)
-		free_cmd(mshell->cmd);
+// 	if(mshell->cmd)
+// 		free_cmd(mshell->cmd);
 }

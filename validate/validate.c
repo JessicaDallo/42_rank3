@@ -52,9 +52,6 @@ int validate(char **input)
 {
 	if(!*input)
 		return (1);
-	//*input = eup_str(*input);
-	printf("%s -> IMPUT\n", *input);
-	input = (input);
-	printf("%s -> IMPUT AFTER\n", *input);
+	*input = eup_str(*input);
 	return (val_sintax(*input));
 }
