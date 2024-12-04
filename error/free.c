@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/01 14:07:12 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/04 17:57:22 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ void	free_envlist(t_env *env)
 	}
 }
 
-void	free_cmd(t_token *token)
-{
-	t_token	*aux;
+// void	free_cmd(t_token *token)
+// {
+// 	t_token	*aux;
 	
-	while(token)
-	{
-		aux = token->next;
-		free(token->name);
-		//free(token->type);
-		free_array(token->value);
-		free(token);
-		token = aux;
-	}
-}
+// 	while(token)
+// 	{
+// 		aux = token->next;
+// 		free(token->name);
+// 		//free(token->type);
+// 		free_array(token->value);
+// 		free(token);
+// 		token = aux;
+// 	}
+// }
 
 //void	clear_mshell(t_minishell *mshell)
 //{

@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/02 17:42:25 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:35:04 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	handle_expansions(t_minishell *mshell, char **line, int flag)
 	expand_exit(mshell, line, flag);
 	//printf("Após expand_exit: %s\n", *line);
 	expand_var(mshell, line, flag);
-	//printf("Após expand_var: %s\n", *line);
+	int i = 0;
+		while(line[i])
+			printf("Após expand_var: %s\n", line[i++]);
 }
 
 bool is_expand(char *delim)
@@ -188,17 +190,17 @@ void expand_var(t_minishell *mshell, char **line, int flag)
     return EXIT_SUCCESS;
 }*/
 
-// int main(int argc, char **argv, char **envp)
-// {
-//     (void)argc;
-//     (void)argv;
-//     t_minishell mshell;
+/*int main(int argc, char **argv, char **envp)
+{
+    (void)argc;
+    (void)argv;
+    t_minishell mshell;
     
-//     //int i = 0;
-//     init_struct(&mshell, envp);
-//     char *teste = ft_strdup("DUPLA \"$USER\" - SIMPLES '$USER' - EXIT_CODE $? - SEM_ASPAS $USER - MIX \"\'$USER\'\"");
+    //int i = 0;
+    init_struct(&mshell, envp);
+    char *teste = ft_strdup("DUPLA \"$USER\" - SIMPLES '$USER' - EXIT_CODE $? - SEM_ASPAS $USER - MIX \"\'$USER\'\"");
     
-//     printf("\n--- Antes da expansao ---\n, %s\n", teste);
-//     handle_expansions(&mshell, &teste, 1);
-//     printf("\n--- Após o expansao ---\n, %s\n", teste);
-// }
+    printf("\n--- Antes da expansao ---\n, %s\n", teste);
+    handle_expansions(&mshell, &teste, 1);
+    printf("\n--- Após o expansao ---\n, %s\n", teste);
+}*/

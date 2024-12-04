@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/03 17:30:21 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/04 13:32:51 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void    print_export(t_minishell *mshell)
 }
 
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
     t_minishell    mshell;
 
@@ -179,7 +179,7 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
         ft_export(&mshell, NULL);
     return 0;
-}
+}*/
 
 //int main(int argc, char **argv, char **envp)
 //{

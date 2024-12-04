@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/03 16:31:39 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/04 18:08:14 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,12 @@
 typedef enum
 {
 	CMD,       // Comando
-	PIPE,      // Pipe |
+	ARG,      // ARGumentos |
 	OUTPUT_REDIR, // Redirecionamento de saida > subscreve o arquivo inteiro 
 	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
 	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
 	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
 } token_type;
-
-
-typedef struct	s_token
-{
-	token_type type;
-	char	*name;
-	char	**value;
-	struct s_token *next;
-}	t_token;
 
 typedef	struct s_var
 {
@@ -57,12 +48,18 @@ typedef	struct s_var
 	
 }	t_var;
 
+typedef struct	s_token
+{
+	token_type type;
+	char	*input;
+	
+	struct s_token *next;
+}	t_token;
+
 typedef	struct s_cmd
 {
-	char	*cmd;
-	char	**input;
-	int		fd_in;
-	int		fd_out;
+	t_token	*tokens;
+	int		fd[2];
 	
 	struct s_cmd	*next;	
 }	t_cmd;
@@ -78,7 +75,6 @@ typedef	struct s_env
 typedef	struct s_minishell
 {
 	t_env	*env;
-	t_token	*tokens;
 	t_cmd	*commands;
 	
 	char	**envp;
@@ -109,7 +105,7 @@ void    print_export(t_minishell *mshell);
 void	ft_env_sorted(char **keys, int len);
 void    ft_cd(t_minishell *mshell, char *args);
 char	*go_path(char *env);
-int		is_builtin(t_minishell *mshell, t_token *token);
+int		is_builtin(t_minishell *mshell, t_cmd *commands);
 
 
 
@@ -158,10 +154,17 @@ void		run_execve(t_minishell *mshell, t_cmd *token);
 
 
 /*------------------------------------- REDIR -------------------------------------*/
-void		handle_redir(char *file, char *redir);
-void		redir_input(char *file);
-void		redir_output(char *file, char *redir);
-void		redir_error(char *file, char *redir);
+void	handle_redir(t_token *tokens);
+void    remove_redir(t_token *tokens);
+void	redir_append(char *file);
+void	redir_output(char *file);
+void	redir_input(char *file);
+
+
+
+t_token *cr_token(token_type type, const char *input);
+t_token *cr_sample_tokens();
+
 
 
 

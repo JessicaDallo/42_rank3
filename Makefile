@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
+#    By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/12/01 14:06:01 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/04 17:57:56 by shrodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ SYNTAX = expansions.c quotes.c signal.c
 #REDIRECTS =
 EXEC = redir.c here_doc.c execve.c test.c exec_cmd.c
 ERROR = error.c free.c
-PARSING = validate.c tokens.c create_tokens.c val_delimiters.c tokens_utils.c
+#PARSING = validate.c tokens.c create_tokens.c val_delimiters.c tokens_utils.c
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX))  $(addprefix error/, $(ERROR)) $(addprefix parsing/, $(PARSING)) \
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX))  $(addprefix error/, $(ERROR)) \
 		$(addprefix executor/, $(EXEC)) main_sheila.c
 OBJS = ${SRC:.c=.o}
 

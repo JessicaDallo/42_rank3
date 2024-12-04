@@ -1,0 +1,5 @@
+FIRST REMOVE:
+
+Depois de handle_redir (se remover os tokens):
+Token type: 0, input: echo
+Token type: 1, input: ola

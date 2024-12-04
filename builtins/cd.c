@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/23 17:58:45 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/04 18:05:40 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*go_path(char *env)
     return(path);
 }
 
-void    ft_cd(t_minishell *mshell, char *args)
+void    ft_cd(t_minishell *mshell, t_token *token)
 {
     char    *oldpwd;
     char    pwd[PATH_MAX];
@@ -38,15 +38,15 @@ void    ft_cd(t_minishell *mshell, char *args)
         perror("getcwd() error:");
         return;
     }
-    if (!args || (args[0] == '~'))
+    if (!token->input || (token->input[0] == '~'))
         path = go_path("HOME");
-    else if (args [0] == '-')
+    else if (token->input[0] == '-')
     {
         path = go_path("OLDPWD");
         ft_putstr_fd(path, STDOUT_FILENO);
     }
     else
-        path = args;
+        path = token->input;
     if(chdir(path) != 0)
         perror("cd");
     update_env(mshell, "OLDPWD",oldpwd);
