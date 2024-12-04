@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/02 17:42:17 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:36:50 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	here_doc(t_minishell *mshell, char *delim)
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	mshell->e_code = WEXITSTATUS(mshell->e_code);
+	free(end);
 }
 
 /*int main(int argc, char **argv, char **envp)

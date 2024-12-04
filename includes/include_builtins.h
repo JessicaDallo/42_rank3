@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/02 17:48:41 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:31:39 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct	s_token
 typedef	struct s_var
 {
 	int		i;
+	int		j;
 	bool	is_val;
 	char	*str;
 	char	c;
@@ -103,6 +104,9 @@ void    remove_env(t_minishell *mshell, char *key);
 void	ft_export(t_minishell *mshell, char **line);
 char    *get_value(t_minishell *mshell, char *key);
 void	update_env(t_minishell *mshell, char *key, char *value);
+void    ft_env_reorder(char **keys, t_env *env);
+void    print_export(t_minishell *mshell);
+void	ft_env_sorted(char **keys, int len);
 void    ft_cd(t_minishell *mshell, char *args);
 char	*go_path(char *env);
 int		is_builtin(t_minishell *mshell, t_token *token);

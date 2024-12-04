@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_sheila.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:31:29 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/02 17:39:57 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:51 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void creat_tokens(char *arg, t_minishell *mshell)
 }
 
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
     t_minishell *mshell;
 	
@@ -130,13 +130,13 @@ int main(int argc, char **argv, char **envp)
 		//if (validate(&input) > 0)
 			//continue;
 		//creat_tokens(input, mshell);
-		if(input[0] == '<' && input[1] == '<')
-		{
-			char *end = (input + 2);
-			here_doc(mshell, end);
-		}
+		//if(input[0] == '<' && input[1] == '<')
+		//{
+		//	char *end = (input + 2);
+		//	here_doc(mshell, end);
+		//}
 		//executable(mshell, mshell->commands);
 		//get_tokens(input);
 		//t_token **tokens = tokenize(const char *input)
 	}
-}
+}*/

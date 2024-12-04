@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/28 17:19:19 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/03 13:23:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int main(void) {
 //    return output;
 //}
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
     t_minishell *mshell;
 	
@@ -173,5 +173,5 @@ int main(int argc, char **argv, char **envp)
 		//get_tokens(input);
 		//t_token **tokens = tokenize(const char *input)
 	}
-}
+}*/
 

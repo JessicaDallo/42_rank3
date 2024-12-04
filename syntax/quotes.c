@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/02 15:34:20 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:04:28 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char *rm_space(char *str)
     while (++size < len) 
         process_char(str[size], result, aux);
     result[aux->i] = '\0';
-    return result;
+    return (result);
 }
 
 void    handle_input(char c, char **output)
@@ -136,6 +136,7 @@ char    *handle_quotes(char *str, int s_quote, int d_quote)
             //handle_input(temp[i], &output, s_quote, d_quote);
     }
     printf("\nOUT:%s\n", output);
+    free(temp);
     return(output);
 }
 

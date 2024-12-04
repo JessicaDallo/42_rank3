@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/11/09 18:09:59 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/03 20:09:35 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void    add_env(t_minishell *mshell, char *key, char *value)
         temp->next = new_node;
     }
     mshell->env_size++;
+    free_envlist(new_node);
 }
 
 void init_env(t_minishell *mshell)
@@ -71,6 +72,7 @@ void init_env(t_minishell *mshell)
         free(key);
         i++;
     }
+    free_array(mshell->envp);
 }
 
 void    init_struct(t_minishell *mshell, char **envp)
