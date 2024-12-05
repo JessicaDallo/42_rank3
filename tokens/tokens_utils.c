@@ -41,6 +41,20 @@
 // 		(*token)->value = ft_calloc(sizeof(char *), len);
 // }
 
+int	get_type(char *cmd)
+{
+	if(ft_strcmp(cmd, ">") == 0)
+		return OUTPUT_REDIR;
+	else if (ft_strcmp(cmd, ">>") == 0)
+		return APPEND_REDIR;
+	else if(ft_strcmp(cmd, "<") == 0)
+		return INPUT_REDIR;
+	else if(ft_strcmp(cmd, "<<") == 0)
+		return HEREDOC;
+	else 
+		return CMD;
+}
+
 void	ft_print_array(char **cmd)
 {
 	int i = 0;

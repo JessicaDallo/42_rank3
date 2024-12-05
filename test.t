@@ -1,1 +1,0 @@
-oque ola coisa chata

@@ -31,7 +31,7 @@
 typedef enum
 {
 	CMD,       // Comando
-	PIPE,      // Pipe |
+	ARG,      // Argumentos  dos comandos
 	OUTPUT_REDIR, // Redirecionamento de saida > subscreve o arquivo inteiro 
 	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
 	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
@@ -53,6 +53,7 @@ typedef	struct s_cmd
 	
 	struct s_cmd	*next;	
 }	t_cmd;
+
 
 typedef	struct s_env
 {
@@ -130,20 +131,24 @@ bool	val_red(char **arg, int was_cmd);
 bool	val_red_in(char **arg, int was_cmd);
 
 /*------------------------------------ TOKENS -------------------------------------*/
-void	handle_imput(char *input);
+t_token	*add_token(t_token **token, char *arg,  token_type type);
+t_token	*create_token(char *arg, token_type type);
+void	add_cmd(t_cmd **cmd, t_token **token);
+void	ft_print_array(char **cmd);
+void	handle_input(char *input);
+void	get_tokens(char **cmd);
+int		get_type(char *cmd);
+
+
 // void	quote_pointer(char **arg, char c);
-// t_token	*add_token(t_token **token, char *arg,  token_type type);
 // void	handle_value(char **arg, t_token **token, char *str);
 // int		ft_count_words(char *arg, char c);
 // int		quote_count(char *arg, char c);
-// int		get_type(char *cmd);
 // int		len_array(char **arg);
 // char	**find_cmd(char *arg, char **cmd);
 // bool	delimiter(char **arg);
 // bool	is_delimiter(char *arg);
-// t_token	*create_token(char *arg, token_type type);
 
-void	ft_print_array(char **cmd);
 
 
 

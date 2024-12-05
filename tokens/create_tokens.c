@@ -10,7 +10,7 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-// #include "../includes/include_builtins.h"
+#include "../includes/include_builtins.h"
 
 // int	get_type(char *cmd)
 // {
@@ -28,37 +28,57 @@
 // 		return CMD;
 // }
 
-// t_token *create_token(char *arg, token_type type)
-// {
-// 	t_token *new_token;
+t_token	*create_token(char *arg, token_type type)
+{
+	t_token	*new_token;
 
-// 	new_token = calloc(1, sizeof(t_token));
-// 	if(!new_token)
-// 		return (NULL);
-// 	new_token->type = type;
-// 	new_token->name = ft_strdup(arg);
-// 	new_token->value = NULL;
-// 	new_token->next = NULL;
+	new_token = calloc(1, sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->type = type;
+	new_token->input = ft_strdup(arg);
+	new_token->next = NULL;
 
-// 	return (new_token);
-// }
+	return (new_token);
+}
 
-// t_token *add_token(t_token **token, char *arg, token_type type)
-// {
-// 	t_token *temp;
-// 	t_token *new_token;
+t_token	*add_token(t_token **token, char *arg, token_type type)
+{
+	t_token	*temp;
+	t_token	*new_token;
 
-// 	new_token = create_token(arg, type);
-// 	if(!new_token)
-// 		return NULL;
-// 	if(*token == NULL)
-// 	{
-// 		*token = new_token;
-// 		return *token;
-// 	}
-// 	temp = *token;
-// 	while(temp->next != NULL)
-// 		temp = temp->next;
-// 	temp->next = new_token;
-// 	return(temp);
-// }
+	new_token = create_token(arg, type);
+	if (!new_token)
+		return (NULL);
+	if (*token == NULL)
+	{
+		*token = new_token;
+		return (*token);
+	}
+	temp = *token;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new_token;
+	return (temp);
+}
+
+void	add_cmd(t_cmd **cmd, t_token **token)
+{
+	t_cmd	*new_cmd;
+	t_cmd	*temp;
+
+	new_cmd = calloc(1, sizeof(t_cmd));
+	new_cmd->token = *token;
+	new_cmd->next = NULL;
+	if (!new_cmd)
+		return ;
+	if(*cmd == NULL)
+	{
+		*cmd = new_cmd;
+		return ;
+	}
+	temp = *cmd;
+	while(temp->next !=  NULL)
+		temp = temp->next;
+	temp->next = new_cmd;
+}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
 
 void	free_array(char **str) //env
 {

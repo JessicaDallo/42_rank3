@@ -161,7 +161,7 @@ int main ()
 		
 		if (validate(&input) > 0)
 			continue;
-		get_tokens(input);
+		handle_input(input);
 	}
 }
 
