@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/04 18:08:14 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:28:37 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef	struct s_minishell
 	t_cmd	*commands;
 	
 	char	**envp;
+	char	**str;
 	int		e_code;
 	int		env_size;
 	//pid_t	pid;
@@ -86,7 +87,8 @@ typedef	struct s_minishell
 
 
 /*------------------------------------- BUILTINS -------------------------------------*/
-int		ft_echo(t_minishell *mshell);
+//int		ft_echo(t_minishell *mshell);
+int		ft_echo(t_minishell *mshell, t_token *tokens);
 void    ft_env(t_env *env);
 void	init_struct(t_minishell *mshell, char **envp);
 void	init_env(t_minishell *mshell);
@@ -121,7 +123,8 @@ void		process_char(char current, char *result, t_var *aux);
 char		*rm_space(char *str);
 void		handle_input(char c, char **output);
 char		*handle_quotes(char *str, int s_quote, int d_quote);
-t_minishell	*get_shell(void);
+char	**convert_args(t_token *token);
+//t_minishell	*get_shell(void);
 
 
 /*------------------------------------- ERROR -------------------------------------*/

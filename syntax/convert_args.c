@@ -1,41 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   convert_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/05 17:02:16 by shrodrig         ###   ########.fr       */
+/*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
+/*   Updated: 2024/12/05 15:38:38 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-int ft_echo(t_minishell *mshell, t_token *token)
+int	ft_arraylen(t_token *token)
 {
-    int     newline = 1;
-    char    *temp;
-    
-    token = token->next;
-    if (token->input && ft_strncmp(token->input, "-n", 3) == 0)
+	int i;
+
+	i = 0;
+	while (token)
 	{
-        newline = 0;
+		if (token->type == CMD || token->type == ARG)
+			i++;
+		token = token->next;
+	}
+	return (i);
+}
+
+char	**convert_args(t_token *token)
+{
+    char	**temp;
+    int 	i;
+    int		len;
+
+    len = ft_arraylen(token);    
+    temp = (char **)malloc(sizeof(char *) * (len + 1));
+    if (!temp)
+        return (NULL);
+    i = 0;
+    while (token)
+    {
+		if(token->type == CMD || token->type == ARG)
+		{
+			temp[i] = strdup(token->input);
+        	if (!temp[i])
+        	{
+           		free_array(temp);
+            	return (NULL);
+        	}
+			i++;
+		}
         token = token->next;
     }
-    while(token) 
-	{   
-        handle_expansions(mshell, &token->input, 1);
-        temp = handle_quotes(token->input, 0, 0);
-        ft_putstr_fd(temp, STDOUT_FILENO);
-        if (token->next)
-			ft_putstr_fd(" ", STDOUT_FILENO);
-        free(temp);
-		token = token->next;
+    temp[i] = NULL;
+	i = 0;
+	while (temp[i])
+    {
+        printf("ARG: %s\n", temp[i]);
+        i++;
     }
-    if (newline)
-	    ft_putstr_fd("\n", STDOUT_FILENO);
-    return (0);
+    return (temp);
 }
 
 /*t_token *cr_token(token_type type, const char *input)
@@ -51,11 +74,11 @@ int ft_echo(t_minishell *mshell, t_token *token)
 
 t_token *cr_sample_tokens()
 {
-    t_token *token1 = cr_token(CMD, "echo");
-	t_token *token2 = cr_token(ARG, "ola");
+    t_token *token1 = cr_token(token, "echo");
+	t_token *token2 = cr_token(HEREDOC, "ola");
     t_token *token3 = cr_token(ARG, "\"\'$USER\'\"");
     t_token *token4 = cr_token(ARG, " \"   bom   \"");
-    t_token *token5 = cr_token(ARG, "dia      ?");
+    t_token *token5 = cr_token(INPUT_REDIR, "dia      ?");
 	t_token *token6 = cr_token(ARG, "\' \"$PWD\" \'");
 
     // Conecte os tokens
@@ -73,30 +96,31 @@ int main(int argc, char **argv, char **envp)
     (void)argc;
     (void)argv;
     t_minishell mshell;
+	char **args;
+	int i = 0;
     
     init_struct(&mshell, envp);
     
     t_token *tokens = cr_sample_tokens();
 
-    printf("Antes de echo:\n");
+    printf("Antes de converter:\n");
     t_token *temp = tokens;
     while (temp)
     {
         printf("Token type: %d, input: %s\n", temp->type, temp->input);
         temp = temp->next;
     }
-    ft_echo(&mshell, tokens);
+
+    args = convert_args(tokens);
+
+    printf("\nDepois de converter\n");
+
+    while (args[i])
+    {
+        printf("ARG: %s\n", args[i]);
+        i++;
+    }
     return 0;
 }*/
 
-/*int main(int argc, char **line)
-{
-	(void)argc;
-    t_minishell mshell;
-    ft_bzero(&mshell, sizeof(mshell));
-    line++;
-	mshell.line = line;
-    ft_echo(&mshell);
-	return(0);
-}*/
 

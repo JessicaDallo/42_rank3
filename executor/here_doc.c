@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/03 16:36:50 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/05 15:59:54 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-pid_t	creat_pid(t_minishell *mshell)
+/*pid_t	creat_pid(t_minishell *mshell)
 {
 	pid_t	child;
 	
@@ -74,7 +74,7 @@ void	here_doc(t_minishell *mshell, char *delim)
 				break ;
 			}
 			if(is_expand(delim))
-				handle_expansions(mshell, &line, 0);
+				handle_expansions(mshell, &line, 1);
 			ft_putendl_fd(line, fd_here);
 			free(line);
 		}
@@ -83,7 +83,7 @@ void	here_doc(t_minishell *mshell, char *delim)
 	waitpid(pid, &mshell->e_code, 0);
 	mshell->e_code = WEXITSTATUS(mshell->e_code);
 	free(end);
-}
+}*/
 
 /*int main(int argc, char **argv, char **envp)
 {

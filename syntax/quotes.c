@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/04 12:58:21 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:49:54 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ char *rm_space(char *str)
     aux = malloc(sizeof(t_var));
     aux->is_val = false;
     aux->c = '\0';
+    aux->i = 0;
     size = -1;
     while (++size < len) 
         process_char(str[size], result, aux);
     result[aux->i] = '\0';
+    free(aux);
     return (result);
 }
 
@@ -122,6 +124,11 @@ char    *handle_quotes(char *str, int s_quote, int d_quote)
     if (!output || !temp)
        return NULL;
     temp = rm_space(str);
+    if(!temp)
+    {
+        free(output);
+        return NULL;
+    }
    //printf("\nREMOVE:%s\n", temp);
     //printf("\nBEFORE_OUT:%s\n", output);
     len = (int)ft_strlen(temp);
@@ -136,7 +143,7 @@ char    *handle_quotes(char *str, int s_quote, int d_quote)
             //handle_input(temp[i], &output, s_quote, d_quote);
     }
     //printf("\nOUT:%s\n", output);
-    //free(temp);
+    free(temp);
     return(output);
 }
 

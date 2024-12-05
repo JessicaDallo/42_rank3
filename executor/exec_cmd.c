@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/01 16:28:49 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/05 14:44:45 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-/*void	exec_cmd(t_minishell *mshell, t_cmd *token)
+/*void	exec_cmd(t_minishell *mshell, t_cmd *command)
 {
-        
+	char	**args;
+    handle_redir(command->tokens);
+	convert_arg(command->tokens);
 	//if(is_builtin(mshell, token))
 	//	return;
 	//else
 		executable(mshell, token);
+	free_array(args);
 	return;
 }
 

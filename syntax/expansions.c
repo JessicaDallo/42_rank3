@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/04 13:35:04 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:51 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	handle_expansions(t_minishell *mshell, char **line, int flag)
 	expand_exit(mshell, line, flag);
 	//printf("Após expand_exit: %s\n", *line);
 	expand_var(mshell, line, flag);
-	int i = 0;
-		while(line[i])
-			printf("Após expand_var: %s\n", line[i++]);
+	//printf("Após expand_var: %s\n", *line);
 }
 
 bool is_expand(char *delim)
