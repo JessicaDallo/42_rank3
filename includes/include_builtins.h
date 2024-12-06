@@ -131,9 +131,10 @@ bool	val_red(char **arg, int was_cmd);
 bool	val_red_in(char **arg, int was_cmd);
 
 /*------------------------------------ TOKENS -------------------------------------*/
-t_token	*add_token(t_token **token, char *arg,  token_type type);
+//t_token	*add_token(t_token **token, char *arg,  token_type type);
 t_token	*create_token(char *arg, token_type type);
-void	add_cmd(t_cmd **cmd, t_token **token);
+void	*add_token(t_cmd **cmd, char *arg, token_type type);
+void	add_cmd(t_cmd **cmd);
 void	ft_print_array(char **cmd);
 void	handle_input(char *input);
 void	get_tokens(char **cmd);

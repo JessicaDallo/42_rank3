@@ -25,24 +25,25 @@ void get_tokens(char **h_input)
 
 	token = NULL;
 	cmd = NULL;
+	cur_cmd = NULL;
 	while(*h_input)
 	{
+		add_cmd(&cmd);
 		i = 0;
-		add_cmd(&cmd, &token);
 		if (!cur_cmd) 
 			cur_cmd = cmd;
 		temp = ft_split(*h_input, ' ');
 		while(temp[i])
-
 		{
 			type = get_type(temp[i]);
-			add_token(&cmd->token, temp[i], type);
+			//aqui ele nao esta indo para o procimo cmd
+			add_token(&cmd, temp[i], type);
 			i++;
 		}
 		ft_print_array(temp);
 		free_array(temp);
 		h_input++;
-		cmd = cmd->next;
+		//cmd = cmd->next;
 	}
 	printf("teste");
 	//REMOVER É APENAS PARA TESTAR 
@@ -62,7 +63,10 @@ void get_tokens(char **h_input)
 				bla = bla->next;
 			}
 		}
-		tmp = tmp->next;
+		if(tmp->next != NULL)
+			tmp = tmp->next;
+		else
+			break;
 	}
 
 }
