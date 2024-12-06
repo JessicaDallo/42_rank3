@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 15:28:37 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:44:36 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,27 +87,32 @@ typedef	struct s_minishell
 
 
 /*------------------------------------- BUILTINS -------------------------------------*/
-//int		ft_echo(t_minishell *mshell);
 int		ft_echo(t_minishell *mshell, t_token *tokens);
+
 void    ft_env(t_env *env);
 void	init_struct(t_minishell *mshell, char **envp);
 void	init_env(t_minishell *mshell);
 void    add_env(t_minishell *mshell, char *key, char *value);
+
 void	ft_exit(t_minishell *mshell);
 int		is_num(char *str);
 int		get_exit(t_minishell *mshell);
+
 int		ft_pwd(void);
 void	ft_unset(t_minishell *mshell, char **line);
 void    remove_env(t_minishell *mshell, char *key);
+
 void	ft_export(t_minishell *mshell, char **line);
 char    *get_value(t_minishell *mshell, char *key);
 void	update_env(t_minishell *mshell, char *key, char *value);
 void    ft_env_reorder(char **keys, t_env *env);
 void    print_export(t_minishell *mshell);
 void	ft_env_sorted(char **keys, int len);
-void    ft_cd(t_minishell *mshell, char *args);
+
+void    ft_cd(t_minishell *mshell, t_token *token);
 char	*go_path(char *env);
 int		is_builtin(t_minishell *mshell, t_cmd *commands);
+char    *check_tilde(char    *input);
 
 
 

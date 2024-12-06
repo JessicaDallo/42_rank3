@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 17:41:05 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:57:10 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ char	*go_path(char *env)
     }
     return(path);
 }
+char    *check_tilde(char    *input)
+{
+    char    *path_expand;
+    
+    if (!input || (input[0] == '~' && input[1] == '\0'))
+        path_expand = go_path("HOME");
+    else if(input[0] == '~')
+        path_expand = ft_strjoin(go_path("HOME"), input + 1);
+    return(path_expand);
+}
 
 void    ft_cd(t_minishell *mshell, t_token *token)
 {
@@ -39,8 +49,8 @@ void    ft_cd(t_minishell *mshell, t_token *token)
         perror("getcwd() error:");
         return;
     }
-    if (!token->input || (token->input[0] == '~'))
-        path = go_path("HOME");
+    if (!token->input || token->input[0] == '~')
+        path = check_tilde(token->input);
     else if (token->input[0] == '-')
     {
         path = go_path("OLDPWD");
@@ -50,6 +60,7 @@ void    ft_cd(t_minishell *mshell, t_token *token)
         path = token->input;
     if(chdir(path) != 0)
         perror("cd");
+    //printf("PATH:%s\n", path);
     update_env(mshell, "OLDPWD",oldpwd);
     getcwd(pwd, sizeof(pwd));
     update_env(mshell, "PWD", pwd);
@@ -68,40 +79,28 @@ void    ft_cd(t_minishell *mshell, t_token *token)
 
 t_token *cr_sample_tokens()
 {
-    t_token *token1 = cr_token(CMD, "echo");
-	t_token *token2 = cr_token(ARG, "ola");
-    t_token *token3 = cr_token(ARG, "\"\'$USER\'\"");
-    t_token *token4 = cr_token(ARG, " \"   bom   \"");
-    t_token *token5 = cr_token(ARG, "dia      ?");
-	t_token *token6 = cr_token(ARG, "\' \"$PWD\" \'");
+    t_token *token1 = cr_token(CMD, "CD");
+	t_token *token2 = cr_token(ARG, "~/Desktop");
+    //t_token *token3 = cr_token(ARG, "lalala");
+
 
     // Conecte os tokens
     token1->next = token2;
-    token2->next = token3;
-	token3->next = token4;
-    token4->next = token5;
-	token5->next = token6;
+    //token2->next = token3;
 
     return token1; // Retorna o início da lista
-}*/
+}
 
-// int main(int argc, char **argv, char **envp)
-// {
-//     (void)argc;
-//     (void)argv;
-//     t_minishell mshell;
+ int main(int argc, char **argv, char **envp)
+ {
+     (void)argc;
+     (void)argv;
+     t_minishell mshell;
     
-//     init_struct(&mshell, envp);
-// 	t_token *tokens = cr_sample_tokens();
+    init_struct(&mshell, envp);
+ 	t_token *tokens = cr_sample_tokens();
 	
-//    	if (argc > 2)
-//    	{
-//        ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
-//        return (1);
-//    }
-//    if (argc == 2)
-//        ft_cd(&mshell, argv[1]);
-//    else
-//        ft_cd(&mshell, NULL);
-//    return (0);
-// }
+    if (tokens)
+        ft_cd(&mshell,tokens);
+    return (0);
+ }*/

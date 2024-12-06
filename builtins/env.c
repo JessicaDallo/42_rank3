@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/05 13:08:54 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:18:26 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void    add_env(t_minishell *mshell, char *key, char *value)
         temp->next = new_node;
     }
     mshell->env_size++;
-    //free_envlist(new_node);
 }
 
 void init_env(t_minishell *mshell)
@@ -97,7 +96,7 @@ void    init_struct(t_minishell *mshell, char **envp)
 }
 
 
-/*int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
     (void)argc;
     (void)argv;
@@ -106,11 +105,12 @@ void    init_struct(t_minishell *mshell, char **envp)
     //int i = 0;
     init_struct(&mshell, envp);
     ft_env(mshell.env);
+    free_envlist(mshell.env);
     //while(mshell.envp[i])
         //printf("\n\n%s\n", mshell.envp[i++]);
     //printf("%d\n", mshell.env->n_env);
     return 0;
-}*/
+}
 
 //void ft_env(t_env env);
 

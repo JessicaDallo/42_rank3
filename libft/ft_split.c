@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 08:41:51 by sheila            #+#    #+#             */
-/*   Updated: 2024/10/08 12:17:45 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:15:40 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ the allocation fails.
 */
 
 #include "libft.h"
+
 
 static int	count_words(const char *str, char c)
 {
