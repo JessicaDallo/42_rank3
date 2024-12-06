@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/05 17:02:16 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:47:04 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int ft_echo(t_minishell *mshell, t_token *token)
 t_token *cr_sample_tokens()
 {
     t_token *token1 = cr_token(CMD, "echo");
-	t_token *token2 = cr_token(ARG, "ola");
+	t_token *token2 = cr_token(ARG, "Ola,");
     t_token *token3 = cr_token(ARG, "\"\'$USER\'\"");
-    t_token *token4 = cr_token(ARG, " \"   bom   \"");
+    t_token *token4 = cr_token(ARG, "\"   bom $?   \"");
     t_token *token5 = cr_token(ARG, "dia      ?");
 	t_token *token6 = cr_token(ARG, "\' \"$PWD\" \'");
 
@@ -82,21 +82,13 @@ int main(int argc, char **argv, char **envp)
     t_token *temp = tokens;
     while (temp)
     {
-        printf("Token type: %d, input: %s\n", temp->type, temp->input);
+        printf("Token type: %d, input:%s\n", temp->type, temp->input);
         temp = temp->next;
     }
     ft_echo(&mshell, tokens);
+    clear_mshell(&mshell);
+    free_tokens(tokens);
+    
     return 0;
-}*/
-
-/*int main(int argc, char **line)
-{
-	(void)argc;
-    t_minishell mshell;
-    ft_bzero(&mshell, sizeof(mshell));
-    line++;
-	mshell.line = line;
-    ft_echo(&mshell);
-	return(0);
 }*/
 

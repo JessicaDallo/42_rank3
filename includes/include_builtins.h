@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 19:44:36 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/06 19:12:18 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef	struct s_env
 {
 	char	*key;
 	char 	*value;
+	bool	print;
 	
 	struct s_env	*next;	
 }	t_env;
@@ -77,11 +78,8 @@ typedef	struct s_minishell
 	t_env	*env;
 	t_cmd	*commands;
 	
-	char	**envp;
-	char	**str;
 	int		e_code;
 	int		env_size;
-	//pid_t	pid;
 	
 }	t_minishell;
 
@@ -91,7 +89,6 @@ int		ft_echo(t_minishell *mshell, t_token *tokens);
 
 void    ft_env(t_env *env);
 void	init_struct(t_minishell *mshell, char **envp);
-void	init_env(t_minishell *mshell);
 void    add_env(t_minishell *mshell, char *key, char *value);
 
 void	ft_exit(t_minishell *mshell);
@@ -102,9 +99,9 @@ int		ft_pwd(void);
 void	ft_unset(t_minishell *mshell, char **line);
 void    remove_env(t_minishell *mshell, char *key);
 
-void	ft_export(t_minishell *mshell, char **line);
+void	ft_export(t_minishell *mshell, t_token *tokens);
 char    *get_value(t_minishell *mshell, char *key);
-void	update_env(t_minishell *mshell, char *key, char *value);
+void	update_env(t_minishell *mshell, char *key, char *value, bool flag);
 void    ft_env_reorder(char **keys, t_env *env);
 void    print_export(t_minishell *mshell);
 void	ft_env_sorted(char **keys, int len);
@@ -124,17 +121,20 @@ char		*get_epos(char *line, int flag);
 void		update_line(char **line, char *value, char *str);
 void		expand_var(t_minishell *mshell, char **line, int flag);
 void		expand_exit(t_minishell *mshell, char **line, int flag);
-void		process_char(char current, char *result, t_var *aux);
+
+bool		process_char(char current, char *prev, char *result, bool *inside_quotes);
 char		*rm_space(char *str);
-void		handle_input(char c, char **output);
 char		*handle_quotes(char *str, int s_quote, int d_quote);
-char	**convert_args(t_token *token);
+
+char		**convert_args(t_token *token);
 //t_minishell	*get_shell(void);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
 void		free_envlist(t_env *env);
 void		free_array(char **str);
+void		free_cmd(t_cmd *cmd);
+void		free_tokens(t_token *tokens);
 void		clear_mshell(t_minishell *mshell);
 void		error_msg(char *cmd, char *str);
 void		perror_msg(char *cmd, char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/05 20:18:26 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/06 18:49:18 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,49 +54,27 @@ void    add_env(t_minishell *mshell, char *key, char *value)
     mshell->env_size++;
 }
 
-void init_env(t_minishell *mshell)
-{
-    int i = 0;
-    char **key;
-
-    i = 0;
-    mshell->env = NULL;
-    while (mshell->envp[i])
-    {
-        key = ft_split(mshell->envp[i], '=');
-        if (key[0] != NULL)
-            add_env(mshell,key[0], key[1]);
-        free(key[0]);
-        free(key[1]);
-        free(key);
-        i++;
-    }
-    free_array(mshell->envp);
-}
-
 void    init_struct(t_minishell *mshell, char **envp)
 {
-    static int i;
+    char    **key;
+    int         i;
     
-    i = 0;
     ft_bzero(mshell, sizeof(t_minishell));
-    while(envp[i])
-        i++;
-    mshell->envp = (char **)malloc(sizeof(char *) * (i + 1));
-    if(!mshell->envp)
+    if(!mshell)
         return;
     i = 0;
+    mshell->env = NULL;
     while(envp[i])
     {
-        mshell->envp[i] = ft_strdup(envp[i]);
+        key = ft_split(envp[i], '=');
+        if (key[0] != NULL)
+            add_env(mshell,key[0], key[1]);
+        free_array(key);
         i++;
     }
-    mshell->envp[i] = NULL;
-    init_env(mshell);
 }
 
-
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
     (void)argc;
     (void)argv;
@@ -105,23 +83,9 @@ int main(int argc, char **argv, char **envp)
     //int i = 0;
     init_struct(&mshell, envp);
     ft_env(mshell.env);
-    free_envlist(mshell.env);
+    clear_mshell(&mshell);
     //while(mshell.envp[i])
         //printf("\n\n%s\n", mshell.envp[i++]);
     //printf("%d\n", mshell.env->n_env);
     return 0;
-}
-
-//void ft_env(t_env env);
-
-//int main(int argc, char **argv, char **envp)
-//{
-//    t_minishell mshell;
-	
-//	(void)argv;
-//	(void)argc;
-//   init_struct(&mshell, &mshell.env, envp);
-//   if (argc >1)
-//		ft_env(mshell.env);
-//   return 0;
-//}
+}*/

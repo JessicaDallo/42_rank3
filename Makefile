@@ -6,7 +6,7 @@
 #    By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/12/05 14:52:21 by shrodrig         ###   ########.fr        #
+#    Updated: 2024/12/06 19:11:13 by shrodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ INCLUDE = -I ./includes
 LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
-BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
+BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
 SYNTAX = expansions.c quotes.c signal.c convert_args.c
 #REDIRECTS =
 EXEC = redir.c here_doc.c execve.c test.c exec_cmd.c

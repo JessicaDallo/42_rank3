@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 16:13:51 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:46:16 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	handle_expansions(t_minishell *mshell, char **line, int flag)
 {
 	expand_exit(mshell, line, flag);
-	//printf("Após expand_exit: %s\n", *line);
 	expand_var(mshell, line, flag);
-	//printf("Após expand_var: %s\n", *line);
 }
 
 bool is_expand(char *delim)
@@ -30,83 +28,27 @@ bool is_expand(char *delim)
 	return(true);
 }
 
-char	*get_position(char *line, int flag)
+char *get_epos(char *line, int flag)
 {
-	while (*line)
-	{
-		if(flag)
-		{
-			if (*line == '\'')
-			{
-				line++;
-				while (*line && *line != '\'')
-					line++;
-			}
-			if (*line == '\"')
-			{
-				line++;
-				while (*line && *line != '\"')
-				{
-					if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
-						return (line);
-					line++;
-				}
-			}
-		}
-		if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
-			return (line);
-		line++;
-	}
-	return NULL;
-}
-
-void update_line(char **line, char *value, char *str)
-{
-	char *new_line;
-	char *temp;
-
-	if (!(*line)[0] && !value)
-		temp = ft_strdup("");
-	else if (!(*line)[0] && value)
-		temp = ft_strdup(value);
-	else if (!value)
-		temp = ft_strdup(*line);
-	else
-		temp = ft_strjoin(*line, value);
-	new_line = ft_strjoin(temp, str);
-	free(temp);
-	free(*line);
-	*line = new_line;
-}
-
-char	*get_epos(char *line, int flag)
-{
-	while (*line)
-	{
-		if(flag)
-		{
-			if (*line == '\'')
-			{
-				line++;
-				while (*line && *line != '\'')
-					line++;
-			}
-			if (*line == '\"')
-			{
-				line++;
-				while (*line && *line != '\"')
-				{
-					if (*line == '$' && *(line + 1) == '?')
-						return line;
-					line++;
-				}
-			}
-		}
-		if (*line == '$' && *(line + 1) == '?')
-			return line;
-		line++;
-	}
-	return NULL;
+	char	quote;
+	
+    while (*line)
+    {
+        if (flag && (*line == '\'' || *line == '\"'))
+        {
+        	quote = *line++;
+            while (*line && *line != quote)
+            {
+                if (quote == '\"' && *line == '$' && *(line + 1) == '?')
+                    return (line);
+                line++;
+            }
+        }
+        if (*line == '$' && *(line + 1) == '?')
+            return (line);
+        line++;
+    }
+    return (NULL);
 }
 
 void expand_exit(t_minishell *mshell, char **line, int flag)
@@ -127,6 +69,47 @@ void expand_exit(t_minishell *mshell, char **line, int flag)
         *line = new_line;
 		e_pos = get_epos(*line, flag);
     }
+}
+
+char *get_position(char *line, int flag)
+{
+    while (*line)
+    {
+        if (flag && (*line == '\'' || *line == '\"'))
+        {
+            char quote = *line++;
+            while (*line && *line != quote)
+            {
+                if (quote == '\"' && *line == '$' && 
+                    (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
+                    return (line);
+                line++;
+            }
+        }
+        if (*line == '$' && (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
+            return (line);
+        line++;
+    }
+    return (NULL);
+}
+
+void update_line(char **line, char *value, char *str)
+{
+	char *new_line;
+	char *temp;
+
+	if (!(*line)[0] && !value)
+		temp = ft_strdup("");
+	else if (!(*line)[0] && value)
+		temp = ft_strdup(value);
+	else if (!value)
+		temp = ft_strdup(*line);
+	else
+		temp = ft_strjoin(*line, value);
+	new_line = ft_strjoin(temp, str);
+	free(temp);
+	free(*line);
+	*line = new_line;
 }
 
 void expand_var(t_minishell *mshell, char **line, int flag)

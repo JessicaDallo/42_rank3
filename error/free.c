@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/04 17:57:22 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:59:35 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,39 @@ void	free_envlist(t_env *env)
 	}
 }
 
-// void	free_cmd(t_token *token)
-// {
-// 	t_token	*aux;
+void	free_tokens(t_token *tokens)
+{
+	t_token	*aux;
 	
-// 	while(token)
-// 	{
-// 		aux = token->next;
-// 		free(token->name);
-// 		//free(token->type);
-// 		free_array(token->value);
-// 		free(token);
-// 		token = aux;
-// 	}
-// }
+	while(tokens)
+	{
+		aux = tokens->next;
+		free(tokens->input);
+		free(tokens);
+		tokens = aux;
+	}
+}
 
-//void	clear_mshell(t_minishell *mshell)
-//{
-//	if(mshell->env)
-//		free_envlist(mshell->env);
-//	if(mshell->envp)
-//		free_array(mshell->envp);
-//	if(mshell->token)
-//		free_cmd(mshell->token);
-//}
+void	free_cmd(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	
+	while(cmd)
+	{
+		aux = cmd->next;
+		free_tokens(cmd->tokens);
+		free(cmd);
+		cmd = aux;
+	}
+}
+
+void	clear_mshell(t_minishell *mshell)
+{
+	if(!mshell)
+		return;
+	if(mshell->env)
+		free_envlist(mshell->env);
+	if(mshell->commands)
+		free_cmd(mshell->commands);
+	return;
+}

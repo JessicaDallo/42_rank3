@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 19:57:10 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/06 18:22:25 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ char    *check_tilde(char    *input)
     char    *path_expand;
     
     if (!input || (input[0] == '~' && input[1] == '\0'))
-        path_expand = go_path("HOME");
+        return(path_expand = go_path("HOME"));
     else if(input[0] == '~')
-        path_expand = ft_strjoin(go_path("HOME"), input + 1);
-    return(path_expand);
+        return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
+    return(NULL);
 }
 
 void    ft_cd(t_minishell *mshell, t_token *token)
@@ -60,10 +60,11 @@ void    ft_cd(t_minishell *mshell, t_token *token)
         path = token->input;
     if(chdir(path) != 0)
         perror("cd");
-    //printf("PATH:%s\n", path);
+    printf("PATH:%s\n", path);
     update_env(mshell, "OLDPWD",oldpwd);
     getcwd(pwd, sizeof(pwd));
     update_env(mshell, "PWD", pwd);
+    free(path);
 }
 
 /*t_token *cr_token(token_type type, const char *input)
@@ -102,5 +103,7 @@ t_token *cr_sample_tokens()
 	
     if (tokens)
         ft_cd(&mshell,tokens);
+    clear_mshell(&mshell);
+    free_tokens(tokens);
     return (0);
  }*/
