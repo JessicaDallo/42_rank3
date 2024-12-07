@@ -161,7 +161,7 @@ int main ()
 		
 		if (validate(&input) > 0)
 			continue;
-		handle_input(input);
+		parse_input(input);
 	}
 }
 

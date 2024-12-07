@@ -12,12 +12,12 @@
 
  #include "../includes/include_builtins.h"
 
-// bool is_delimiter(char *arg)
-// {
-// 	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, ">") == 0 || !arg)
-// 		return (true);
-// 	return (false);
-// }
+bool is_delimiter(char *arg)
+{
+	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, ">") == 0 || !arg)
+		return (true);
+	return (false);
+}
 
 // int len_array(char **arg)
 // {
@@ -41,9 +41,11 @@
 // 		(*token)->value = ft_calloc(sizeof(char *), len);
 // }
 
-int	get_type(char *cmd)
+int	get_type(char *cmd, bool teste)
 {
-	if(ft_strcmp(cmd, ">") == 0)
+	if(teste == true && !is_delimiter(cmd))
+		return CMD;
+	else if(ft_strcmp(cmd, ">") == 0)
 		return OUTPUT_REDIR;
 	else if (ft_strcmp(cmd, ">>") == 0)
 		return APPEND_REDIR;
@@ -52,7 +54,7 @@ int	get_type(char *cmd)
 	else if(ft_strcmp(cmd, "<<") == 0)
 		return HEREDOC;
 	else 
-		return CMD;
+		return ARG;
 }
 
 void	ft_print_array(char **cmd)

@@ -64,10 +64,12 @@ t_token	*create_token(char *arg, token_type type)
 // 	return (temp);
 // }
 //tentar colocar  o token dentrodo cmd correto 
-void	*add_token(t_cmd **cmd, char *arg, token_type type)
+void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 {
 	t_cmd	*temp;
+	t_token *tmp;
 	t_token	*new_token;
+	//static bool teste = false;
 
 	new_token = create_token(arg, type);
 	// while(*temp->next != NULL)
@@ -79,11 +81,26 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type)
 		(*cmd)->token = new_token;
 		return NULL;
 	}
+	//logica para adicionar new_token em next do atual, quando 
+	//não for um comando, uma flag?
 	temp = *cmd;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next->token = new_token;
-	return (temp);
+	if(teste == true)
+	{
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->token = new_token;
+		return (temp);
+	}
+	else
+	{
+		while (temp->next != NULL)
+			temp = temp->next;
+		tmp = temp->token;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new_token;
+		return (tmp);
+	}
 }
 
 

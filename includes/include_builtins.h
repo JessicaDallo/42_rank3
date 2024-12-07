@@ -133,12 +133,13 @@ bool	val_red_in(char **arg, int was_cmd);
 /*------------------------------------ TOKENS -------------------------------------*/
 //t_token	*add_token(t_token **token, char *arg,  token_type type);
 t_token	*create_token(char *arg, token_type type);
-void	*add_token(t_cmd **cmd, char *arg, token_type type);
+void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
 void	add_cmd(t_cmd **cmd);
 void	ft_print_array(char **cmd);
-void	handle_input(char *input);
+void	parse_input(char *input);
 void	get_tokens(char **cmd);
-int		get_type(char *cmd);
+int		get_type(char *cmd, bool teste);
+bool	is_delimiter(char *arg);
 
 
 // void	quote_pointer(char **arg, char c);
@@ -148,7 +149,6 @@ int		get_type(char *cmd);
 // int		len_array(char **arg);
 // char	**find_cmd(char *arg, char **cmd);
 // bool	delimiter(char **arg);
-// bool	is_delimiter(char *arg);
 
 
 

@@ -18,26 +18,31 @@ void get_tokens(char **h_input)
 	//o split no temp
 	t_cmd	*cmd;
 	t_cmd	*cur_cmd;
-	t_token	*token;
+	//t_token	*token;
 	token_type type;
 	char	**temp;
 	int		i;
+	bool	teste = false;
 
-	token = NULL;
+	//token = NULL;
 	cmd = NULL;
 	cur_cmd = NULL;
 	while(*h_input)
 	{
 		add_cmd(&cmd);
+		teste = true;
 		i = 0;
 		if (!cur_cmd) 
 			cur_cmd = cmd;
 		temp = ft_split(*h_input, ' ');
 		while(temp[i])
 		{
-			type = get_type(temp[i]);
+			type = get_type(temp[i], teste);
+			if(is_delimiter(temp[i]))
+				i++;
 			//aqui ele nao esta indo para o procimo cmd
-			add_token(&cmd, temp[i], type);
+			add_token(&cmd, temp[i], type, teste);
+			teste = false;
 			i++;
 		}
 		ft_print_array(temp);
@@ -70,7 +75,7 @@ void get_tokens(char **h_input)
 	}
 
 }
-void	handle_input(char *input)
+void	parse_input(char *input)
 {
 	//t_token *tokens;
 	char **h_input;
