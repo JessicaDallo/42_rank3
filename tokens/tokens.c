@@ -14,74 +14,38 @@
 
 void get_tokens(char **h_input)
 {
-	//fazer uma logica par afazer split de espacos cada cmd tem que ser feito
-	//o split no temp
-	t_cmd	*cmd;
-	t_cmd	*cur_cmd;
-	//t_token	*token;
 	token_type type;
+	t_cmd	*cmd;
 	char	**temp;
 	int		i;
-	bool	teste = false;
+	bool	teste;
 
-	//token = NULL;
 	cmd = NULL;
-	cur_cmd = NULL;
 	while(*h_input)
 	{
 		add_cmd(&cmd);
 		teste = true;
 		i = 0;
-		if (!cur_cmd) 
-			cur_cmd = cmd;
 		temp = ft_split(*h_input, ' ');
 		while(temp[i])
 		{
 			type = get_type(temp[i], teste);
 			if(is_delimiter(temp[i]))
 				i++;
-			//aqui ele nao esta indo para o procimo cmd
 			add_token(&cmd, temp[i], type, teste);
 			teste = false;
 			i++;
 		}
-		ft_print_array(temp);
 		free_array(temp);
 		h_input++;
-		//cmd = cmd->next;
 	}
-	printf("teste");
 	//REMOVER É APENAS PARA TESTAR 
-	//tentar imprimir e entender o porque não está funcionando a impressão 
-	//achoooo que é isso 
-	t_cmd *tmp = cur_cmd;
-	while (tmp)
-	{
- 		if (tmp->token)
-		{
-			printf("T_CMD input -> %s\n", tmp->token->input);
-			t_token *bla = tmp->token;
-			while (bla != NULL)
-			{
-				printf("T_TOKEN input -> %s\n", bla->input);
-				printf("T_TOKEN type -> %i\n", bla->type);
-				bla = bla->next;
-			}
-		}
-		if(tmp->next != NULL)
-			tmp = tmp->next;
-		else
-			break;
-	}
-
+	ft_print_tokens(&cmd);
 }
 void	parse_input(char *input)
 {
-	//t_token *tokens;
-	char **h_input;
-	//int i;
 
-	//tokens = NULL;
+	char **h_input;
 
 	h_input = ft_split(input, '|');
 	ft_print_array(h_input);

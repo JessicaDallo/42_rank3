@@ -135,11 +135,13 @@ bool	val_red_in(char **arg, int was_cmd);
 t_token	*create_token(char *arg, token_type type);
 void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
 void	add_cmd(t_cmd **cmd);
-void	ft_print_array(char **cmd);
 void	parse_input(char *input);
 void	get_tokens(char **cmd);
 int		get_type(char *cmd, bool teste);
 bool	is_delimiter(char *arg);
+
+void	ft_print_array(char **cmd);
+void	ft_print_tokens(t_cmd **cmd);
 
 
 // void	quote_pointer(char **arg, char c);
