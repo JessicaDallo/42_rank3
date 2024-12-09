@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/09 16:01:32 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:42:24 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,6 @@ char	**convert_args(t_token *token)
         token = token->next;
     }
     temp[i] = NULL;
-	//i = 0;
-	// while (temp[i])
-    // {
-    //     printf("ARG: %s\n", temp[i]);
-    //     i++;
-    // }
     return (temp);
 }
 
@@ -105,7 +99,12 @@ int main(int argc, char **argv, char **envp)
 
     printf("Antes de converter:\n");
     t_token *temp = tokens;
-    while (temp)
+    while (temp)	//i = 0;
+	// while (temp[i])
+    // {
+    //     printf("ARG: %s\n", temp[i]);
+    //     i++;
+    // }
     {
         printf("Token type: %d, input: %s\n", temp->type, temp->input);
         temp = temp->next;

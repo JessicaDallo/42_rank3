@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/09 16:28:02 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:38:45 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,14 @@ void		ft_reset_prompt(int signal);
 void		ft_sigquit(int signal);
 
 /*------------------------------------- EXEC -------------------------------------*/
-void		here_doc(t_minishell *mshell, char *delim);
-int			tmp_heredoc(t_minishell *mshell);
-pid_t		creat_pid(t_minishell *mshell);
+void	here_doc(t_minishell *mshell, char *delim);
+int		tmp_heredoc(t_minishell *mshell);
+pid_t	creat_pid(t_minishell *mshell);
 
-int			check_execpath(t_minishell *mshell, char *path);
-char		*get_execpath(char *cmd_name);
-void		run_execve(t_minishell *mshell, t_token *token);
+int		check_execpath(t_minishell *mshell, char *path);
+int		execpath_error(t_minishell *mshell, char *path);
+char	*get_execpath(char *cmd_name);
+void	run_execve(t_minishell *mshell, t_token *token);
 
 // void	exec_cmd(t_minishell *mshell, t_cmd *token);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);

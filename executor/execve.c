@@ -6,12 +6,34 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/09 16:35:20 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:14:30 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
+int	execpath_error(t_minishell *mshell, char *path)
+{
+	if(ft_strchr(path, '/') || path[0] == '.')
+	{
+		if (access(path, F_OK) < 0)
+		{
+			error_msg(path, "No such file or directory");
+			return(mshell->e_code = 127);
+		}
+		else if (access(path, X_OK) == 0)
+		{
+			error_msg(path, "Is a directory");
+			return(mshell->e_code = 126);
+		}
+		else
+		{
+			error_msg(path, "Permission denied");
+			return(mshell->e_code = 126);
+		}
+	}
+	return(0);
+}
 
 int	check_execpath(t_minishell *mshell, char *path)
 {
@@ -21,26 +43,7 @@ int	check_execpath(t_minishell *mshell, char *path)
 		return(mshell->e_code = 127);
 	}
 	else
-	{
-		if(ft_strchr(path, '/') || path[0] == '.')
-		{
-			if (access(path, F_OK) < 0)
-			{
-				error_msg(path, "No such file or directory");
-				return(mshell->e_code = 127);
-			}
-			else if (access(path, X_OK) == 0)
-			{
-				error_msg(path, "Is a directory");
-				return(mshell->e_code = 126);
-			}
-			else
-			{
-				error_msg(path, "Permission denied");
-				return(mshell->e_code = 126);
-			}
-		}
-	}
+		return(execpath_error(mshell, path));
 	return(0);
 }
 
@@ -86,17 +89,13 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		if(!args || !args[0])
 			return;
 		executable = get_execpath(args[0]);
-		printf("\nPATH:%s\n CMD:%s\n ARGV:%s, %s.\n", executable, args[0], args[1], args[2]);
 		if(execve(executable, args, mshell->envp))
-		{
-			//error_msg(token->cmd, "Command not found");
 			check_execpath(mshell, executable);
-			//mshell->e_code = 127;
-			//clear_mshell(mshell);
-		}
 	}
+	printf("\nEXIT CODE BEF: %d\n", mshell->e_code);
 	waitpid(pid, &mshell->e_code, 0);
 	mshell->e_code = WEXITSTATUS(mshell->e_code);
+	printf("\nEXIT CODE AFT: %d\n", mshell->e_code);
 	free_array(args);
 	return;
 }
@@ -115,8 +114,8 @@ t_token *cr_token(token_type type, const char *input)
 
 t_token *cr_sample_tokens()
 {
-    t_token *token1 = cr_token(CMD, "cat");
-	t_token *token2 = cr_token(ARG, "makefile");
+    t_token *token1 = cr_token(CMD, "Cat");
+	t_token *token2 = cr_token(ARG, "Makefile");
     //t_token *token3 = cr_token(ARG, "info.txt");
     //t_token *token4 = cr_token(ARG, "");
     //t_token *token5 = cr_token(ARG, "");
@@ -145,6 +144,7 @@ int main(int argc, char **argv, char **envp)
     ft_bzero(mshell.commands, sizeof(t_cmd));
 	mshell.commands->tokens = cr_sample_tokens();
    	run_execve(&mshell, mshell.commands->tokens);
+	//printf("\nEXIT CODE: %d\n", mshell.e_code);
 	clear_mshell(&mshell);
     return 0;
 }
