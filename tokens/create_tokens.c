@@ -12,22 +12,6 @@
 
 #include "../includes/include_builtins.h"
 
-// int	get_type(char *cmd)
-// {
-// 	if(ft_strcmp (cmd, "|") == 0)
-// 		return PIPE;
-// 	else if(ft_strcmp(cmd, ">") == 0)
-// 		return OUTPUT_REDIR;
-// 	else if (ft_strcmp(cmd, ">>") == 0)
-// 		return APPEND_REDIR;
-// 	else if(ft_strcmp(cmd, "<") == 0)
-// 		return INPUT_REDIR;
-// 	else if(ft_strcmp(cmd, "<<") == 0)
-// 		return HEREDOC;
-// 	else 
-// 		return CMD;
-// }
-
 t_token	*create_token(char *arg, token_type type)
 {
 	t_token	*new_token;
@@ -41,39 +25,25 @@ t_token	*create_token(char *arg, token_type type)
 
 	return (new_token);
 }
-//old version
-// t_token	*add_token(t_token **token, char *arg, token_type type)
-// {
-// 	t_token	*temp;
-// 	t_token	*new_token;
 
-// 	new_token = create_token(arg, type);
-// 	//while(*token->next != NULL)
-// 	//	*token = token->next;
-// 	if (!new_token)
-// 		return (NULL);
-// 	if (*token == NULL)
-// 	{
-// 		*token = new_token;
-// 		return (*token);
-// 	}
-// 	temp = *token;
-// 	while (temp->next != NULL)
-// 		temp = temp->next;
-// 	temp->next = new_token;
-// 	return (temp);
-// }
-//tentar colocar  o token dentrodo cmd correto 
+static void	add_end_token(t_cmd *temp, t_token *new_token)
+{
+	t_token	*tmp_token;
+
+	while (temp->next != NULL)
+				temp = temp->next;
+	tmp_token = temp->token;
+	while (tmp_token->next != NULL)
+		tmp_token = tmp_token->next;
+	tmp_token->next = new_token;
+}
+
 void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 {
 	t_cmd	*temp;
-	t_token *tmp;
 	t_token	*new_token;
-	//static bool teste = false;
 
 	new_token = create_token(arg, type);
-	// while(*temp->next != NULL)
-	// 	*temp = temp->next;
 	if (!new_token)
 		return (NULL);
 	if ((*cmd)->token == NULL)
@@ -81,8 +51,6 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 		(*cmd)->token = new_token;
 		return NULL;
 	}
-	//logica para adicionar new_token em next do atual, quando 
-	//não for um comando, uma flag?
 	temp = *cmd;
 	if(teste == true)
 	{
@@ -92,38 +60,9 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 		return (temp);
 	}
 	else
-	{
-		while (temp->next != NULL)
-			temp = temp->next;
-		tmp = temp->token;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new_token;
-		return (tmp);
-	}
+		add_end_token(temp, new_token);
+	return (temp);
 }
-
-
-// void	add_cmd(t_cmd **cmd, t_token **token)
-// {
-// 	t_cmd	*new_cmd;
-// 	t_cmd	*temp;
-
-// 	new_cmd = calloc(1, sizeof(t_cmd));
-// 	new_cmd->token = *token;
-// 	new_cmd->next = NULL;
-// 	if (!new_cmd)
-// 		return ;
-// 	if(*cmd == NULL)
-// 	{
-// 		*cmd = new_cmd;
-// 		return ;
-// 	}
-// 	temp = *cmd;
-// 	while(temp->next !=  NULL)
-// 		temp = temp->next;
-// 	temp->next = new_cmd;
-// }
 
 void	add_cmd(t_cmd **cmd)
 {

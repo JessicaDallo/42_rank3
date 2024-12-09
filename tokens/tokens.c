@@ -12,6 +12,22 @@
 
 #include "../includes/include_builtins.h"
 
+int	get_type(char *cmd, bool teste)
+{
+	if(teste == true && !is_delimiter(cmd))
+		return CMD;
+	else if(ft_strcmp(cmd, ">") == 0)
+		return OUTPUT_REDIR;
+	else if (ft_strcmp(cmd, ">>") == 0)
+		return APPEND_REDIR;
+	else if(ft_strcmp(cmd, "<") == 0)
+		return INPUT_REDIR;
+	else if(ft_strcmp(cmd, "<<") == 0)
+		return HEREDOC;
+	else 
+		return ARG;
+}
+
 void get_tokens(char **h_input)
 {
 	token_type type;
@@ -26,6 +42,11 @@ void get_tokens(char **h_input)
 		add_cmd(&cmd);
 		teste = true;
 		i = 0;
+		//LIDAR COM AS ASPAS
+		//talvez fazer uma funcao que retorna o temp com o split ou o split quando tiver aspas 
+		//como fzer isso ?
+		//	temp = check_qutes(*h_input);
+		//	else
 		temp = ft_split(*h_input, ' ');
 		while(temp[i])
 		{
@@ -36,6 +57,7 @@ void get_tokens(char **h_input)
 			teste = false;
 			i++;
 		}
+		//REMOVER É APENAS PARA TESTAR
 		free_array(temp);
 		h_input++;
 	}
