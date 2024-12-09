@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/06 18:29:38 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:32:45 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool process_char(char current, char *prev, char *result, bool *inside_quotes)
     static char quote_char;
    
     quote_char = '\0';
-    if (current == '\'' || current == '\"') // Verifica se o caractere é uma aspa
+    if (current == '\'' || current == '\"') 
     {
         if (*inside_quotes && current == quote_char)
         {
@@ -29,12 +29,12 @@ bool process_char(char current, char *prev, char *result, bool *inside_quotes)
             *inside_quotes = true;
             quote_char = current;
         }
-        *result = current; // Copia o caractere de aspas
+        *result = current;
         return (true);
     }
     if (*inside_quotes || (current != ' ' || (prev && *prev != ' ')))
     {
-        *result = current; // Copia o caractere
+        *result = current;
         return (true);
     }
     return (false);

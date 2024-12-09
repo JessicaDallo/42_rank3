@@ -6,13 +6,13 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 15:59:54 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:30:50 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-/*pid_t	creat_pid(t_minishell *mshell)
+pid_t	creat_pid(t_minishell *mshell)
 {
 	pid_t	child;
 	
@@ -25,7 +25,7 @@
 	return(child);	
 }
 
-int	tmp_heredoc(t_minishell *mshell)
+/*int	tmp_heredoc(t_minishell *mshell)
 {
 	char	*tmp_file;
 	int		fd;

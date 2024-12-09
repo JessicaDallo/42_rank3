@@ -1,4 +1,7 @@
 
+
+----------------- INFO TXT ------------------------
+
 FOR CD
 /* Values for the second argument to access.
    These may be OR'd together.  */

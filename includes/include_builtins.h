@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/06 19:12:18 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:28:02 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,14 @@ typedef enum
 	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
 } token_type;
 
-typedef	struct s_var
+typedef	struct s_env
 {
-	int		i;
-	int		j;
-	bool	is_val;
-	char	*str;
-	char	c;
+	char	*key;
+	char 	*value;
+	bool	print;
 	
-}	t_var;
+	struct s_env	*next;	
+}	t_env;
 
 typedef struct	s_token
 {
@@ -64,52 +63,46 @@ typedef	struct s_cmd
 	struct s_cmd	*next;	
 }	t_cmd;
 
-typedef	struct s_env
-{
-	char	*key;
-	char 	*value;
-	bool	print;
-	
-	struct s_env	*next;	
-}	t_env;
 
 typedef	struct s_minishell
 {
 	t_env	*env;
 	t_cmd	*commands;
+	char	**envp;
 	
 	int		e_code;
 	int		env_size;
 	
 }	t_minishell;
 
-
 /*------------------------------------- BUILTINS -------------------------------------*/
 int		ft_echo(t_minishell *mshell, t_token *tokens);
 
 void    ft_env(t_env *env);
+void    init_env(t_minishell *mshell);
+void    add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void	init_struct(t_minishell *mshell, char **envp);
-void    add_env(t_minishell *mshell, char *key, char *value);
 
-void	ft_exit(t_minishell *mshell);
+int		ft_exit(t_minishell *mshell, t_token *token);
+int		get_exit(t_minishell *mshell, t_token *token);
 int		is_num(char *str);
-int		get_exit(t_minishell *mshell);
 
 int		ft_pwd(void);
-void	ft_unset(t_minishell *mshell, char **line);
+
+void	ft_unset(t_minishell *mshell, t_token *tokens);
 void    remove_env(t_minishell *mshell, char *key);
 
 void	ft_export(t_minishell *mshell, t_token *tokens);
-char    *get_value(t_minishell *mshell, char *key);
 void	update_env(t_minishell *mshell, char *key, char *value, bool flag);
-void    ft_env_reorder(char **keys, t_env *env);
+char    *get_value(t_minishell *mshell, char *key);
 void    print_export(t_minishell *mshell);
+void    ft_env_reorder(char **keys, t_env *env);
 void	ft_env_sorted(char **keys, int len);
 
 void    ft_cd(t_minishell *mshell, t_token *token);
 char	*go_path(char *env);
 int		is_builtin(t_minishell *mshell, t_cmd *commands);
-char    *check_tilde(char    *input);
+char    *check_tilde(char *input);
 
 
 
@@ -127,15 +120,17 @@ char		*rm_space(char *str);
 char		*handle_quotes(char *str, int s_quote, int d_quote);
 
 char		**convert_args(t_token *token);
+int			ft_arraylen(t_token *token);
 //t_minishell	*get_shell(void);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
-void		free_envlist(t_env *env);
 void		free_array(char **str);
 void		free_cmd(t_cmd *cmd);
+void		free_envlist(t_env *env);
 void		free_tokens(t_token *tokens);
 void		clear_mshell(t_minishell *mshell);
+
 void		error_msg(char *cmd, char *str);
 void		perror_msg(char *cmd, char *str);
 void		close_fds(void);
@@ -153,8 +148,8 @@ int			tmp_heredoc(t_minishell *mshell);
 pid_t		creat_pid(t_minishell *mshell);
 
 int			check_execpath(t_minishell *mshell, char *path);
-char		*get_execpath(t_cmd *token);
-void		run_execve(t_minishell *mshell, t_cmd *token);
+char		*get_execpath(char *cmd_name);
+void		run_execve(t_minishell *mshell, t_token *token);
 
 // void	exec_cmd(t_minishell *mshell, t_cmd *token);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);

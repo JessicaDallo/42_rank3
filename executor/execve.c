@@ -6,95 +6,148 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/04 17:58:58 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:35:20 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
 
-// int	check_execpath(t_minishell *mshell, char *path)
-// {
-// 	if(!path || path == NULL)
-// 	{
-// 		error_msg(mshell->commands->cmd, "Command not found");
-// 		return(mshell->e_code = 127);
-// 	}
-// 	else
-// 	{
-// 		if(ft_strchr(path, '/') || path[0] == '.')
-// 		{
-// 			if (access(path, F_OK) < 0)
-// 			{
-// 				error_msg(path, "No such file or directory");
-// 				return(mshell->e_code = 127);
-// 			}
-// 			else if (access(path, X_OK) == 0)
-// 			{
-// 				error_msg(path, "Is a directory");
-// 				return(mshell->e_code = 126);
-// 			}
-// 			else
-// 			{
-// 				error_msg(path, "Permission denied");
-// 				return(mshell->e_code = 126);
-// 			}
-// 		}
-// 	}
-// 	return(0);
-// }
+int	check_execpath(t_minishell *mshell, char *path)
+{
+	if(!path || path == NULL)
+	{
+		error_msg(mshell->commands->tokens->input, "Command not found");
+		return(mshell->e_code = 127);
+	}
+	else
+	{
+		if(ft_strchr(path, '/') || path[0] == '.')
+		{
+			if (access(path, F_OK) < 0)
+			{
+				error_msg(path, "No such file or directory");
+				return(mshell->e_code = 127);
+			}
+			else if (access(path, X_OK) == 0)
+			{
+				error_msg(path, "Is a directory");
+				return(mshell->e_code = 126);
+			}
+			else
+			{
+				error_msg(path, "Permission denied");
+				return(mshell->e_code = 126);
+			}
+		}
+	}
+	return(0);
+}
 
-// char	*get_execpath(t_cmd *token)
-// {
-// 	char	**paths;
-// 	char	*tmp_path;
-// 	int		i;
-//     char    *path;
+char	*get_execpath(char *cmd_name)
+{
+	char	**paths;
+	char	*tmp_path;
+	int		i;
+    char    *path;
 	
-// 	tmp_path = getenv("PATH");
-// 	paths = ft_split(tmp_path, ':');
-// 	if(!paths)
-// 		return(NULL);
-// 	i = -1;
-// 	while(paths[++i])
-// 	{
-// 		path = ft_strjoin((ft_strjoin(paths[i], "/")), token->cmd);
-// 		if(access(path, F_OK) == 0)
-// 		{
-// 			free_array(paths);
-// 			return(ft_strdup(path));
-// 		}
-// 		free(path);
-// 	}
-// 	free_array(paths);
-// 	return(NULL);
-// }
+	tmp_path = getenv("PATH");
+	paths = ft_split(tmp_path, ':');
+	if(!paths)
+		return(NULL);
+	i = -1;
+	while(paths[++i])
+	{
+		path = ft_strjoin((ft_strjoin(paths[i], "/")), cmd_name);
+		if(access(path, F_OK) == 0)
+		{
+			free_array(paths);
+			return(ft_strdup(path));
+		}
+		free(path);
+	}
+	free_array(paths);
+	return(NULL);
+}
 
-// void	run_execve(t_minishell *mshell, t_cmd *token)
-// {
-// 	char	*exec_path;
-// 	pid_t	pid;
+
+void	run_execve(t_minishell *mshell, t_token *token)
+{
+	char	*executable;
+	char	**args;
+	pid_t	pid;
 	
-// 	pid = creat_pid(mshell);
-// 	if(pid == 0)
-// 	{
-// 		if(!token->input)
-// 			return;
-// 		if(!token->input[0])
-// 			return;
-// 		exec_path = get_execpath(token);
-// 		if(execve(exec_path, token->input, mshell->envp))
-// 		{
-// 			check_execpath(mshell, exec_path);
-// 			//mshell->e_code = 127;
-// 			//clear_mshell(mshell);
-// 		}
-// 	}
-// 	waitpid(pid, &mshell->e_code, 0);
-// 	mshell->e_code = WEXITSTATUS(mshell->e_code);
-// 	return;
-// }
+	pid = creat_pid(mshell);
+	if(!token->input)
+		return;
+	args = convert_args(token);
+	if(pid == 0)
+	{
+		if(!args || !args[0])
+			return;
+		executable = get_execpath(args[0]);
+		printf("\nPATH:%s\n CMD:%s\n ARGV:%s, %s.\n", executable, args[0], args[1], args[2]);
+		if(execve(executable, args, mshell->envp))
+		{
+			//error_msg(token->cmd, "Command not found");
+			check_execpath(mshell, executable);
+			//mshell->e_code = 127;
+			//clear_mshell(mshell);
+		}
+	}
+	waitpid(pid, &mshell->e_code, 0);
+	mshell->e_code = WEXITSTATUS(mshell->e_code);
+	free_array(args);
+	return;
+}
 
+
+t_token *cr_token(token_type type, const char *input)
+{
+    t_token *new_token = malloc(sizeof(t_token));
+    if (!new_token)
+        return NULL;
+    new_token->type = type;
+    new_token->input = strdup(input); // Copia o valor da string
+    new_token->next = NULL;
+    return new_token;
+}
+
+t_token *cr_sample_tokens()
+{
+    t_token *token1 = cr_token(CMD, "cat");
+	t_token *token2 = cr_token(ARG, "makefile");
+    //t_token *token3 = cr_token(ARG, "info.txt");
+    //t_token *token4 = cr_token(ARG, "");
+    //t_token *token5 = cr_token(ARG, "");
+	//t_token *token6 = cr_token(ARG, "");
+
+    // Conecte os tokens
+    token1->next = token2;
+    //token2->next = token3;
+	///token3->next = token4;
+    //token4->next = token5;
+	//token5->next = token6;;
+
+    return token1; // Retorna o início da lista
+}
+
+int main(int argc, char **argv, char **envp)
+{
+    (void)argc;
+    (void)argv;
+    t_minishell mshell;
+    
+    init_struct(&mshell, envp);
+	mshell.commands = malloc(sizeof(t_cmd));
+    if (!mshell.commands)
+        return (1);
+    ft_bzero(mshell.commands, sizeof(t_cmd));
+	mshell.commands->tokens = cr_sample_tokens();
+   	run_execve(&mshell, mshell.commands->tokens);
+	clear_mshell(&mshell);
+    return 0;
+}
 
 /*void	wait_childs(t_minishell *mshell, t_cmd *cmd)
 {
@@ -110,36 +163,4 @@
 	}
 	if (WIFEXITED(status))
 		mshell->e_code = WEXITSTATUS(status);
-}*/
-
-
-/*void	run_execve(t_minishell *mshell, t_cmd *token)
-{
-	char	*executable;
-	pid_t	pid;
-	
-	pid = creat_pid(mshell);
-	if(pid == 0)
-	{
-		if(!token->input)
-			return;
-		if(!token->input[0])
-			return;
-		executable = get_execpath(token);
-		//printf("\nPATH:%s\n ARGV:%s, %s.\n", executable, token->input[0], token->input[1]);
-		//int i = 0;
-		//while(mshell->envp[i])
-        //	printf("\n\n%s\n", mshell->envp[i++]);
-		//execve(executable, token->input, mshell->envp);
-		if(execve(executable, token->input, mshell->envp))
-		{
-			//error_msg(token->cmd, "Command not found");
-			check_execpath(mshell, executable);
-			//mshell->e_code = 127;
-			//clear_mshell(mshell);
-		}
-	}
-	waitpid(pid, &mshell->e_code, 0);
-	mshell->e_code = WEXITSTATUS(mshell->e_code);
-	return;
 }*/

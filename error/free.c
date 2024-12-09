@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/06 12:59:35 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:50:31 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	free_tokens(t_token *tokens)
 	while(tokens)
 	{
 		aux = tokens->next;
-		free(tokens->input);
+		if(tokens->input)
+			free(tokens->input);
 		free(tokens);
 		tokens = aux;
 	}
@@ -62,7 +63,8 @@ void	free_cmd(t_cmd *cmd)
 	while(cmd)
 	{
 		aux = cmd->next;
-		free_tokens(cmd->tokens);
+		if(cmd->tokens)
+			free_tokens(cmd->tokens);
 		free(cmd);
 		cmd = aux;
 	}
@@ -76,5 +78,8 @@ void	clear_mshell(t_minishell *mshell)
 		free_envlist(mshell->env);
 	if(mshell->commands)
 		free_cmd(mshell->commands);
+	if(mshell->envp)
+		free_array(mshell->envp);
+	//close_fds();
 	return;
 }

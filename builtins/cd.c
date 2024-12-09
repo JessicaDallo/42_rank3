@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/06 18:22:25 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:31:28 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*go_path(char *env)
     }
     return(path);
 }
-char    *check_tilde(char    *input)
+char    *check_tilde(char *input)
 {
     char    *path_expand;
     
@@ -61,9 +61,9 @@ void    ft_cd(t_minishell *mshell, t_token *token)
     if(chdir(path) != 0)
         perror("cd");
     printf("PATH:%s\n", path);
-    update_env(mshell, "OLDPWD",oldpwd);
+    update_env(mshell, "OLDPWD",oldpwd, true);
     getcwd(pwd, sizeof(pwd));
-    update_env(mshell, "PWD", pwd);
+    update_env(mshell, "PWD", pwd, true);
     free(path);
 }
 

@@ -6,22 +6,19 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 14:44:45 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:30:22 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-/*void	exec_cmd(t_minishell *mshell, t_cmd *command)
+void	exec_cmd(t_minishell *mshell, t_cmd *command)
 {
-	char	**args;
     handle_redir(command->tokens);
-	convert_arg(command->tokens);
-	//if(is_builtin(mshell, token))
-	//	return;
-	//else
-		executable(mshell, token);
-	free_array(args);
+	if(is_builtin(mshell, command))
+		return;
+	else
+		run_execve(mshell, command->tokens);
 	return;
 }
 
@@ -50,27 +47,26 @@ void handle_pipes(t_minishell *mshell, t_cmd *cmd)
     cmd = cmd->next;
 }
 
-void	run_commands(t_minishell *mshell)
-{
-	t_cmd	*cmd;
-	//t_redir	*redir;
+// void	run_commands(t_minishell *mshell)
+// {
+// 	t_cmd	*cmd;
 
-	cmd = mshell->commands;
-	while(cmd)
-	{
-		if (!cmd->next)
-			exec_cmd(mshell, cmd);
-		else if (cmd->next)
-            handle_pipes(mshell, cmd);
-		//else if (commands->type == OUTPUT_REDIR)
-		//	//função
-		//else if (commands->type == APPEND_REDIR)
-		//	//função
-		//else if (commands->type == INPUT_REDIR)
-		//	//função
-		//else if (commands->type == HEREDOC)
-		//	//função
-		cmd = cmd->next;
-	}
-}*/
+// 	cmd = mshell->commands;
+// 	while(cmd)
+// 	{
+// 		if (!cmd->next)
+// 			exec_cmd(mshell, cmd);
+// 		else if (cmd->next)
+//             handle_pipes(mshell, cmd);
+// 		//else if (commands->type == OUTPUT_REDIR)
+// 		//	//função
+// 		//else if (commands->type == APPEND_REDIR)
+// 		//	//função
+// 		//else if (commands->type == INPUT_REDIR)
+// 		//	//função
+// 		//else if (commands->type == HEREDOC)
+// 		//	//função
+// 		cmd = cmd->next;
+// 	}
+// }
 
