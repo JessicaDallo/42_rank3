@@ -12,6 +12,16 @@
 
 #include "../includes/include_builtins.h"
 
+char **check_and_split(char **h_input)
+{//LIDAR COM AS ASPAS
+//isso tem que ser feito antes do split dos paipes?
+		//talvez fazer uma funcao que retorna o temp com o split ou o split quando tiver aspas 
+		//como fzer isso ?
+	
+
+}
+
+
 int	get_type(char *cmd, bool teste)
 {
 	if(teste == true && !is_delimiter(cmd))
@@ -42,12 +52,9 @@ void get_tokens(char **h_input)
 		add_cmd(&cmd);
 		teste = true;
 		i = 0;
-		//LIDAR COM AS ASPAS
-		//talvez fazer uma funcao que retorna o temp com o split ou o split quando tiver aspas 
-		//como fzer isso ?
-		//	temp = check_qutes(*h_input);
+		temp = check_and_split(*h_input);
 		//	else
-		temp = ft_split(*h_input, ' ');
+		//temp = ft_split(*h_input, ' ');
 		while(temp[i])
 		{
 			type = get_type(temp[i], teste);

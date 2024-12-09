@@ -28,6 +28,14 @@ static int	count_words(const char *str, char c)
 	words = 0;
 	while (*str)
 	{
+		//ADD JESSICA
+		// if(*arg == '"' || *arg == '\'')
+		// {
+		// 	quote_pointer(&arg, *arg);
+		// 	if(*arg == ' ' || delimiter(&arg) || *arg == '"' || *arg == '\'')
+		// 		i++;
+		// 	arg++;
+		// }
 		if (*str != c && i == 0)
 		{
 			i = 1;

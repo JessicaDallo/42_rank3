@@ -19,7 +19,7 @@ char	*eup_str(char *str)
 	int space = 0;
 	char *temp = NULL;
 
-	temp = calloc(ft_strlen(str) , sizeof(char));
+	temp = ft_calloc(ft_strlen(str) , sizeof(char));
 	if(!temp)
 		return (NULL);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))

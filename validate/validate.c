@@ -52,6 +52,6 @@ int validate(char **input)
 {
 	if(!*input)
 		return (1);
-	*input = eup_str(*input);
+	//*input = eup_str(*input);
 	return (val_sintax(*input));
 }
