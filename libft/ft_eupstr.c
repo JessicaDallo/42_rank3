@@ -38,15 +38,15 @@ char	*eup_str(char *str)
 		}
 		i++;
 	}
-	str = ft_strdup(temp);
+	str = strdup(temp);
 	free(temp);
 	return (str);
 }
 
-// int main ()
-// {
-// 	char *av = "   jessica  ";
+ /*int main ()
+ {
+ 	char *av = "   jessica  ";
     
-// 	printf("%s\n", eup_str(av));
-// 	return (0);
-// }
+ 	printf("%s\n", eup_str(av));
+ 	return (0);
+}*/

@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/11/21 15:37:43 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/10 20:31:48 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,17 @@ INCLUDE = -I ./includes
 LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
-BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
-EXPANSIONS = expansions.c
-#REDIRECTS =
+BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
+SYNTAX = expansions.c quotes.c signal.c convert_args.c
+EXEC = redir.c here_doc.c execve.c exec_cmd.c
 ERROR = error.c free.c
-PARSING = validate.c tokens.c create_list.c ft_free.c
+VALIDATE = validate.c val_delimiters.c
+TOKENS = tokens.c create_tokens.c tokens_utils.c
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix parsing/, $(PARSING)) main.c
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
+		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
+
 OBJS = ${SRC:.c=.o}
 
 %.o : %.c

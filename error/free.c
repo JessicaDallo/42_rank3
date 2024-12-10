@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/14 15:25:58 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:04:05 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,29 @@ void	free_envlist(t_env *env)
 	}
 }
 
-void	free_cmd(t_cmd	*cmd)
+void	free_tokens(t_token *tokens)
+{
+	t_token	*aux;
+	
+	while(tokens)
+	{
+		aux = tokens->next;
+		if(tokens->input)
+			free(tokens->input);
+		free(tokens);
+		tokens = aux;
+	}
+}
+
+void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*aux;
 	
 	while(cmd)
 	{
 		aux = cmd->next;
-		free(cmd->name);
-		free(cmd->path);
-		free_array(cmd->line);
+		if(cmd->tokens)
+			free_tokens(cmd->tokens);
 		free(cmd);
 		cmd = aux;
 	}
@@ -59,10 +72,15 @@ void	free_cmd(t_cmd	*cmd)
 
 void	clear_mshell(t_minishell *mshell)
 {
+	if(!mshell)
+		return;
 	if(mshell->env)
 		free_envlist(mshell->env);
+	if(mshell->commands)
+		free_cmd(mshell->commands);
 	if(mshell->envp)
 		free_array(mshell->envp);
-	if(mshell->cmd)
-		free_cmd(mshell->cmd);
+	//close_fds();
+	//exit(mshell->e_code);
+	return;
 }

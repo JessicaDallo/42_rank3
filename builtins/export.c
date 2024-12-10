@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/18 17:21:52 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/09 11:45:08 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char    *get_value(t_minishell *mshell, char *key)
     return(NULL);
 }
 
-void    update_env(t_minishell *mshell, char *key, char *value)
+void    update_env(t_minishell *mshell, char *key, char *value, bool flag)
 {
     t_env   *temp;
 
@@ -35,66 +35,103 @@ void    update_env(t_minishell *mshell, char *key, char *value)
     {
         if (ft_strcmp(temp->key, key) == 0)
         {
-			free(temp->value);
-            if(value)
-	            temp->value = ft_strdup(value);
-            else
-                temp->value = ft_strdup("");
+            if (flag)
+            {
+                temp->print = true;
+			    free(temp->value);
+                if(value)
+	                temp->value = ft_strdup(value);
+                else
+                    temp->value = ft_strdup("");
+            }
             break;
 		}
         temp = temp->next;
 	}
     if(!temp)
-        add_env(mshell, key, value);
+        add_env(mshell, key, value, flag);
     return;
 }
 
-void ft_export(t_minishell *mshell, char **line)
+
+void ft_export(t_minishell *mshell, t_token *tokens)
 {
 	char	**new_env;
+    bool    flag;
+    t_token   *temp;
 
-    while(*line)
+    temp = tokens;
+    temp = temp->next;
+    if(!temp || !temp->input)
+        print_export(mshell);
+    else
     {
-        if (!*line)
-            return;
-        new_env = ft_split(*line, '=');
-	    if(!new_env)
-		    return;
-        update_env(mshell, new_env[0], new_env[1]);
-        free(new_env[0]);
-        free(new_env[1]);
-        free(new_env);
-        line++;
+        while(temp)
+        {
+            flag = true;
+            if (!ft_strchr(temp->input, '='))
+                flag = false;
+            new_env = ft_split(temp->input, '=');
+	        if(!new_env)
+	    	    return;
+            update_env(mshell, new_env[0], new_env[1], flag);
+            free_array(new_env);
+            temp = temp->next;
+        }
     }
 }
 
-/*int main(int argc, char **argv, char **envp)
+/*t_token *cr_token(token_type type, const char *input)
 {
-    t_minishell    mshell;
-    t_env   *temp;
+    t_token *new_token = malloc(sizeof(t_token));
+    if (!new_token)
+        return NULL;
+    new_token->type = type;
+    new_token->input = strdup(input); // Copia o valor da string
+    new_token->next = NULL;
+    return new_token;
+}
 
+t_token *cr_sample_tokens()
+{
+    t_token *token1 = cr_token(CMD, "export");
+	t_token *token2 = cr_token(ARG, "ABC=123");
+    t_token *token3 = cr_token(ARG, "CDE");
+    t_token *token4 = cr_token(ARG, "FGH=456");
+    t_token *token5 = cr_token(ARG, "ABC");
+	t_token *token6 = cr_token(ARG, "FGH=789");
+
+    // Conecte os tokens
+    token1->next = token2;
+    token2->next = token3;
+	token3->next = token4;
+    token4->next = token5;
+	token5->next = token6;
+
+    return token1; // Retorna o início da lista
+}
+
+int main(int argc, char **argv, char **envp)
+{
+    (void)argc;
+    (void)argv;
+    t_minishell mshell;
+    
     init_struct(&mshell, envp);
     
-    printf("\n--- Antes do export ---\n");
-    
-    temp = mshell.env;
-    while (temp)
-    {
-        printf("%s = %s\n", temp->key, temp->value);
-        temp = temp->next;
-    }
-    printf("\nSIZE_ENV = %d\n", mshell.env_size);
-    if (argc > 1)
-        ft_export(&mshell, ++argv);
-    
-    printf("\n--- Após o export ---\n");
+    t_token *tokens = cr_sample_tokens();
 
-    temp = mshell.env;
-    while (temp)
-    {
-       printf("%s = %s\n", temp->key, temp->value);
-       temp = temp->next;
-    }
-    printf("\nSIZE_ENV = %d\n", mshell.env_size);
+    printf("\n ***** Antes de export *****\n");
+    ft_env(mshell.env);
+    ft_export(&mshell, tokens);
+    
+    printf("\n ***** Apos de export *****\n");
+    t_token *teste = cr_token(CMD, "export");
+    ft_env(mshell.env);
+    ft_export(&mshell, teste);
+    clear_mshell(&mshell);
+    free_tokens(tokens);
+    free_tokens(teste);
+    
     return 0;
 }*/

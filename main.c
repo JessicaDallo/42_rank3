@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "includes/include_builtins.h"
-
+ //
 /*int main(int argc, char **argv, char **envp)
 {
     t_minishell mshell;
@@ -157,13 +157,11 @@ int main ()
 		if(*input)
 			add_history(input);
 
-		//printf("%s\n", input);
+		printf("%s\n", input);
 		
 		if (validate(&input) > 0)
 			continue;
-		get_tokens(input);
-		//get_tokens(input);
-		//t_token **tokens = tokenize(const char *input)
+		parse_input(input);
 	}
 }
 
