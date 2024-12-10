@@ -6,12 +6,12 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/03 13:23:41 by sheila           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:34:42 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/include_builtins.h"
-
+ //
 /*int main(int argc, char **argv, char **envp)
 {
     t_minishell mshell;
@@ -143,15 +143,8 @@ int main(void) {
 //    return output;
 //}
 
-/*int main(int argc, char **argv, char **envp)
+int main ()
 {
-    t_minishell *mshell;
-	
-	(void)argv;
-	(void)argc;
-    
-    mshell = malloc(sizeof(t_minishell));
-    init_struct(mshell, envp);
 	char	*input = NULL;
 	while (1)
 	{
@@ -164,14 +157,11 @@ int main(void) {
 		if(*input)
 			add_history(input);
 
-		//printf("%s\n", input);
+		printf("%s\n", input);
 		
 		if (validate(&input) > 0)
 			continue;
-		get_tokens(input, mshell);
-        run_commands(mshell);
-		//get_tokens(input);
-		//t_token **tokens = tokenize(const char *input)
+		parse_input(input);
 	}
-}*/
+}
 

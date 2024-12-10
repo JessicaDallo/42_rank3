@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 15:33:08 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 15:33:08 by sheila           ###   ########.fr       */
+/*   Created: 2024/11/27 09:49:28 by jesilva-          #+#    #+#             */
+/*   Updated: 2024/11/27 09:49:32 by jesilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
 
 char	**find_cmd(char *arg, char **cmd)
 {
-	static int init = 0;
+	int init = 0;
 	int	i;
 	int	j;
 
@@ -44,8 +43,11 @@ char	**find_cmd(char *arg, char **cmd)
 		else if(arg[i] == '"' || arg[i] == '\'')
 		{
 			i = i + quote_count(&arg[i], arg[i]);
-			cmd[j++] = ft_strndup(&arg[init], i - init);
-			init = i;
+			if(arg[i] == ' ' || delimiter(&arg) || arg[i] == '"' || arg[i] == '\'')
+			{
+				cmd[j++] = ft_strndup(&arg[init], i - init);
+				init = i;
+			}
 		}
 		else if (arg[i] == ' ')
 		{
@@ -63,7 +65,9 @@ char	**find_cmd(char *arg, char **cmd)
 
 int	quote_count(char *arg, char c)
 {
-	int i = 0;
+	int i;
+
+	i= 0;
 	i++;
 	while (arg[i] != c)
 	{
@@ -114,7 +118,9 @@ int	ft_count_words(char *arg, char c)
 		if(*arg == '"' || *arg == '\'')
 		{
 			quote_pointer(&arg, *arg);
-			i++;
+			if(*arg == ' ' || delimiter(&arg) || *arg == '"' || *arg == '\'')
+				i++;
+			arg++;
 		}
 		else if (*arg && !delimiter(&arg) && !was_cmd)
 		{
@@ -123,23 +129,25 @@ int	ft_count_words(char *arg, char c)
 		}
 		else if (delimiter(&arg))
 		{
-			if (*arg == '|')
+		//	if (*arg == '|')
 				i++;
 			was_cmd = 0;
 		}
-		if (arg)
-			arg++;
+		if (*arg == '\0')
+			return i;
+		arg++;
 	}
 	return (i);
 }
 
-void	get_tokens(char *arg, t_minishell *mshell)
+/*
+void	get_tokens(char *arg)
 {
+	token_type type;
 	t_token *token;
+	t_token *temp;
 	char **cmd;
 	int len_token;
-	token_type type;
-	int	i;
 
 	len_token = 0;
 	len_token = ft_count_words(arg, ' ');
@@ -147,23 +155,64 @@ void	get_tokens(char *arg, t_minishell *mshell)
 	if(!cmd) 
 		return ;
 	cmd = find_cmd(arg, cmd);
-	i = 0;
+	//print se split foi feito corretamente 
+	ft_print_array(cmd);
+	int	flg = 0;
+	int j = 0;
 	token = NULL;
-	while (cmd[i] != NULL)
+	//cria a lista de tokens
+	while (*cmd)
 	{
-		type = get_type(cmd[i]);
-		if (ft_strcmp(cmd[i], "<") == 0 || ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<<") == 0 || ft_strcmp(cmd[i], ">>") == 0)
-			i++;
-		add_token(&token, cmd[i], type);
-		i++;
+		type = get_type(*cmd); ***** VERIFICAR *****
+		if (ft_strcmp(*cmd, "<") == 0 || ft_strcmp(*cmd, ">") == 0 || ft_strcmp(*cmd, "<<") == 0 || ft_strcmp(*cmd, ">>") == 0)
+			cmd++;
+		temp = add_token(&token, *cmd, type);
+		if(type == PIPE)
+		{
+			cmd++;
+			continue;
+		}
+		if(type == CMD || type == OUTPUT_REDIR)
+		{
+			cmd++;
+			//adiciona array token->value s
+			//POSSIVEL ERRO NÃO VERIFICAR SE É DELIMITADOR ANTES DO MALLOC 
+			handle_value(cmd, &temp, *cmd);
+			while(!is_delimiter(*cmd))
+			{
+				temp->value[j] = ft_strdup(*cmd); ***** VERIFICAR *****
+				j++;
+				cmd++;
+				flg = 1;
+			}
+		temp->value[j] = NULL; ***** VERIFICAR *****
+		}
+		if(*cmd == NULL)
+					break ;
+		if(flg && ft_strcmp(*cmd, "|") == 0)
+		{
+			flg = 0;
+			j = 0;
+			continue ;
+		}
+		cmd++;
 	}
-	mshell->tokens = malloc(sizeof(t_token));
-	mshell->tokens = token;
-	//t_token *temp = token;
-	//i = 0;
-	//while(temp)
-	//{
-	//	printf("token value -> %s\n tokentype -> %d\n",temp->value[i++], temp->type);
-	//	temp = temp->next;
-	//}
-}
+	//print se tokens foi feito corretamente.
+	temp = token;
+		while (temp)
+		{
+			printf("token name -> %s\n", temp->name); ***** VERIFICAR *****
+			printf("token type -> %d\n", temp->type);
+			if (temp->value != NULL) ***** VERIFICAR *****
+			{
+				int j = 0;
+				while (temp->value[j])
+				{
+					printf("token value -> %s\n", temp->value[j]);
+					j++;
+				}
+			}
+		temp = temp->next;
+		}
+}*/
+

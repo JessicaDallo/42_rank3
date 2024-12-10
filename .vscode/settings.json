@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"include_builtins.h": "c"
+		"include_builtins.h": "c",
+		"history.h": "c"
 	}
 }

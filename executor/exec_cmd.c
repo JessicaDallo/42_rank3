@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/09 16:30:22 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:43:40 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 
 void	exec_cmd(t_minishell *mshell, t_cmd *command)
 {
+    if(!command->tokens || !command->tokens->input)
+    {
+        clear_mshell(mshell);
+        return;
+    }
     handle_redir(command->tokens);
 	if(is_builtin(mshell, command))
 		return;
 	else
 		run_execve(mshell, command->tokens);
+    command = command->next;
 	return;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/09 16:30:50 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:22:22 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,65 +25,87 @@ pid_t	creat_pid(t_minishell *mshell)
 	return(child);	
 }
 
-/*int	tmp_heredoc(t_minishell *mshell)
+int	tmp_heredoc(t_minishell *mshell)
 {
-	char	*tmp_file;
-	int		fd;
-	static int		n;
+	int			fd;
+	char		*tmp_file;
+	char		*id;	
+	static int	nbr;
 
-	tmp_file = ft_strjoin("/tmp/heredoc_file",(ft_itoa(++n)));
-	//printf("%s", tmp_file);
-	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	id = ft_itoa(++nbr);
+	tmp_file = ft_strjoin("/tmp/heredoc_file", id);
+	free(id);
 	if(!tmp_file)
 	{
 		error_msg("ERROR: ", "Failed to create temporary file");
 		mshell->e_code = 1;
+		free(tmp_file);
+		return(-1);
+	}
+	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	free(tmp_file);
+	if(fd < 0)
+	{
+		perror("Erro ao abrir o arquivo");
+		mshell->e_code = errno;
 		return(-1);
 	}
 	return(fd);
 }
 
-void	here_doc(t_minishell *mshell, char *delim)
+void	read_heredoc(t_minishell *mshell, char *eof, int fd, bool expand)
 {
-	int	pid;
-	int	fd_here;
 	char	*line;
-	char	*end;
 	
-	end = (char *)malloc(sizeof(char) * (ft_strlen(delim) + 1));
-	end = handle_quotes(delim, 0, 0);
-	pid = (int)creat_pid(mshell);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			error_msg("warning: here-document delimited by EOF. Wanted", eof);
+			break ;
+		}
+		if (!ft_strcmp(line, eof))
+		{
+			free(line);
+			break;
+		}
+		if(expand)
+			handle_expansions(mshell, &line, 1);
+		ft_putendl_fd(line, fd);
+		free(line);
+	}
+	close(fd);
+	return;
+}
+
+void	ft_heredoc(t_minishell *mshell, char *delim)
+{
+	char	*eof;
+	int		fd_here;
+	bool	expand;
+	pid_t	pid;
+	
+	//eof = (char *)calloc(ft_strlen(delim) + 1, sizeof(char));
+	eof = handle_quotes(delim, 0, 0);
+	pid = creat_pid(mshell);
 	fd_here = tmp_heredoc(mshell);
+	expand = is_expand(delim);
 	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
 	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
+	if(fd_here < 0)
+		return;
 	if(pid == 0)
 	{
-		//printf("%s", end);
 		signal(SIGINT, ft_sigint);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-			{
-				error_msg("warning: heredoc delimited by EOF. Wanted", delim);
-				break ;
-			}
-			if (!ft_strcmp(line, end))
-			{
-				free(line);
-				break ;
-			}
-			if(is_expand(delim))
-				handle_expansions(mshell, &line, 1);
-			ft_putendl_fd(line, fd_here);
-			free(line);
-		}
-		close(fd_here);
+		read_heredoc(mshell,eof, fd_here, expand);
 	}
 	waitpid(pid, &mshell->e_code, 0);
-	mshell->e_code = WEXITSTATUS(mshell->e_code);
-	free(end);
-}*/
+	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
+		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
+	free(eof);
+}
+
 
 /*int main(int argc, char **argv, char **envp)
 {
@@ -91,13 +113,14 @@ void	here_doc(t_minishell *mshell, char *delim)
     (void)argv;
     t_minishell mshell;
     init_struct(&mshell, envp);
-	char		*delimiter = "END";
+	char	*delimiter = "END";
+	char	*eof = handle_quotes(delimiter, 0, 0);
 
-	//signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
-	//signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
-	//while(1){
-	printf("Iniciando o heredoc. Digite %s para finalizar:\n", delimiter);
-	here_doc(&mshell, delimiter);
+	printf("Iniciando o heredoc. Digite %s para finalizar:\n", eof);
+	ft_heredoc(&mshell, delimiter);
 	printf("Heredoc concluído com código de saída: %d\n", mshell.e_code);
-	//}return (0);
+	clear_mshell(&mshell);
+	free(eof);
+	return (0);
 }*/
+	

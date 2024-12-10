@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/09 18:14:30 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:41:21 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*get_execpath(char *cmd_name)
 	return(NULL);
 }
 
-
 void	run_execve(t_minishell *mshell, t_token *token)
 {
 	char	*executable;
@@ -92,16 +91,14 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
 	}
-	printf("\nEXIT CODE BEF: %d\n", mshell->e_code);
 	waitpid(pid, &mshell->e_code, 0);
-	mshell->e_code = WEXITSTATUS(mshell->e_code);
-	printf("\nEXIT CODE AFT: %d\n", mshell->e_code);
+	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
+		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
 	free_array(args);
 	return;
 }
 
-
-t_token *cr_token(token_type type, const char *input)
+/*t_token *cr_token(token_type type, const char *input)
 {
     t_token *new_token = malloc(sizeof(t_token));
     if (!new_token)
@@ -114,7 +111,7 @@ t_token *cr_token(token_type type, const char *input)
 
 t_token *cr_sample_tokens()
 {
-    t_token *token1 = cr_token(CMD, "Cat");
+    t_token *token1 = cr_token(CMD, "cat");
 	t_token *token2 = cr_token(ARG, "Makefile");
     //t_token *token3 = cr_token(ARG, "info.txt");
     //t_token *token4 = cr_token(ARG, "");
@@ -143,11 +140,11 @@ int main(int argc, char **argv, char **envp)
         return (1);
     ft_bzero(mshell.commands, sizeof(t_cmd));
 	mshell.commands->tokens = cr_sample_tokens();
-   	run_execve(&mshell, mshell.commands->tokens);
-	//printf("\nEXIT CODE: %d\n", mshell.e_code);
+	run_execve(&mshell, mshell.commands->tokens);
+	printf("\nEXIT CODE Main: %d\n", mshell.e_code);
 	clear_mshell(&mshell);
     return 0;
-}
+}*/
 
 /*void	wait_childs(t_minishell *mshell, t_cmd *cmd)
 {

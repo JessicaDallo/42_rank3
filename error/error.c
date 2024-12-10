@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:10:05 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/05 18:57:35 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:21:26 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
  	ft_putstr_fd(cmd, STDERR_FILENO);
  	ft_putstr_fd(": ", STDERR_FILENO);
  	perror(str);
+	//mshell->e_code = errno;
  }
 
 void	close_fds(void)
