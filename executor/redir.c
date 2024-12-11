@@ -97,7 +97,8 @@ void    remove_redir(t_token *tokens)
 	printf("FIRST REMOVE:\n");
     while(temp)
     {
-        if(tokens->type == INPUT_REDIR || tokens->type == OUTPUT_REDIR || tokens->type == APPEND_REDIR)
+        if(tokens->type == INPUT_REDIR || tokens->type == OUTPUT_REDIR ||
+			tokens->type == APPEND_REDIR)
         {
             if (aux)
                 aux->next = temp->next;
@@ -107,9 +108,10 @@ void    remove_redir(t_token *tokens)
             free(temp);
             return;
         }
-        aux = temp; 
+        aux = temp;
         temp = temp->next; 
-        }
+    }
+	return;
 }
 
 void	handle_redir(t_token *tokens)

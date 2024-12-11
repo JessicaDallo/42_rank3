@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
+#    By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/12/10 20:31:48 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/11 16:02:24 by shrodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ TOKENS = tokens.c create_tokens.c tokens_utils.c
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
 		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
-		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) #main.c
 
 OBJS = ${SRC:.c=.o}
 
@@ -69,4 +69,3 @@ re: fclean all
 #	@echo "}" >> readline.supp
 
 .PHONY: all clean fclean re
-

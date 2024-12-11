@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 19:22:22 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/11 17:47:25 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	read_heredoc(t_minishell *mshell, char *eof, int fd, bool expand)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	if (dup2(fd, STDIN_FILENO) < 0)
+		perror("Erro ao redirecionar o arquivo");
 	close(fd);
 	return;
 }
@@ -105,7 +107,6 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
 	free(eof);
 }
-
 
 /*int main(int argc, char **argv, char **envp)
 {

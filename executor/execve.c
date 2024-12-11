@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 16:41:21 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/11 17:11:14 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if(!token->input)
 		return;
 	args = convert_args(token);
+	signal(SIGINT, ft_sigint);
 	if(pid == 0)
 	{
 		if(!args || !args[0])
@@ -113,15 +114,15 @@ t_token *cr_sample_tokens()
 {
     t_token *token1 = cr_token(CMD, "cat");
 	t_token *token2 = cr_token(ARG, "Makefile");
-    //t_token *token3 = cr_token(ARG, "info.txt");
-    //t_token *token4 = cr_token(ARG, "");
+    t_token *token3 = cr_token(ARG, "new.txt");
+    t_token *token4 = cr_token(ARG, "<<END");
     //t_token *token5 = cr_token(ARG, "");
 	//t_token *token6 = cr_token(ARG, "");
 
     // Conecte os tokens
     token1->next = token2;
-    //token2->next = token3;
-	///token3->next = token4;
+    token2->next = token3;
+	token3->next = token4;
     //token4->next = token5;
 	//token5->next = token6;;
 

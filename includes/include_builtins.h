@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 20:40:21 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/11 16:50:10 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*handle_quotes(char *str, int s_quote, int d_quote);
 
 char	**convert_args(t_token *token);
 int		ft_arraylen(t_token *token);
-//t_minishell	*get_shell(void);
+t_minishell	*get_shell(void);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
@@ -157,7 +157,7 @@ void	run_execve(t_minishell *mshell, t_token *token);
 // void	exec_cmd(t_minishell *mshell, t_cmd *token);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);
 // void	run_commands(t_minishell *mshell);
-
+void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
 
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token *tokens);
