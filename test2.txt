@@ -68,4 +68,7 @@ re: fclean all
 #	@echo "    fun:add_history" >> readline.supp
 #	@echo "}" >> readline.supp
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean reFIRST REMOVE:
+FIRST REMOVE:
+
+EXIT CODE Main: 0

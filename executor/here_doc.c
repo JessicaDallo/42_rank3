@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migupere <migupere@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/11 17:47:25 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:43:07 by migupere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ pid_t	creat_pid(t_minishell *mshell)
 	return(child);	
 }
 
-int	tmp_heredoc(t_minishell *mshell)
+/*int	tmp_heredoc(t_minishell *mshell)
 {
 	int			fd;
 	char		*tmp_file;
@@ -51,12 +51,28 @@ int	tmp_heredoc(t_minishell *mshell)
 		return(-1);
 	}
 	return(fd);
+}*/
+
+int	tmp_heredoc(t_minishell *mshell)
+{
+	int			fd;
+	
+	fd = open("/tmp/heredoc_file0001", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if(fd < 0)
+	{
+		perror("Erro ao abrir o arquivo");
+		mshell->e_code = errno;
+		return(-1);
+	}
+	return(fd);
 }
 
-void	read_heredoc(t_minishell *mshell, char *eof, int fd, bool expand)
+void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 {
 	char	*line;
+	int		fd;
 	
+	fd = tmp_heredoc(mshell);
 	while (1)
 	{
 		line = readline("> ");
@@ -75,10 +91,8 @@ void	read_heredoc(t_minishell *mshell, char *eof, int fd, bool expand)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	if (dup2(fd, STDIN_FILENO) < 0)
-		perror("Erro ao redirecionar o arquivo");
 	close(fd);
-	return;
+	exit(mshell->e_code);
 }
 
 void	ft_heredoc(t_minishell *mshell, char *delim)
@@ -91,21 +105,23 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	//eof = (char *)calloc(ft_strlen(delim) + 1, sizeof(char));
 	eof = handle_quotes(delim, 0, 0);
 	pid = creat_pid(mshell);
-	fd_here = tmp_heredoc(mshell);
 	expand = is_expand(delim);
 	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
 	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
-	if(fd_here < 0)
-		return;
+	//if(fd_here < 0)
+	//	return;
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
-		read_heredoc(mshell,eof, fd_here, expand);
+		read_heredoc(mshell, eof, expand);
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
 	free(eof);
+	fd_here = open("/tmp/heredoc_file0001", O_RDONLY);
+	dup2(fd_here, STDIN_FILENO);
+	unlink("/tmp/heredoc_file0001");
 }
 
 /*int main(int argc, char **argv, char **envp)

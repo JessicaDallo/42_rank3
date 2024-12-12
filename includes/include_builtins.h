@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/11 16:50:10 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:40:38 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum
 	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
 	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
 	HEREDOC,
-	PIPE, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
 } token_type;
 
 typedef struct	s_token
@@ -147,7 +146,7 @@ void	ft_sigquit(int signal);
 pid_t	creat_pid(t_minishell *mshell);
 void	ft_heredoc(t_minishell *mshell, char *delim);
 int		tmp_heredoc(t_minishell *mshell);
-void	read_heredoc(t_minishell *mshell, char *eof, int fd, bool expand);
+void	read_heredoc(t_minishell *mshell, char *eof, bool expand);
 
 int		check_execpath(t_minishell *mshell, char *path);
 int		execpath_error(t_minishell *mshell, char *path);

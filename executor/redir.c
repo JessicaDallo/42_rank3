@@ -117,7 +117,6 @@ void    remove_redir(t_token *tokens)
 void	handle_redir(t_token *tokens)
 {
 	//Lidar com expnsao do tilde
-	//Lidar com rediecionamento de input do heredoc
 	while(tokens)
 	{
 		if(tokens->type == INPUT_REDIR)

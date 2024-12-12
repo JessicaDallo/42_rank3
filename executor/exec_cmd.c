@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migupere <migupere@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/11 16:59:47 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:51:08 by migupere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	exec_cmd(t_minishell *mshell)
             clear_mshell(mshell);
             return;
         }
-        has_heredoc(mshell, cmd);
-        //handle_redir(cmd->tokens);
+        has_heredoc(mshell, cmd); //Lidar com rediecionamento de input do heredoc
+        handle_redir(cmd->tokens);
 	    if(is_builtin(mshell, cmd))
 		    return;
 	    else
@@ -34,6 +34,35 @@ void	exec_cmd(t_minishell *mshell)
     }
 	return;
 }
+
+/*void	exec_cmd(t_minishell *mshell)
+{
+    t_cmd   *cmd;
+    
+    cmd = mshell->commands;
+    while(cmd)
+    {
+        if(!cmd->tokens || !cmd->tokens->input)
+        {
+            clear_mshell(mshell);
+            return;
+        }
+        pipe(cmd->fd);
+        dup2(cmd->fd[1], STDOUT_FILENO); 
+        close(cmd->fd[0]);
+        has_heredoc(mshell, cmd);
+        //handle_redir(cmd->tokens);
+	    if(is_builtin(mshell, cmd))
+		    return;
+	    else
+		   run_execve(mshell, cmd->tokens);
+        close(cmd->fd[1]);
+	    if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
+		mshell->e_code = WEXITSTATUS(mshell->e_code);
+        cmd = cmd->next;
+    }
+	return;
+}*/
 
 void	has_heredoc(t_minishell *mshell, t_cmd *cmd)
 {
@@ -154,14 +183,14 @@ t_token *cr_token(token_type type, const char *input)
     return new_token;
 }
 
-t_token *cr_sample_tokens()
+/*t_token *cr_sample_tokens()
 {
     t_token *token1 = cr_token(CMD, "cat");
-    t_token *token2 = cr_token(HEREDOC, "END");
-	//t_token *token3 = cr_token(ARG, "Makefile");
-    //t_token *token4 = cr_token(ARG, "new.txt");
-    //t_token *token5 = cr_token(OUTPUT_REDIR, "teste.txt");
-	//t_token *token6 = cr_token(ARG, "");
+    t_token *token2 = cr_token(HEREDOC, "STOP");
+    //t_token *token3 = cr_token(CMD, "echo");
+	//t_token *token4 = cr_token(ARG, "Makefile");
+    //t_token *token5 = cr_token(ARG, "new.txt");
+    //t_token *token6 = cr_token(OUTPUT_REDIR, "teste.txt");
 
     // Conecte os tokens
     token1->next = token2;
@@ -171,7 +200,64 @@ t_token *cr_sample_tokens()
 	//token5->next = token6;;
 
     return token1; // Retorna o início da lista
+}*/
+
+t_cmd *cr_cmd(void)
+{
+    t_cmd *new_cmd = malloc(sizeof(t_cmd));
+    if (!new_cmd)
+        return NULL;
+
+    new_cmd->tokens = NULL;  // Inicializa a lista de tokens como vazia
+    new_cmd->fd[0] = -1;     // Inicializa os descritores de arquivo
+    new_cmd->fd[1] = -1;
+    new_cmd->next = NULL;    // Inicializa o próximo comando como NULL
+
+    return new_cmd;
 }
+void add_token_to_cmd(t_cmd *cmd, t_token *token)
+{
+    t_token *current;
+
+    if (!cmd || !token)
+        return;
+
+    if (!cmd->tokens)
+    {
+        cmd->tokens = token; // Se a lista de tokens estiver vazia, define o primeiro token
+    }
+    else
+    {
+        current = cmd->tokens;
+        while (current->next)
+            current = current->next; // Percorre até o final da lista de tokens
+        current->next = token;       // Adiciona o token ao final
+    }
+}
+
+t_cmd *cr_sample_cmds()
+{
+    // Comando 1: cat com HEREDOC
+    t_cmd *cmd1 = cr_cmd();
+    add_token_to_cmd(cmd1, cr_token(CMD, "cat"));
+    //add_token_to_cmd(cmd1, cr_token(HEREDOC, "END"));
+    add_token_to_cmd(cmd1, cr_token(ARG, "Makefile"));
+    add_token_to_cmd(cmd1, cr_token(OUTPUT_REDIR, "test.txt"));
+    add_token_to_cmd(cmd1, cr_token(OUTPUT_REDIR, "test2.txt"));
+    //add_token_to_cmd(cmd1, cr_token(HEREDOC, "stop"));
+    
+    // Comando 2: echo com argumentos
+    //t_cmd *cmd2 = cr_cmd();
+    //add_token_to_cmd(cmd2, cr_token(CMD, "echo"));
+    //add_token_to_cmd(cmd2, cr_token(ARG, "Hello World"));
+
+    // Conecte os comandos
+    //cmd1->next = cmd2;
+
+    return cmd1; // Retorna o início da lista de comandos
+}
+
+
 
 int main(int argc, char **argv, char **envp)
 {
@@ -184,7 +270,7 @@ int main(int argc, char **argv, char **envp)
     if (!mshell.commands)
         return (1);
     ft_bzero(mshell.commands, sizeof(t_cmd));
-	mshell.commands->tokens = cr_sample_tokens();
+	mshell.commands = cr_sample_cmds();
 	exec_cmd(&mshell);
 	printf("\nEXIT CODE Main: %d\n", mshell.e_code);
 	clear_mshell(&mshell);
