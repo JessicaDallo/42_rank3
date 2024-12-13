@@ -6,13 +6,13 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:15:14 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/12 17:34:01 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:31:12 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void exec_cmd(t_minishell *mshell)
+/*void exec_cmd(t_minishell *mshell)
 {
     t_cmd *cmd = mshell->commands;
     pid_t pid;
@@ -152,35 +152,35 @@ void handle_redir(t_token *tokens)
 }
 
 
-/*t_token *cr_token(token_type type, const char *input)
-{
-    t_token *new_token = malloc(sizeof(t_token));
-    if (!new_token)
-        return NULL;
-    new_token->type = type;
-    new_token->input = strdup(input); // Copia o valor da string
-    new_token->next = NULL;
-    return new_token;
-}
+// t_token *cr_token(token_type type, const char *input)
+// {
+//     t_token *new_token = malloc(sizeof(t_token));
+//     if (!new_token)
+//         return NULL;
+//     new_token->type = type;
+//     new_token->input = strdup(input); // Copia o valor da string
+//     new_token->next = NULL;
+//     return new_token;
+// }
 
-t_token *cr_sample_tokens()
-{
-    t_token *token1 = cr_token(CMD, "cat");
-    t_token *token2 = cr_token(HEREDOC, "END");
-	//t_token *token3 = cr_token(ARG, "Makefile");
-    //t_token *token4 = cr_token(ARG, "new.txt");
-    //t_token *token5 = cr_token(OUTPUT_REDIR, "teste.txt");
-	//t_token *token6 = cr_token(ARG, "");
+// t_token *cr_sample_tokens()
+// {
+//     t_token *token1 = cr_token(CMD, "cat");
+//     t_token *token2 = cr_token(HEREDOC, "END");
+// 	//t_token *token3 = cr_token(ARG, "Makefile");
+//     //t_token *token4 = cr_token(ARG, "new.txt");
+//     //t_token *token5 = cr_token(OUTPUT_REDIR, "teste.txt");
+// 	//t_token *token6 = cr_token(ARG, "");
 
-    // Conecte os tokens
-    token1->next = token2;
-    //token2->next = token3;
-	//token3->next = token4;
-    //token4->next = token5;
-	//token5->next = token6;;
+//     // Conecte os tokens
+//     token1->next = token2;
+//     //token2->next = token3;
+// 	//token3->next = token4;
+//     //token4->next = token5;
+// 	//token5->next = token6;;
 
-    return token1; // Retorna o início da lista
-}*/
+//     return token1; // Retorna o início da lista
+// }
 
 int main(int argc, char **argv, char **envp)
 {

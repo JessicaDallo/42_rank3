@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/12 15:40:38 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:25:16 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,11 @@ void	run_execve(t_minishell *mshell, t_token *token);
 void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
 
 /*------------------------------------- REDIR -------------------------------------*/
-void	handle_redir(t_token *tokens);
-void    remove_redir(t_token *tokens);
+void	handle_redir(t_token **tokens);
 void	redir_append(char *file);
 void	redir_output(char *file);
 void	redir_input(char *file);
-
-//t_token *cr_token(token_type type, const char *input);
-//t_token *cr_sample_tokens();
+void    remove_redir(t_token **tokens, t_token **current);
 
 
 /*------------------------------------- JESSICA -------------------------------------*/

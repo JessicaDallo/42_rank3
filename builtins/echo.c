@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/06 18:47:04 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:11:04 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int ft_echo(t_minishell *mshell, t_token *token)
     char    *temp;
     
     token = token->next;
-    if (token->input && ft_strncmp(token->input, "-n", 3) == 0)
+    if (token && token->input && ft_strncmp(token->input, "-n", 3) == 0)
 	{
         newline = 0;
         token = token->next;

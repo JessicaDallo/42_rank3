@@ -81,60 +81,60 @@ void	redir_append(char *file)
 // 	}
 // 	if (dup2(fd, STDERR_FILENO) < 0)
 // 	{
-// 		perror("Erro ao redirecionar o arquivo");
-// 		return;
-// 	}
-// 	close(fd);	
+// 		perror("Erro ao requando na funcao 
 // }
 
-void    remove_redir(t_token *tokens)
+void    remove_redir(t_token **tokens, t_token **current)
 {
-    t_token   *temp;
-    t_token   *aux;
+    t_token   *tmp;
+    t_token   *prev;
 
-    temp = tokens;
-    aux = NULL;
-	printf("FIRST REMOVE:\n");
-    while(temp)
+	printf("\n ****** REMOVE REDIR ******\n");
+    if(!tokens || !*tokens || !current || !*current)
+		return;
+	tmp = *current;
+    prev = NULL;
+    if(tmp == *tokens)
+		*tokens = tmp->next;
+    else
     {
-        if(tokens->type == INPUT_REDIR || tokens->type == OUTPUT_REDIR ||
-			tokens->type == APPEND_REDIR)
-        {
-            if (aux)
-                aux->next = temp->next;
-            else
-                tokens = temp->next;
-            free(temp->input);
-            free(temp);
-            return;
-        }
-        aux = temp;
-        temp = temp->next; 
+		prev = *tokens;
+		while(prev && prev->next != tmp)
+			prev = prev->next;
+        if(prev)
+			prev->next = tmp->next;
     }
-	return;
+	if(tmp->input)
+		free(tmp->input);
+	free(tmp);
+	*current = NULL;
 }
 
-void	handle_redir(t_token *tokens)
+void	handle_redir(t_token **tokens)
 {
+	t_token	*temp;
+	t_token	*aux;
 	//Lidar com expnsao do tilde
-	while(tokens)
-	{
-		if(tokens->type == INPUT_REDIR)
+	temp = *tokens;
+	while(temp)
+	{	
+		aux = temp->next;
+		if(temp->type == INPUT_REDIR)
 		{
-			redir_input(tokens->input);
-			remove_redir(tokens);
+			redir_input(temp->input);
+			remove_redir(tokens, &temp);
 		}
-		else if(tokens->type == OUTPUT_REDIR)
+		else if(temp->type == OUTPUT_REDIR)
 		{
-			redir_output(tokens->input);
-			remove_redir(tokens);	
+			redir_output(temp->input);
+			remove_redir(tokens, &temp);	
 		}
-		else if(tokens->type == APPEND_REDIR)
+		else if(temp->type == APPEND_REDIR)
 		{
-			redir_append(tokens->input);
-			remove_redir(tokens);
+			redir_append(temp->input);
+			remove_redir(tokens, &temp);
 		}
-		tokens = tokens->next;
+		temp = aux;
 	}
 }
 
