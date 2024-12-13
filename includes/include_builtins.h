@@ -139,18 +139,19 @@ void	parse_input(char *input);
 void	get_tokens(char **cmd);
 int		get_type(char *cmd, bool teste);
 bool	is_delimiter(char *arg);
+bool	check_quots(char *h_input);
 
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
 
-// void	quote_pointer(char **arg, char c);
+void	quote_pointer(char **arg, char c);
 // void	handle_value(char **arg, t_token **token, char *str);
-// int		ft_count_words(char *arg, char c);
-// int		quote_count(char *arg, char c);
+int		ft_count_words(char *arg, char c);
+int		quote_count(char *arg, char c);
 // int		len_array(char **arg);
-// char	**find_cmd(char *arg, char **cmd);
-// bool	delimiter(char **arg);
+char	**find_cmd(char *arg, char **cmd);
+bool	delimiter(char **arg);
 
 
 

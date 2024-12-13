@@ -22,25 +22,7 @@ char	**find_cmd(char *arg, char **cmd)
 	j = 0;
 	while(arg[i])
 	{
-		if(arg[i] == '|' || arg[i] == '<' || arg[i] == '>')
-		{
-			if(i > init)
-			{
-				cmd[j++] = ft_strndup(&arg[init], i - init);
-			}
-			if((arg[i] == '<' && arg[i +1 ] == '<') || (arg[i] == '>' && arg[i +1 ] == '>'))
-			{
-				cmd[j++] = ft_strndup(&arg[i], 2);
-				init = i + 2;
-				i++;
-			}
-			else 
-			{
-				cmd[j++] = ft_strndup(&arg[i], 1);
-				init = i + 1;
-			}
-		}
-		else if(arg[i] == '"' || arg[i] == '\'')
+		if(arg[i] == '"' || arg[i] == '\'')
 		{
 			i = i + quote_count(&arg[i], arg[i]);
 			if(arg[i] == ' ' || delimiter(&arg) || arg[i] == '"' || arg[i] == '\'')
@@ -110,29 +92,36 @@ int	ft_count_words(char *arg, char c)
 	was_cmd = 0;
 	while (*arg)
 	{
-		while (*arg == c)
-		{
-			was_cmd = 0;
-			arg++;
-		}
+		// while (*arg == c)
+		// {
+		// 	was_cmd = 0;
+		// 	arg++;
+		// }
 		if(*arg == '"' || *arg == '\'')
 		{
 			quote_pointer(&arg, *arg);
-			if(*arg == ' ' || delimiter(&arg) || *arg == '"' || *arg == '\'')
+			if(*arg == ' ' || *arg == '"' || *arg == '\'')
 				i++;
 			arg++;
 		}
-		else if (*arg && !delimiter(&arg) && !was_cmd)
+		else if (*arg != c && was_cmd == 0)
 		{
-			i++;
 			was_cmd = 1;
+			i++;
 		}
-		else if (delimiter(&arg))
-		{
-		//	if (*arg == '|')
-				i++;
-			was_cmd = 0;
-		}
+		else if (*arg == c)
+			i++;
+		// else if (*arg && !delimiter(&arg) && !was_cmd)
+		// {
+		// 	i++;
+		// 	was_cmd = 1;
+		// }
+		// else if (delimiter(&arg))
+		// {
+		// //	if (*arg == '|')
+		// 		i++;
+		// 	was_cmd = 0;
+		// }
 		if (*arg == '\0')
 			return i;
 		arg++;

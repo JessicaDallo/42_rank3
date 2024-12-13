@@ -12,6 +12,18 @@
 
  #include "../includes/include_builtins.h"
 
+bool check_quots(char *h_input)
+{
+	int i = 0;
+	while (h_input[i])
+	{
+		if(h_input[i] == '\'' || h_input[i] == '"')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 bool is_delimiter(char *arg)
 {
 	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, ">") == 0 || !arg)
