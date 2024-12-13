@@ -14,7 +14,8 @@
 
 static char **check_and_split(char *h_input, char **temp)
 {
-	//char **temp;
+	//char **temp; teste " bla   " tetse
+
 	int len_token;
 
 	len_token = 0;
@@ -124,7 +125,10 @@ int	ft_count_words(char *arg, char c)
 			i++;
 		}
 		else if (*arg == c)
-			i++;
+		{
+			was_cmd = 0;
+			//i++;
+		}
 		// else if (*arg && !delimiter(&arg) && !was_cmd)
 		// {
 		// 	i++;
