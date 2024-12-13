@@ -205,3 +205,103 @@ void	get_tokens(char *arg)
 		}
 }
 
+char	**find_cmd(char *arg, char **cmd)
+{
+	int init = 0;
+	int	i;
+	int	j;
+
+	i = init;
+	j = 0;
+	while(arg[i])
+	{
+		if(arg[i] == '"' || arg[i] == '\'')
+		{
+			i = i + quote_count(&arg[i], arg[i]);
+			if(arg[i] == ' ' || delimiter(&arg) || arg[i] == '"' || arg[i] == '\'')
+			{
+				cmd[j++] = ft_strndup(&arg[init], i - init);
+				init = i;
+			}
+		}
+		else if (arg[i] == ' ')
+		{
+			if (i > init)
+				cmd[j++] = ft_strndup(&arg[init], i - init);
+			init = i + 1;
+		}
+		i++;
+	}
+	if (init < i)
+		cmd[j++] = ft_strndup(&arg[init], i - init);
+	cmd[j] = NULL;
+	return (cmd);
+}
+
+int	quote_count(char *arg, char c)
+{
+	int i;
+
+	i= 0;
+	i++;
+	while (arg[i] != c)
+	{
+		i++;
+	}
+	i++;
+	return (i);
+}
+
+bool	delimiter(char **arg)
+{
+	if (**arg == '|' || **arg == '>' || **arg == '<' || **arg == '\n')
+	{
+		if (*(*arg + 1 )== '<' || *(*arg) + 1 == '>')
+			(*arg)++;
+		return (true);
+	}
+	return (false);
+}
+
+void	quote_pointer(char **arg, char c)
+{
+	int i;
+	
+	i = 0;
+	(*arg)++;
+	while(**arg != c)
+	{
+		i++;
+		(*arg)++;
+	}
+}
+
+int	ft_count_words(char *arg, char c)
+{
+	int i;
+	int was_cmd;
+
+	i = 0;
+	was_cmd = 0;
+	while (*arg)
+	{
+		if(*arg == '"' || *arg == '\'')
+		{
+			quote_pointer(&arg, *arg);
+			if(*arg == ' ' || *arg == '"' || *arg == '\'')
+				i++;
+			arg++;
+		}
+		else if (*arg != c && was_cmd == 0)
+		{
+			was_cmd = 1;
+			i++;
+		}
+		else if (*arg == c)
+			was_cmd = 0;
+	//	if (*arg == '\0')
+	//		return i;
+		arg++;
+	}
+	return (i);
+}
