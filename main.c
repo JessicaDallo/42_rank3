@@ -151,17 +151,21 @@ int main ()
 		input = readline("minishell> ");
 		if (!input)
 		{
+          //  rl_clear_history();
+          //  rl_free_line_state();
 			printf("exit\n");
 			break;
 		}
+        if(*input == '\0')
+            continue ;
 		if(*input)
 			add_history(input);
-
-		printf("%s\n", input);
-		
-		if (validate(&input) > 0)
-			continue;
+        if (validate(&input) > 0)
+			continue ;
 		parse_input(input);
+        free(input);
+        rl_free_line_state();
+
 	}
 }
 

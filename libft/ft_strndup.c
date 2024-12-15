@@ -18,8 +18,6 @@ char	*ft_strndup(char *s, size_t n)
 	int	len;
 
 	len = ft_strnlen(s, n);
-	// if(n > ft_strlen(s))
-	//  	return (NULL);
 	if(n > ft_strlen(s))
 		len = ft_strlen(s);
 	else 
@@ -28,7 +26,6 @@ char	*ft_strndup(char *s, size_t n)
 	if (dest == NULL)
 		return (NULL);
 	ft_strncpy(dest, s, n);
-	dest[len + 1] = '\0';
 	return (dest);
 }
 

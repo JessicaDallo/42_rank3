@@ -153,6 +153,9 @@ int		quote_count(char *arg, char c);
 char	**find_cmd(char *arg, char **cmd);
 bool	delimiter(char **arg);
 
+void free_token_list(t_token *head);
+void free_cmd(t_cmd *cmd);
+void free_token(t_token *token);
 
 
 

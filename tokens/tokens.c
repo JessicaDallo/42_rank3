@@ -12,22 +12,32 @@
 
 #include "../includes/include_builtins.h"
 
-static char **check_and_split(char *h_input, char c)
+int	quote_count(char *str, char c)
 {
-	char **temp;
+	int i;
 
-	int len_token;
-
-	len_token = 0;
-	len_token = ft_count_words(h_input, c);
-	printf("QUAL TAMANHO %d \n", len_token),
-	temp = ft_calloc(sizeof(char *), len_token);
-	if(!temp) 
-		return NULL;
-	return(find_cmd(h_input, temp));
+	i= 0;
+	i++;
+	while (str[i] != c)
+	{
+		i++;
+	}
+	i++;
+	return (i);
 }
 
-int ft_count_words (char *h_input, char c)
+bool	delimiter(char **str)
+{
+	if (**str == '|' || **str == '>' || **str == '<' || **str == '\n')
+	{
+		if (*(*str + 1 )== '<' || *(*str) + 1 == '>')
+			(*str)++;
+		return (true);
+	}
+	return (false);
+}
+
+int ft_count_words(char *s, char c)
 {
 	int	i;
 	char quots;
@@ -37,21 +47,65 @@ int ft_count_words (char *h_input, char c)
 	{
 		while (*s == c)
 			s++;
-		if(*s == '"' || *s == '\'')
-		{
-			quots = *s;
-			while(*s != quots)
+		if (*s && *s != c)
+        {
+			i++;
+        }
+    	while (*s && *s != c)
+	    {
+			if(*s == '"' || *s == '\'')
+			{
+				quots = *s;
 				s++;
-			i++;
-		}
-		if (*s)
-			i++;
-		while (*s != c && *s)
+				while(*s && *s != quots)
+					s++;
+			}
 			s++;
+		}	
 	}
 	return (i);
 }
 
+char **ft_split_quots(char *str, char c)
+{
+	int i = 0;
+	int start;
+	int j = 0;
+	char **splited;
+
+	start = i;
+	int len;
+	len = ft_strlen(str);
+	splited = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1);
+	if(!splited)
+		return (NULL);
+	while(str[i] != '\0')
+	{
+		if(str[i] == '"' || str[i] == '\'')
+		{
+			i = i + quote_count(&str[i], str[i]);
+			if(str[i] == c)
+			{
+				splited[j++] = ft_strndup(&str[start], i - start);
+				start = i + 1;
+			}
+		}
+		else if (str[i] == c)
+		{
+			if (i > start)
+				splited[j++] = ft_strndup(&str[start], i - start);
+			start = i + 1;
+		}
+		if(i < len )
+			i++;
+		else
+			break ;
+	}
+	if (start < i)
+		splited[j++] = ft_strndup(&str[start], i - start);
+	splited[j] = NULL;
+	return (splited);
+}
 
 int	get_type(char *cmd, bool teste)
 {
@@ -76,17 +130,13 @@ void get_tokens(char **h_input)
 	char	**temp;
 	int		i;
 	bool	teste;
-
 	cmd = NULL;
 	while(*h_input)
 	{
 		add_cmd(&cmd);
 		teste = true;
 		i = 0;
-		temp = check_and_split(*h_input, ' ');
-	//	ft_print_array(temp);
-		//else
-		//temp = ft_split(*h_input, ' ');
+		temp = ft_split_quots(*h_input, ' ');
 		while(temp[i])
 		{
 			type = get_type(temp[i], teste);
@@ -96,20 +146,17 @@ void get_tokens(char **h_input)
 			teste = false;
 			i++;
 		}
-		//REMOVER É APENAS PARA TESTAR
 		h_input++;
 	}
-	//REMOVER É APENAS PARA TESTAR 
-	ft_print_tokens(&cmd);
 	free_array(temp);
+	free_cmd(cmd);
 }
 void	parse_input(char *input)
 {
-
 	char **h_input;
 
-	//h_input = ft_split(input, '|');
-	h_input = check_and_split(input, '|');
-	ft_print_array(h_input);
+	h_input = ft_split_quots(input, '|');
 	get_tokens(h_input);
+	free_array(h_input);
+
 }

@@ -84,3 +84,34 @@ void	add_cmd(t_cmd **cmd)
 		temp = temp->next;
 	temp->next = new_cmd;
 }
+
+void free_token(t_token *token) {
+    if (token) {
+        if (token->input) // Liberar a string alocada
+            free(token->input);
+        free(token); // Liberar o próprio nó
+    }
+}
+
+
+void free_token_list(t_token *head) {
+    t_token *temp;
+
+    while (head) {
+        temp = head->next;
+        free_token(head); // Libera o nó atual
+        head = temp;      // Move para o próximo nó
+    }
+}
+
+void free_cmd(t_cmd *cmd) {
+    t_cmd *temp;
+
+    while (cmd) {
+        temp = cmd->next;
+        if (cmd->token) // Libera a lista de tokens associada
+            free_token_list(cmd->token);
+        free(cmd); // Libera o próprio nó de comando
+        cmd = temp;
+    }
+}

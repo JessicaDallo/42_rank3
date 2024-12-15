@@ -26,6 +26,9 @@ SINTAX = sintax.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
 TOKENS = tokens.c create_tokens.c tokens_utils.c
+#VALGRIND
+VALGRIND_FLAGS = --quiet --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --gen-suppressions=all
+VALGRIND_SUPP = --suppressions=readline.supp
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) $(addprefix sintax/, $(SINTAX)) main.c
 OBJS = ${SRC:.c=.o}
@@ -48,6 +51,9 @@ fclean: clean
 		${RM} ${NAME}
 
 re: fclean all
+
+valgrind: all
+	valgrind $(VALGRIND_FLAGS) $(VALGRIND_SUPP) ./$(NAME)
 
 #leaks: readline.supp
 #	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
