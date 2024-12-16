@@ -76,7 +76,7 @@ char **ft_split_quots(char *str, char c)
 	start = i;
 	int len;
 	len = ft_strlen(str);
-	splited = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1);
+	splited = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1); ///a qui
 	if(!splited)
 		return (NULL);
 	while(str[i] != '\0')
@@ -86,14 +86,14 @@ char **ft_split_quots(char *str, char c)
 			i = i + quote_count(&str[i], str[i]);
 			if(str[i] == c)
 			{
-				splited[j++] = ft_strndup(&str[start], i - start);
+				splited[j++] = ft_strndup(&str[start], i - start);// aqui 
 				start = i + 1;
 			}
 		}
 		else if (str[i] == c)
 		{
 			if (i > start)
-				splited[j++] = ft_strndup(&str[start], i - start);
+				splited[j++] = ft_strndup(&str[start], i - start); //aqui VERIFICAR SE O TAMANHO PASSADO É O CORRETO 
 			start = i + 1;
 		}
 		if(i < len )
@@ -147,7 +147,11 @@ void get_tokens(char **h_input)
 			i++;
 		}
 		h_input++;
+		ft_print_array(temp);
+		free_array(temp);
+		temp = NULL;
 	}
+	ft_print_tokens(&cmd);
 	free_array(temp);
 	free_cmd(cmd);
 }

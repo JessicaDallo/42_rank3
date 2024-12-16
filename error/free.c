@@ -22,6 +22,7 @@ void	free_array(char **str) //env
 	while(str[i])
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	free(str);

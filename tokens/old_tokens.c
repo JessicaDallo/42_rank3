@@ -305,3 +305,14 @@ int	ft_count_words(char *arg, char c)
 	}
 	return (i);
 }
+
+
+void free_tokens(t_token *tokens) {
+    t_token *tmp;
+    while (tokens) {
+        tmp = tokens->next;
+        free(tokens->input); // Libere strings alocadas
+        free(tokens);
+        tokens = tmp;
+    }
+}
