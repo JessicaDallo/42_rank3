@@ -12,81 +12,81 @@
 
 #include "../includes/include_builtins.h"
 
-bool val_quot(char **arg)
+bool	val_quot(char *arg, int *i)
 {
-	char c;
+	char	c;
 
-	c = **arg;
-	(*arg)++;
-	while (**arg)
+	c = arg[*i];
+	(*i)++;
+	while (arg[*i])
 	{
-		if(**arg == c && *(*arg - 1) != '\\')
+		if (arg[*i] == c && arg[*i - 1] != '\\')
 		{
-			(*arg)++;
+			(*i)++;
 			return (true);
 		}
-		(*arg)++;
+		(*i)++;
 	}
 	return (false);
 }
 
-bool val_pipe(char **arg, int was_cmd)
+bool	val_pipe(char *arg, int *was_cmd, int *i)
 {
-	was_cmd = 0;
-	(*arg)++;
-	while(**arg)
+	*was_cmd = 0;
+	(*i)++;
+	while (arg[*i])
 	{
-		if(**arg == '<' || **arg == '>' || **arg == '|')
+		if (arg[*i] == '<' || arg[*i] == '>' || arg[*i] == '|')
 			return (false);
-		else if(**arg != ' ' && **arg != '|')
-			was_cmd = 1;
-		if(was_cmd == 1)
+		else if (arg[*i] != ' ' && arg[*i] != '|')
+			*was_cmd = 1;
+		if (*was_cmd == 1)
 			return (true);
-		(*arg)++;
+		(*i)++;
 	}
-	return (was_cmd);
+	return (*was_cmd);
 }
 
-bool	val_red(char **arg, int was_cmd)
+bool	val_red(char *arg, int *was_cmd, int *i)
 {
-	int was_red;
+	int	was_red;
 
 	was_red = 1;
-	(*arg)++;
-	was_cmd = 0;
-	while(**arg)
+	(*i)++;
+	*was_cmd = 0;
+	while (arg[*i])
 	{
-		if (*(*arg + 1) == '>' && was_red)
+		if (arg[*i + 1] == '>' && was_red)
 			return (false);
-		if((**arg == '<' || **arg == '|') && !was_cmd)
+		if ((arg[*i] == '<' || arg[*i] == '|') && !(*was_cmd))
 			return (false);
-		else if (**arg != ' ' && **arg !='>')
-			was_cmd = 1;
-		if(was_cmd == 1)
+		else if (arg[*i] != ' ' && arg[*i] != '>')
+			*was_cmd = 1;
+		if (*was_cmd == 1)
 			return (true);
-		(*arg)++;
+		(*i)++;
 	}
-	return (was_cmd);
+	return (*was_cmd);
 }
 
-bool	val_red_in(char **arg, int was_cmd)
+bool	val_red_in(char *arg, int *was_cmd, int *i)
 {
-	int was_red;
+	int	was_red;
 
 	was_red = 1;
-	(*arg)++;
-	was_cmd = 0;
-	while(**arg)
+	(*i)++;
+	*was_cmd = 0;
+	while (arg[*i])
 	{
-		if (*(*arg + 1) == '<' && was_red)
+		if (arg[*i + 1] == '<' && was_red)
 			return (false);
-		if((**arg == '>' || **arg == '|') && !was_cmd)
+		if ((arg[*i] == '>' || arg[*i] == '|') && !(*was_cmd))
 			return (false);
-		else if (**arg != ' ' && **arg !='<')
-			was_cmd = 1;
-		if(was_cmd == 1)
+		else if (arg[*i] != ' ' && arg[*i] != '<')
+			*was_cmd = 1;
+		if (*was_cmd == 1)
 			return (true);
-		(*arg)++;
+		(*i)++;
 	}
-	return (was_cmd);
+	return (*was_cmd);
 }
