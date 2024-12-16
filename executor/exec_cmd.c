@@ -6,7 +6,7 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/13 17:06:39 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:39:31 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	exec_cmd(t_minishell *mshell)
             clear_mshell(mshell);
             return;
         }
-        has_heredoc(mshell, cmd); //Lidar com rediecionamento de input do heredoc
-        printf("\n ****** END HAS_HD ******\n");
+        has_heredoc(mshell, &(cmd->tokens)); //Lidar com rediecionamento de input do heredoc
         handle_redir(&(cmd->tokens));
 	    if(is_builtin(mshell, cmd))
 		    return;
+        printf("\n ****** EXEC_CMD ******\n");
 	    else
 		    run_execve(mshell, cmd->tokens);
         cmd = cmd->next;
@@ -36,37 +36,43 @@ void	exec_cmd(t_minishell *mshell)
 	return;
 }
 
-void	has_heredoc(t_minishell *mshell, t_cmd *cmd)
+void	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
 	t_token *temp;
-    t_token *prev;
+    t_token *aux;
 	
-	temp = cmd->tokens;
+	temp = *tokens;
 	while(temp)
 	{
+        printf("Iterando no token: %s\n", temp->input);
+        aux = temp->next;
         if (temp->type == HEREDOC)
         {   
             printf("\n ****** HAS_HEREDOC FILHO ******\n");
             pid_t pid = creat_pid(mshell);
-            if(pid == 0){
+            printf("PID criado: %d\n", pid);
+            signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
+	        signal(SIGQUIT, SIG_IGN); 
+            if(pid == 0)
+            {
+                printf("Processo filho iniciado para HEREDOC.\n");
                 signal(SIGINT, ft_sigint);
-            ft_heredoc(mshell, temp->input);
-            if(prev)
-                prev->next = temp->next;
-            else
-                cmd->tokens = temp->next;
-            free(temp->input);
-            free(temp);
-            exit(mshell->e_code);
-        printf("\n ****** HAS_HEREDOC PAI ******\n");
+                ft_heredoc(mshell, temp->input);
+                printf("Processo filho finalizando.\n");
+                exit(mshell->e_code);
             }
-        waitpid(pid, &mshell->e_code, 0);
-	    if(WIFEXITED(mshell->e_code))
-		mshell->e_code = WEXITSTATUS(mshell->e_code);
+            printf("Aguardando filho com waitpid.\n");
+            waitpid(pid, &mshell->e_code, 0);
+            printf("Filho finalizado, status: %d\n", mshell->e_code);
+	        if(WIFEXITED(mshell->e_code))
+		    mshell->e_code = WEXITSTATUS(mshell->e_code);
+            printf("Removendo token HEREDOC.\n");
+            remove_token(tokens, &temp);
         }
-        prev = temp;
-		temp = temp->next;
-	}
+        temp = aux;      
+    }
+    printf("Finalizando has_heredoc.\n");
+    return;
 }
 
 t_token *cr_token(token_type type, const char *input)

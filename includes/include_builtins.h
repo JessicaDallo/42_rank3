@@ -156,14 +156,15 @@ void	run_execve(t_minishell *mshell, t_token *token);
 // void	exec_cmd(t_minishell *mshell, t_cmd *token);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);
 // void	run_commands(t_minishell *mshell);
-void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
+//void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
+void	has_heredoc(t_minishell *mshell, t_token **tokens);
 
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token **tokens);
 void	redir_append(char *file);
 void	redir_output(char *file);
 void	redir_input(char *file);
-void    remove_redir(t_token **tokens, t_token **current);
+void    remove_token(t_token **tokens, t_token **current);
 
 
 /*------------------------------------- JESSICA -------------------------------------*/

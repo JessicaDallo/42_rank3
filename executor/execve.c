@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migupere <migupere@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/12 19:38:25 by migupere         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:40:45 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,30 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	char	**args;
 	pid_t	pid;
 	
+	printf("\n ****** RUN EXECVE ******\n");
 	pid = creat_pid(mshell);
+	printf("PID criado: %d\n", pid);
 	if(!token->input)
 		return;
 	args = convert_args(token);
 	signal(SIGINT, ft_sigint);
 	if(pid == 0)
 	{
+		printf("Processo filho iniciado para EXECVE.\n");
 		if(!args || !args[0])
 			return;
 		executable = get_execpath(args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
+		printf("Processo filho finalizado para EXECVE.\n");
 	}
+	printf("Aguardando filho com waitpid EXECVE.\n");
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
 	free_array(args);
-	//return;
+	printf("Finalizando EXECVE.\n");
+	return;
 }
 
 /*t_token *cr_token(token_type type, const char *input)

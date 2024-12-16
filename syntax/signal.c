@@ -33,13 +33,13 @@ void	ft_sigint(int signal)
 	t_minishell	*mshell;
 
 	mshell = get_shell();
-	(void)signal;
 	if(signal == SIGINT)
 	{
 		ft_putstr_fd("\n", STDERR_FILENO);
 		exit(mshell->e_code = 130);
 	}
 }
+
 
 void	ft_sigquit(int signal)
 {

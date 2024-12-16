@@ -84,12 +84,11 @@ void	redir_append(char *file)
 // 		perror("Erro ao requando na funcao 
 // }
 
-void    remove_redir(t_token **tokens, t_token **current)
+void    remove_token(t_token **tokens, t_token **current)
 {
     t_token   *tmp;
     t_token   *prev;
 
-	printf("\n ****** REMOVE REDIR ******\n");
     if(!tokens || !*tokens || !current || !*current)
 		return;
 	tmp = *current;
@@ -122,17 +121,17 @@ void	handle_redir(t_token **tokens)
 		if(temp->type == INPUT_REDIR)
 		{
 			redir_input(temp->input);
-			remove_redir(tokens, &temp);
+			remove_token(tokens, &temp);
 		}
 		else if(temp->type == OUTPUT_REDIR)
 		{
 			redir_output(temp->input);
-			remove_redir(tokens, &temp);	
+			remove_token(tokens, &temp);	
 		}
 		else if(temp->type == APPEND_REDIR)
 		{
 			redir_append(temp->input);
-			remove_redir(tokens, &temp);
+			remove_token(tokens, &temp);
 		}
 		temp = aux;
 	}
