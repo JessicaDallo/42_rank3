@@ -47,7 +47,7 @@ bool val_pipe(char **arg, int was_cmd)
 	return (was_cmd);
 }
 
-bool val_red(char **arg, int was_cmd)
+bool	val_red(char **arg, int was_cmd)
 {
 	int was_red;
 
@@ -69,7 +69,7 @@ bool val_red(char **arg, int was_cmd)
 	return (was_cmd);
 }
 
-bool val_red_in(char **arg, int was_cmd)
+bool	val_red_in(char **arg, int was_cmd)
 {
 	int was_red;
 

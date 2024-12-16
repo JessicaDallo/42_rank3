@@ -43,15 +43,15 @@ int	val_sintax(char *arg)
 			was_cmd = 1;
 		if(*arg != '\0')
 			arg++;
-		break ;
+		else 
+			break ;
 	}
 	return (0);
 }
 
-int validate(char **input)
+int	validate(char **input)
 {
 	if(!*input)
 		return (1);
-	//*input = eup_str(*input);
 	return (val_sintax(*input));
 }
