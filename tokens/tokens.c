@@ -12,60 +12,6 @@
 
 #include "../includes/include_builtins.h"
 
-int	quote_count(char *str, char c)
-{
-	int i;
-
-	i= 0;
-	i++;
-	while (str[i] != c)
-	{
-		i++;
-	}
-	i++;
-	return (i);
-}
-
-bool	delimiter(char **str)
-{
-	if (**str == '|' || **str == '>' || **str == '<' || **str == '\n')
-	{
-		if (*(*str + 1 )== '<' || *(*str) + 1 == '>')
-			(*str)++;
-		return (true);
-	}
-	return (false);
-}
-
-int ft_count_words(char *s, char c)
-{
-	int	i;
-	char quots;
-
-	i = 0;
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
-        {
-			i++;
-        }
-    	while (*s && *s != c)
-	    {
-			if(*s == '"' || *s == '\'')
-			{
-				quots = *s;
-				s++;
-				while(*s && *s != quots)
-					s++;
-			}
-			s++;
-		}	
-	}
-	return (i);
-}
-
 char **ft_split_quots(char *str, char c)
 {
 	int i = 0;
@@ -147,11 +93,11 @@ void get_tokens(char **h_input)
 			i++;
 		}
 		h_input++;
-		ft_print_array(temp);
+	//	ft_print_array(temp);
 		free_array(temp);
 		temp = NULL;
 	}
-	ft_print_tokens(&cmd);
+	//ft_print_tokens(&cmd);
 	free_array(temp);
 	free_cmd(cmd);
 }

@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   create_tokens.c                                    :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/11/27 09:49:03 by jesilva-          #+#    #+#             */
-// /*   Updated: 2024/11/27 09:49:10 by jesilva-         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_tokens.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/27 09:49:03 by jesilva-          #+#    #+#             */
+/*   Updated: 2024/11/27 09:49:10 by jesilva-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/include_builtins.h"
 
@@ -22,7 +22,6 @@ t_token	*create_token(char *arg, token_type type)
 	new_token->type = type;
 	new_token->input = ft_strdup(arg);
 	new_token->next = NULL;
-
 	return (new_token);
 }
 
@@ -31,7 +30,7 @@ static void	add_end_token(t_cmd *temp, t_token *new_token)
 	t_token	*tmp_token;
 
 	while (temp->next != NULL)
-				temp = temp->next;
+		temp = temp->next;
 	tmp_token = temp->token;
 	while (tmp_token->next != NULL)
 		tmp_token = tmp_token->next;
@@ -49,10 +48,10 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 	if ((*cmd)->token == NULL)
 	{
 		(*cmd)->token = new_token;
-		return NULL;
+		return (NULL);
 	}
 	temp = *cmd;
-	if(teste == true)
+	if (teste == true)
 	{
 		while (temp->next != NULL)
 			temp = temp->next;
@@ -74,44 +73,13 @@ void	add_cmd(t_cmd **cmd)
 	new_cmd->next = NULL;
 	if (!new_cmd)
 		return ;
-	if(*cmd == NULL)
+	if (*cmd == NULL)
 	{
 		*cmd = new_cmd;
 		return ;
 	}
 	temp = *cmd;
-	while(temp->next !=  NULL)
+	while (temp->next != NULL)
 		temp = temp->next;
 	temp->next = new_cmd;
-}
-
-void free_token(t_token *token) {
-    if (token) {
-        if (token->input) // Liberar a string alocada
-            free(token->input);
-        free(token); // Liberar o próprio nó
-    }
-}
-
-
-void free_token_list(t_token *head) {
-    t_token *temp;
-
-    while (head) {
-        temp = head->next;
-        free_token(head); // Libera o nó atual
-        head = temp;      // Move para o próximo nó
-    }
-}
-
-void free_cmd(t_cmd *cmd) {
-    t_cmd *temp;
-
-    while (cmd) {
-        temp = cmd->next;
-        if (cmd->token) // Libera a lista de tokens associada
-            free_token_list(cmd->token);
-        free(cmd); // Libera o próprio nó de comando
-        cmd = temp;
-    }
 }
