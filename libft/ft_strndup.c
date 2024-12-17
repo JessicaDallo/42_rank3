@@ -15,9 +15,9 @@
 char	*ft_strndup(char *s, size_t n)
 {
 	char	*dest;
-	int	len;
+	int		len;
 
-	if(!s)
+	if (!s)
 		return (NULL);
 	len = ft_strnlen(s, n);
 	dest = (char *)malloc(len * sizeof(char) + 1);

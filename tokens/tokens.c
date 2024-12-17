@@ -12,7 +12,7 @@
 
 #include "../includes/include_builtins.h"
 
-void	process_split(t_split *spl, char *str, char c)
+static void	process_split(t_split *spl, char *str, char c)
 {
 	char	*temp;
 
@@ -34,7 +34,7 @@ void	process_split(t_split *spl, char *str, char c)
 			spl->arr[spl->j++] = temp;
 			spl->init = spl->i + 1;
 		}
-		if((size_t)spl->i < ft_strlen(str))
+		if ((size_t)spl->i < ft_strlen(str))
 			spl->i++;
 		else
 			break ;
@@ -61,33 +61,42 @@ char	**ft_split_quots(char *str, char c)
 	return (spl.arr);
 }
 
-void	get_tokens(char **h_input)
+static void	process_tokens(char **temp, t_cmd **cmd)
 {
 	token_type	type;
+	bool		new_cmd;
+	int			i;
+
+	i = 0;
+	new_cmd = true;
+	while (temp[i])
+	{
+		type = get_type(temp[i], new_cmd);
+		if (is_delimiter(temp[i]))
+			i++;
+		add_token(cmd, temp[i], type, new_cmd);
+		new_cmd = false;
+		i++;
+	}
+}
+
+void	get_tokens(char **h_input)
+{
 	t_cmd		*cmd;
 	char		**temp;
-	int			i;
-	bool		new_cmd;
 
 	cmd = NULL;
 	while (*h_input)
 	{
 		add_cmd(&cmd);
-		new_cmd = true;
-		i = 0;
 		temp = ft_split_quots(*h_input, ' ');
-		while (temp[i])
+		if (temp)
 		{
-			type = get_type(temp[i], new_cmd);
-			if (is_delimiter(temp[i]))
-				i++;
-			add_token(&cmd, temp[i], type, new_cmd);
-			new_cmd = false;
-			i++;
+			process_tokens(temp, &cmd);
+			free_array(temp);
+			temp = NULL;
 		}
 		h_input++;
-		free_array(temp);
-		temp = NULL;
 	}
 	free_array(temp);
 	free_cmd(cmd);
