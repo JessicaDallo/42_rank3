@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include_builtins.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/13 12:25:16 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/17 22:34:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ void	redir_append(char *file);
 void	redir_output(char *file);
 void	redir_input(char *file);
 void    remove_token(t_token **tokens, t_token **current);
+
+
+void    read_stdin();
 
 
 /*------------------------------------- JESSICA -------------------------------------*/

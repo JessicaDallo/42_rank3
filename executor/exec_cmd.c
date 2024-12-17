@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/16 13:39:31 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/17 23:17:58 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
+
+
+void    read_stdin()
+{
+    char buffer[1024];
+    int bytes_read;
+
+
+    // Agora lê do stdin redirecionado (arquivo)
+    while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer) - 1)) > 0)
+    {
+        buffer[bytes_read] = '\0'; // Torna o buffer uma string válida
+        printf("Conteúdo lido: %s", buffer);
+    }
+
+    if (bytes_read == -1)
+        perror("Erro ao ler do stdin");
+
+    return;
+}
 
 void	exec_cmd(t_minishell *mshell)
 {
@@ -28,7 +48,6 @@ void	exec_cmd(t_minishell *mshell)
         handle_redir(&(cmd->tokens));
 	    if(is_builtin(mshell, cmd))
 		    return;
-        printf("\n ****** EXEC_CMD ******\n");
 	    else
 		    run_execve(mshell, cmd->tokens);
         cmd = cmd->next;
@@ -40,6 +59,7 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
 	t_token *temp;
     t_token *aux;
+    int fd = -1;
 	
 	temp = *tokens;
 	while(temp)
@@ -67,10 +87,26 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 	        if(WIFEXITED(mshell->e_code))
 		    mshell->e_code = WEXITSTATUS(mshell->e_code);
             printf("Removendo token HEREDOC.\n");
+            if (fd > 0)
+				close(fd);
+
+			// Abre o novo arquivo temporário (último HEREDOC)
+			fd = open("/tmp/heredoc_file0001", O_RDONLY);
+			if (fd < 0)
+			{
+				perror("Erro ao abrir arquivo temporário");
+				return;
+			}
             remove_token(tokens, &temp);
         }
-        temp = aux;      
+        temp = aux;
     }
+    if (fd >= 0)
+	{
+		if (dup2(fd, STDIN_FILENO) < 0)
+			perror("Erro ao redirecionar stdin");
+		close(fd);
+	}
     printf("Finalizando has_heredoc.\n");
     return;
 }

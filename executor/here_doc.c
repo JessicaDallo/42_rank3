@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migupere <migupere@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/12 19:43:07 by migupere         ###   ########.fr       */
+/*   Updated: 2024/12/17 23:19:10 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 void	ft_heredoc(t_minishell *mshell, char *delim)
 {
 	char	*eof;
-	int		fd_here;
+	//int		fd_here;
 	bool	expand;
 	pid_t	pid;
 	
@@ -108,8 +108,6 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	expand = is_expand(delim);
 	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
 	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
-	//if(fd_here < 0)
-	//	return;
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
@@ -119,9 +117,15 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
 	free(eof);
-	fd_here = open("/tmp/heredoc_file0001", O_RDONLY);
-	dup2(fd_here, STDIN_FILENO);
-	unlink("/tmp/heredoc_file0001");
+	//fd_here = open("/tmp/heredoc_file0001", O_RDONLY);
+	//if(fd_here < 0)
+	//	printf("Erro ao abrir o arquivo\n");
+	//if (dup2(fd_here, STDIN_FILENO) < 0)
+	//{
+	//	perror("Erro ao redirecionar o arquivo");
+	//	return;
+	//}
+	//unlink("/tmp/heredoc_file0001");
 }
 
 /*int main(int argc, char **argv, char **envp)

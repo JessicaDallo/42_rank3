@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/16 13:40:45 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/17 22:29:18 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if(!token->input)
 		return;
 	args = convert_args(token);
-	signal(SIGINT, ft_sigint);
+	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
+	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
 	if(pid == 0)
 	{
+		signal(SIGINT, ft_sigint);
 		printf("Processo filho iniciado para EXECVE.\n");
 		if(!args || !args[0])
 			return;
