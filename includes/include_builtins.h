@@ -38,6 +38,14 @@ typedef enum
 	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
 } token_type;
 
+typedef struct s_split
+{
+	char	**arr;
+	int		init;
+	int		i;
+	int 	j;
+}	t_split;
+
 typedef struct	s_token
 {
 	token_type type;
@@ -53,7 +61,6 @@ typedef	struct s_cmd
 	
 	struct s_cmd	*next;	
 }	t_cmd;
-
 
 typedef	struct s_env
 {
@@ -123,12 +130,12 @@ char    *handle_quotes(char *str, int s_quote, int d_quote);
 /*------------------------------------- JESSICA -------------------------------------*/
 
 /*------------------------------------ VALIDATE -------------------------------------*/
-int		validate(char **arg);
+//int		validate(char **arg);
 int		val_sintax(char *arg);
-bool	val_quot(char **arg);
-bool	val_pipe(char **arg, int was_cmd);
-bool	val_red(char **arg, int was_cmd);
-bool	val_red_in(char **arg, int was_cmd);
+bool val_quot(char *arg, int *i);
+bool val_pipe(char *arg, int *was_cmd, int *i);
+bool val_red(char *arg, int *was_cmd, int *i);
+bool val_red_in(char *arg, int *was_cmd, int *i);
 
 /*------------------------------------ TOKENS -------------------------------------*/
 //t_token	*add_token(t_token **token, char *arg,  token_type type);
@@ -138,9 +145,9 @@ void	add_cmd(t_cmd **cmd);
 void	parse_input(char *input);
 void	get_tokens(char **cmd);
 int		get_type(char *cmd, bool teste);
+int		ft_count_words(char *s, char c);
 bool	is_delimiter(char *arg);
 bool	check_quots(char *h_input);
-
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
@@ -156,6 +163,8 @@ bool	delimiter(char **arg);
 void free_token_list(t_token *head);
 void free_cmd(t_cmd *cmd);
 void free_token(t_token *token);
+//void free_temp(char *temp);
+
 
 
 

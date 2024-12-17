@@ -158,7 +158,7 @@ int main ()
 			continue ;
 		if(*input)
 			add_history(input);
-		if (validate(&input) > 0)
+		if (val_sintax(input) > 0)
 			continue ;
 		parse_input(input);
 		free(input);

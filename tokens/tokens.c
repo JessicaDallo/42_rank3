@@ -12,101 +12,93 @@
 
 #include "../includes/include_builtins.h"
 
-char **ft_split_quots(char *str, char c)
+void	process_split(t_split *spl, char *str, char c)
 {
-	int i = 0;
-	int start;
-	int j = 0;
-	char **splited;
+	char	*temp;
 
-	start = i;
-	int len;
-	len = ft_strlen(str);
-	splited = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1); ///a qui
-	if(!splited)
-		return (NULL);
-	while(str[i] != '\0')
+	while (str[spl->i] != '\0')
 	{
-		if(str[i] == '"' || str[i] == '\'')
+		if (str[spl->i] == '"' || str[spl->i] == '\'')
 		{
-			i = i + quote_count(&str[i], str[i]);
-			if(str[i] == c)
+			spl->i = spl->i + quote_count(&str[spl->i], str[spl->i]);
+			if (str[spl->i] == c)
 			{
-				splited[j++] = ft_strndup(&str[start], i - start);// aqui 
-				start = i + 1;
+				temp = ft_strndup(&str[spl->init], spl->i - spl->init);
+				spl->arr[spl->j++] = temp;
+				spl->init = spl->i + 1;
 			}
 		}
-		else if (str[i] == c)
+		else if (str[spl->i] == c && spl->i > spl->init)
 		{
-			if (i > start)
-				splited[j++] = ft_strndup(&str[start], i - start); //aqui VERIFICAR SE O TAMANHO PASSADO É O CORRETO 
-			start = i + 1;
+			temp = ft_strndup(&str[spl->init], spl->i - spl->init);
+			spl->arr[spl->j++] = temp;
+			spl->init = spl->i + 1;
 		}
-		if(i < len )
-			i++;
+		if((size_t)spl->i < ft_strlen(str))
+			spl->i++;
 		else
 			break ;
 	}
-	if (start < i)
-		splited[j++] = ft_strndup(&str[start], i - start);
-	splited[j] = NULL;
-	return (splited);
 }
 
-int	get_type(char *cmd, bool teste)
+char	**ft_split_quots(char *str, char c)
 {
-	if(teste == true && !is_delimiter(cmd))
-		return CMD;
-	else if(ft_strcmp(cmd, ">") == 0)
-		return OUTPUT_REDIR;
-	else if (ft_strcmp(cmd, ">>") == 0)
-		return APPEND_REDIR;
-	else if(ft_strcmp(cmd, "<") == 0)
-		return INPUT_REDIR;
-	else if(ft_strcmp(cmd, "<<") == 0)
-		return HEREDOC;
-	else 
-		return ARG;
+	t_split	spl;
+	char	**arr;
+
+	spl.i = 0;
+	spl.j = 0;
+	spl.init = spl.i;
+	spl.arr = NULL;
+	arr = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1);
+	if (!arr)
+		return (NULL);
+	spl.arr = arr;
+	process_split(&spl, str, c);
+	if (spl.init < spl.i)
+		spl.arr[spl.j++] = ft_strndup(&str[spl.init], spl.i - spl.init);
+	spl.arr[spl.j] = NULL;
+	return (spl.arr);
 }
 
-void get_tokens(char **h_input)
+void	get_tokens(char **h_input)
 {
-	token_type type;
-	t_cmd	*cmd;
-	char	**temp;
-	int		i;
-	bool	teste;
+	token_type	type;
+	t_cmd		*cmd;
+	char		**temp;
+	int			i;
+	bool		new_cmd;
+
 	cmd = NULL;
-	while(*h_input)
+	while (*h_input)
 	{
 		add_cmd(&cmd);
-		teste = true;
+		new_cmd = true;
 		i = 0;
 		temp = ft_split_quots(*h_input, ' ');
-		while(temp[i])
+		while (temp[i])
 		{
-			type = get_type(temp[i], teste);
-			if(is_delimiter(temp[i]))
+			type = get_type(temp[i], new_cmd);
+			if (is_delimiter(temp[i]))
 				i++;
-			add_token(&cmd, temp[i], type, teste);
-			teste = false;
+			add_token(&cmd, temp[i], type, new_cmd);
+			new_cmd = false;
 			i++;
 		}
 		h_input++;
-	//	ft_print_array(temp);
 		free_array(temp);
 		temp = NULL;
 	}
-	//ft_print_tokens(&cmd);
 	free_array(temp);
 	free_cmd(cmd);
 }
+
 void	parse_input(char *input)
 {
-	char **h_input;
+	char	**h_input;
 
 	h_input = ft_split_quots(input, '|');
 	get_tokens(h_input);
 	free_array(h_input);
-
+	h_input = NULL;
 }

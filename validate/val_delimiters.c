@@ -20,7 +20,7 @@ bool	val_quot(char *arg, int *i)
 	(*i)++;
 	while (arg[*i])
 	{
-		if (arg[*i] == c && arg[*i - 1] != '\\')
+		if (arg[*i] == c)
 		{
 			(*i)++;
 			return (true);

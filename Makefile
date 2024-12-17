@@ -25,7 +25,7 @@ EXPANSIONS = expansions.c
 SINTAX = sintax.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
-TOKENS = tokens.c create_tokens.c tokens_utils.c
+TOKENS = tokens.c create_tokens.c tokens_utils.c free_tokens.c
 #VALGRIND
 VALGRIND_FLAGS = --quiet --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --gen-suppressions=all
 VALGRIND_SUPP = --suppressions=readline.supp

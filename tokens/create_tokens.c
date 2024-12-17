@@ -12,6 +12,22 @@
 
 #include "../includes/include_builtins.h"
 
+int	get_type(char *cmd, bool new_cmd)
+{
+	if (new_cmd == true && !is_delimiter(cmd))
+		return (CMD);
+	else if (ft_strcmp(cmd, ">") == 0)
+		return (OUTPUT_REDIR);
+	else if (ft_strcmp(cmd, ">>") == 0)
+		return (APPEND_REDIR);
+	else if (ft_strcmp(cmd, "<") == 0)
+		return (INPUT_REDIR);
+	else if (ft_strcmp(cmd, "<<") == 0)
+		return (HEREDOC);
+	else
+		return (ARG);
+}
+
 t_token	*create_token(char *arg, token_type type)
 {
 	t_token	*new_token;
@@ -37,7 +53,7 @@ static void	add_end_token(t_cmd *temp, t_token *new_token)
 	tmp_token->next = new_token;
 }
 
-void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
+void	*add_token(t_cmd **cmd, char *arg, token_type type, bool new_cmd)
 {
 	t_cmd	*temp;
 	t_token	*new_token;
@@ -51,7 +67,7 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste)
 		return (NULL);
 	}
 	temp = *cmd;
-	if (teste == true)
+	if (new_cmd == true)
 	{
 		while (temp->next != NULL)
 			temp = temp->next;
