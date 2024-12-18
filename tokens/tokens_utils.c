@@ -64,40 +64,40 @@ int	ft_count_words(char *s, char c)
 	return (i);
 }
 
-// void	ft_print_array(char **cmd)
-// {
-// 	int	i;
+void	ft_print_array(char **cmd)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-// 		printf("%s ->array\n", cmd[i]);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (cmd[i])
+	{
+		printf("%s ->array\n", cmd[i]);
+		i++;
+	}
+}
 
-// void	ft_print_tokens(t_cmd **cmd)
-// {
-// 	t_cmd	*tmp;
-// 	t_token	*bla;
+void	ft_print_tokens(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+	t_token	*bla;
 
-// 	tmp = *cmd;
-// 	while (tmp)
-// 	{
-// 		if (tmp->token)
-// 		{
-// 			printf("T_CMD input -> %s\n", tmp->token->input);
-// 			bla = tmp->token;
-// 			while (bla != NULL)
-// 			{
-// 				printf("T_TOKEN input -> %s\n", bla->input);
-// 				printf("T_TOKEN type -> %i\n", bla->type);
-// 				bla = bla->next;
-// 			}
-// 		}
-// 		if (tmp->next != NULL)
-// 			tmp = tmp->next;
-// 		else
-// 			break ;
-// 	}
-// }
+	tmp = *cmd;
+	while (tmp)
+	{
+		if (tmp->token)
+		{
+			printf("T_CMD input -> %s\n", tmp->token->input);
+			bla = tmp->token;
+			while (bla != NULL)
+			{
+				printf("T_TOKEN input -> %s\n", bla->input);
+				printf("T_TOKEN type -> %i\n", bla->type);
+				bla = bla->next;
+			}
+		}
+		if (tmp->next != NULL)
+			tmp = tmp->next;
+		else
+			break ;
+	}
+}

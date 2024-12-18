@@ -143,11 +143,17 @@ int main(void) {
 //    return output;
 //}
 
-int main ()
+int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
+	t_minishell mshell;
+
 	char	*input = NULL;
+	init_struct(&mshell, envp);
 	while (1)
 	{
+
 		input = readline("minishell> ");
 		if (!input)
 		{
@@ -160,10 +166,8 @@ int main ()
 			add_history(input);
 		if (val_sintax(input) > 0)
 			continue ;
-		parse_input(input);
+		mshell.cmd = parse_input(input);
 		free(input);
-		rl_free_line_state();
-
 	}
 }
 

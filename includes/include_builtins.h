@@ -132,7 +132,7 @@ char    *handle_quotes(char *str, int s_quote, int d_quote);
 /*------------------------------------ VALIDATE -------------------------------------*/
 //int		validate(char **arg);
 int		val_sintax(char *arg);
-bool val_quot(char *arg, int *i);
+bool	val_quot(char *arg, int *i);
 bool val_pipe(char *arg, int *was_cmd, int *i);
 bool val_red(char *arg, int *was_cmd, int *i);
 bool val_red_in(char *arg, int *was_cmd, int *i);
@@ -142,26 +142,24 @@ bool val_red_in(char *arg, int *was_cmd, int *i);
 t_token	*create_token(char *arg, token_type type);
 void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
 void	add_cmd(t_cmd **cmd);
-void	parse_input(char *input);
-void	get_tokens(char **cmd);
-int		get_type(char *cmd, bool teste);
-int		ft_count_words(char *s, char c);
-bool	is_delimiter(char *arg);
-bool	check_quots(char *h_input);
+t_cmd	*parse_input(char *input);
+t_cmd	*get_tokens(t_cmd *cmd, char **h_input);
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
+bool	is_delimiter(char *arg);
+bool	check_quots(char *h_input);
+int		get_type(char *cmd, bool teste);
+int		ft_count_words(char *s, char c);
 
 
 void	quote_pointer(char **arg, char c);
-// void	handle_value(char **arg, t_token **token, char *str);
 int		ft_count_words(char *arg, char c);
 int		quote_count(char *arg, char c);
-// int		len_array(char **arg);
 char	**find_cmd(char *arg, char **cmd);
 bool	delimiter(char **arg);
 
 void free_token_list(t_token *head);
-void free_cmd(t_cmd *cmd);
+void free_cmd(t_cmd *cdm);
 void free_token(t_token *token);
 //void free_temp(char *temp);
 
