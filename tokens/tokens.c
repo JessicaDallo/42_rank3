@@ -12,43 +12,105 @@
 
 #include "../includes/include_builtins.h"
 
-void get_tokens(char **h_input)
+static void	process_split(t_split *spl, char *str, char c)
 {
-	token_type type;
-	t_cmd	*cmd;
-	char	**temp;
-	int		i;
-	bool	teste;
+	char	*temp;
 
-	cmd = NULL;
-	while(*h_input)
+	while (str[spl->i] != '\0')
+	{
+		if (str[spl->i] == '"' || str[spl->i] == '\'')
+		{
+			spl->i = spl->i + quote_count(&str[spl->i], str[spl->i]);
+			if (str[spl->i] == c)
+			{
+				temp = ft_strndup(&str[spl->init], spl->i - spl->init);
+				spl->arr[spl->j++] = temp;
+				spl->init = spl->i + 1;
+			}
+		}
+		else if (str[spl->i] == c && spl->i > spl->init)
+		{
+			temp = ft_strndup(&str[spl->init], spl->i - spl->init);
+			spl->arr[spl->j++] = temp;
+			spl->init = spl->i + 1;
+		}
+		if ((size_t)spl->i < ft_strlen(str))
+			spl->i++;
+		else
+			break ;
+	}
+}
+
+char	**ft_split_quots(char *str, char c)
+{
+	t_split	spl;
+	char	**arr;
+
+	spl.i = 0;
+	spl.j = 0;
+	spl.init = spl.i;
+	spl.arr = NULL;
+	arr = ft_calloc(sizeof(char *), ft_count_words(str, c) + 1);
+	if (!arr)
+		return (NULL);
+	spl.arr = arr;
+	process_split(&spl, str, c);
+	if (spl.init < spl.i)
+		spl.arr[spl.j++] = ft_strndup(&str[spl.init], spl.i - spl.init);
+	spl.arr[spl.j] = NULL;
+	return (spl.arr);
+}
+
+static void	process_tokens(char **temp, t_cmd **cmd)
+{
+	token_type	type;
+	bool		new_cmd;
+	int			i;
+
+	i = 0;
+	new_cmd = true;
+	while (temp[i])
+	{
+		//temp[i] =  TALVEZ
+		type = get_type(temp[i], new_cmd);
+		if (is_delimiter(temp[i]))
+			i++;
+		add_token(cmd, temp[i], type, new_cmd);
+		new_cmd = false;
+		i++;
+	}
+}
+
+t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
+{
+	char		**temp;
+
+	while (*h_input)
 	{
 		add_cmd(&cmd);
-		teste = true;
-		i = 0;
-		temp = ft_split(*h_input, ' ');
-		while(temp[i])
+		temp = ft_split_quots(*h_input, ' ');
+		ft_print_array(temp);
+		if (temp)
 		{
-			type = get_type(temp[i], teste);
-			if(is_delimiter(temp[i]))
-				i++;
-			add_token(&cmd, temp[i], type, teste);
-			teste = false;
-			i++;
+			process_tokens(temp, &cmd);
+			free_array(temp);
+			temp = NULL;
 		}
-		free_array(temp);
 		h_input++;
 	}
-	//REMOVER É APENAS PARA TESTAR 
 	ft_print_tokens(&cmd);
+	return (cmd);
 }
-void	parse_input(char *input)
+
+t_cmd	*parse_input(char *input)
 {
+	char	**h_input;
+	t_cmd		*cmd;
 
-	char **h_input;
-
-	h_input = ft_split(input, '|');
-	ft_print_array(h_input);
-	get_tokens(h_input);
-
+	cmd = NULL;
+	h_input = ft_split_quots(input, '|');
+	cmd = get_tokens(cmd, h_input);
+	free_array(h_input);
+	h_input = NULL;
+	return (cmd);
 }

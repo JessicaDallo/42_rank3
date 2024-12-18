@@ -1,81 +1,93 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   tokens_utils.c                                     :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/11/27 09:49:43 by jesilva-          #+#    #+#             */
-// /*   Updated: 2024/11/27 09:49:47 by jesilva-         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/27 09:49:43 by jesilva-          #+#    #+#             */
+/*   Updated: 2024/11/27 09:49:47 by jesilva-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
- #include "../includes/include_builtins.h"
+#include "../includes/include_builtins.h"
 
-bool is_delimiter(char *arg)
+bool	is_delimiter(char *arg)
 {
-	if(ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, ">") == 0 || !arg)
+	if (ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0
+		|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
+		|| ft_strcmp(arg, "<<") == 0 || !arg)
 		return (true);
 	return (false);
 }
 
-// int len_array(char **arg)
-// {
-// 	int i = 0;
-// 	while(!is_delimiter(arg[i]))
-// 		i++;
-// 	return (i);
-// }
-
-// //faz o malloc na estrutura token->value
-// void  handle_value(char **arg, t_token **token, char *str)
-// {
-// 	while(ft_strcmp(*arg, str) == 1)
-// 		arg++;
-// 	if (is_delimiter(*arg))
-// 		(*token)->value = NULL;
-// 	printf("%s -> handle value\n", *arg);
-// 	int len = len_array(arg);
-// 	printf("%d LEN HANDLE\n",len);
-// 	if ((*token)->value == NULL)
-// 		(*token)->value = ft_calloc(sizeof(char *), len);
-// }
-
-int	get_type(char *cmd, bool teste)
+int	quote_count(char *str, char c)
 {
-	if(teste == true && !is_delimiter(cmd))
-		return CMD;
-	else if(ft_strcmp(cmd, ">") == 0)
-		return OUTPUT_REDIR;
-	else if (ft_strcmp(cmd, ">>") == 0)
-		return APPEND_REDIR;
-	else if(ft_strcmp(cmd, "<") == 0)
-		return INPUT_REDIR;
-	else if(ft_strcmp(cmd, "<<") == 0)
-		return HEREDOC;
-	else 
-		return ARG;
+	int	i;
+
+	i = 0;
+	i++;
+	while (str[i] != c)
+	{
+		i++;
+	}
+	i++;
+	return (i);
+}
+
+int	ft_count_words(char *s, char c)
+{
+	int		i;
+	char	quots;
+
+	i = 0;
+	while (*s)
+	{
+		while (*s == c)
+			s++;
+		if (*s && *s != c)
+		{
+			i++;
+		}
+		while (*s && *s != c)
+		{
+			if (*s == '"' || *s == '\'')
+			{
+				quots = *s;
+				s++;
+				while (*s && *s != quots)
+					s++;
+			}
+			s++;
+		}
+	}
+	return (i);
 }
 
 void	ft_print_array(char **cmd)
 {
-	int i = 0;
-	while(cmd[i])
+	int	i;
+
+	i = 0;
+	while (cmd[i])
 	{
-	
-		printf("%s ->array\n",cmd[i]);
+		printf("%s ->array\n", cmd[i]);
 		i++;
 	}
 }
-void ft_print_tokens(t_cmd **cmd)
+
+void	ft_print_tokens(t_cmd **cmd)
 {
-	t_cmd *tmp = *cmd;
+	t_cmd	*tmp;
+	t_token	*bla;
+
+	tmp = *cmd;
 	while (tmp)
 	{
- 		if (tmp->tokens)
+		if (tmp->token)
 		{
-			printf("T_CMD input -> %s\n", tmp->tokens->input);
-			t_token *bla = tmp->tokens;
+			printf("T_CMD input -> %s\n", tmp->token->input);
+			bla = tmp->token;
 			while (bla != NULL)
 			{
 				printf("T_TOKEN input -> %s\n", bla->input);
@@ -83,9 +95,9 @@ void ft_print_tokens(t_cmd **cmd)
 				bla = bla->next;
 			}
 		}
-		if(tmp->next != NULL)
+		if (tmp->next != NULL)
 			tmp = tmp->next;
 		else
-			break;
+			break ;
 	}
 }

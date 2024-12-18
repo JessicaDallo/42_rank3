@@ -12,27 +12,34 @@
 
 #include "include_builtins.h"
 
-
-void    read_stdin()
+void	exec_cmd(t_minishell *mshell)
 {
-    char buffer[1024];
-    int bytes_read;
-
-
-    // Agora lê do stdin redirecionado (arquivo)
-    while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer) - 1)) > 0)
+    t_cmd   *cmd;
+    
+    cmd = mshell->commands;
+    while(cmd)
     {
-        buffer[bytes_read] = '\0'; // Torna o buffer uma string válida
-        printf("Conteúdo lido: %s", buffer);
+        if(!cmd->tokens || !cmd->tokens->input)
+        {
+            clear_mshell(mshell);
+            return;
+        }
+        pipe(cmd->fd);
+        dup2(cmd->fd[1], STDOUT_FILENO); 
+        close(cmd->fd[0]);
+        has_heredoc(mshell, &(cmd->tokens)); //Lidar com rediecionamento de input do heredoc
+        handle_redir(&(cmd->tokens));
+	    if(is_builtin(mshell, cmd))
+		    return;
+	    else
+		    run_execve(mshell, cmd->tokens);
+        cmd = cmd->next;
     }
-
-    if (bytes_read == -1)
-        perror("Erro ao ler do stdin");
-
-    return;
+	return;
 }
 
-void	exec_cmd(t_minishell *mshell)
+
+/*void	exec_cmd(t_minishell *mshell)
 {
     t_cmd   *cmd;
     
@@ -53,7 +60,7 @@ void	exec_cmd(t_minishell *mshell)
         cmd = cmd->next;
     }
 	return;
-}
+}*/
 
 void	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
@@ -170,16 +177,16 @@ t_cmd *cr_sample_cmds()
     //add_token_to_cmd(cmd1, cr_token(ARG, "TESTEEEEEEEEEEEE"));
     add_token_to_cmd(cmd1, cr_token(CMD, "cat"));
     add_token_to_cmd(cmd1, cr_token(HEREDOC, "END"));
-    //add_token_to_cmd(cmd1, cr_token(ARG, "Makefile"));
-   // add_token_to_cmd(cmd1, cr_token(OUTPUT_REDIR, "abc.txt"));
+    add_token_to_cmd(cmd1, cr_token(HEREDOC, "stop"));
+    add_token_to_cmd(cmd1, cr_token(OUTPUT_REDIR, "abc.txt"));
+    add_token_to_cmd(cmd1, cr_token(ARG, "Makefile"));
     //add_token_to_cmd(cmd1, cr_token(OUTPUT_REDIR, "def.txt"));
    // add_token_to_cmd(cmd1, cr_token(ARG, "new.txt"));
-    add_token_to_cmd(cmd1, cr_token(HEREDOC, "stop"));
     
     // Comando 2: echo com argumentos
-    //t_cmd *cmd2 = cr_cmd();
-    //add_token_to_cmd(cmd2, cr_token(CMD, "echo"));
-    //add_token_to_cmd(cmd2, cr_token(ARG, "Hello World"));
+    // t_cmd *cmd2 = cr_cmd();
+    // add_token_to_cmd(cmd2, cr_token(CMD, "echo"));
+    // add_token_to_cmd(cmd2, cr_token(ARG, "Hello World"));
 
     // Conecte os comandos
     //cmd1->next = cmd2;
@@ -207,34 +214,6 @@ int main(int argc, char **argv, char **envp)
 
 
 
-/*void	exec_cmd(t_minishell *mshell)
-{
-    t_cmd   *cmd;
-    
-    cmd = mshell->commands;
-    while(cmd)
-    {
-        if(!cmd->tokens || !cmd->tokens->input)
-        {
-            clear_mshell(mshell);
-            return;
-        }
-        pipe(cmd->fd);
-        dup2(cmd->fd[1], STDOUT_FILENO); 
-        close(cmd->fd[0]);
-        has_heredoc(mshell, cmd);
-        //handle_redir(cmd->tokens);
-	    if(is_builtin(mshell, cmd))
-		    return;
-	    else
-		   run_execve(mshell, cmd->tokens);
-        close(cmd->fd[1]);
-	    if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
-		mshell->e_code = WEXITSTATUS(mshell->e_code);
-        cmd = cmd->next;
-    }
-	return;
-}*/
 
 // void handle_pipes(t_minishell *mshell, t_cmd *cmd)
 // {
