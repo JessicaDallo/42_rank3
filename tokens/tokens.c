@@ -71,6 +71,7 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	new_cmd = true;
 	while (temp[i])
 	{
+		//temp[i] =  TALVEZ
 		type = get_type(temp[i], new_cmd);
 		if (is_delimiter(temp[i]))
 			i++;

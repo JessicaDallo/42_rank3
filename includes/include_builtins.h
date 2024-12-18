@@ -61,7 +61,7 @@ typedef	struct s_cmd
 	
 	struct s_cmd	*next;	
 }	t_cmd;
-
+>>
 typedef	struct s_env
 {
 	char	*key;
@@ -140,10 +140,10 @@ bool val_red_in(char *arg, int *was_cmd, int *i);
 /*------------------------------------ TOKENS -------------------------------------*/
 //t_token	*add_token(t_token **token, char *arg,  token_type type);
 t_token	*create_token(char *arg, token_type type);
-void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
-void	add_cmd(t_cmd **cmd);
 t_cmd	*parse_input(char *input);
 t_cmd	*get_tokens(t_cmd *cmd, char **h_input);
+void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
+void	add_cmd(t_cmd **cmd);
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 bool	is_delimiter(char *arg);

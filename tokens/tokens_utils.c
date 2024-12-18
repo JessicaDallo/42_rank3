@@ -12,7 +12,7 @@
 
 #include "../includes/include_builtins.h"
 
-bool	is_delimiter(char *arg)
+bool	is_delimiter(char *arg int *i)
 {
 	if (ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0
 		|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
