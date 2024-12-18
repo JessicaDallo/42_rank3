@@ -61,7 +61,7 @@ typedef	struct s_cmd
 	
 	struct s_cmd	*next;	
 }	t_cmd;
->>
+
 typedef	struct s_env
 {
 	char	*key;
