@@ -149,6 +149,7 @@ void	ft_sigint(int signal);
 void	handle_signal(void);
 void	ft_reset_prompt(int signal);
 void	ft_sigquit(int signal);
+void	ft_sigint_hd(int signal);
 
 /*------------------------------------- EXEC -------------------------------------*/
 pid_t	creat_pid(t_minishell *mshell);
@@ -193,8 +194,8 @@ bool val_red_in(char *arg, int *was_cmd, int *i);
 t_token	*create_token(char *arg, token_type type);
 void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
 void	add_cmd(t_cmd **cmd);
-void	parse_input(char *input, t_minishell *mshell);
-void	get_tokens(char **cmd, t_minishell *mshell);
+t_cmd	*parse_input(char *input);
+t_cmd	*get_tokens(t_cmd *cmd, char **h_input);
 int		get_type(char *cmd, bool teste);
 int		ft_count_words(char *s, char c);
 bool	is_delimiter(char *arg);

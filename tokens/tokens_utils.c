@@ -71,7 +71,7 @@ void	ft_print_array(char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		printf("%s ->array\n", cmd[i]);
+		 printf("%s ->array\n", cmd[i]);
 		i++;
 	}
 }
@@ -84,14 +84,14 @@ void	ft_print_tokens(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-		if (tmp->token)
+		if (tmp->tokens)
 		{
-			printf("T_CMD input -> %s\n", tmp->token->input);
-			bla = tmp->token;
+			 printf("T_CMD input -> %s\n", tmp->tokens->input);
+			bla = tmp->tokens;
 			while (bla != NULL)
 			{
-				printf("T_TOKEN input -> %s\n", bla->input);
-				printf("T_TOKEN type -> %i\n", bla->type);
+				 printf("T_TOKEN input -> %s\n", bla->input);
+				 printf("T_TOKEN type -> %i\n", bla->type);
 				bla = bla->next;
 			}
 		}

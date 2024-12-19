@@ -97,6 +97,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
 		printf("Processo filho finalizado para EXECVE.\n");
+		exit(mshell->e_code);
 	}
 	printf("Aguardando filho com waitpid EXECVE.\n");
 	waitpid(pid, &mshell->e_code, 0);

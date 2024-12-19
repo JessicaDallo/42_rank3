@@ -40,7 +40,7 @@ char    *check_tilde(char *input)
 void    ft_cd(t_minishell *mshell, t_token *token)
 {
     char    *oldpwd;
-    char    pwd[PATH_MAX];
+    char    pwd[_PC_PATH_MAX];
     char    *path;
     
 	token = token->next;

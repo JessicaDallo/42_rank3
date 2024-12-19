@@ -110,7 +110,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
 	if(pid == 0)
 	{
-		signal(SIGINT, ft_sigint);
+		signal(SIGINT, ft_sigint_hd); //heredoc-signal
 		read_heredoc(mshell, eof, expand);
 	}
 	waitpid(pid, &mshell->e_code, 0);

@@ -28,7 +28,7 @@ TOKENS = tokens.c create_tokens.c tokens_utils.c
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
 		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
-		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS))  #main.c
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS))  main.c
 
 OBJS = ${SRC:.c=.o}
 

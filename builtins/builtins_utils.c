@@ -14,7 +14,7 @@
 
 int	is_builtin(t_minishell *mshell, t_cmd *commands)
 {
-	if(!commands)
+	if(!commands || !commands->tokens)
 		return(0);
 	else if (!(ft_strcmp(commands->tokens->input, "cd")))
 		return(ft_cd(mshell, commands->tokens), 1);

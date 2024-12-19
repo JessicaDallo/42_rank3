@@ -12,30 +12,60 @@
 
 #include "include_builtins.h"
 
-void	exec_cmd(t_minishell *mshell)
+void exec_cmd(t_minishell *mshell)
 {
-    t_cmd   *cmd;
-    
-    cmd = mshell->commands;
-    while(cmd)
+    t_cmd *cmd = mshell->commands;
+    pid_t pid;
+
+    while (cmd)
     {
-        if(!cmd->tokens || !cmd->tokens->input)
+        if (!cmd->tokens || !cmd->tokens->input)
         {
             clear_mshell(mshell);
             return;
         }
-        pipe(cmd->fd);
-        dup2(cmd->fd[1], STDOUT_FILENO); 
-        close(cmd->fd[0]);
-        has_heredoc(mshell, &(cmd->tokens)); //Lidar com rediecionamento de input do heredoc
-        handle_redir(&(cmd->tokens));
-	    if(is_builtin(mshell, cmd))
-		    return;
-	    else
-		    run_execve(mshell, cmd->tokens);
+
+        // Criar o pipe para o próximo comando, se necessário
+        if (cmd->next && pipe(cmd->fd) == -1)
+        {
+            perror("Pipe error");
+            return;
+        }
+
+        pid = creat_pid(mshell);
+        if (pid == 0) // Processo filho
+        {
+            // Configurar entrada (heredoc ou input file)
+            has_heredoc(mshell, &(cmd->tokens));// Configura o stdin para o heredoc
+            handle_redir(&(cmd->tokens)); // Configura redirecionamentos (<, >, >>)
+
+            // Configurar saída (pipe para o próximo comando, se existir)
+            if (cmd->next)
+                dup2(cmd->fd[1], STDOUT_FILENO);
+
+            // Fechar descritores do pipe
+            if (cmd->fd[0] != -1)
+                close(cmd->fd[0]);
+            if (cmd->fd[1] != -1)
+                close(cmd->fd[1]);
+
+            // Executar comando
+            if (is_builtin(mshell, cmd))
+                return;
+            else
+                run_execve(mshell, cmd->tokens);  
+            //exit(mshell->e_code);
+        }
+        waitpid(pid, &mshell->e_code, 0);
+	    if(WIFEXITED(mshell->e_code))
+		    mshell->e_code = WEXITSTATUS(mshell->e_code);
+        // Fechar descritores não mais usados
+        if (cmd->fd[1] != -1)
+            close(cmd->fd[1]);
+
+        // Atualizar para o próximo comando
         cmd = cmd->next;
     }
-	return;
 }
 
 
@@ -53,13 +83,15 @@ void	exec_cmd(t_minishell *mshell)
         }
         has_heredoc(mshell, &(cmd->tokens)); //Lidar com rediecionamento de input do heredoc
         handle_redir(&(cmd->tokens));
-	    if(is_builtin(mshell, cmd))
-		    return;
-	    else
-		    run_execve(mshell, cmd->tokens);
+        if(cmd->tokens)
+        {
+	        if(is_builtin(mshell, cmd))
+		        return;
+	        else
+		        run_execve(mshell, cmd->tokens);
+        }
         cmd = cmd->next;
     }
-	return;
 }*/
 
 void	has_heredoc(t_minishell *mshell, t_token **tokens)
@@ -83,7 +115,7 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
             if(pid == 0)
             {
                 printf("Processo filho iniciado para HEREDOC.\n");
-                signal(SIGINT, ft_sigint);
+                signal(SIGINT, ft_sigint_hd); //signal_HEREDOC - E PRECISO NOS DOIS?
                 ft_heredoc(mshell, temp->input);
                 printf("Processo filho finalizando.\n");
                 exit(mshell->e_code);
@@ -114,11 +146,11 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 			perror("Erro ao redirecionar stdin");
 		close(fd);
 	}
-    printf("Finalizando has_heredoc.\n");
+    //printf("Finalizando has_heredoc.\n");
     return;
 }
 
-t_token *cr_token(token_type type, const char *input)
+/*t_token *cr_token(token_type type, const char *input)
 {
     t_token *new_token = malloc(sizeof(t_token));
     if (!new_token)
@@ -210,7 +242,7 @@ int main(int argc, char **argv, char **envp)
 	printf("\nEXIT CODE Main: %d\n", mshell.e_code);
 	clear_mshell(&mshell);
     return 0;
-}
+}*/
 
 
 
