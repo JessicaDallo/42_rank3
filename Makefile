@@ -21,7 +21,7 @@ LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
 BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
 SYNTAX = expansions.c quotes.c signal.c convert_args.c
-EXEC = here_doc.c execve.c exec_cmd.c redir.c 
+EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
 TOKENS = tokens.c create_tokens.c tokens_utils.c

@@ -7,6 +7,9 @@ main.c
 main.exe
 Makefile
 new.txt
+abc.txt
+def.txt
+fds.txt
 syntax
 tokens
 validate

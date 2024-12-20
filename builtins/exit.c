@@ -54,6 +54,9 @@ int	get_exit(t_minishell *mshell, t_token *token)
         return(mshell->e_code);
 }
 
+//TRATAR DE ERROS NEGATIVOS 
+//TRATAR DO EXIT'S CODES
+
 int	ft_exit(t_minishell *mshell, t_token *token)
 {
 	int exit_code;

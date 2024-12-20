@@ -12,7 +12,7 @@
 
 #include "include_builtins.h"
 
-void	free_array(char **str) //env
+void	free_array(char **str) //envp
 {
 	int	i;
 	

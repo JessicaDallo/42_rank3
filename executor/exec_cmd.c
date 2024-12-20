@@ -57,7 +57,7 @@ void exec_cmd(t_minishell *mshell)
             perror("Pipe error");
             return;
         }
-
+        //printf("[DEBUG] Pipe criado: fd[0] = %d, fd[1] = %d\n", cmd->fd[0], cmd->fd[1]);
         pid = creat_pid(mshell);
         if (pid == 0) // Processo filho
         {
@@ -68,14 +68,18 @@ void exec_cmd(t_minishell *mshell)
             // Configurar saída (pipe para o próximo comando, se existir)
             if (prev_fd != -1)
             {
-                dup2(prev_fd, STDIN_FILENO);
+                if(dup2(prev_fd, STDIN_FILENO) == -1)
+                    perror("[DEBUG] Erro em dup2 (prev_fd -> STDIN)");
                 close(prev_fd);
             }
 
             // Redirecionar saída, se necessário
             if (cmd->next)
             {
-                dup2(cmd->fd[1], STDOUT_FILENO);
+                if (dup2(cmd->fd[1], STDOUT_FILENO) == -1)
+                    perror("[DEBUG] Erro em dup2 (fd[1] -> STDOUT)");
+                else
+                    //printf("[DEBUG] Redirecionado STDOUT para fd[1]: %d\n", cmd->fd[1]);
                 close(cmd->fd[1]);
             }
 
@@ -84,17 +88,22 @@ void exec_cmd(t_minishell *mshell)
                 close(cmd->fd[0]);
 
             // Executar comando
+            //printf("[DEBUG] Executando comando: %s\n", cmd->tokens->input);
             if (is_builtin(mshell, cmd))
-                return;
+                exit(mshell->e_code);
+                //return;
             else
                 run_execve(mshell, cmd->tokens);  
             exit(mshell->e_code);
         }
-        if (cmd->fd[0] != -1)
-            close(cmd->fd[0]);
+         if (prev_fd != -1)
+            close(prev_fd);
+        //if (cmd->fd[0] != -1)
+            //close(cmd->fd[0]);
         if (cmd->next)
             close(cmd->fd[1]);
-        waitpid(pid, &mshell->e_code, 0);
+        prev_fd = cmd->fd[0];
+        //waitpid(pid, &mshell->e_code, 0);
 	    //f(WIFEXITED(mshell->e_code))
 		    //mshell->e_code = WEXITSTATUS(mshell->e_code);
         // Fechar descritores não mais usados
@@ -107,8 +116,6 @@ void exec_cmd(t_minishell *mshell)
         mshell->e_code = WEXITSTATUS(mshell->e_code);
 }
 
-
-
 void	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
 	t_token *temp;
@@ -118,29 +125,29 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 	temp = *tokens;
 	while(temp)
 	{
-        printf("Iterando no token: %s\n", temp->input);
+        //printf("Iterando no token: %s\n", temp->input);
         aux = temp->next;
         if (temp->type == HEREDOC)
         {   
-            printf("\n ****** HAS_HEREDOC FILHO ******\n");
+            //printf("\n ****** HAS_HEREDOC FILHO ******\n");
             pid_t pid = creat_pid(mshell);
-            printf("PID criado: %d\n", pid);
+            //printf("PID criado: %d\n", pid);
             signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
 	        signal(SIGQUIT, SIG_IGN); 
             if(pid == 0)
             {
-                printf("Processo filho iniciado para HEREDOC.\n");
+                //printf("Processo filho iniciado para HEREDOC.\n");
                 signal(SIGINT, ft_sigint_hd); //signal_HEREDOC - E PRECISO NOS DOIS?
                 ft_heredoc(mshell, temp->input);
-                printf("Processo filho finalizando.\n");
+                //printf("Processo filho finalizando.\n");
                 exit(mshell->e_code);
             }
-            printf("Aguardando filho com waitpid.\n");
+            //printf("Aguardando filho com waitpid.\n");
             waitpid(pid, &mshell->e_code, 0);
-            printf("Filho finalizado, status: %d\n", mshell->e_code);
+            //printf("Filho finalizado, status: %d\n", mshell->e_code);
 	        if(WIFEXITED(mshell->e_code))
 		    mshell->e_code = WEXITSTATUS(mshell->e_code);
-            printf("Removendo token HEREDOC.\n");
+            //printf("Removendo token HEREDOC.\n");
             if (fd > 0)
 				close(fd);
 
@@ -161,7 +168,7 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 			perror("Erro ao redirecionar stdin");
 		close(fd);
 	}
-    printf("Finalizando has_heredoc.\n");
+    //printf("Finalizando has_heredoc.\n");
     return;
 }
 
