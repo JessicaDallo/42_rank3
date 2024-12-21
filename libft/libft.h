@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:34:50 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 15:47:12 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/01 19:43:28 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stddef.h>
 # include <stdarg.h>
 # include <fcntl.h>
+#include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -109,5 +110,6 @@ int		ft_strnlen(char *str, int n);
 char	*ft_strncpy(char *dest, const char *src, int n);
 char	*ft_strndup(char *s, size_t n);
 char	*eup_str(char *str);
+char	*ft_appendchar(char const *s1, char c);
 
 #endif

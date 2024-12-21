@@ -47,7 +47,7 @@ static void	add_end_token(t_cmd *temp, t_token *new_token)
 
 	while (temp->next != NULL)
 		temp = temp->next;
-	tmp_token = temp->token;
+	tmp_token = temp->tokens;
 	while (tmp_token->next != NULL)
 		tmp_token = tmp_token->next;
 	tmp_token->next = new_token;
@@ -61,9 +61,9 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool new_cmd)
 	new_token = create_token(arg, type);
 	if (!new_token)
 		return (NULL);
-	if ((*cmd)->token == NULL)
+	if ((*cmd)->tokens == NULL)
 	{
-		(*cmd)->token = new_token;
+		(*cmd)->tokens = new_token;
 		return (NULL);
 	}
 	temp = *cmd;
@@ -71,7 +71,7 @@ void	*add_token(t_cmd **cmd, char *arg, token_type type, bool new_cmd)
 	{
 		while (temp->next != NULL)
 			temp = temp->next;
-		temp->token = new_token;
+		temp->tokens = new_token;
 		return (temp);
 	}
 	else
@@ -85,8 +85,10 @@ void	add_cmd(t_cmd **cmd)
 	t_cmd	*temp;
 
 	new_cmd = ft_calloc(1, sizeof(t_cmd));
-	new_cmd->token = NULL;
+	new_cmd->tokens = NULL;
 	new_cmd->next = NULL;
+	new_cmd->fd[0] = -1;
+	new_cmd->fd[1] = -1;
 	if (!new_cmd)
 		return ;
 	if (*cmd == NULL)

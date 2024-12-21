@@ -32,8 +32,8 @@ void	free_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		temp = cmd->next;
-		if (cmd->token)
-			free_token_list(cmd->token);
+		if (cmd->tokens)
+			free_token_list(cmd->tokens);
 		free(cmd);
 		cmd = temp;
 	}

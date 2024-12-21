@@ -3,30 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:10:05 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/13 12:10:01 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/11 11:52:00 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void	error_msg(char *cmd, char *str)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
+ void	error_msg(char *cmd, char *str)
+ {
+ 	ft_putstr_fd("minishell: ", STDERR_FILENO);
+ 	ft_putstr_fd(cmd, STDERR_FILENO);
+ 	ft_putstr_fd(": ", STDERR_FILENO);
+ 	ft_putstr_fd(str, STDERR_FILENO);
+ 	ft_putstr_fd("\n", STDERR_FILENO);
+ }
 
-void	perror_msg(char *cmd, char *str)
+ void	perror_msg(char *cmd, char *str)
+ {
+ 	ft_putstr_fd("minishell: ", STDERR_FILENO);
+ 	ft_putstr_fd(cmd, STDERR_FILENO);
+ 	ft_putstr_fd(": ", STDERR_FILENO);
+ 	perror(str);
+	//t_minishell	*mshell;
+	//mshell = get_shell();
+	//mshell->e_code = errno;
+ }
+
+t_minishell	*get_shell(void)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	perror(str);
+	static t_minishell	mshell;
+
+	return (&mshell);
 }
 
 void	close_fds(void)

@@ -15,15 +15,20 @@
 char	*ft_strndup(char *s, size_t n)
 {
 	char	*dest;
-	int		len;
+	int	len;
 
-	if (!s)
-		return (NULL);
-	len = ft_strnlen(s, n);
+	//len = ft_strnlen(s, n);
+	//if(n > ft_strlen(s))
+	//	return (NULL);
+	if(n > ft_strlen(s))
+		len = ft_strlen(s);
+	else 
+		len = n;
 	dest = (char *)malloc(len * sizeof(char) + 1);
 	if (dest == NULL)
 		return (NULL);
 	ft_strncpy(dest, s, n);
+	dest[len + 1] = '\0';
 	return (dest);
 }
 

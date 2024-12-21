@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/11 17:45:41 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/09 12:31:28 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,48 +26,84 @@ char	*go_path(char *env)
     }
     return(path);
 }
+char    *check_tilde(char *input)
+{
+    char    *path_expand;
+    
+    if (!input || (input[0] == '~' && input[1] == '\0'))
+        return(path_expand = go_path("HOME"));
+    else if(input[0] == '~')
+        return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
+    return(NULL);
+}
 
-void    ft_cd(t_minishell *mshell, char *args)
+void    ft_cd(t_minishell *mshell, t_token *token)
 {
     char    *oldpwd;
-    char    pwd[PATH_MAX];
+    char    pwd[_PC_PATH_MAX];
     char    *path;
     
+	token = token->next;
     if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
     {
         perror("getcwd() error:");
         return;
     }
-    if (!args || (args[0] == '~'))
-        path = go_path("HOME");
-    else if (args [0] == '-')
+    if (!token->input || token->input[0] == '~')
+        path = check_tilde(token->input);
+    else if (token->input[0] == '-')
     {
         path = go_path("OLDPWD");
         ft_putstr_fd(path, STDOUT_FILENO);
     }
     else
-        path = args;
+        path = token->input;
     if(chdir(path) != 0)
         perror("cd");
-    update_env(mshell, "OLDPWD",oldpwd);
+    printf("PATH:%s\n", path);
+    update_env(mshell, "OLDPWD",oldpwd, true);
     getcwd(pwd, sizeof(pwd));
-    update_env(mshell, "PWD", pwd);
+    update_env(mshell, "PWD", pwd, true);
+    free(path);
 }
 
-//int main(int argc, char **argv, char **envp)
-//{
-//    t_minishell mshell;
+/*t_token *cr_token(token_type type, const char *input)
+{
+    t_token *new_token = malloc(sizeof(t_token));
+    if (!new_token)
+        return NULL;
+    new_token->type = type;
+    new_token->input = strdup(input); // Copia o valor da string
+    new_token->next = NULL;
+    return new_token;
+}
 
-//    init_struct(&mshell, &mshell.env, envp);
+t_token *cr_sample_tokens()
+{
+    t_token *token1 = cr_token(CMD, "CD");
+	t_token *token2 = cr_token(ARG, "~/Desktop");
+    //t_token *token3 = cr_token(ARG, "lalala");
+
+
+    // Conecte os tokens
+    token1->next = token2;
+    //token2->next = token3;
+
+    return token1; // Retorna o início da lista
+}
+
+ int main(int argc, char **argv, char **envp)
+ {
+     (void)argc;
+     (void)argv;
+     t_minishell mshell;
     
-//    if (argc > 2)
-//    {
-//        ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
-//        return (1);
-//    }
-//    if (argc == 2)
-//        ft_cd(&mshell, argv[1]);
-//    else
-//        ft_cd(&mshell, NULL);
-//    return (0);
-//}
+    init_struct(&mshell, envp);
+ 	t_token *tokens = cr_sample_tokens();
+	
+    if (tokens)
+        ft_cd(&mshell,tokens);
+    clear_mshell(&mshell);
+    free_tokens(tokens);
+    return (0);
+ }*/

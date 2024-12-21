@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
+#    By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/11/21 15:37:43 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/12 15:00:56 by shrodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,18 +19,17 @@ INCLUDE = -I ./includes
 LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
-BUILTINS = cd.c echo.c pwd.c export.c unset.c env.c exit.c builtins_utils.c
-EXPANSIONS = expansions.c
-#REDIRECTS =
-SINTAX = sintax.c
+BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
+SYNTAX = expansions.c quotes.c signal.c convert_args.c
+EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
-TOKENS = tokens.c create_tokens.c tokens_utils.c free_tokens.c
-#VALGRIND
-VALGRIND_FLAGS = --quiet --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --gen-suppressions=all
-VALGRIND_SUPP = --suppressions=readline.supp
+TOKENS = tokens.c create_tokens.c tokens_utils.c
 
-SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix expand/, $(EXPANSIONS))  $(addprefix error/, $(ERROR)) $(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) $(addprefix sintax/, $(SINTAX)) main.c
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
+		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS))  main.c
+
 OBJS = ${SRC:.c=.o}
 
 %.o : %.c
@@ -52,9 +51,6 @@ fclean: clean
 
 re: fclean all
 
-valgrind: all
-	valgrind $(VALGRIND_FLAGS) $(VALGRIND_SUPP) ./$(NAME)
-
 #leaks: readline.supp
 #	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
 
@@ -73,4 +69,3 @@ valgrind: all
 #	@echo "}" >> readline.supp
 
 .PHONY: all clean fclean re
-
