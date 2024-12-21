@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/17 22:34:41 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/20 23:35:05 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef	struct s_minishell
 	t_env	*env;
 	t_cmd	*commands;
 	char	**envp;
+	int		heredoc_fd;
 	
 	int		e_code;
 	int		env_size;
@@ -166,7 +167,9 @@ void	exec_cmd(t_minishell *mshell);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);
 // void	run_commands(t_minishell *mshell);
 //void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
-void	has_heredoc(t_minishell *mshell, t_token **tokens);
+//void	has_heredoc(t_minishell *mshell, t_token **tokens);
+bool	has_heredoc(t_minishell *mshell, t_token **tokens);
+//void	has_heredoc(t_minishell *mshell, t_token **tokens, t_cmd *cmd);
 
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token **tokens);

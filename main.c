@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 14:34:42 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/20 21:47:59 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp)
 		input = readline("minishell> ");
 		if (!input)
 		{
-			printf("exit\n");
+			printf("exit_main\n");
 			break;
 		}
 		if(*input == '\0')

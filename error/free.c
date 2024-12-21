@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/13 15:16:33 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:01:26 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ void	clear_mshell(t_minishell *mshell)
 	if(mshell->envp)
 		free_array(mshell->envp);
 	close_fds();
-	//exit(mshell->e_code);
-	return;
+	exit(mshell->e_code);
+	//return;
 }

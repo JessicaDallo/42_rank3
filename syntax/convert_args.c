@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/17 22:09:23 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/20 21:25:18 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ char	**convert_args(t_token *token)
         token = token->next;
     }
     temp[i] = NULL;
-    i = 0;
-    while (temp[i])
-    {
-        printf("ARG: %s\n", temp[i]);
-        i++;
-    }
+    //i = 0;
+    //while (temp[i])
+    //{
+    //    printf("ARG: %s\n", temp[i]);
+    //    i++;
+    //}
     return (temp);
 }
 

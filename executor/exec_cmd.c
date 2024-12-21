@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/19 22:54:09 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/20 23:47:39 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
     }
 }*/
 
-void exec_cmd(t_minishell *mshell)
+/*void exec_cmd(t_minishell *mshell)
 {
     t_cmd *cmd = mshell->commands;
     pid_t pid;
@@ -103,17 +103,17 @@ void exec_cmd(t_minishell *mshell)
         if (cmd->next)
             close(cmd->fd[1]);
         prev_fd = cmd->fd[0];
-        //waitpid(pid, &mshell->e_code, 0);
-	    //f(WIFEXITED(mshell->e_code))
-		    //mshell->e_code = WEXITSTATUS(mshell->e_code);
+        waitpid(pid, &mshell->e_code, 0);
+	    if(WIFEXITED(mshell->e_code))
+		    mshell->e_code = WEXITSTATUS(mshell->e_code);
         // Fechar descritores não mais usados
         // Atualizar para o próximo comando
         cmd = cmd->next;
     }
-    while (waitpid(-1, &mshell->e_code, 0) > 0)
-        ;
-    if (WIFEXITED(mshell->e_code))
-        mshell->e_code = WEXITSTATUS(mshell->e_code);
+    //while (waitpid(-1, &mshell->e_code, 0) > 0)
+    //    ;
+    //if (WIFEXITED(mshell->e_code))
+    //    mshell->e_code = WEXITSTATUS(mshell->e_code);
 }
 
 void	has_heredoc(t_minishell *mshell, t_token **tokens)
@@ -170,7 +170,9 @@ void	has_heredoc(t_minishell *mshell, t_token **tokens)
 	}
     //printf("Finalizando has_heredoc.\n");
     return;
-}
+}*/
+
+
 
 /*t_token *cr_token(token_type type, const char *input)
 {
