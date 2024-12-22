@@ -86,7 +86,7 @@ char    *handle_quotes(char *str, int s_quote, int d_quote)
             d_quote = !d_quote;
         else
         {
-            aux = ft_appendchar(output, temp[i]);    
+            aux = ft_appendchar(output, temp[i]);
             free(output);
             output = aux;
         }
