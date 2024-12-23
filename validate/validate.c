@@ -12,27 +12,35 @@
 
 #include "../includes/include_builtins.h"
 
-static int	ft_check_delimiters(char *arg, int *was_cmd, int *i)
+int	error_val(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	return (1);
+}
+
+static int	check_delimiters(char *arg, int *was_cmd, int *i)
 {
 	if (arg[*i] == '|')
 	{
 		if (!val_pipe(arg, was_cmd, i) || !was_cmd)
-			return (printf("ERROR pipe\n"));
+			return (error_val("syntax error near unexpected token '|'"));
 	}
 	if (arg[*i] == '>')
 	{
 		if (!val_red(arg, was_cmd, i))
-			return (printf("ERROR redir\n"));
+			return (error_val("syntax error near unexpected token '>'"));
 	}
 	if (arg[*i] == '<')
 	{
 		if (!val_red_in(arg, was_cmd, i))
-			return (printf("ERROR redir\n"));
+			return (error_val("syntax error near unexpected token '<'"));
 	}
 	if (arg[*i] == '"' || arg[*i] == '\'')
 	{
 		if (!val_quot(arg, i))
-			return (printf("ERROR quotation\n"));
+			return (error_val("syntax error quote not closed"));
 	}
 	return (0);
 }
@@ -46,7 +54,7 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (arg[i])
 	{
-		if (ft_check_delimiters(arg, &was_cmd, &i))
+		if (check_delimiters(arg, &was_cmd, &i))
 			return (1);
 		if (arg[i] != ' ')
 			was_cmd = 1;

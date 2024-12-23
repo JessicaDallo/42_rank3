@@ -208,11 +208,11 @@ int		quote_count(char *arg, char c);
 char	*ft_trim(char *str);
 void	process_trim(t_split *spl);
 int		is_redir(t_split *spl, char *str);
-int len_red(char *str, char c);
+int		len_red(char *str, char c);
 
-void free_token_list(t_token *head);
-void free_cmd(t_cmd *cmd);
-void free_token(t_token *token);
+void	free_token_list(t_token *head);
+void	free_cmd(t_cmd *cmd);
+void	free_token(t_token *token);
 
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
