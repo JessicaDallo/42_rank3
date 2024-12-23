@@ -39,6 +39,7 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 	{
 		add_cmd(&cmd);
 		temp = ft_split_quots(*h_input, ' ');
+		ft_print_array(temp);
 		if (temp)
 		{
 			process_tokens(temp, &cmd);
@@ -47,6 +48,7 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 		}
 		h_input++;
 	}
+	ft_print_tokens(&cmd);
 	return (cmd);
 }
 
@@ -57,11 +59,10 @@ t_cmd	*parse_input(char *input)
 
 	cmd = NULL;
 	input = rm_space(input);
+	printf("%s -> teste \n", input);
 	h_input = ft_split_quots(input, '|');
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
 	h_input = NULL;
 	return (cmd);
 }
-	//linha 60 trava quando  o input eh e"cho"                   teste bom "dia"
-	//ele nao reconhece os espacos com e"cho"

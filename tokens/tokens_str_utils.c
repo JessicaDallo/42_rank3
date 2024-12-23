@@ -75,9 +75,9 @@ char	*ft_trim(char *str)
 	i = 0;
 	x = 0;
 	j = ft_strlen(str) - 1;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	while ((str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && i <= j)
 		i++;
-	while (str[j] == ' ' || (str[j] >= 9 && str[j] <= 13))
+	while ((str[j] == ' ' || (str[j] >= 9 && str[j] <= 13)) && i <= j)
 		j--;
 	temp = ft_calloc(sizeof(char), j - i);
 	while (i <= j)
@@ -93,11 +93,13 @@ char	*ft_trim(char *str)
 void	process_trim(t_split *spl)
 {
 	int	i;
+	char *temp;
 
 	i = 0;
 	while (spl->arr[i] != NULL)
 	{
-		spl->arr[i] = ft_trim(spl->arr[i]);
+		temp = ft_trim(spl->arr[i]);
+		spl->arr[i]= temp;
 		i++;
 	}
 }
