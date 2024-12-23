@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/20 23:35:05 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/23 15:48:11 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-//#include <linux/limits.h>
+#include <linux/limits.h>
 #include <limits.h>
 #include <fcntl.h>
 #include <stdbool.h> 
@@ -164,18 +164,25 @@ char	*get_execpath(char *cmd_name);
 void	run_execve(t_minishell *mshell, t_token *token);
 
 void	exec_cmd(t_minishell *mshell);
+void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
 // void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);
 // void	run_commands(t_minishell *mshell);
 //void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
 //void	has_heredoc(t_minishell *mshell, t_token **tokens);
 bool	has_heredoc(t_minishell *mshell, t_token **tokens);
+void	open_hd(t_minishell *mshell);
 //void	has_heredoc(t_minishell *mshell, t_token **tokens, t_cmd *cmd);
+
+ void	create_pipes(t_cmd *cmd);
 
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token **tokens);
-void	redir_append(char *file);
-void	redir_output(char *file);
-void	redir_input(char *file);
+void	redir_append(char *filename);
+void	redir_output(char *filename);
+void	redir_input(char *filename);
+
+void	redir_fds(int redir, int local);
+
 void    remove_token(t_token **tokens, t_token **current);
 
 
