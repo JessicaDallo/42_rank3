@@ -25,7 +25,7 @@
 #include <fcntl.h>
 #include <stdbool.h> 
 #include <signal.h>
-//#include <wait.h>
+#include <wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -46,6 +46,7 @@ typedef struct s_split
 	int		i;
 	int		j;
 	int		redir;
+	int		rlen;
 }	t_split;
 
 typedef struct	s_token
@@ -207,6 +208,7 @@ int		quote_count(char *arg, char c);
 char	*ft_trim(char *str);
 void	process_trim(t_split *spl);
 int		is_redir(t_split *spl, char *str);
+int len_red(char *str, char c);
 
 void free_token_list(t_token *head);
 void free_cmd(t_cmd *cmd);

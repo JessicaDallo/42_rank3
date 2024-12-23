@@ -51,8 +51,8 @@ fclean: clean
 
 re: fclean all
 
-#leaks: readline.supp
-#	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
+leaks: readline.supp
+	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
 
 #readline.supp:
 #	@echo "{" > readline.supp
