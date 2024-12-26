@@ -24,7 +24,7 @@ SYNTAX = expansions.c expansions_utils.c quotes.c signal.c convert_args.c
 EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
-TOKENS = tokens.c create_tokens.c tokens_utils.c split_tokens.c
+TOKENS = tokens.c create_tokens.c tokens_utils.c split_tokens.c tokens_str_utils.c
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
 		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \

@@ -44,7 +44,9 @@ typedef struct s_split
 	char	**arr;
 	int		init;
 	int		i;
-	int 	j;
+	int		j;
+	int		redir;
+	int		rlen;
 }	t_split;
 
 typedef struct	s_token
@@ -175,6 +177,9 @@ void	open_hd(t_minishell *mshell);
 
  void	create_pipes(t_cmd *cmd);
 
+ void    handle_pipes_in(t_cmd *cmd, int *prev_fd);
+ void    handle_pipes_out(t_cmd *cmd, int *prev_fd);
+
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token **tokens);
 void	redir_append(char *filename);
@@ -192,7 +197,6 @@ void    read_stdin();
 /*------------------------------------- JESSICA -------------------------------------*/
 
 /*------------------------------------ VALIDATE -------------------------------------*/
-//int		validate(char **arg);
 int		val_sintax(char *arg);
 bool val_quot(char *arg, int *i);
 bool val_pipe(char *arg, int *was_cmd, int *i);
@@ -200,32 +204,29 @@ bool val_red(char *arg, int *was_cmd, int *i);
 bool val_red_in(char *arg, int *was_cmd, int *i);
 
 /*------------------------------------ TOKENS -------------------------------------*/
-//t_token	*add_token(t_token **token, char *arg,  token_type type);
 t_token	*create_token(char *arg, token_type type);
-void	*add_token(t_cmd **cmd, char *arg, token_type type, bool teste);
-void	add_cmd(t_cmd **cmd);
 t_cmd	*parse_input(char *input);
 t_cmd	*get_tokens(t_cmd *cmd, char **h_input);
-int		get_type(char *cmd, bool teste);
-int		ft_count_words(char *s, char c);
 bool	is_delimiter(char *arg);
-bool	check_quots(char *h_input);
+void	*add_token(t_cmd **cmd, char *arg, token_type type, bool new_cmd);
+void	add_cmd(t_cmd **cmd);
+int		get_type(char *cmd, bool new_cmd);
+int		ft_count_words(char *s, char c);
+
+char	**ft_split_quots(char *str, char c);
+int		quote_count(char *arg, char c);
+char	*ft_trim(char *str);
+void	process_trim(t_split *spl);
+int		is_redir(t_split *spl, char *str);
+int		len_red(char *str, char c);
+
+void	free_token_list(t_token *head);
+void	free_cmd(t_cmd *cmd);
+void	free_token(t_token *token);
+
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
-
-void	quote_pointer(char **arg, char c);
-// void	handle_value(char **arg, t_token **token, char *str);
-int		ft_count_words(char *arg, char c);
-int		quote_count(char *arg, char c);
-// int		len_array(char **arg);
-char	**find_cmd(char *arg, char **cmd);
-bool	delimiter(char **arg);
-
-void free_token_list(t_token *head);
-void free_cmd(t_cmd *cmd);
-void free_token(t_token *token);
-//void free_temp(char *temp);
 
 
 #endif

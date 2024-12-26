@@ -25,19 +25,40 @@ pid_t	creat_pid(t_minishell *mshell)
 	return(child);	
 }
 
-void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
+void    handle_pipes_in(t_cmd *cmd, int *prev_fd)
 {
-    if (*prev_fd != -1)
+     if (*prev_fd != -1)
         redir_fds(*prev_fd, STDIN_FILENO);
     if (cmd->next)
         redir_fds(cmd->fd[1], STDOUT_FILENO);
     handle_redir(&(cmd->tokens));
     if (cmd->fd[0] != -1)
         close(cmd->fd[0]);
-    if (is_builtin(mshell, cmd))
-        exit(mshell->e_code);
-    else
-        run_execve(mshell, cmd->tokens);
+}
+
+void    handle_pipes_out(t_cmd *cmd, int *prev_fd)
+{
+    if (*prev_fd != -1)
+        close(*prev_fd);
+    if (cmd->next)
+        close(cmd->fd[1]);
+    *prev_fd = cmd->fd[0];
+}
+
+void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
+{
+     if (*prev_fd != -1)
+        redir_fds(*prev_fd, STDIN_FILENO);
+    if (cmd->next)
+        redir_fds(cmd->fd[1], STDOUT_FILENO);
+    handle_redir(&(cmd->tokens));
+    if (cmd->fd[0] != -1)
+        close(cmd->fd[0]);
+    // if (is_builtin(mshell, cmd))
+    //     exit(mshell->e_code);
+    // else
+    //     run_execve(mshell, cmd->tokens);
+    run_execve(mshell, cmd->tokens);
     exit(mshell->e_code);
 }
 
@@ -54,7 +75,7 @@ void exec_cmd(t_minishell *mshell)
     {
         if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
             prev_fd = mshell->heredoc_fd;
-
+        signal(SIGINT, ft_sigint);
         pid = creat_pid(mshell);
         if (pid == 0)
             run_cmd(mshell, cmd, &prev_fd);
@@ -99,7 +120,6 @@ void exec_cmd(t_minishell *mshell)
     {
         if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
             prev_fd = mshell->heredoc_fd;
-
         pid = creat_pid(mshell);
         if (pid == 0)
             run_cmd(mshell, cmd, &prev_fd);

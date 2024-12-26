@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "include_builtins.h"
 
 int	is_redir(t_split *spl, char *str)
 {
@@ -92,14 +92,14 @@ char	*ft_trim(char *str)
 
 void	process_trim(t_split *spl)
 {
-	int	i;
-	char *temp;
+	char	*temp;
+	int		i;
 
 	i = 0;
 	while (spl->arr[i] != NULL)
 	{
 		temp = ft_trim(spl->arr[i]);
-		spl->arr[i]= temp;
+		spl->arr[i] = temp;
 		i++;
 	}
 }
