@@ -54,7 +54,12 @@ void exec_cmd(t_minishell *mshell)
     {
         if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
             prev_fd = mshell->heredoc_fd;
-
+        if(is_builtin(mshell, cmd) & !cmd->next)
+        {
+            cmd = cmd->next;
+            continue;
+        }
+        signal(SIGINT, ft_sigint);
         pid = creat_pid(mshell);
         if (pid == 0)
             run_cmd(mshell, cmd, &prev_fd);

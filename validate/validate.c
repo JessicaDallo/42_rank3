@@ -12,6 +12,14 @@
 
 #include "../includes/include_builtins.h"
 
+int	error_val(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	return (1);
+}
+
 static int	ft_check_delimiters(char *arg, int *was_cmd, int *i)
 {
 	if (arg[*i] == '|')
@@ -46,6 +54,9 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (arg[i])
 	{
+		arg = ft_trim(arg);
+		if(!arg)
+			return (1);
 		if (ft_check_delimiters(arg, &was_cmd, &i))
 			return (1);
 		if (arg[i] != ' ')
@@ -56,11 +67,4 @@ int	val_sintax(char *arg)
 			break ;
 	}
 	return (0);
-}
-
-int	validate(char **input)
-{
-	if (!*input)
-		return (1);
-	return (val_sintax(*input));
 }
