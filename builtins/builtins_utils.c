@@ -12,25 +12,45 @@
 
 #include "include_builtins.h"
 
-int	is_builtin(t_minishell *mshell, t_cmd *commands)
+bool	is_builtin(t_cmd *commands)
 {
-	if(!commands)
-		return(0);
+	if(!commands || !commands->tokens)
+		return(false);
 	else if (!(ft_strcmp(commands->tokens->input, "cd")))
-		return(ft_cd(mshell, commands->tokens), 1);
+		return(true);
 	else if (!(ft_strcmp(commands->tokens->input, "echo")))
-		return(ft_echo(mshell, commands->tokens), 1);
+		return(true);
 	 else if (!(ft_strcmp(commands->tokens->input, "env")))
-	 	return(ft_env(mshell->env), 1);
+	 	return(true);
 	else if (!(ft_strcmp(commands->tokens->input, "exit")))
-		return(ft_exit(mshell, commands->tokens), 1);
+		return(true);
 	else if (!(ft_strcmp(commands->tokens->input, "export")))
-		return(ft_export(mshell, commands->tokens), 1);
+		return(true);
 	else if (!(ft_strcmp(commands->tokens->input, "pwd")))
-		return(ft_pwd(), 1);
+		return(true);
 	else if (!(ft_strcmp(commands->tokens->input, "unset")))
-		return(ft_unset(mshell, commands->tokens), 1);
-	return(0);
+		return(true);
+	return(false);
+}
+void	run_builtin(t_minishell *mshell, t_cmd *commands)
+{
+	if(!commands || !commands->tokens)
+		return;
+	else if (!(ft_strcmp(commands->tokens->input, "cd")))
+		ft_cd(mshell, commands->tokens);
+	else if (!(ft_strcmp(commands->tokens->input, "echo")))
+		ft_echo(mshell, commands->tokens);
+	 else if (!(ft_strcmp(commands->tokens->input, "env")))
+	 	ft_env(mshell->env);
+	else if (!(ft_strcmp(commands->tokens->input, "exit")))
+		ft_exit(mshell, commands->tokens);
+	else if (!(ft_strcmp(commands->tokens->input, "export")))
+		ft_export(mshell, commands->tokens);
+	else if (!(ft_strcmp(commands->tokens->input, "pwd")))
+		ft_pwd();
+	else if (!(ft_strcmp(commands->tokens->input, "unset")))
+		ft_unset(mshell, commands->tokens);
+	return;
 }
 
 

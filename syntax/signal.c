@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:43:34 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/26 16:05:17 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/11 17:12:09 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
-
-t_minishell	*get_shell(void)
-{
-	static t_minishell	mshell;
-
-	return (&mshell);
-}
 
 void	handle_signal(void)
 {
@@ -27,43 +20,51 @@ void	handle_signal(void)
 
 void	ft_reset_prompt(int signal)
 {
+	t_minishell	*mshell;
+
 	(void)signal;
-	ft_putstr_fd("\n", STDERR_FILENO);
-	//mshell->e_code = 130;
-	rl_on_new_line();
+	mshell = get_shell();
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
+	rl_on_new_line();
 	rl_redisplay();
+	mshell->e_code = 130;
 }
 
 void	ft_sigint(int signal)
 {
 	t_minishell	*mshell;
 
-	mshell = get_shell();
 	(void)signal;
-	//if(signal == SIGINT)
-	//{
-		ft_putstr_fd("\n", STDERR_FILENO);
-		exit(mshell->e_code = 130);
-	//}
+	mshell = get_shell();
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_on_new_line();
+	mshell->e_code = 130;
 }
+
 
 void	ft_sigquit(int signal)
 {
+	t_minishell	*mshell;
+
 	(void)signal;
+	mshell = get_shell();
 	ft_putstr_fd("\n", STDERR_FILENO);
 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-	//mshell->e_code  = 131;
+	mshell->e_code  = 131;
 }
 
-/*void	ft_sigint_heredoc(int signal, t_minishell *mshell)
+void	ft_sigint_hd(int signal)
 {
+	t_minishell	*mshell;
+
+	mshell = get_shell();
 	if (signal == SIGINT)
 	{
 		mshell->e_code = 130;
 		clear_mshell(mshell);
 	}
-}*/
+}
 
 //void	ft_receive_signal(void)
 //{

@@ -12,43 +12,54 @@
 
 #include "../includes/include_builtins.h"
 
-void get_tokens(char **h_input)
+static void	process_tokens(char **temp, t_cmd **cmd)
 {
-	token_type type;
-	t_cmd	*cmd;
-	char	**temp;
-	int		i;
-	bool	teste;
+	token_type	type;
+	bool		new_cmd;
+	int			i;
 
-	cmd = NULL;
-	while(*h_input)
+	i = 0;
+	new_cmd = true;
+	while (temp[i])
+	{
+		type = get_type(temp[i], new_cmd);
+		if (is_delimiter(temp[i]))
+			i++;
+		add_token(cmd, temp[i], type, new_cmd);
+		new_cmd = false;
+		i++;
+	}
+}
+
+t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
+{
+	char		**temp;
+
+	while (*h_input)
 	{
 		add_cmd(&cmd);
-		teste = true;
-		i = 0;
-		temp = ft_split(*h_input, ' ');
-		while(temp[i])
+		temp = ft_split_quots(*h_input, ' ');
+		if (temp)
 		{
-			type = get_type(temp[i], teste);
-			if(is_delimiter(temp[i]))
-				i++;
-			add_token(&cmd, temp[i], type, teste);
-			teste = false;
-			i++;
+			process_tokens(temp, &cmd);
+			free_array(temp);
+			temp = NULL;
 		}
-		free_array(temp);
 		h_input++;
 	}
-	//REMOVER É APENAS PARA TESTAR 
-	ft_print_tokens(&cmd);
+	return (cmd);
 }
-void	parse_input(char *input)
+
+t_cmd	*parse_input(char *input)
 {
+	t_cmd	*cmd;
+	char	**h_input;
 
-	char **h_input;
-
-	h_input = ft_split(input, '|');
-	ft_print_array(h_input);
-	get_tokens(h_input);
-
+	cmd = NULL;
+	input = rm_space(input);
+	h_input = ft_split_quots(input, '|');
+	cmd = get_tokens(cmd, h_input);
+	free_array(h_input);
+	h_input = NULL;
+	return (cmd);
 }

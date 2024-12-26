@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 16:41:21 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/23 15:30:35 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,21 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	char	**args;
 	pid_t	pid;
 	
-	pid = creat_pid(mshell);
 	if(!token->input)
 		return;
+	pid = creat_pid(mshell);
 	args = convert_args(token);
+	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
+	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
 	if(pid == 0)
 	{
+		signal(SIGINT, ft_sigint);
 		if(!args || !args[0])
 			return;
 		executable = get_execpath(args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
+		exit(mshell->e_code);
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
@@ -97,67 +101,3 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	free_array(args);
 	return;
 }
-
-/*t_token *cr_token(token_type type, const char *input)
-{
-    t_token *new_token = malloc(sizeof(t_token));
-    if (!new_token)
-        return NULL;
-    new_token->type = type;
-    new_token->input = strdup(input); // Copia o valor da string
-    new_token->next = NULL;
-    return new_token;
-}
-
-t_token *cr_sample_tokens()
-{
-    t_token *token1 = cr_token(CMD, "cat");
-	t_token *token2 = cr_token(ARG, "Makefile");
-    //t_token *token3 = cr_token(ARG, "info.txt");
-    //t_token *token4 = cr_token(ARG, "");
-    //t_token *token5 = cr_token(ARG, "");
-	//t_token *token6 = cr_token(ARG, "");
-
-    // Conecte os tokens
-    token1->next = token2;
-    //token2->next = token3;
-	///token3->next = token4;
-    //token4->next = token5;
-	//token5->next = token6;;
-
-    return token1; // Retorna o início da lista
-}
-
-int main(int argc, char **argv, char **envp)
-{
-    (void)argc;
-    (void)argv;
-    t_minishell mshell;
-    
-    init_struct(&mshell, envp);
-	mshell.commands = malloc(sizeof(t_cmd));
-    if (!mshell.commands)
-        return (1);
-    ft_bzero(mshell.commands, sizeof(t_cmd));
-	mshell.commands->tokens = cr_sample_tokens();
-	run_execve(&mshell, mshell.commands->tokens);
-	printf("\nEXIT CODE Main: %d\n", mshell.e_code);
-	clear_mshell(&mshell);
-    return 0;
-}*/
-
-/*void	wait_childs(t_minishell *mshell, t_cmd *cmd)
-{
-	int	status;
-	int	i;
-
-	status = 0;
-	i = -1;
-	while (cmd)
-	{
-		waitpid(mshell->pid, &status, 0);
-		cmd = cmd->next;
-	}
-	if (WIFEXITED(status))
-		mshell->e_code = WEXITSTATUS(status);
-}*/

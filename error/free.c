@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 15:04:05 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/23 15:03:22 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void	free_array(char **str) //env
+void	free_array(char **str) //envp
 {
 	int	i;
 	
@@ -80,7 +80,8 @@ void	clear_mshell(t_minishell *mshell)
 		free_cmd(mshell->commands);
 	if(mshell->envp)
 		free_array(mshell->envp);
-	//close_fds();
-	//exit(mshell->e_code);
-	return;
+	close(mshell->heredoc_fd);
+	close_fds();
+	exit(mshell->e_code);
+	//return;
 }

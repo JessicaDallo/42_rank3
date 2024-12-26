@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/09 15:58:00 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:18:29 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void    add_env(t_minishell *mshell, char *key, char *value, bool flag)
     new_node = (t_env *)malloc(sizeof(t_env));
     if(!new_node)
         return;
-    new_node->key = ft_strdup(key); //key = ft_strjoin("=", key[1]); para adicionar o '=' de volta
+    new_node->key = ft_strdup(key);
 	if (value != NULL)
         new_node->value = ft_strdup(value);
     else
