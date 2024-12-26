@@ -52,6 +52,9 @@ int	val_sintax(char *arg)
 
 	i = 0;
 	was_cmd = 0;
+	arg = ft_trim(arg);
+	if(!arg)
+		return (1);
 	while (arg[i])
 	{
 		if (check_delimiters(arg, &was_cmd, &i))
@@ -64,11 +67,4 @@ int	val_sintax(char *arg)
 			break ;
 	}
 	return (0);
-}
-
-int	validate(char **input)
-{
-	if (!*input)
-		return (1);
-	return (val_sintax(*input));
 }

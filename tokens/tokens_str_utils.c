@@ -77,6 +77,8 @@ char	*ft_trim(char *str)
 	j = ft_strlen(str) - 1;
 	while ((str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && i <= j)
 		i++;
+	if(str[i] == '\0')
+		return (NULL);
 	while ((str[j] == ' ' || (str[j] >= 9 && str[j] <= 13)) && i <= j)
 		j--;
 	temp = ft_calloc(sizeof(char), j - i);

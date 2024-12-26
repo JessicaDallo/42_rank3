@@ -57,6 +57,8 @@ t_cmd	*parse_input(char *input)
 
 	cmd = NULL;
 	input = rm_space(input);
+	input = ft_trim(input);
+	printf("%s\n", input);
 	h_input = ft_split_quots(input, '|');
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
