@@ -14,8 +14,9 @@
 
 bool process_char(char current, char *prev, char *result, bool *inside_quotes)
 {
-    static char quote_char = '\0';
-
+    static char quote_char;
+   
+    quote_char = '\0';
     if (current == '\'' || current == '\"') 
     {
         if (*inside_quotes && current == quote_char)
@@ -31,7 +32,7 @@ bool process_char(char current, char *prev, char *result, bool *inside_quotes)
         *result = current;
         return (true);
     }
-    if (*inside_quotes || (current != ' ' || (prev && *prev != ' '))) // onde eh && era ||
+    if (*inside_quotes || (current != ' ' || (prev && *prev != ' ')))
     {
         *result = current;
         return (true);
@@ -85,7 +86,7 @@ char    *handle_quotes(char *str, int s_quote, int d_quote)
             d_quote = !d_quote;
         else
         {
-            aux = ft_appendchar(output, temp[i]);
+            aux = ft_appendchar(output, temp[i]);    
             free(output);
             output = aux;
         }

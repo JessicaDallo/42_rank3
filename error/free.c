@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/21 00:01:26 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/23 15:03:22 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	clear_mshell(t_minishell *mshell)
 		free_cmd(mshell->commands);
 	if(mshell->envp)
 		free_array(mshell->envp);
+	close(mshell->heredoc_fd);
 	close_fds();
 	exit(mshell->e_code);
 	//return;

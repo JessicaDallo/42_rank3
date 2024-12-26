@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/09 11:47:18 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:39:44 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,3 @@ int ft_pwd(void)
     ft_putstr_fd("\n", STDOUT_FILENO);
     return (0);
 }
-
-/*int main(void)
-{
-	ft_pwd();
-	return (0);
-}*/

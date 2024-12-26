@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:10:05 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/11 11:52:00 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:02:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@
 
  void	perror_msg(char *cmd, char *str)
  {
+	t_minishell	*mshell;
+	
+	mshell = get_shell();
  	ft_putstr_fd("minishell: ", STDERR_FILENO);
  	ft_putstr_fd(cmd, STDERR_FILENO);
  	ft_putstr_fd(": ", STDERR_FILENO);
  	perror(str);
-	//t_minishell	*mshell;
-	//mshell = get_shell();
-	//mshell->e_code = errno;
+	mshell->e_code = errno;
  }
 
 t_minishell	*get_shell(void)

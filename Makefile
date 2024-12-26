@@ -20,7 +20,7 @@ LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
 BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
-SYNTAX = expansions.c quotes.c signal.c convert_args.c
+SYNTAX = expansions.c expansions_utils.c quotes.c signal.c convert_args.c
 EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
@@ -51,8 +51,8 @@ fclean: clean
 
 re: fclean all
 
-leaks: readline.supp
-	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
+#leaks: readline.supp
+#	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
 
 #readline.supp:
 #	@echo "{" > readline.supp
