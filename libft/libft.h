@@ -109,7 +109,7 @@ char	*ft_get_newstr(char *str);
 int		ft_strnlen(char *str, int n);
 char	*ft_strncpy(char *dest, const char *src, int n);
 char	*ft_strndup(char *s, size_t n);
-//char	*eup_str(char *str);
+char	*eup_str(char *str);
 char	*ft_appendchar(char const *s1, char c);
 
 #endif

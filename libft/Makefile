@@ -16,7 +16,7 @@ FT_IS = ft_isprint.c ft_isascii.c ft_isalnum.c ft_isdigit.c \
 		ft_isalpha.c
 
 FT_TO = ft_tolower.c ft_toupper.c ft_atoi.c ft_itoa.c ft_atoi_base.c \
-		flood_fill.c
+		flood_fill.c ft_eupstr.c
 
 FT_PUT = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putendl.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
