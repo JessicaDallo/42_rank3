@@ -112,9 +112,10 @@ void	ft_env_sorted(char **keys, int len);
 
 void    ft_cd(t_minishell *mshell, t_token *token);
 char	*go_path(char *env);
-int		is_builtin(t_minishell *mshell, t_cmd *commands);
 char    *check_tilde(char *input);
 
+bool	is_builtin(t_cmd *commands);
+void	run_builtin(t_minishell *mshell, t_cmd *commands);
 
 
 /*------------------------------------- SYNTAX -------------------------------------*/
@@ -132,19 +133,19 @@ char	*handle_quotes(char *str, int s_quote, int d_quote);
 
 char	**convert_args(t_token *token);
 int		ft_arraylen(t_token *token);
-t_minishell	*get_shell(void);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
-void	free_array(char **str);
-void	free_cmd(t_cmd *cmd);
-void	free_envlist(t_env *env);
-void	free_tokens(t_token *tokens);
-void	clear_mshell(t_minishell *mshell);
+t_minishell	*get_shell(void);
+void		close_fds(void);
+void		error_msg(char *cmd, char *str);
+void		perror_msg(char *cmd, char *str);
 
-void	error_msg(char *cmd, char *str);
-void	perror_msg(char *cmd, char *str);
-void	close_fds(void);
+void		free_array(char **str);
+void		free_cmd(t_cmd *cmd);
+void		free_envlist(t_env *env);
+void		free_tokens(t_token *tokens);
+void		clear_mshell(t_minishell *mshell);
 
 
 /*------------------------------------- SIGNAL -------------------------------------*/
@@ -154,44 +155,36 @@ void	ft_reset_prompt(int signal);
 void	ft_sigquit(int signal);
 void	ft_sigint_hd(int signal);
 
+
 /*------------------------------------- EXEC -------------------------------------*/
-pid_t	creat_pid(t_minishell *mshell);
 void	ft_heredoc(t_minishell *mshell, char *delim);
 int		tmp_heredoc(t_minishell *mshell);
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand);
+void	open_hd(t_minishell *mshell);
+bool	has_heredoc(t_minishell *mshell, t_token **tokens);
 
 int		check_execpath(t_minishell *mshell, char *path);
 int		execpath_error(t_minishell *mshell, char *path);
 char	*get_execpath(char *cmd_name);
 void	run_execve(t_minishell *mshell, t_token *token);
 
+pid_t	creat_pid(t_minishell *mshell);
 void	exec_cmd(t_minishell *mshell);
+int		check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
-// void 	handle_pipes(t_minishell *mshell, t_cmd *cmd);
-// void	run_commands(t_minishell *mshell);
-//void	has_heredoc(t_minishell *mshell, t_cmd *cmd);
-//void	has_heredoc(t_minishell *mshell, t_token **tokens);
-bool	has_heredoc(t_minishell *mshell, t_token **tokens);
-void	open_hd(t_minishell *mshell);
-//void	has_heredoc(t_minishell *mshell, t_token **tokens, t_cmd *cmd);
 
- void	create_pipes(t_cmd *cmd);
+void	create_pipes(t_cmd *cmd);
+void	close_pipes(t_cmd *cmd);
+void	redir_fds(int redir, int local);
 
- void    handle_pipes_in(t_cmd *cmd, int *prev_fd);
- void    handle_pipes_out(t_cmd *cmd, int *prev_fd);
 
 /*------------------------------------- REDIR -------------------------------------*/
 void	handle_redir(t_token **tokens);
 void	redir_append(char *filename);
 void	redir_output(char *filename);
 void	redir_input(char *filename);
-
-void	redir_fds(int redir, int local);
-
 void    remove_token(t_token **tokens, t_token **current);
 
-
-void    read_stdin();
 
 
 /*------------------------------------- JESSICA -------------------------------------*/

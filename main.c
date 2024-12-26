@@ -38,7 +38,6 @@ int main(int argc, char **argv, char **envp)
 		mshell.commands = parse_input(input);
 		if(mshell.commands)
 			exec_cmd(&mshell);
-			//is_builtin(&mshell, mshell.commands);
 		free(input);
 	}
 }
