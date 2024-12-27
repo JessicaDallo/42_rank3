@@ -23,6 +23,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal(SIGINT, ft_reset_prompt);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline("minishell> ");
 		if (!input)
 		{
@@ -41,5 +42,3 @@ int main(int argc, char **argv, char **envp)
 		free(input);
 	}
 }
-
-

@@ -16,6 +16,7 @@ void	handle_signal(void)
 {
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, ft_sigquit);
+	//coloca o sinal da SIG_IGN/
 }
 
 void	ft_reset_prompt(int signal)

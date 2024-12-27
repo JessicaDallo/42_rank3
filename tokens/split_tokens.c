@@ -88,12 +88,13 @@ char	**ft_split_quots(char *str, char c)
 	t_split	spl;
 	char	**arr;
 
+	printf("%c\n", c);
 	spl.i = 0;
 	spl.j = 0;
 	spl.init = spl.i;
 	spl.arr = NULL;
 	spl.rlen = len_red(str, c);
-	arr = ft_calloc(sizeof(char *), ft_count_words(str, c) + spl.rlen + 1);
+	arr = ft_calloc(ft_count_words(str, c) + spl.rlen + 1, sizeof(char *));
 	if (!arr)
 		return (NULL);
 	spl.arr = arr;
