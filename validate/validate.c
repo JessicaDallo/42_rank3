@@ -20,7 +20,7 @@ int	error_val(char *str)
 	return (1);
 }
 
-static int	check_delimiters(char *arg, int *was_cmd, int *i)
+static int	ft_check_delimiters(char *arg, int *was_cmd, int *i)
 {
 	if (arg[*i] == '|')
 	{
@@ -54,7 +54,9 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (arg[i])
 	{
-		if (check_delimiters(arg, &was_cmd, &i))
+		if(!arg)
+			return (1);
+		if (ft_check_delimiters(arg, &was_cmd, &i))
 			return (1);
 		if (arg[i] != ' ')
 			was_cmd = 1;
@@ -64,11 +66,4 @@ int	val_sintax(char *arg)
 			break ;
 	}
 	return (0);
-}
-
-int	validate(char **input)
-{
-	if (!*input)
-		return (1);
-	return (val_sintax(*input));
 }

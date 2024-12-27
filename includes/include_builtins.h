@@ -111,8 +111,9 @@ void    ft_env_reorder(char **keys, t_env *env);
 void	ft_env_sorted(char **keys, int len);
 
 void    ft_cd(t_minishell *mshell, t_token *token);
-char	*go_path(char *env);
+void	check_path(t_token *token, char **path);
 char    *check_tilde(char *input);
+char	*go_path(char *env);
 
 bool	is_builtin(t_cmd *commands);
 void	run_builtin(t_minishell *mshell, t_cmd *commands);
@@ -136,7 +137,7 @@ int		ft_arraylen(t_token *token);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
-t_minishell	*get_shell(void);
+t_minishell	**get_shell(void);
 void		close_fds(void);
 void		error_msg(char *cmd, char *str);
 void		perror_msg(char *cmd, char *str);
@@ -219,7 +220,6 @@ void	free_token(t_token *token);
 
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
-
 
 
 #endif

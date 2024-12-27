@@ -14,9 +14,8 @@
 
 bool process_char(char current, char *prev, char *result, bool *inside_quotes)
 {
-    static char quote_char;
-   
-    quote_char = '\0';
+    static char quote_char = '\0';
+
     if (current == '\'' || current == '\"') 
     {
         if (*inside_quotes && current == quote_char)

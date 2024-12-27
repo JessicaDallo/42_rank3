@@ -74,7 +74,9 @@ void ft_export(t_minishell *mshell, t_token *tokens)
             new_env = ft_split(temp->input, '=');
 	        if(!new_env)
 	    	    return;
-            update_env(mshell, new_env[0], new_env[1], flag);
+            //update_env(mshell, new_env[0], new_env[1], flag);
+            handle_expansions(mshell, &new_env[1], 1);
+            update_env(mshell, new_env[0], handle_quotes(new_env[1], 0, 0), flag);
             free_array(new_env);
             temp = temp->next;
         }

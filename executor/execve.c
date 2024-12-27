@@ -32,7 +32,7 @@ int	execpath_error(t_minishell *mshell, char *path)
 			return(mshell->e_code = 126);
 		}
 	}
-	return(0);
+	return(mshell->e_code);
 }
 
 int	check_execpath(t_minishell *mshell, char *path)
@@ -44,7 +44,7 @@ int	check_execpath(t_minishell *mshell, char *path)
 	}
 	else
 		return(execpath_error(mshell, path));
-	return(0);
+	//return(0);
 }
 
 char	*get_execpath(char *cmd_name)
@@ -54,6 +54,8 @@ char	*get_execpath(char *cmd_name)
 	int		i;
     char    *path;
 	
+	if(ft_strchr("/.", cmd_name[0]))
+		return(ft_strdup(cmd_name));
 	tmp_path = getenv("PATH");
 	paths = ft_split(tmp_path, ':');
 	if(!paths)

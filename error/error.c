@@ -23,22 +23,22 @@
 
  void	perror_msg(char *cmd, char *str)
  {
-	t_minishell	*mshell;
+	t_minishell	**mshell;
 	
 	mshell = get_shell();
  	ft_putstr_fd("minishell: ", STDERR_FILENO);
  	ft_putstr_fd(cmd, STDERR_FILENO);
  	ft_putstr_fd(": ", STDERR_FILENO);
  	perror(str);
-	mshell->e_code = errno;
+	(*mshell)->e_code = errno;
  }
 
-t_minishell	*get_shell(void)
-{
-	static t_minishell	mshell;
-
-	return (&mshell);
-}
+// t_minishell	**get_shell(void)
+// {
+// 	static t_minishell	*mshell = NULL;
+	
+// 	return (&mshell);
+// }
 
 void	close_fds(void)
 {

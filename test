@@ -1,0 +1,86 @@
+total 132
+drwxr-xr-x 2 shrodrig 2023_porto  4096 Dec 26 18:45 builtins
+drwxr-xr-x 2 shrodrig 2023_porto    64 Dec 26 18:49 error
+drwxr-xr-x 2 shrodrig 2023_porto   170 Dec 26 18:56 executor
+drwxr-xr-x 2 shrodrig 2023_porto    32 Dec 26 10:59 includes
+drwxr-xr-x 2 shrodrig 2023_porto  4096 Dec 26 18:49 libft
+-rw-r--r-- 1 shrodrig 2023_porto  1440 Dec 26 18:49 main.c
+-rw-r--r-- 1 shrodrig 2023_porto  5064 Dec 26 18:49 main.o
+-rwxr-xr-x 1 shrodrig 2023_porto  2615 Dec 26 11:27 Makefile
+-rwxr-xr-x 1 shrodrig 2023_porto 91936 Dec 26 18:56 minishell
+-rw-r--r-- 1 shrodrig 2023_porto   159 Dec 26 10:59 new.txt
+drwxr-xr-x 2 shrodrig 2023_porto  4096 Dec 26 18:48 syntax
+-rw-r--r-- 1 shrodrig 2023_porto     0 Dec 27 15:01 test
+drwxr-xr-x 2 shrodrig 2023_porto  4096 Dec 26 18:49 tokens
+drwxr-xr-x 2 shrodrig 2023_porto    90 Dec 26 18:49 validate
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
+#    Updated: 2024/12/23 18:00:55 by sheila           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = minishell
+
+CC = cc
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -g
+INCLUDE = -I ./includes
+LIBFT_PATH = libft
+LIBFT = -L ${LIBFT_PATH} -lft -lreadline
+
+BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c builtins_utils.c
+SYNTAX = expansions.c expansions_utils.c quotes.c signal.c convert_args.c
+EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c
+ERROR = error.c free.c
+VALIDATE = validate.c val_delimiters.c
+TOKENS = tokens.c create_tokens.c tokens_utils.c split_tokens.c tokens_str_utils.c
+
+SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
+		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS))  main.c
+
+OBJS = ${SRC:.c=.o}
+
+%.o : %.c
+		${CC} ${CFLAGS} ${INCLUDE} -c $< -o ${<:.c=.o}
+
+$(NAME): ${OBJS}
+		make -C ${LIBFT_PATH}
+		${CC} ${OBJS} ${LIBFT} -o ${NAME}
+
+all: ${NAME}
+
+clean:
+		make -C ${LIBFT_PATH} clean
+		${RM} ${OBJS}
+
+fclean: clean
+		make -C ${LIBFT_PATH} fclean
+		${RM} ${NAME}
+
+re: fclean all
+
+#leaks: readline.supp
+#	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
+
+#readline.supp:
+#	@echo "{" > readline.supp
+#	@echo "    leak readline" >> readline.supp
+#	@echo "    Memcheck:Leak" >> readline.supp
+#	@echo "    ..." >> readline.supp
+#	@echo "    fun:readline" >> readline.supp
+#	@echo "}" >> readline.supp
+#	@echo "{" >> readline.supp
+#	@echo "    leak add_history" >> readline.supp
+#	@echo "    Memcheck:Leak" >> readline.supp
+#	@echo "    ..." >> readline.supp
+#	@echo "    fun:add_history" >> readline.supp
+#	@echo "}" >> readline.supp
+
+.PHONY: all clean fclean re

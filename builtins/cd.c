@@ -36,8 +36,60 @@ char    *check_tilde(char *input)
         return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
     return(NULL);
 }
+void check_path(t_token *token, char **path)
+{
+    t_minishell	**mshell;
+
+	mshell = get_shell();
+    if(token->next)
+    {
+        error_msg("cd", "too many arguments");
+        (*mshell)->e_code = 1;
+        return;
+    }
+    if (!token->input || token->input[0] == '~')
+        *path = check_tilde(token->input);
+    else if (token->input[0] == '-')
+    {
+        *path = go_path("OLDPWD");
+        ft_putstr_fd(*path, STDOUT_FILENO);
+    }
+    else
+        path = &token->input;
+    return;
+}
+
 
 void    ft_cd(t_minishell *mshell, t_token *token)
+{
+    char    *oldpwd;
+    char    pwd[PATH_MAX];
+    char    *path;
+    //bool    flag;
+    
+	token = token->next;
+    //flag = false;
+    if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
+    {
+        perror("""getcwd() error:");
+        return;
+    }
+    if (!token)
+        path = go_path("HOME");
+    else
+        check_path(token, &path);
+    if(chdir(path) != 0)
+        perror("cd");
+    printf("PATH:%s\n", path);
+    update_env(mshell, "OLDPWD",oldpwd, true);
+    getcwd(pwd, sizeof(pwd));
+    update_env(mshell, "PWD", pwd, true);
+    //if(flag)
+        //free(path);
+}
+
+
+/*void    ft_cd(t_minishell *mshell, t_token *token)
 {
     char    *oldpwd;
     char    pwd[PATH_MAX];
@@ -49,7 +101,7 @@ void    ft_cd(t_minishell *mshell, t_token *token)
         perror("getcwd() error:");
         return;
     }
-    if (!token->input || token->input[0] == '~')
+    if (!token || !token->input || token->input[0] == '~')
         path = check_tilde(token->input);
     else if (token->input[0] == '-')
     {
@@ -65,4 +117,4 @@ void    ft_cd(t_minishell *mshell, t_token *token)
     getcwd(pwd, sizeof(pwd));
     update_env(mshell, "PWD", pwd, true);
     free(path);
-}
+}*/

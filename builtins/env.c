@@ -78,13 +78,22 @@ void    init_env(t_minishell *mshell)
     }
 }
 
+t_minishell **get_shell(void)
+{
+    static t_minishell *shell = NULL;
+    return &shell;
+}
+
 void    init_struct(t_minishell *mshell, char **envp)
 {
-    int i;
+    t_minishell **shell;
+    int         i;
     
     ft_bzero(mshell, sizeof(t_minishell));
     if(!mshell)
         return;
+    shell = get_shell();
+    *shell = mshell;
     i = 0;
     while(envp[i])
         i++;
