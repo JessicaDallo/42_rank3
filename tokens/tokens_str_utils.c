@@ -67,7 +67,6 @@ int	len_red(char *str, char c)
 
 char	*ft_trim(char *str)
 {
-	//PODE SER AQUI, OU NO *COUNT WORD DO SPLIT 
 	char	*temp;
 	int		j;
 	int		i;
@@ -75,7 +74,7 @@ char	*ft_trim(char *str)
 
 	i = 0;
 	x = 0;
-	j = ft_strlen(str);
+	j = ft_strlen(str) - 1;
 	while ((str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && i <= j)
 		i++;
 	if (str[i] == '\0')

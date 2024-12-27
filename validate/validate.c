@@ -54,7 +54,6 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	while (arg[i])
 	{
-		arg = ft_trim(arg);
 		if(!arg)
 			return (1);
 		if (ft_check_delimiters(arg, &was_cmd, &i))

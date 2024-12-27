@@ -35,14 +35,12 @@ int	quote_count(char *str, char c)
 	return (i);
 }
 
-int	ft_count_words(char *str, char c)
+int	ft_count_words(char *s, char c)
 {
 	int		i;
 	char	quots;
-	char *s;
 
 	i = 0;
-	s = str;
 	while (*s)
 	{
 		while (*s == c)
