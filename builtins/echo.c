@@ -18,13 +18,14 @@ int ft_echo(t_minishell *mshell, t_token *token)
     char    *temp;
     
     token = token->next;
-    if (token && token->input && ft_strncmp(token->input, "-n", 3) == 0)
-	{
-        newline = 0;
-        token = token->next;
-    }
     while(token) 
 	{   
+        if (token && token->input && ft_strncmp(token->input, "-n", 2) == 0)
+	    {
+            newline = 0;
+            token = token->next;
+            continue;
+        }
         handle_expansions(mshell, &token->input, 1);
         temp = handle_quotes(token->input, 0, 0);
         ft_putstr_fd(temp, STDOUT_FILENO);

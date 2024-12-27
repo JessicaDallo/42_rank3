@@ -77,6 +77,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	free(eof);
 	//return;
 }
+
 void open_hd(t_minishell *mshell)
 {
     int fd;

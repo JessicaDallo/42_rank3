@@ -38,7 +38,8 @@ void	ft_sigint(int signal)
 	(void)signal;
 	mshell = get_shell();
 	ft_putstr_fd("\n", STDERR_FILENO);
-	exit(mshell->e_code = 130);
+	rl_on_new_line();
+	mshell->e_code = 130;
 }
 
 

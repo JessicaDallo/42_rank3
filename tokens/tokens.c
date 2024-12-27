@@ -70,7 +70,6 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 	{
 		add_cmd(&cmd);
 		temp = ft_split_quots(*h_input, ' ');
-		ft_print_array(temp);
 		if (temp)
 		{
 			process_tokens(temp, &cmd);
@@ -92,6 +91,7 @@ t_cmd	*parse_input(char *input)
 	input = rm_space(input);
 	input = ft_trim(input);
 	h_input = ft_split_quots(input, '|');
+	ft_print_array(h_input);
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
 	h_input = NULL;
