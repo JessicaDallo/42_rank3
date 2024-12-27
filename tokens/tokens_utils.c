@@ -39,6 +39,7 @@ int	ft_count_words(char *str, char c)
 {
 	int		i;
 	char	quots;
+	char *s;
 
 	i = 0;
 	s = str;

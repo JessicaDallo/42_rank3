@@ -25,22 +25,22 @@ static int	ft_check_delimiters(char *arg, int *was_cmd, int *i)
 	if (arg[*i] == '|')
 	{
 		if (!val_pipe(arg, was_cmd, i) || !was_cmd)
-			return (printf("ERROR pipe\n"));
+			return (error_val("syntax error near unexpected token '|'"));
 	}
 	if (arg[*i] == '>')
 	{
 		if (!val_red(arg, was_cmd, i))
-			return (printf("ERROR redir\n"));
+			return (error_val("syntax error near unexpected token '>'"));
 	}
 	if (arg[*i] == '<')
 	{
 		if (!val_red_in(arg, was_cmd, i))
-			return (printf("ERROR redir\n"));
+			return (error_val("syntax error near unexpected token '<'"));
 	}
 	if (arg[*i] == '"' || arg[*i] == '\'')
 	{
 		if (!val_quot(arg, i))
-			return (printf("ERROR quotation\n"));
+			return (error_val("syntax error quote not closed"));
 	}
 	return (0);
 }
