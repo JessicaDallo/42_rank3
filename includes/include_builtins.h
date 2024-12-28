@@ -48,6 +48,8 @@ typedef struct s_split
 	int		j;
 	int		redir;
 	int		rlen;
+	int		cwords;
+	int		total;
 }	t_split;
 
 typedef struct	s_token

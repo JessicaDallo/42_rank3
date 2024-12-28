@@ -35,30 +35,61 @@ int	quote_count(char *str, char c)
 	return (i);
 }
 
+// int	ft_count_words(char *s, char c)
+// {
+// 	int		i;
+// 	char	quots;
+
+// 	i = 0;
+// 	while (*s)
+// 	{
+// 		while (*s == c)
+// 			s++;
+// 		if (*s && *s != c)
+// 		{
+// 			i++;
+// 		}
+// 		while (*s && *s != c)
+// 		{
+// 			if (*s == '"' || *s == '\'')
+// 			{
+// 				quots = *s;
+// 				s++;
+// 				while (*s && *s != quots)
+// 					s++;
+// 			}
+// 			s++;
+// 		}
+// 	}
+// 	return (i);
+// }
+
 int	ft_count_words(char *s, char c)
 {
 	int		i;
+	int		j;
 	char	quots;
 
 	i = 0;
-	while (*s)
+	j = 0;
+	while (s[j])
 	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
+		while (s[j] == c)
+			j++;
+		if (s[j] && s[j] != c)
 		{
 			i++;
 		}
-		while (*s && *s != c)
+		while (s[j]&& s[j] != c)
 		{
-			if (*s == '"' || *s == '\'')
+			if (s[j] == '"' || s[j] == '\'')
 			{
-				quots = *s;
-				s++;
-				while (*s && *s != quots)
-					s++;
+				quots = s[j];
+				j++;
+				while (s[j] && s[j] != quots)
+					j++;
 			}
-			s++;
+			j++;
 		}
 	}
 	return (i);

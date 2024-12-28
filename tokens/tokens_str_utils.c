@@ -81,7 +81,7 @@ char	*ft_trim(char *str)
 		return (NULL);
 	while ((str[j] == ' ' || (str[j] >= 9 && str[j] <= 13)) && i <= j)
 		j--;
-	temp = ft_calloc(j - i + 1, sizeof(char));
+	temp = ft_calloc(j - i + 2, sizeof(char));
 	if(!temp)
 		return (NULL);
 	while (i <= j)
