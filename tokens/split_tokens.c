@@ -94,7 +94,6 @@ char	**ft_split_quots(char *str, char c)
 	t_split	spl;
 	char	**arr;
 
-	printf("%c\n", c);
 	spl.i = 0;
 	spl.j = 0;
 	spl.init = spl.i;

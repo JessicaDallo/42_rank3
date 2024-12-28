@@ -35,35 +35,6 @@ int	quote_count(char *str, char c)
 	return (i);
 }
 
-// int	ft_count_words(char *s, char c)
-// {
-// 	int		i;
-// 	char	quots;
-
-// 	i = 0;
-// 	while (*s)
-// 	{
-// 		while (*s == c)
-// 			s++;
-// 		if (*s && *s != c)
-// 		{
-// 			i++;
-// 		}
-// 		while (*s && *s != c)
-// 		{
-// 			if (*s == '"' || *s == '\'')
-// 			{
-// 				quots = *s;
-// 				s++;
-// 				while (*s && *s != quots)
-// 					s++;
-// 			}
-// 			s++;
-// 		}
-// 	}
-// 	return (i);
-// }
-
 int	ft_count_words(char *s, char c)
 {
 	int		i;
