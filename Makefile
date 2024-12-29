@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2024/12/23 18:00:55 by sheila           ###   ########.fr        #
+#    Updated: 2024/12/29 14:08:59 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ TOKENS = tokens.c create_tokens.c tokens_utils.c split_tokens.c tokens_str_utils
 
 SRC = $(addprefix builtins/, $(BUILTINS)) $(addprefix syntax/, $(SYNTAX)) \
 		$(addprefix error/, $(ERROR)) $(addprefix executor/, $(EXEC)) \
-		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS))  main.c
+		$(addprefix validate/, $(VALIDATE)) $(addprefix tokens/, $(TOKENS)) main.c
 
 OBJS = ${SRC:.c=.o}
 
@@ -51,8 +51,8 @@ fclean: clean
 
 re: fclean all
 
-#leaks: readline.supp
-#	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --log-file=output.log ./$(NAME)
+leaks: readline.supp
+	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --quiet ./$(NAME)
 
 #readline.supp:
 #	@echo "{" > readline.supp

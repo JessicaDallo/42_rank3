@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 15:48:11 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:27:08 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_split
 	int		j;
 	int		redir;
 	int		rlen;
+	int		cwords;
+	int		total;
 }	t_split;
 
 typedef struct	s_token
@@ -98,12 +100,15 @@ int		ft_exit(t_minishell *mshell, t_token *token);
 int		get_exit(t_minishell *mshell, t_token *token);
 int		is_num(char *str);
 
-int		ft_pwd(void);
+//int		ft_pwd(void);
+int ft_pwd(t_minishell *mshell, t_token *token);
 
 void	ft_unset(t_minishell *mshell, t_token *tokens);
 void    remove_env(t_minishell *mshell, char *key);
 
 void	ft_export(t_minishell *mshell, t_token *tokens);
+//bool	check_key(t_minishell *mshell, char *input);
+bool	check_key(char *input);
 void	update_env(t_minishell *mshell, char *key, char *value, bool flag);
 char    *get_value(t_minishell *mshell, char *key);
 void    print_export(t_minishell *mshell);
@@ -111,7 +116,7 @@ void    ft_env_reorder(char **keys, t_env *env);
 void	ft_env_sorted(char **keys, int len);
 
 void    ft_cd(t_minishell *mshell, t_token *token);
-void	check_path(t_token *token, char **path);
+void 	check_path(t_minishell *mshell, t_token *token, char **path, bool *flag);
 char    *check_tilde(char *input);
 char	*go_path(char *env);
 
@@ -139,7 +144,7 @@ int		ft_arraylen(t_token *token);
 /*------------------------------------- ERROR -------------------------------------*/
 t_minishell	**get_shell(void);
 void		close_fds(void);
-void		error_msg(char *cmd, char *str);
+void		error_msg(char *cmd, char *str, int e_code);
 void		perror_msg(char *cmd, char *str);
 
 void		free_array(char **str);
@@ -221,5 +226,5 @@ void	free_token(t_token *token);
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
-
 #endif
+

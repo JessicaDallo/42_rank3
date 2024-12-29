@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 15:30:35 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:22:59 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ int	execpath_error(t_minishell *mshell, char *path)
 	{
 		if (access(path, F_OK) < 0)
 		{
-			error_msg(path, "No such file or directory");
+			error_msg(path, "No such file or directory", 127); //check if the exit code is correct
 			return(mshell->e_code = 127);
 		}
 		else if (access(path, X_OK) == 0)
 		{
-			error_msg(path, "Is a directory");
+			error_msg(path, "Is a directory", 126); //check if the exit code is correct
 			return(mshell->e_code = 126);
 		}
 		else
 		{
-			error_msg(path, "Permission denied");
+			error_msg(path, "Permission denied", 126); //check if the exit code is correct
 			return(mshell->e_code = 126);
 		}
 	}
@@ -39,7 +39,7 @@ int	check_execpath(t_minishell *mshell, char *path)
 {
 	if(!path || path == NULL)
 	{
-		error_msg(mshell->commands->tokens->input, "Command not found");
+		error_msg(mshell->commands->tokens->input, "Command not found", 127); //check if the exit code is correct
 		return(mshell->e_code = 127);
 	}
 	else
@@ -95,7 +95,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		executable = get_execpath(args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
-		exit(mshell->e_code);
+		exit(0); // exit with the exit status of the command
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)

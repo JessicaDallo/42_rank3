@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 18:01:46 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:26:35 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,18 @@ void ft_export(t_minishell *mshell, t_token *tokens)
         while(temp)
         {
             flag = true;
+            check_key(temp->input);
             if (!ft_strchr(temp->input, '='))
-                flag = false;
-            new_env = ft_split(temp->input, '=');
-	        if(!new_env)
-	    	    return;
-            //update_env(mshell, new_env[0], new_env[1], flag);
-            handle_expansions(mshell, &new_env[1], 1);
-            update_env(mshell, new_env[0], handle_quotes(new_env[1], 0, 0), flag);
-            free_array(new_env);
+                update_env(mshell, temp->input, NULL, false);
+            else
+            {
+                new_env = ft_split(temp->input, '=');
+	            if(!new_env || !new_env[0])
+	    	        return;
+                handle_expansions(mshell, &new_env[1], 1);
+                update_env(mshell, new_env[0], handle_quotes(new_env[1], 0, 0), flag);
+                free_array(new_env);
+            }
             temp = temp->next;
         }
     }

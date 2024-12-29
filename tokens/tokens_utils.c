@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 19:09:52 by jesilva-          #+#    #+#             */
-/*   Updated: 2024/12/23 19:09:55 by jesilva-         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:44:18 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,32 @@ int	quote_count(char *str, char c)
 	return (i);
 }
 
-int	ft_count_words(char *str, char c)
+int	ft_count_words(char *s, char c)
 {
 	int		i;
+	int		j;
 	char	quots;
-	char *s;
 
 	i = 0;
-	s = str;
-	while (*s)
+	j = 0;
+	while (s[j])
 	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
+		while (s[j] == c)
+			j++;
+		if (s[j] && s[j] != c)
 		{
 			i++;
 		}
-		while (*s && *s != c)
+		while (s[j]&& s[j] != c)
 		{
-			if (*s == '"' || *s == '\'')
+			if (s[j] == '"' || s[j] == '\'')
 			{
-				quots = *s;
-				s++;
-				while (*s && *s != quots)
-					s++;
+				quots = s[j];
+				j++;
+				while (s[j] && s[j] != quots)
+					j++;
 			}
-			s++;
+			j++;
 		}
 	}
 	return (i);
@@ -73,7 +73,7 @@ void	ft_print_array(char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		printf("%s ->array\n", cmd[i]);
+		//printf("%s ->array\n", cmd[i]);
 		i++;
 	}
 }
