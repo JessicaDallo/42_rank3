@@ -52,6 +52,9 @@ int	val_sintax(char *arg)
 
 	i = 0;
 	was_cmd = 0;
+	arg = ft_trim(arg);
+	if(!arg)
+		return (1);
 	while (arg[i])
 	{
 		if(!arg)
