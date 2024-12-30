@@ -69,11 +69,15 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	{
 		signal(SIGINT, ft_sigint_hd); 
 		read_heredoc(mshell, eof, expand);
-		exit(0);
+		exit(mshell->e_code);
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
+	// if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
+	// 	mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
+	// else if (WIFSIGNALED(mshell->e_code)) 
+	// 	mshell->e_code = 128 + WTERMSIG(mshell->e_code);
 	free(eof);
 	//return;
 }

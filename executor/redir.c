@@ -22,18 +22,18 @@ void	redir_input(char *filename)
 		file = filename;
 	if (!file || !*file)
 	{
-		perror_msg("", "Invalid Name");
+		error_msg("", "Invalid Name", 1);
 		return;
 	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
-		perror_msg("open", "Erro ao abrir o arquivo");
+		error_msg("open", "No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
-		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		error_msg("dup2","Erro ao redirecionar o arquivo", 1);
 		close(fd);
 		return;
 	}
@@ -50,13 +50,13 @@ void	redir_output(char *filename)
 		file = filename;
 	if (!file || !*file)
 	{
-		perror_msg("", "Invalid Name");
+		error_msg("", "Invalid Name", 1);
 		return;
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if(fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
+		error_msg("open","No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -78,13 +78,13 @@ void	redir_append(char *filename)
 		file = filename;
 	if (!file || !*file)
 	{
-		perror_msg("", "Invalid Name");
+		error_msg("", "Invalid Name", 1);
 		return;
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
+		error_msg("open","No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)

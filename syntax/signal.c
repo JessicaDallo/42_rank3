@@ -35,8 +35,8 @@ void	ft_sigint(int signal)
 {
 	t_minishell	**mshell;
 
-	(void)signal;
 	mshell = get_shell();
+	(void)signal;
 	ft_putstr_fd("\n", STDERR_FILENO);
 	rl_on_new_line();
 	(*mshell)->e_code = 130;

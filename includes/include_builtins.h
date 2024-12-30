@@ -138,8 +138,9 @@ bool	process_char(char current, char *prev, char *result, bool *inside_quotes);
 char	*rm_space(char *str);
 char	*handle_quotes(char *str, int s_quote, int d_quote);
 
-char	**convert_args(t_token *token);
-int		ft_arraylen(t_token *token);
+//char	**convert_args(t_token *token);
+char	**convert_args(t_minishell *mshell, t_token *token);
+int		ft_arraylen(t_minishell *mshell, t_token *token);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
@@ -227,5 +228,4 @@ void	free_token(t_token *token);
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
-#endif
-
+#endif 
