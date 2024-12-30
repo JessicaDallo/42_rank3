@@ -34,21 +34,19 @@ int	get_exit(t_minishell *mshell, t_token *token)
 {
 	mshell->e_code = 0;
 	
-	//handle_quotes(token->input, 0, 0);
-	//printf("token->input: %s\n", token->input);
 	if (!is_num(handle_quotes(token->input, 0, 0)))
 	{
-		error_msg("exit", "numeric argument required", 2); //check if the exit code is correct
+		error_msg("exit", "numeric argument required", 2);
 		return((mshell->e_code = 2));
 	}
 	else if (token->next)
 	{
-		error_msg("exit", "too many arguments", 1); //checkif the exit code is correct
+		error_msg("exit", "too many arguments", 1);
 		return(mshell->e_code = 1);
 	}
 	else if (token->input)
 	{
-		if (is_num(handle_quotes(token->input, 0, 0)) < 0)
+		if (ft_atoi(handle_quotes(token->input, 0, 0)) < 0)
 			mshell->e_code = (256 + ft_atoi(handle_quotes(token->input, 0, 0)));
 		else
 			mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;

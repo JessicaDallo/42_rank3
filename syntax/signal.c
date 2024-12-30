@@ -62,6 +62,8 @@ void	ft_sigint_hd(int signal)
 	if (signal == SIGINT)
 	{
 		(*mshell)->e_code = 130;
+		ft_putstr_fd("\n", STDERR_FILENO);
+		rl_on_new_line();
 		clear_mshell((*mshell));
 	}
 }

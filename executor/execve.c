@@ -81,12 +81,12 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	char	**args;
 	pid_t	pid;
 	
-	if(!token->input)
+	if(!token || !token->input)
 		return;
 	pid = creat_pid(mshell);
 	args = convert_args(mshell, token);
-	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
-	signal(SIGQUIT, ft_sigquit); // Ignorar SIGQUIT no processo principal
+	//signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
+	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);

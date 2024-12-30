@@ -14,7 +14,7 @@
 
 int	tmp_heredoc(t_minishell *mshell)
 {
-	int			fd;
+	int		fd;
 	
 	fd = open("/tmp/heredoc_file0001", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if(fd < 0)
@@ -64,7 +64,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	expand = is_expand(delim);
 	pid = creat_pid(mshell);
 	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
-	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
+	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint_hd); 
@@ -74,11 +74,6 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
-	// if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
-	// 	mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
-	// else if (WIFSIGNALED(mshell->e_code)) 
-	// 	mshell->e_code = 128 + WTERMSIG(mshell->e_code);
-	free(eof);
 	//return;
 }
 

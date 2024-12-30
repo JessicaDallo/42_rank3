@@ -17,7 +17,7 @@ void	redir_input(char *filename)
 	int		fd;
 	char	*file;
 
-	file = check_tilde(filename);
+	file = check_tilde(filename); // resertar o valor do exit_code
 	if (!file)
 		file = filename;
 	if (!file || !*file)
