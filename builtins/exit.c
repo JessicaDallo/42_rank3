@@ -62,13 +62,20 @@ int	ft_exit(t_minishell *mshell, t_token *token)
 {
 	int exit_code;
 	
-    token = token->next;
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
-    if (!token || !token->input)
-        exit_code = 0;
-    else
-	    exit_code = get_exit(mshell, token);
-	clear_mshell(mshell);
-	exit(exit_code);
+	token = token->next;
+	if (!token || !token->input)
+	{
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		exit_code = 0;
+		clear_mshell(mshell);
+		exit(exit_code);
+
+	}
+	else
+	{
+		exit_code = get_exit(mshell, token);
+		mshell->e_code = exit_code;
+	}
+	return (exit_code);
 }
 

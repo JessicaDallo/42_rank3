@@ -90,6 +90,7 @@ typedef	struct s_minishell
 
 /*------------------------------------- BUILTINS -------------------------------------*/
 int		ft_echo(t_minishell *mshell, t_token *tokens);
+bool    check_echo(t_token *token, bool *flag, int *newline);
 
 void    ft_env(t_env *env);
 void    init_env(t_minishell *mshell);
@@ -195,11 +196,12 @@ void    remove_token(t_token **tokens, t_token **current);
 
 /*------------------------------------- JESSICA -------------------------------------*/
 /*------------------------------------ VALIDATE -------------------------------------*/
-int		val_sintax(char *arg);
+int		val_sintax(char *arg, t_minishell *mshell);
 bool val_quot(char *arg, int *i);
 bool val_pipe(char *arg, int *was_cmd, int *i);
 bool val_red(char *arg, int *was_cmd, int *i);
 bool val_red_in(char *arg, int *was_cmd, int *i);
+int	error_val_msg(char *str, t_minishell *mshell);
 
 /*------------------------------------ TOKENS -------------------------------------*/
 t_token	*create_token(char *arg, token_type type);
