@@ -16,11 +16,17 @@ static int	split_delimiter(t_split *spl, char *str, char c)
 {
 	char	*temp;
 
+	temp = NULL;
 	if (str[spl->i] == c && spl->i > spl->init)
 	{
 		temp = ft_strndup(&str[spl->init], spl->i - spl->init);
 		spl->arr[spl->j++] = temp;
 		spl->init = spl->i + 1;
+	}
+	if(!temp)
+	{
+		free(temp);
+		temp = NULL;
 	}
 	if ((size_t)spl->i < ft_strlen(str))
 		spl->i++;
@@ -93,7 +99,9 @@ char	**ft_split_quots(char *str, char c)
 	spl.init = spl.i;
 	spl.arr = NULL;
 	spl.rlen = len_red(str, c);
-	arr = ft_calloc(sizeof(char *), ft_count_words(str, c) + spl.rlen + 1);
+	spl.cwords = ft_count_words(str, c);
+	spl.total = spl.cwords + spl.rlen;
+	arr = ft_calloc(spl.total + 1, sizeof(char *));
 	if (!arr)
 		return (NULL);
 	spl.arr = arr;

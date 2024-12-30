@@ -55,7 +55,8 @@ void	redir_fds(int redir, int local)
 	else if (dup2(redir, local) < 0)
 	{
 		perror_msg("dup2", "Erro ao redirecionar o arquivo");
-		return;
+		close(redir);
+        return;
 	}
     close(redir);
 }

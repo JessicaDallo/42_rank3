@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 18:02:07 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:23:43 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 		line = readline("> ");
 		if (!line)
 		{
-			error_msg("warning: here-document delimited by EOF. Wanted", eof);
+			error_msg("warning: here-document delimited by EOF. Wanted", eof, 1); //check if the exit code is correct
 			break ;
 		}
 		if (!ft_strcmp(line, eof))

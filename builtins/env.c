@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/23 17:18:29 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/28 19:07:13 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,22 @@ void    init_env(t_minishell *mshell)
     }
 }
 
+t_minishell **get_shell(void)
+{
+    static t_minishell *shell = NULL;
+    return &shell;
+}
+
 void    init_struct(t_minishell *mshell, char **envp)
 {
-    int i;
+    t_minishell **shell;
+    int         i;
     
     ft_bzero(mshell, sizeof(t_minishell));
     if(!mshell)
         return;
+    shell = get_shell();
+    *shell = mshell;
     i = 0;
     while(envp[i])
         i++;

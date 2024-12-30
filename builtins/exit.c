@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/23 15:39:17 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:20:36 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,24 @@ int	get_exit(t_minishell *mshell, t_token *token)
 {
 	mshell->e_code = 0;
     
-    if (!is_num(token->input))
+    //handle_quotes(token->input, 0, 0);
+    //printf("token->input: %s\n", token->input);
+    if (!is_num(handle_quotes(token->input, 0, 0)))
     {
-        error_msg("exit", "numeric argument required");
+        error_msg("exit", "numeric argument required", 2); //check if the exit code is correct
         return((mshell->e_code = 2));
     }
     else if (token->next)
     {
-        error_msg("exit", "too many arguments");
+        error_msg("exit", "too many arguments", 1); //checkif the exit code is correct
         return(mshell->e_code = 1);
     }
     else if (token->input)
     {
-        if (is_num(token->input) < 0)
-            mshell->e_code = 256 + ft_atoi(token->input);
+        if (is_num(handle_quotes(token->input, 0, 0)) < 0)
+            mshell->e_code = 256 + ft_atoi(handle_quotes(token->input, 0, 0));
         else
-            mshell->e_code = ft_atoi(token->input) % 256;
+            mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;
         return(mshell->e_code);
     }
     return(mshell->e_code);

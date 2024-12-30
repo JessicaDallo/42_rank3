@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "../includes/include_builtins.h"
 
 int	is_redir(t_split *spl, char *str)
 {
@@ -77,9 +77,13 @@ char	*ft_trim(char *str)
 	j = ft_strlen(str) - 1;
 	while ((str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && i <= j)
 		i++;
+	if (str[i] == '\0')
+		return (NULL);
 	while ((str[j] == ' ' || (str[j] >= 9 && str[j] <= 13)) && i <= j)
 		j--;
-	temp = ft_calloc(sizeof(char), j - i);
+	temp = ft_calloc(j - i + 2, sizeof(char));
+	if(!temp)
+		return (NULL);
 	while (i <= j)
 	{
 		temp[x] = str[i];

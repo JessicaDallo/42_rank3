@@ -22,7 +22,8 @@ bool	val_quot(char *arg, int *i)
 	{
 		if (arg[*i] == c)
 		{
-			(*i)++;
+			if ((arg[*i] != '"' && arg[*i] != '\''))
+				(*i)++;
 			return (true);
 		}
 		(*i)++;

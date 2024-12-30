@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/10 16:59:55 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/29 13:33:12 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 bool process_char(char current, char *prev, char *result, bool *inside_quotes)
 {
-    static char quote_char;
-   
-    quote_char = '\0';
+    static char quote_char = '\0';
+
     if (current == '\'' || current == '\"') 
     {
         if (*inside_quotes && current == quote_char)
