@@ -194,7 +194,6 @@ void    remove_token(t_token **tokens, t_token **current);
 
 
 /*------------------------------------- JESSICA -------------------------------------*/
-
 /*------------------------------------ VALIDATE -------------------------------------*/
 int		val_sintax(char *arg);
 bool val_quot(char *arg, int *i);

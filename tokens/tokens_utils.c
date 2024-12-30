@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 19:09:52 by jesilva-          #+#    #+#             */
-/*   Updated: 2024/12/29 13:44:18 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:09:55 by jesilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_print_array(char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		//printf("%s ->array\n", cmd[i]);
+		printf("%s ->array\n", cmd[i]);
 		i++;
 	}
 }
