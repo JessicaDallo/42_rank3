@@ -50,10 +50,12 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	mshell->e_code = 0;
 	if (!is_num(handle_quotes(token->input, 0, 0)) || m_long(token->input))
 	{
+		error_msg("exit", "numeric argument required", 2); 
 		return((mshell->e_code = 2));
 	}
 	else if (token->next)
 	{
+		error_msg("exit", "too many arguments", 1);
 		return(mshell->e_code = 1);
 	}
 	else if (token->input)
