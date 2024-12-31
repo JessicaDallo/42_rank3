@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 17:34:34 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:50:08 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ bool	has_heredoc(t_minishell *mshell, t_token **tokens);
 
 int		check_execpath(t_minishell *mshell, char *path);
 int		execpath_error(t_minishell *mshell, char *path);
-char	*get_execpath(char *cmd_name);
+//char	*get_execpath(char *cmd_name);
+char	*get_execpath(t_minishell *mshell, char *cmd_name);
 void	run_execve(t_minishell *mshell, t_token *token);
 
 pid_t	creat_pid(t_minishell *mshell);

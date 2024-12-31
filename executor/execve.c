@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 16:59:44 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:51:51 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_execpath(t_minishell *mshell, char *path)
 	//return(0);
 }
 
-char	*get_execpath(char *cmd_name)
+char	*get_execpath(t_minishell *mshell, char *cmd_name)
 {
 	char	**paths;
 	char	*tmp_path;
@@ -56,9 +56,10 @@ char	*get_execpath(char *cmd_name)
 	
 	if(ft_strchr("/.", cmd_name[0]))
 		return(ft_strdup(cmd_name));
-	tmp_path = getenv("PATH");
-	paths = ft_split(tmp_path, ':');
-	if(!paths)
+	tmp_path = get_value(mshell, "PATH");
+	if(tmp_path)
+		paths = ft_split(tmp_path, ':');
+	if(!tmp_path || !paths)
 		return(NULL);
 	i = -1;
 	while(paths[++i])
@@ -92,7 +93,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		signal(SIGINT, ft_sigint);
 		if(!args || !args[0])
 			return;
-		executable = get_execpath(args[0]);
+		executable = get_execpath(mshell, args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
 		exit(mshell->e_code); // exit with the exit status of the command
