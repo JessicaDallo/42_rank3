@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:56:16 by jesilva-          #+#    #+#             */
-/*   Updated: 2024/12/04 14:56:18 by jesilva-         ###   ########.fr       */
+/*   Updated: 2024/12/31 17:09:01 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/include_builtins.h"
 
-static char	*rm_quotes(char *str)
+/*static char	*rm_quotes(char *str)
 {
 	int	i;
 	int j;
@@ -38,7 +38,7 @@ static char	*rm_quotes(char *str)
 	}
 	temp[j] = '\0';
 	return (temp);
-}
+}*/
 
 
 static void	process_tokens(char **temp, t_cmd **cmd)
@@ -53,7 +53,7 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	{
 		type = get_type(temp[i], new_cmd);
 		if(type == 0)
-			temp[i] = rm_quotes(temp[i]);
+			temp[i] = handle_quotes(temp[i], 0, 0); //alterei rm_quotes para handle_quotes
 		if (is_delimiter(temp[i]))
 			i++;
 		add_token(cmd, temp[i], type, new_cmd);

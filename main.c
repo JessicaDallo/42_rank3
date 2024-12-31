@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 17:46:15 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 00:19:34 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		if(*input)
 			add_history(input);
-		if (val_sintax(input) > 0)
+		if (val_sintax(input, &mshell) > 0)
 			continue ;
 		mshell.commands = parse_input(input);
 		if(mshell.commands)
-			exec_cmd(&mshell);
+			handle_exec(&mshell);
 		free(input);
 	}
 }

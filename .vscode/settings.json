@@ -1,5 +1,6 @@
 {
 	"files.associations": {
 		"include_builtins.h": "c"
-	}
+	},
+	"editor.renderWhitespace": "all"
 }

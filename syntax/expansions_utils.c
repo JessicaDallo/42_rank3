@@ -26,28 +26,28 @@ char *get_epos(char *line, int flag)
 {
 	char	quote;
 	
-    while (*line)
-    {
-        if (flag && (*line == '\'' || *line == '\"'))
-        {
-        	quote = *line++;
-            while (*line && *line != quote)
-            {
-                if (quote == '\"' && *line == '$' && *(line + 1) == '?')
-                    return (line);
-                line++;
-            }
-        }
-        if (*line == '$' && *(line + 1) == '?')
-            return (line);
-        line++;
-    }
-    return (NULL);
+	while (*line)
+	{
+		if (flag && (*line == '\'' || *line == '\"'))
+		{
+			quote = *line++;
+			while (*line && *line != quote)
+			{
+				if (quote == '\"' && *line == '$' && *(line + 1) == '?')
+					return (line);
+				line++;
+			}
+		}
+		if (*line == '$' && *(line + 1) == '?')
+			return (line);
+		line++;
+	}
+	return (NULL);
 }
 
 void expand_exit(t_minishell *mshell, char **line, int flag)
 {
-    char 	*e_pos;
+	char 	*e_pos;
 	char	*new_line;
 	char	*temp;
 	char	*exit;
@@ -56,11 +56,11 @@ void expand_exit(t_minishell *mshell, char **line, int flag)
 	while (e_pos)
 	{
 		exit = ft_itoa(mshell->e_code);
-        temp = ft_strjoin((ft_substr(*line, 0, e_pos - *line)), exit);
-        new_line = ft_strjoin(temp, (e_pos + 2));
-        free(temp);
-        free(*line);
-        *line = new_line;
+		temp = ft_strjoin((ft_substr(*line, 0, e_pos - *line)), exit);
+		new_line = ft_strjoin(temp, (e_pos + 2));
+		free(temp);
+		free(*line);
+		*line = new_line;
 		e_pos = get_epos(*line, flag);
-    }
+	}
 }

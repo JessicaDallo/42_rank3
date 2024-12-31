@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:22:59 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:59:44 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	char	**args;
 	pid_t	pid;
 	
-	if(!token->input)
+	if(!token || !token->input)
 		return;
 	pid = creat_pid(mshell);
-	args = convert_args(token);
-	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
-	signal(SIGQUIT, SIG_IGN); // Ignorar SIGQUIT no processo principal
+	args = convert_args(mshell, token);
+	signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
+	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
@@ -95,11 +95,13 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		executable = get_execpath(args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
-		exit(0); // exit with the exit status of the command
+		exit(mshell->e_code); // exit with the exit status of the command
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
 		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
+	else if (WIFSIGNALED(mshell->e_code)) 
+		mshell->e_code = 128 + WTERMSIG(mshell->e_code); // Se o filho foi encerrado por um sinal, ajustar mshell->e_code
 	free_array(args);
 	return;
 }

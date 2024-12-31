@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:27:08 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:34:34 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef	struct s_minishell
 
 /*------------------------------------- BUILTINS -------------------------------------*/
 int		ft_echo(t_minishell *mshell, t_token *tokens);
+bool    check_echo(t_token *token, bool *flag, int *newline);
 
 void    ft_env(t_env *env);
 void    init_env(t_minishell *mshell);
@@ -120,7 +121,8 @@ void 	check_path(t_minishell *mshell, t_token *token, char **path, bool *flag);
 char    *check_tilde(char *input);
 char	*go_path(char *env);
 
-bool	is_builtin(t_cmd *commands);
+//bool	is_builtin(t_cmd *commands);
+int	is_builtin(t_minishell *mshell, t_cmd *commands);
 void	run_builtin(t_minishell *mshell, t_cmd *commands);
 
 
@@ -137,8 +139,9 @@ bool	process_char(char current, char *prev, char *result, bool *inside_quotes);
 char	*rm_space(char *str);
 char	*handle_quotes(char *str, int s_quote, int d_quote);
 
-char	**convert_args(t_token *token);
-int		ft_arraylen(t_token *token);
+//char	**convert_args(t_token *token);
+char	**convert_args(t_minishell *mshell, t_token *token);
+int		ft_arraylen(t_minishell *mshell, t_token *token);
 
 
 /*------------------------------------- ERROR -------------------------------------*/
@@ -178,28 +181,37 @@ pid_t	creat_pid(t_minishell *mshell);
 void	exec_cmd(t_minishell *mshell);
 int		check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
+void	handle_exec(t_minishell *mshell);
 
 void	create_pipes(t_cmd *cmd);
 void	close_pipes(t_cmd *cmd);
 void	redir_fds(int redir, int local);
+void	save_original_fds(int initial_fds[2]);
+void	recover_original_fds(int initial_fds[2]);
 
 
 /*------------------------------------- REDIR -------------------------------------*/
-void	handle_redir(t_token **tokens);
-void	redir_append(char *filename);
-void	redir_output(char *filename);
-void	redir_input(char *filename);
+//void	handle_redir(t_token **tokens);
+bool	handle_redir(t_token **tokens);
+//void	redir_append(char *filename);
+bool	redir_append(char *filename);
+//void	redir_output(char *filename);
+bool	redir_output(char *filename);
+//void	redir_input(char *filename);
+bool	redir_input(char *filename);
 void    remove_token(t_token **tokens, t_token **current);
+
 
 
 
 /*------------------------------------- JESSICA -------------------------------------*/
 /*------------------------------------ VALIDATE -------------------------------------*/
-int		val_sintax(char *arg);
+int		val_sintax(char *arg, t_minishell *mshell);
 bool val_quot(char *arg, int *i);
 bool val_pipe(char *arg, int *was_cmd, int *i);
 bool val_red(char *arg, int *was_cmd, int *i);
 bool val_red_in(char *arg, int *was_cmd, int *i);
+int	error_val_msg(char *str, t_minishell *mshell);
 
 /*------------------------------------ TOKENS -------------------------------------*/
 t_token	*create_token(char *arg, token_type type);
@@ -225,5 +237,4 @@ void	free_token(t_token *token);
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
-#endif
-
+#endif 

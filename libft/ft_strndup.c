@@ -28,7 +28,7 @@ char	*ft_strndup(char *s, size_t n)
 	if (dest == NULL)
 		return (NULL);
 	ft_strncpy(dest, s, n);
-	dest[len + 1] = '\0';
+	dest[len] = '\0';
 	return (dest);
 }
 

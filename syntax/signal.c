@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:43:34 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/11 17:12:09 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:59:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	ft_sigint(int signal)
 {
 	t_minishell	**mshell;
 
-	(void)signal;
 	mshell = get_shell();
+	(void)signal;
 	ft_putstr_fd("\n", STDERR_FILENO);
 	rl_on_new_line();
 	(*mshell)->e_code = 130;
@@ -62,6 +62,8 @@ void	ft_sigint_hd(int signal)
 	if (signal == SIGINT)
 	{
 		(*mshell)->e_code = 130;
+		ft_putstr_fd("\n", STDERR_FILENO);
+		rl_on_new_line();
 		clear_mshell((*mshell));
 	}
 }
