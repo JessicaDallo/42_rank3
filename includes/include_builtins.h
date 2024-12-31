@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:27:08 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 13:18:16 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ void 	check_path(t_minishell *mshell, t_token *token, char **path, bool *flag);
 char    *check_tilde(char *input);
 char	*go_path(char *env);
 
-bool	is_builtin(t_cmd *commands);
+//bool	is_builtin(t_cmd *commands);
+int	is_builtin(t_minishell *mshell, t_cmd *commands);
 void	run_builtin(t_minishell *mshell, t_cmd *commands);
 
 
@@ -180,18 +181,26 @@ pid_t	creat_pid(t_minishell *mshell);
 void	exec_cmd(t_minishell *mshell);
 int		check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
+void handle_exec(t_minishell *mshell);
 
 void	create_pipes(t_cmd *cmd);
 void	close_pipes(t_cmd *cmd);
 void	redir_fds(int redir, int local);
+void	save_original_fds(int initial_fds[2]);
+void	recover_original_fds(int initial_fds[2]);
 
 
 /*------------------------------------- REDIR -------------------------------------*/
-void	handle_redir(t_token **tokens);
-void	redir_append(char *filename);
-void	redir_output(char *filename);
-void	redir_input(char *filename);
+//void	handle_redir(t_token **tokens);
+bool	handle_redir(t_token **tokens);
+//void	redir_append(char *filename);
+bool	redir_append(char *filename);
+//void	redir_output(char *filename);
+bool	redir_output(char *filename);
+//void	redir_input(char *filename);
+bool	redir_input(char *filename);
 void    remove_token(t_token **tokens, t_token **current);
+
 
 
 

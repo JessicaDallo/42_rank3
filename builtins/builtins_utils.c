@@ -6,13 +6,13 @@
 /*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:09:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:18:31 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 12:20:01 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-bool	is_builtin(t_cmd *commands)
+/*bool	is_builtin(t_cmd *commands)
 {
 	if(!commands || !commands->tokens)
 		return(false);
@@ -31,7 +31,7 @@ bool	is_builtin(t_cmd *commands)
 	else if (!(ft_strcmp(commands->tokens->input, "unset")))
 		return(true);
 	return(false);
-}
+}*/
 
 bool	check_options(t_minishell *mshell, t_token *tokens)
 {
@@ -52,8 +52,6 @@ bool	check_options(t_minishell *mshell, t_token *tokens)
         }
 	}
 	return (false);
-	
-
 }
 void	run_builtin(t_minishell *mshell, t_cmd *commands)
 {
@@ -77,6 +75,30 @@ void	run_builtin(t_minishell *mshell, t_cmd *commands)
 			ft_unset(mshell, commands->tokens);
 	}
 	return;
+}
+
+int	is_builtin(t_minishell *mshell, t_cmd *commands)
+{
+	if(!commands || !commands->tokens)
+		return(0);
+	if(!check_options(mshell, commands->tokens))
+	{
+		if (!(ft_strcmp(commands->tokens->input, "cd")))
+			return(ft_cd(mshell, commands->tokens), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "echo")))
+			return(ft_echo(mshell, commands->tokens), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "env")))
+			return(ft_env(mshell->env), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "exit")))
+			return(ft_exit(mshell, commands->tokens), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "export")))
+			return(ft_export(mshell, commands->tokens), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "pwd")))
+			return(ft_pwd(mshell, commands->tokens), 1);
+		else if (!(ft_strcmp(commands->tokens->input, "unset")))
+			return(ft_unset(mshell, commands->tokens), 1);
+	}
+	return(0);
 }
 
 
