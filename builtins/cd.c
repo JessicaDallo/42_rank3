@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:19:49 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 00:33:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ char	*go_path(char *env)
 	}
 	return(path);
 }
-char    *check_tilde(char *input)
+char	*check_tilde(char *input)
 {
-	char    *path_expand;
-	
+	t_minishell	**mshell;
+	char	*path_expand;
+
+	mshell = get_shell();
+	(*mshell)->e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
 		return(path_expand = go_path("HOME"));
 	else if(input[0] == '~')
@@ -67,7 +70,6 @@ void get_path(t_minishell *mshell, t_token *token, char **path, bool *flag)
 		*path = handle_quotes(token->input, 0, 0);
 	handle_expansions(mshell, path, 1);
 }
-
 
 void    ft_cd(t_minishell *mshell, t_token *token)
 {

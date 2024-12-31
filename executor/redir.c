@@ -12,88 +12,95 @@
 
 #include "include_builtins.h"
 
-void	redir_input(char *filename)
+bool	redir_input(char *filename) // resertar o valor do exit_code
 {
 	int		fd;
 	char	*file;
 
-	file = check_tilde(filename); // resertar o valor do exit_code
+	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
-		file = filename;
+		file = handle_quotes(filename, 0, 0);
+	printf("file: %s\n", file);
 	if (!file || !*file)
 	{
 		error_msg("", "Invalid Name", 1);
-		return;
+		return(false);
 	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
 		error_msg("open", "No such file or directory", 1);
-		return;
+		return(false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		error_msg("dup2","Erro ao redirecionar o arquivo", 1);
 		close(fd);
-		return;
+		return(false);
 	}
-	close(fd);	
+	close(fd);
+	return(true);
 }
 
-void	redir_output(char *filename)
+bool	redir_output(char *filename)
 {
 	int	fd;
 	char	*file;
 
-	file = check_tilde(filename);
+	//file = check_tilde(filename);
+	//if (!file)
+	//	file = filename;
+	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
-		file = filename;
+		file = handle_quotes(filename, 0, 0);
 	if (!file || !*file)
 	{
 		error_msg("", "Invalid Name", 1);
-		return;
+		return(false);
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if(fd < 0)
 	{
 		error_msg("open","No such file or directory", 1);
-		return;
+		return(false);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror_msg("dup2","Erro ao redirecionar o arquivo");
 		close(fd);
-		return;
+		return(false);
 	}
-	close(fd);	
+	close(fd);
+	return(true);
 }
 
-void	redir_append(char *filename)
+bool	redir_append(char *filename)
 {
 	int	fd;
 	char	*file;
 
-	file = check_tilde(filename);
+	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
-		file = filename;
+		file = handle_quotes(filename, 0, 0);
 	if (!file || !*file)
 	{
 		error_msg("", "Invalid Name", 1);
-		return;
+		return(false);
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(fd < 0)
 	{
 		error_msg("open","No such file or directory", 1);
-		return;
+		return(false);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror_msg("dup2","Erro ao redirecionar o arquivo");
 		close(fd);	
-		return;
+		return(false);
 	}
-	close(fd);	
+	close(fd);
+	return(true);
 }
 
 void    remove_token(t_token **tokens, t_token **current)
@@ -122,34 +129,34 @@ void    remove_token(t_token **tokens, t_token **current)
 	//*current = NULL;
 }
 
-void	handle_redir(t_token **tokens)
+bool	handle_redir(t_token **tokens)
 {
 	t_token	*temp;
-	//t_token	*aux;
+	bool	ret;
 
 	temp = *tokens;
+	ret = true;
 	while(temp)
 	{	
-		//aux = temp->next;
 		if(temp->type == INPUT_REDIR)
 		{
-			redir_input(temp->input);
+			ret = redir_input(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else if(temp->type == OUTPUT_REDIR)
 		{
-			redir_output(temp->input);
+			ret = redir_output(temp->input);
 			remove_token(tokens, &temp);	
 		}
 		else if(temp->type == APPEND_REDIR)
 		{
-			redir_append(temp->input);
+			ret = redir_append(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else
 			temp = temp->next;
-		//temp = aux;
 	}
+	return(ret);
 }
 
 /*void	handle_redir(t_token **tokens)
