@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 13:18:16 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:34:34 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ pid_t	creat_pid(t_minishell *mshell);
 void	exec_cmd(t_minishell *mshell);
 int		check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
-void handle_exec(t_minishell *mshell);
+void	handle_exec(t_minishell *mshell);
 
 void	create_pipes(t_cmd *cmd);
 void	close_pipes(t_cmd *cmd);

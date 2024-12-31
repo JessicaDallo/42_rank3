@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 12:45:28 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:59:44 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		return;
 	pid = creat_pid(mshell);
 	args = convert_args(mshell, token);
-	//signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
+	signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
 	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{

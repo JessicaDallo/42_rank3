@@ -20,7 +20,7 @@ bool	redir_input(char *filename) // resertar o valor do exit_code
 	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
-	printf("file: %s\n", file);
+	//printf("file: %s\n", file);
 	if (!file || !*file)
 	{
 		error_msg("", "Invalid Name", 1);
@@ -41,6 +41,7 @@ bool	redir_input(char *filename) // resertar o valor do exit_code
 	close(fd);
 	return(true);
 }
+
 
 bool	redir_output(char *filename)
 {
@@ -132,31 +133,36 @@ void    remove_token(t_token **tokens, t_token **current)
 bool	handle_redir(t_token **tokens)
 {
 	t_token	*temp;
-	bool	ret;
+	bool	flag;
 
 	temp = *tokens;
-	ret = true;
+	flag = true;
 	while(temp)
 	{	
 		if(temp->type == INPUT_REDIR)
 		{
-			ret = redir_input(temp->input);
+			flag = redir_input(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else if(temp->type == OUTPUT_REDIR)
 		{
-			ret = redir_output(temp->input);
+			flag = redir_output(temp->input);
 			remove_token(tokens, &temp);	
 		}
 		else if(temp->type == APPEND_REDIR)
 		{
-			ret = redir_append(temp->input);
+			flag = redir_append(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else
 			temp = temp->next;
+		if(!flag)
+		{
+			free_tokens(*tokens);
+			break;
+		}
 	}
-	return(ret);
+	return(flag);
 }
 
 /*void	handle_redir(t_token **tokens)

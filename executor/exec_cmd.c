@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 15:42:17 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:36:03 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 		redir_fds(cmd->fd[1], STDOUT_FILENO);
 	//handle_redir(&(cmd->tokens));
 	if(!handle_redir(&(cmd->tokens)))
-			return;
+		return;
 	if (cmd->fd[0] != -1)
 		close(cmd->fd[0]);
 	if (!is_builtin(mshell, cmd))
@@ -54,15 +54,18 @@ void handle_exec(t_minishell *mshell)
 	{
 		if (has_heredoc(mshell, &cmd->tokens))
 			redir_fds(mshell->heredoc_fd, STDIN_FILENO);
-		//handle_redir(&(cmd->tokens));
-		if(!handle_redir(&(cmd->tokens)))
-			return;
-		//if (is_builtin(mshell, cmd))
-		//	recover_original_fds(initial_fds);
-		//else
-		//	run_execve(mshell, cmd->tokens);
-		if(!is_builtin(mshell, cmd))
-			run_execve(mshell, cmd->tokens);
+		////handle_redir(&(cmd->tokens));
+		//if(handle_redir(&(cmd->tokens))) //here
+		//	return;
+		////if (is_builtin(mshell, cmd))
+		////	recover_original_fds(initial_fds);
+		////else
+		////	run_execve(mshell, cmd->tokens);
+		if(handle_redir(&(cmd->tokens)))
+		{
+			if(!is_builtin(mshell, cmd))
+				run_execve(mshell, cmd->tokens);
+		}
 	}
 	else
 		exec_cmd(mshell);

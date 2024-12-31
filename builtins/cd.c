@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 15:41:11 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:05:25 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void    ft_cd(t_minishell *mshell, t_token *token)
 		path = go_path("HOME");
 	else
 		get_path(mshell, token, &path, &flag);
-	if(!path)
+	if(!path || path[0] == '\0')
 		return;
 	if(chdir(path) != 0)
 		error_msg("cd", "No such file or directory", 1); //alterar a funcao para incluir o exite code

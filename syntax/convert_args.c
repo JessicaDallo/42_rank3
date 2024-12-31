@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/23 15:33:00 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:13:10 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**convert_args(t_minishell *mshell, t_token *token)
 		if(token->type == CMD || token->type == ARG)
 		{
 			handle_expansions(mshell, &token->input, 0);
-			temp[i] = strdup(token->input);
+			temp[i] = strdup(handle_quotes(token->input, 0, 0));
 			if (!temp[i])
 			{
 		   		free_array(temp);
