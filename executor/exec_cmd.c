@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 14:05:00 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 15:42:17 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void handle_exec(t_minishell *mshell)
 	t_cmd	*cmd;
 	int		initial_fds[2];
 
-	printf("ENTREI NO HANDLE_EXEC\n");
+	//printf("ENTREI NO HANDLE_EXEC\n");
 	cmd = mshell->commands;
 	save_original_fds(initial_fds);
 	create_pipes(cmd);
