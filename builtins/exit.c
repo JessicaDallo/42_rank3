@@ -12,6 +12,21 @@
 
 #include "include_builtins.h"
 
+static bool m_long(char *str)
+{
+	long long result;
+	int			len;
+
+	len = ft_strlen(str);
+	if(len > 20)
+		return (true);
+	result = ft_atoi(str);
+	if (result >= LLONG_MAX || result <= LLONG_MIN)
+		return (true);
+	else
+		return (false);
+}
+
 int	is_num(char *str)
 {
 	if(!str)
@@ -33,15 +48,12 @@ int	is_num(char *str)
 int	get_exit(t_minishell *mshell, t_token *token)
 {
 	mshell->e_code = 0;
-	
-	if (!is_num(handle_quotes(token->input, 0, 0)))
+	if (!is_num(handle_quotes(token->input, 0, 0)) || m_long(token->input))
 	{
-		error_msg("exit", "numeric argument required", 2);
 		return((mshell->e_code = 2));
 	}
 	else if (token->next)
 	{
-		error_msg("exit", "too many arguments", 1);
 		return(mshell->e_code = 1);
 	}
 	else if (token->input)
@@ -50,7 +62,8 @@ int	get_exit(t_minishell *mshell, t_token *token)
 			mshell->e_code = (256 + ft_atoi(handle_quotes(token->input, 0, 0)));
 		else
 			mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;
-		return(mshell->e_code);
+		clear_mshell(mshell);
+		//return(mshell->e_code);//passar o tester e ver se funciona
 	}
 	return(mshell->e_code);
 }
