@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		if(*input)
 			add_history(input);
-		if (val_sintax(input) > 0)
+		if (val_sintax(input, &mshell) > 0)
 			continue ;
 		mshell.commands = parse_input(input);
 		if(mshell.commands)

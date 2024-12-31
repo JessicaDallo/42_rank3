@@ -12,7 +12,7 @@
 
 #include "include_builtins.h"
 
-int	ft_arraylen(t_token *token)
+int	ft_arraylen(t_minishell *mshell, t_token *token)
 {
 	int i;
 
@@ -20,39 +20,43 @@ int	ft_arraylen(t_token *token)
 	while (token)
 	{
 		if (token->type == CMD || token->type == ARG)
+		{
+			handle_expansions(mshell, &token->input, 0);
 			i++;
+		}
 		token = token->next;
 	}
 	return (i);
 }
 
-char	**convert_args(t_token *token)
+char	**convert_args(t_minishell *mshell, t_token *token)
 {
-    char	**temp;
-    int 	i;
-    int		len;
+	char	**temp;
+	int 	i;
+	int		len;
 
-    len = ft_arraylen(token);    
-    temp = (char **)malloc(sizeof(char *) * (len + 1));
-    if (!temp)
-        return (NULL);
-    i = 0;
-    while (token)
-    {
+	len = ft_arraylen(mshell, token);
+	temp = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!temp)
+		return (NULL);
+	i = 0;
+	while (token)
+	{
 		if(token->type == CMD || token->type == ARG)
 		{
+			handle_expansions(mshell, &token->input, 0);
 			temp[i] = strdup(token->input);
-        	if (!temp[i])
-        	{
-           		free_array(temp);
-            	return (NULL);
-        	}
+			if (!temp[i])
+			{
+		   		free_array(temp);
+				return (NULL);
+			}
 			i++;
 		}
-        token = token->next;
-    }
-    temp[i] = NULL;
-    return (temp);
+		token = token->next;
+	}
+	temp[i] = NULL;
+	return (temp);
 }
 
 

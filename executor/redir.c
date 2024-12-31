@@ -17,18 +17,24 @@ void	redir_input(char *filename)
 	int		fd;
 	char	*file;
 
-	file = check_tilde(filename);
+	file = check_tilde(filename); // resertar o valor do exit_code
 	if (!file)
 		file = filename;
+	if (!file || !*file)
+	{
+		error_msg("", "Invalid Name", 1);
+		return;
+	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
-		perror_msg("open", "Erro ao abrir o arquivo");
+		error_msg("open", "No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
-		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		error_msg("dup2","Erro ao redirecionar o arquivo", 1);
+		close(fd);
 		return;
 	}
 	close(fd);	
@@ -42,15 +48,21 @@ void	redir_output(char *filename)
 	file = check_tilde(filename);
 	if (!file)
 		file = filename;
+	if (!file || !*file)
+	{
+		error_msg("", "Invalid Name", 1);
+		return;
+	}
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if(fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
+		error_msg("open","No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		close(fd);
 		return;
 	}
 	close(fd);	
@@ -64,15 +76,21 @@ void	redir_append(char *filename)
 	file = check_tilde(filename);
 	if (!file)
 		file = filename;
+	if (!file || !*file)
+	{
+		error_msg("", "Invalid Name", 1);
+		return;
+	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
+		error_msg("open","No such file or directory", 1);
 		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		close(fd);	
 		return;
 	}
 	close(fd);	
@@ -99,11 +117,42 @@ void    remove_token(t_token **tokens, t_token **current)
     }
 	if(tmp->input)
 		free(tmp->input);
+	*current = tmp->next;
 	free(tmp);
-	*current = NULL;
+	//*current = NULL;
 }
 
 void	handle_redir(t_token **tokens)
+{
+	t_token	*temp;
+	//t_token	*aux;
+
+	temp = *tokens;
+	while(temp)
+	{	
+		//aux = temp->next;
+		if(temp->type == INPUT_REDIR)
+		{
+			redir_input(temp->input);
+			remove_token(tokens, &temp);
+		}
+		else if(temp->type == OUTPUT_REDIR)
+		{
+			redir_output(temp->input);
+			remove_token(tokens, &temp);	
+		}
+		else if(temp->type == APPEND_REDIR)
+		{
+			redir_append(temp->input);
+			remove_token(tokens, &temp);
+		}
+		else
+			temp = temp->next;
+		//temp = aux;
+	}
+}
+
+/*void	handle_redir(t_token **tokens)
 {
 	t_token	*temp;
 	t_token	*aux;
@@ -129,4 +178,4 @@ void	handle_redir(t_token **tokens)
 		}
 		temp = aux;
 	}
-}
+}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:11:37 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/06 18:53:17 by shrodrig         ###   ########.fr       */
+/*   Updated: 2024/12/29 14:26:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,29 @@ void    print_export(t_minishell *mshell)
 	ft_env_sorted(keys, mshell->env_size);
     ft_env_reorder(keys, mshell->env);
     free_array(keys);
+}
+//bool	check_key(t_minishell *mshell, char *input)
+bool	check_key(char *input)
+{
+	int		i;
+
+	i = 0;
+	if (!ft_isalpha(input[i]) && input[i] != '_')
+	{
+		//mshell->e_code = 1;
+		error_msg("export", "not a valid identifier", 1); //check if the exit code is correct
+		return (false);
+	}
+	while (input[++i])
+	{
+		if (input[i] == '=')
+			break ;
+		if (!ft_isalnum(input[i]) && input[i] != '_')
+		{
+			//mshell->e_code = 1;
+			error_msg("export", "not a valid identifier", 1); //check if the exit code is correct
+			return (false);
+		}
+	}
+	return (true);
 }
