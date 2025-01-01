@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 13:33:12 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:43:15 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-bool process_char(char current, char *prev, char *result, bool *inside_quotes)
+bool	process_char(char current, char *prev, char *result, bool *inside_quotes)
 {
 	static char quote_char = '\0';
 
@@ -41,11 +41,11 @@ bool process_char(char current, char *prev, char *result, bool *inside_quotes)
 
 char	*rm_space(char *str)
 {
-	char    *result;
-	char    prev;
-	bool    inside_quotes;
-	size_t  j;
-	size_t  i;
+	char	*result;
+	char	prev;
+	bool	inside_quotes;
+	size_t	j;
+	size_t	i;
 	
 	result = (char *)malloc(ft_strlen(str) + 1);
 	if(!result)
@@ -67,12 +67,12 @@ char	*rm_space(char *str)
 	return (result);
 }
 
-char    *handle_quotes(char *str, int s_quote, int d_quote)
+char	*handle_quotes(char *str, int s_quote, int d_quote)
 {
-	char    *output;
-	char    *temp;
-	char    *aux;
-	size_t      i;
+	char	*output;
+	char	*temp;
+	char	*aux;
+	size_t	i;
 	
 	output = ft_strdup("");
 	temp = rm_space(str);

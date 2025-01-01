@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:43:34 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 16:59:27 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:43:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_sigint(int signal)
 	rl_on_new_line();
 	(*mshell)->e_code = 130;
 }
-
 
 void	ft_sigquit(int signal)
 {

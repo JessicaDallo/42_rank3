@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 12:49:23 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:32:22 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	create_pipes(t_cmd *cmd)
 {
-	t_cmd   *tmp;
+	t_cmd	*tmp;
 	
 	tmp = cmd;
 	while (tmp)
 	{
 		if (tmp->next && pipe(tmp->fd) == -1)
 		{
-			perror_msg("pipe", "Erro ao criar pipe");
+			perror_msg("pipe", "Error to create pipe");
 			return;
 		}
 		tmp = tmp->next;
@@ -36,11 +36,10 @@ void	close_pipes(t_cmd *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (tmp->next && pipe(tmp->fd) == -1)
-		{
-			perror_msg("pipe", "Erro ao criar pipe");
-			return;
-		}
+		if (tmp->fd[0] != -1)
+			close(tmp->fd[0]);
+		else if (tmp->fd[1] != -1)
+			close(tmp->fd[1]);
 		tmp = tmp->next;
 	}
 }
@@ -49,18 +48,17 @@ void	redir_fds(int redir, int local)
 {  
 	if(redir < 0 || local < 0)
 	{
-		perror_msg("fd", "Erro ao abrir o arquivo");
+		error_msg("fd", "No such file or directory", 1);
 		return;
 	}
 	else if (dup2(redir, local) < 0)
 	{
-		perror_msg("dup2", "Erro ao redirecionar o arquivo");
+		perror_msg("dup2", "Error redirecting");
 		close(redir);
 		return;
 	}
 	close(redir);
 }
-
 
 void	save_original_fds(int initial_fds[2])
 {

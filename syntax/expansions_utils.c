@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:34:25 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 15:36:23 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:41:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-bool is_expand(char *delim)
+bool	is_expand(char *delim)
 {
 	if (ft_strchr(delim, '\''))
 		return(false);
@@ -22,7 +22,7 @@ bool is_expand(char *delim)
 	return(true);
 }
 
-char *get_epos(char *line, int flag)
+char	*get_epos(char *line, int flag)
 {
 	char	quote;
 	
@@ -45,7 +45,7 @@ char *get_epos(char *line, int flag)
 	return (NULL);
 }
 
-void expand_exit(t_minishell *mshell, char **line, int flag)
+void	expand_exit(t_minishell *mshell, char **line, int flag)
 {
 	char 	*e_pos;
 	char	*new_line;

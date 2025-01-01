@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/23 15:36:10 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:41:57 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_expansions(t_minishell *mshell, char **line, int flag)
 	expand_var(mshell, line, flag);
 }
 
-char *get_position(char *line, int flag)
+char	*get_position(char *line, int flag)
 {
 	char quote;
 
@@ -42,7 +42,7 @@ char *get_position(char *line, int flag)
 	return (NULL);
 }
 
-void update_line(char **line, char *value, char *str)
+void	update_line(char **line, char *value, char *str)
 {
 	char *new_line;
 	char *temp;
@@ -61,7 +61,7 @@ void update_line(char **line, char *value, char *str)
 	*line = new_line;
 }
 
-void expand_var(t_minishell *mshell, char **line, int flag)
+void	expand_var(t_minishell *mshell, char **line, int flag)
 {
 	char *var_pos;
 	char *key;

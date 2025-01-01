@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/31 17:34:34 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:38:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <linux/limits.h>
 #include <limits.h>
 #include <fcntl.h>
-#include <stdbool.h> 
+#include <stdbool.h>
 #include <signal.h>
 #include <wait.h>
 #include <readline/readline.h>
@@ -31,12 +31,12 @@
 
 typedef enum
 {
-	CMD,       // Comando
-	ARG,      // Argumentos  dos comandos
-	OUTPUT_REDIR, // Redirecionamento de saida > subscreve o arquivo inteiro 
-	APPEND_REDIR, // redirecionamento de saida >> adiciona no fim do arquivo 
-	INPUT_REDIR,   // Redirecionamento entrada < adicioana inputs aparti de um arquivo 
-	HEREDOC, //redirecionamento de entrada << fornece multiplas linhas de entrada no terminal, sem precisar de um arquivo 
+	CMD,
+	ARG,
+	OUTPUT_REDIR,
+	APPEND_REDIR,
+	INPUT_REDIR,
+	HEREDOC,
 } token_type;
 
 typedef struct s_split
@@ -55,7 +55,7 @@ typedef struct	s_token
 {
 	token_type	type;
 	char		*input;
-	
+
 	struct s_token *next;
 }	t_token;
 
@@ -63,8 +63,8 @@ typedef	struct s_cmd
 {
 	t_token	*tokens;
 	int		fd[2];
-	
-	struct s_cmd *next;	
+
+	struct s_cmd *next;
 }	t_cmd;
 
 typedef	struct s_env
@@ -72,8 +72,8 @@ typedef	struct s_env
 	char	*key;
 	char 	*value;
 	bool	print;
-	
-	struct s_env	*next;	
+
+	struct s_env	*next;
 }	t_env;
 
 typedef	struct s_minishell
@@ -82,67 +82,61 @@ typedef	struct s_minishell
 	t_cmd	*commands;
 	char	**envp;
 	int		heredoc_fd;
-	
+
 	int		e_code;
 	int		env_size;
-	
+
 }	t_minishell;
 
 /*------------------------------------- BUILTINS -------------------------------------*/
 int		ft_echo(t_minishell *mshell, t_token *tokens);
-bool    check_echo(t_token *token, bool *flag, int *newline);
+bool	check_echo(t_token *token, bool *flag, int *newline);
 
-void    ft_env(t_env *env);
-void    init_env(t_minishell *mshell);
-void    add_env(t_minishell *mshell, char *key, char *value, bool flag);
+void	ft_env(t_env *env);
+void	init_env(t_minishell *mshell);
+void	add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void	init_struct(t_minishell *mshell, char **envp);
 
 int		ft_exit(t_minishell *mshell, t_token *token);
 int		get_exit(t_minishell *mshell, t_token *token);
 int		is_num(char *str);
 
-//int		ft_pwd(void);
 int ft_pwd(t_minishell *mshell, t_token *token);
 
 void	ft_unset(t_minishell *mshell, t_token *tokens);
 void    remove_env(t_minishell *mshell, char *key);
 
 void	ft_export(t_minishell *mshell, t_token *tokens);
-//bool	check_key(t_minishell *mshell, char *input);
 bool	check_key(char *input);
 void	update_env(t_minishell *mshell, char *key, char *value, bool flag);
-char    *get_value(t_minishell *mshell, char *key);
-void    print_export(t_minishell *mshell);
-void    ft_env_reorder(char **keys, t_env *env);
+char	*get_value(t_minishell *mshell, char *key);
+void	print_export(t_minishell *mshell);
+void	ft_env_reorder(char **keys, t_env *env);
 void	ft_env_sorted(char **keys, int len);
 
-void    ft_cd(t_minishell *mshell, t_token *token);
+void	ft_cd(t_minishell *mshell, t_token *token);
 void 	check_path(t_minishell *mshell, t_token *token, char **path, bool *flag);
-char    *check_tilde(char *input);
+char	*check_tilde(char *input);
 char	*go_path(char *env);
 
-//bool	is_builtin(t_cmd *commands);
 int	is_builtin(t_minishell *mshell, t_cmd *commands);
 void	run_builtin(t_minishell *mshell, t_cmd *commands);
 
-
 /*------------------------------------- SYNTAX -------------------------------------*/
 void	handle_expansions(t_minishell *mshell, char **line, int flag);
-bool 	is_expand(char *delim);
-char	*get_position(char *line, int flag);
-char	*get_epos(char *line, int flag);
 void	update_line(char **line, char *value, char *str);
 void	expand_var(t_minishell *mshell, char **line, int flag);
 void	expand_exit(t_minishell *mshell, char **line, int flag);
+char	*get_position(char *line, int flag);
+char	*get_epos(char *line, int flag);
+bool	is_expand(char *delim);
 
 bool	process_char(char current, char *prev, char *result, bool *inside_quotes);
 char	*rm_space(char *str);
 char	*handle_quotes(char *str, int s_quote, int d_quote);
 
-//char	**convert_args(t_token *token);
 char	**convert_args(t_minishell *mshell, t_token *token);
 int		ft_arraylen(t_minishell *mshell, t_token *token);
-
 
 /*------------------------------------- ERROR -------------------------------------*/
 t_minishell	**get_shell(void);
@@ -155,7 +149,6 @@ void		free_cmd(t_cmd *cmd);
 void		free_envlist(t_env *env);
 void		free_tokens(t_token *tokens);
 void		clear_mshell(t_minishell *mshell);
-
 
 /*------------------------------------- SIGNAL -------------------------------------*/
 void	ft_sigint(int signal);
@@ -174,7 +167,8 @@ bool	has_heredoc(t_minishell *mshell, t_token **tokens);
 
 int		check_execpath(t_minishell *mshell, char *path);
 int		execpath_error(t_minishell *mshell, char *path);
-char	*get_execpath(char *cmd_name);
+char	*get_execpath(t_minishell *mshell, char *cmd_name);
+void	check_exit_status(t_minishell *mshell);
 void	run_execve(t_minishell *mshell, t_token *token);
 
 pid_t	creat_pid(t_minishell *mshell);
@@ -191,18 +185,11 @@ void	recover_original_fds(int initial_fds[2]);
 
 
 /*------------------------------------- REDIR -------------------------------------*/
-//void	handle_redir(t_token **tokens);
 bool	handle_redir(t_token **tokens);
-//void	redir_append(char *filename);
 bool	redir_append(char *filename);
-//void	redir_output(char *filename);
 bool	redir_output(char *filename);
-//void	redir_input(char *filename);
 bool	redir_input(char *filename);
-void    remove_token(t_token **tokens, t_token **current);
-
-
-
+void	remove_token(t_token **tokens, t_token **current);
 
 /*------------------------------------- JESSICA -------------------------------------*/
 /*------------------------------------ VALIDATE -------------------------------------*/
@@ -230,11 +217,7 @@ void	process_trim(t_split *spl);
 int		is_redir(t_split *spl, char *str);
 int		len_red(char *str, char c);
 
-void	free_token_list(t_token *head);
-void	free_cmd(t_cmd *cmd);
-void	free_token(t_token *token);
-
 void	ft_print_array(char **cmd);
 void	ft_print_tokens(t_cmd **cmd);
 
-#endif 
+#endif

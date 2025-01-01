@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/29 14:23:43 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:31:48 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	tmp_heredoc(t_minishell *mshell)
 {
-	int		fd;
+	int	fd;
 	
 	fd = open("/tmp/heredoc_file0001", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if(fd < 0)
@@ -37,7 +37,7 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 		line = readline("> ");
 		if (!line)
 		{
-			error_msg("warning: here-document delimited by EOF. Wanted", eof, 1); //check if the exit code is correct
+			error_msg("warning: here-document delimited by EOF. Wanted", eof, 1);
 			break ;
 		}
 		if (!ft_strcmp(line, eof))
@@ -63,7 +63,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
 	pid = creat_pid(mshell);
-	signal(SIGINT, SIG_IGN); // Ignorar SIGINT no processo principal
+	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
@@ -72,47 +72,45 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 		exit(mshell->e_code);
 	}
 	waitpid(pid, &mshell->e_code, 0);
-	if(WIFEXITED(mshell->e_code)) // Verifica se o processo filho terminou normalmente (sem sinais)
-		mshell->e_code = WEXITSTATUS(mshell->e_code); //extrai o código de saída (return code) do processo filho
-	//return;
+	check_exit_status(mshell);
 }
 
 void open_hd(t_minishell *mshell)
 {
-    int fd;
+	int fd;
 
-    fd = open("/tmp/heredoc_file0001", O_RDONLY);
-    if (fd < 0)
-    {
-        perror_msg("open", "Erro ao abrir arquivo do heredoc");
-        mshell->e_code = errno;
-        return;
-    }
-    mshell->heredoc_fd = fd;
-    unlink("/tmp/heredoc_file0001");
-    return;
+	fd = open("/tmp/heredoc_file0001", O_RDONLY);
+	if (fd < 0)
+	{
+		perror_msg("open", "Erro ao abrir arquivo do heredoc");
+		mshell->e_code = errno;
+		return;
+	}
+	mshell->heredoc_fd = fd;
+	unlink("/tmp/heredoc_file0001");
+	return;
 }
 
 bool has_heredoc(t_minishell *mshell, t_token **tokens)
 {
-    t_token *temp;
-    t_token *aux;
-    bool    flag;
+	t_token *temp;
+	t_token *aux;
+	bool    flag;
 
-    temp = *tokens;
-    flag = false;
-    while (temp)
-    {   
-        aux = temp->next;
-        if (temp->type == HEREDOC)
-        {
-            ft_heredoc(mshell, temp->input);
-            open_hd(mshell);
-            flag = true;
-            remove_token(tokens, &temp);
-        }
-        temp = aux;
-    }
-    return (flag); // Nenhum heredoc encontrado
+	temp = *tokens;
+	flag = false;
+	while (temp)
+	{   
+		aux = temp->next;
+		if (temp->type == HEREDOC)
+		{
+			ft_heredoc(mshell, temp->input);
+			open_hd(mshell);
+			flag = true;
+			remove_token(tokens, &temp);
+		}
+		temp = aux;
+	}
+	return (flag);
 }
 

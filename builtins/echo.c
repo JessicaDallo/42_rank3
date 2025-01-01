@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/23 15:38:50 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:00:09 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-bool    check_echo(t_token *token, bool *flag, int *newline)
+bool	check_echo(t_token *token, bool *flag, int *newline)
 {
 	char    *str;
 
@@ -27,16 +27,16 @@ bool    check_echo(t_token *token, bool *flag, int *newline)
 	return (*flag);
 }
 
-int ft_echo(t_minishell *mshell, t_token *token)
+int	ft_echo(t_minishell *mshell, t_token *token)
 {
-	int     newline = 1;
-	char    *temp;
-	bool    flag;
+	int		newline = 1;
+	char	*temp;
+	bool	flag;
 	
 	token = token->next;
 	flag = true;
 	while(token) 
-	{   
+	{
 		if (token && token->input && flag && ft_strncmp(token->input, "-n", 2) == 0)
 		{
 			if(check_echo(token, &flag, &newline))
