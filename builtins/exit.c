@@ -6,13 +6,13 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/29 14:20:36 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:01:03 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-static bool m_long(char *str)
+static bool	m_long(char *str)
 {
 	long long result;
 	int			len;
@@ -65,12 +65,10 @@ int	get_exit(t_minishell *mshell, t_token *token)
 		else
 			mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;
 		clear_mshell(mshell);
-		//return(mshell->e_code);//passar o tester e ver se funciona
 	}
 	return(mshell->e_code);
 }
 
-//TRATAR DO EXIT'S CODES
 int	ft_exit(t_minishell *mshell, t_token *token)
 {
 	int exit_code;

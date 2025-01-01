@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/31 16:13:10 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:40:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	return (i);
 }
 
-char	**convert_args(t_minishell *mshell, t_token *token)
+char	**convert_args(t_minishell *mshell, t_token *token) // checar linhas
 {
 	char	**temp;
 	int 	i;
