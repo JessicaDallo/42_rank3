@@ -118,7 +118,7 @@ void    ft_cd(t_minishell *mshell, t_token *token)
 		path = go_path("HOME");
 	else
 		get_path(mshell, token, &path, &flag);
-	if(!path)
+	if(!path || path[0] == '\0')
 		return;
 	if(chdir(path) != 0)
 		error_msg("cd", "No such file or directory", 1); //alterar a funcao para incluir o exite code

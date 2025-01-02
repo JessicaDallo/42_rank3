@@ -12,35 +12,6 @@
 
 #include "../includes/include_builtins.h"
 
-static char	*rm_quotes(char *str)
-{
-	int	i;
-	int j;
-	char *temp;
-
-	j = 0;
-	i = 0;
-	while(str[i] != '\0')
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			i++;
-		i++;
-		j++;
-	}
-	temp = ft_calloc(sizeof(char), j + 1);
-	i = 0;
-	j = 0;
-	while(str[i] != '\0')
-	{
-		if(str[i] == '"' || str[i] == '\'')
-			i++;
-		temp[j++] = str[i++];
-	}
-	temp[j] = '\0';
-	return (temp);
-}
-
-
 static void	process_tokens(char **temp, t_cmd **cmd)
 {
 	token_type	type;
@@ -53,7 +24,7 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	{
 		type = get_type(temp[i], new_cmd);
 		if(type == 0)
-			temp[i] = rm_quotes(temp[i]);
+			temp[i] = handle_quotes(temp[i], 0, 0);
 		if (is_delimiter(temp[i]))
 			i++;
 		add_token(cmd, temp[i], type, new_cmd);

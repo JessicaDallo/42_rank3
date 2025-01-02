@@ -85,7 +85,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		return;
 	pid = creat_pid(mshell);
 	args = convert_args(mshell, token);
-	//signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
+	signal(SIGINT, ft_sigint); // Ignorar SIGINT no processo principal
 	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
