@@ -12,20 +12,41 @@
 
 #include "include_builtins.h"
 
+static bool	ft_atol(char *str)
+{
+	long	signal;
+	long	n;
+	int i;
+
+	i = 0;
+	if (!ft_strcmp("-9223372036854775808", str))
+		return (true);
+	signal = 1;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+		signal = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	n = 0;
+	while (ft_isdigit(str[i]))
+	{
+		if (n > n * 10 + (str[i] - '0'))
+			return (false);
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	n = n * signal;
+	return (true);
+}
+
 static bool	m_long(char *str)
 {
-	long long	result;
-//	int		len;
-	int		error;
 
-	error = 0;
-//	len = ft_strlen(str);
-	result = ft_atol(str, &error);
-	(void)result;
-	if (error == 1)
-		return (true);
-	else
+	if(ft_atol(str))
 		return (false);
+	else
+		return (true);
 }
 
 int	is_num(char *str)
@@ -51,8 +72,10 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	mshell->e_code = 0;
 	if (!is_num(handle_quotes(token->input, 0, 0)) || m_long(token->input))
 	{
-		error_msg("exit", "numeric argument required", 2); 
-		return((mshell->e_code = 2));
+		error_msg("exit", "numeric argument required", 2);
+		mshell->e_code = 2;
+		clear_mshell(mshell);
+
 	}
 	else if (token->next)
 	{

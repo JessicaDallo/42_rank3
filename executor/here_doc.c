@@ -67,7 +67,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	signal(SIGQUIT, ft_sigquit);
 	if(pid == 0)
 	{
-		signal(SIGINT, ft_sigint_hd); 
+		signal(SIGINT, ft_sigint_hd);
 		read_heredoc(mshell, eof, expand);
 		exit(mshell->e_code);
 	}

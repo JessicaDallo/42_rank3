@@ -88,7 +88,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	char	*executable;
 	char	**args;
 	pid_t	pid;
-	
+
 	if(!token || !token->input)
 		return;
 	pid = creat_pid(mshell);

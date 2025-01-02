@@ -1,33 +1,32 @@
-#include "libft.h"
 
-long long	ft_atol(const char *nptr, int *error)
-{
-	long long	sin;
-	long long	result;
-	long		i;
 
-	sin = 1;
-	i = 0;
-	result = 0;
-	while (nptr[i] == 32 || (nptr [i] >= 9 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			sin = sin * -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		result = result * 10 + nptr[i] - '0';
-	//	printf("%lld\n", result);
-		if(result < 0)
-		{
-		//	printf("entrou\n");
-			*error = 1;
-			return (0);
-		}
-		i++;
-	}
-	return (result * sin);
-}
+// long	ft_atol(char *nptr, long *error)
+// {
+// 	long	sin;
+// 	long	result;
+
+// 	if(!ft_strcmp("-9223372036854775808", nptr))
+// 	{
+// 		result = LONG_MIN;
+// 		return (result);
+// 	}
+// 	sin = 1;
+// 	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
+// 		nptr++;
+// 	if (*nptr == '-')
+// 		sin = sin * -1;
+// 	if (*nptr == '-' || *nptr == '+')
+// 		nptr++;
+// 	result = 0;
+// 	while (*nptr >= '0' && *nptr <= '9')
+// 	{
+// 		if(result < 0)
+// 		{
+// 			*error = 1;
+// 			return (0);
+// 		}
+// 		result = result * 10 + nptr - '0';
+// 		i++;
+// 	}
+// 	return (result * sin);
+// }

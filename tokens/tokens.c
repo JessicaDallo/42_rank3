@@ -23,8 +23,6 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	while (temp[i])
 	{
 		type = get_type(temp[i], new_cmd);
-		if(type == 0)
-			temp[i] = handle_quotes(temp[i], 0, 0);
 		if (is_delimiter(temp[i]))
 			i++;
 		add_token(cmd, temp[i], type, new_cmd);
