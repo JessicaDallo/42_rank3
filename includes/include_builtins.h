@@ -101,10 +101,10 @@ int		ft_exit(t_minishell *mshell, t_token *token);
 int		get_exit(t_minishell *mshell, t_token *token);
 int		is_num(char *str);
 
-int ft_pwd(t_minishell *mshell, t_token *token);
+int		ft_pwd(t_minishell *mshell, t_token *token);
 
 void	ft_unset(t_minishell *mshell, t_token *tokens);
-void    remove_env(t_minishell *mshell, char *key);
+void	remove_env(t_minishell *mshell, char *key);
 
 void	ft_export(t_minishell *mshell, t_token *tokens);
 bool	check_key(char *input);
@@ -119,7 +119,7 @@ void 	check_path(t_minishell *mshell, t_token *token, char **path, bool *flag);
 char	*check_tilde(char *input);
 char	*go_path(char *env);
 
-int	is_builtin(t_minishell *mshell, t_cmd *commands);
+int		is_builtin(t_minishell *mshell, t_cmd *commands);
 void	run_builtin(t_minishell *mshell, t_cmd *commands);
 
 /*------------------------------------- SYNTAX -------------------------------------*/
@@ -162,6 +162,7 @@ void	ft_sigint_hd(int signal);
 void	ft_heredoc(t_minishell *mshell, char *delim);
 int		tmp_heredoc(t_minishell *mshell);
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand);
+//void	open_hd(t_minishell *mshell, bool *flag);
 void	open_hd(t_minishell *mshell);
 bool	has_heredoc(t_minishell *mshell, t_token **tokens);
 

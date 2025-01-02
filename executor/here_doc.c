@@ -64,7 +64,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	expand = is_expand(delim);
 	pid = creat_pid(mshell);
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, ft_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint_hd); 
@@ -105,12 +105,51 @@ bool has_heredoc(t_minishell *mshell, t_token **tokens)
 		if (temp->type == HEREDOC)
 		{
 			ft_heredoc(mshell, temp->input);
+			if (mshell->e_code == 130)
+				return (false);
+			remove_token(tokens, &temp);
 			open_hd(mshell);
 			flag = true;
-			remove_token(tokens, &temp);
 		}
 		temp = aux;
 	}
 	return (flag);
 }
+
+/*bool has_heredoc(t_minishell *mshell, t_token **tokens)
+{
+	t_token *temp;
+	t_token *aux;
+	bool    flag;
+
+	temp = *tokens;
+	flag = false;
+	while (temp)
+	{   
+		aux = temp->next;
+		if (temp->type == HEREDOC)
+		{
+			ft_heredoc(mshell, temp->input);
+			if (mshell->e_code == 130)
+			{
+				if (mshell->heredoc_fd != -1)
+					close(mshell->heredoc_fd);
+				unlink("/tmp/heredoc_file0001"); 
+				mshell->heredoc_fd = -1;
+				while (temp)
+				{
+					aux = temp->next;
+					remove_token(tokens, &temp);
+					temp = aux;
+				}
+				return (false);
+			}
+			remove_token(tokens, &temp);
+			open_hd(mshell);
+			flag = true;
+		}
+		temp = aux;
+	}
+	return (flag);
+}*/
 

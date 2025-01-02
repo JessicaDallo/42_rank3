@@ -48,7 +48,6 @@ void	ft_sigquit(int signal)
 
 	(void)signal;
 	mshell = get_shell();
-	ft_putstr_fd("\n", STDERR_FILENO);
 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	(*mshell)->e_code  = 131;
 }

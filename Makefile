@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = cc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 INCLUDE = -I ./includes
 LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
@@ -54,18 +54,18 @@ re: fclean all
 leaks: readline.supp
 	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --quiet ./$(NAME)
 
-#readline.supp:
-#	@echo "{" > readline.supp
-#	@echo "    leak readline" >> readline.supp
-#	@echo "    Memcheck:Leak" >> readline.supp
-#	@echo "    ..." >> readline.supp
-#	@echo "    fun:readline" >> readline.supp
-#	@echo "}" >> readline.supp
-#	@echo "{" >> readline.supp
-#	@echo "    leak add_history" >> readline.supp
-#	@echo "    Memcheck:Leak" >> readline.supp
-#	@echo "    ..." >> readline.supp
-#	@echo "    fun:add_history" >> readline.supp
-#	@echo "}" >> readline.supp
+readline.supp:
+	@echo "{" > readline.supp
+	@echo "    leak readline" >> readline.supp
+	@echo "    Memcheck:Leak" >> readline.supp
+	@echo "    ..." >> readline.supp
+	@echo "    fun:readline" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "    leak add_history" >> readline.supp
+	@echo "    Memcheck:Leak" >> readline.supp
+	@echo "    ..." >> readline.supp
+	@echo "    fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
 
 .PHONY: all clean fclean re
