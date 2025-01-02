@@ -15,7 +15,7 @@
 char	*go_path(char *env)
 {
 	t_minishell	**mshell;
-	char        *path;
+	char		*path;
 
 	mshell = get_shell();
 	path = get_value(*mshell, env);
@@ -76,6 +76,34 @@ void	get_path(t_minishell *mshell, t_token *token, char **path, bool *flag)
 void	ft_cd(t_minishell *mshell, t_token *token)
 {
 	char	*oldpwd;
+	char	*newpwd;
+	char	*path;
+	bool	flag;
+	
+	path = NULL;
+	oldpwd = get_value(mshell, "PWD");
+	if (!token->next || !token->next->input)
+		path = go_path("HOME");
+	else
+		get_path(mshell, token->next, &path, &flag);
+	if(!path || path[0] == '\0')
+		return;
+	if(chdir(path) != 0)
+		error_msg("cd", "No such file or directory", 1);
+	update_env(mshell, "OLDPWD",oldpwd, true);
+	newpwd = getcwd(NULL, 0);
+	if(!newpwd)
+		newpwd = ft_strdup(path);
+	update_env(mshell, "PWD", newpwd, true);
+	if(flag)
+		free(path);
+	if(newpwd)
+		free(newpwd);
+}
+
+/*void	ft_cd(t_minishell *mshell, t_token *token)
+{
+	char	*oldpwd;
 	char	pwd[PATH_MAX];
 	char	*path;
 	bool	flag;
@@ -100,4 +128,4 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 	update_env(mshell, "PWD", pwd, true);
 	if(flag)
 		free(path);
-}
+}*/

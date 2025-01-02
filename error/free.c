@@ -68,6 +68,7 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd);
 		cmd = aux;
 	}
+	cmd = NULL;
 }
 
 void	clear_mshell(t_minishell *mshell)

@@ -29,14 +29,12 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	return (i);
 }
 
-char	**convert_args(t_minishell *mshell, t_token *token) // checar linhas
+char	**convert_args(t_minishell *mshell, t_token *token)
 {
 	char	**temp;
 	int 	i;
-	int		len;
-
-	len = ft_arraylen(mshell, token);
-	temp = (char **)malloc(sizeof(char *) * (len + 1));
+	
+	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, token) + 1));
 	if (!temp)
 		return (NULL);
 	i = 0;

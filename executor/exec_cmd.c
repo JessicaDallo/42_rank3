@@ -27,6 +27,7 @@ pid_t	creat_pid(t_minishell *mshell)
 
 void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
+	signal(SIGINT, ft_sigint);
 	mshell->e_code = 0;
 	if (*prev_fd != -1)
 		redir_fds(*prev_fd, STDIN_FILENO);
@@ -87,6 +88,8 @@ void exec_cmd(t_minishell *mshell)
 		signal(SIGINT, ft_sigint);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
 			prev_fd = mshell->heredoc_fd;
+		if (mshell->e_code == 130)
+			break;
 		pid = creat_pid(mshell);
 		if (pid == 0)
 			run_cmd(mshell, cmd, &prev_fd);
@@ -96,8 +99,7 @@ void exec_cmd(t_minishell *mshell)
 			close(cmd->fd[1]);
 		prev_fd = cmd->fd[0];
 		waitpid(pid, &mshell->e_code, 0);
-		if (WIFEXITED(mshell->e_code))
-			mshell->e_code = WEXITSTATUS(mshell->e_code);
+		check_exit_status(mshell);
 		cmd = cmd->next;
 	}
 }

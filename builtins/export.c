@@ -54,13 +54,12 @@ void	update_env(t_minishell *mshell, char *key, char *value, bool flag)
 }
 
 
-void ft_export(t_minishell *mshell, t_token *tokens) //checar linhas
+void ft_export(t_minishell *mshell, t_token *tokens)
 {
 	char	**new_env;
 	t_token	*temp;
 
-	temp = tokens;
-	temp = temp->next;
+	temp = tokens->next;
 	if(!temp || !temp->input)
 		print_export(mshell);
 	else

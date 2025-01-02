@@ -98,8 +98,10 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
-		if(!args || !args[0])
-			return;
+		// if(!args || !args[0])
+		// 	return;
+		if(!args || !args[0] || !args[0][0])
+			error_msg("", "command '' not found", 127);
 		executable = get_execpath(mshell, args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
