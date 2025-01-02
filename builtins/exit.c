@@ -14,14 +14,15 @@
 
 static bool	m_long(char *str)
 {
-	long long result;
-	int			len;
+	long long	result;
+//	int		len;
+	int		error;
 
-	len = ft_strlen(str);
-	if(len > 20)
-		return (true);
-	result = ft_atoi(str);
-	if (result >= LLONG_MAX || result <= LLONG_MIN)
+	error = 0;
+//	len = ft_strlen(str);
+	result = ft_atol(str, &error);
+	(void)result;
+	if (error == 1)
 		return (true);
 	else
 		return (false);

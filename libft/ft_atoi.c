@@ -15,11 +15,11 @@ RETURN VALUE: The converted value.*/
 
 #include "libft.h"
 
-long long	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
-	long long	sin;
-	long long	result;
-	long		i;
+	int	sin;
+	int	result;
+	int		i;
 
 	sin = 1;
 	i = 0;

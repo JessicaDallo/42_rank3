@@ -15,7 +15,7 @@ NAME = libft.a
 FT_IS = ft_isprint.c ft_isascii.c ft_isalnum.c ft_isdigit.c \
 		ft_isalpha.c
 
-FT_TO = ft_tolower.c ft_toupper.c ft_atoi.c ft_itoa.c ft_atoi_base.c \
+FT_TO = ft_tolower.c ft_toupper.c ft_atol.c ft_atoi.c ft_itoa.c ft_atoi_base.c \
 		flood_fill.c
 
 FT_PUT = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putendl.c \
