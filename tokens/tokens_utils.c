@@ -14,7 +14,7 @@
 
 bool	is_delimiter(char *arg)
 {
-	if (ft_strcmp(arg, "|") == 0 || ft_strcmp(arg, "<") == 0
+	if (ft_strcmp(arg, "<") == 0
 		|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
 		|| ft_strcmp(arg, "<<") == 0 || !arg)
 		return (true);

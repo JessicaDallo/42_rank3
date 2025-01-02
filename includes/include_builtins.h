@@ -21,7 +21,6 @@
 #include <errno.h>
 #include <string.h>
 #include <linux/limits.h>
-#include <limits.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <signal.h>

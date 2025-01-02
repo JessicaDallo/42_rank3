@@ -48,7 +48,7 @@ char	**convert_args(t_minishell *mshell, t_token *token) // checar linhas
 			temp[i] = strdup(handle_quotes(token->input, 0, 0));
 			if (!temp[i])
 			{
-		   		free_array(temp);
+				free_array(temp);
 				return (NULL);
 			}
 			i++;

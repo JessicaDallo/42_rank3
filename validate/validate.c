@@ -26,17 +26,17 @@ static int	ft_check_delimiters(char *arg, int *was_cmd, int *i, t_minishell *msh
 	if (arg[*i] == '|')
 	{
 		if (!val_pipe(arg, was_cmd, i) || !was_cmd)
-			return (error_val_msg("syntax error near unexpected token '|'", mshell));
+			return (error_val_msg("syntax error near unexpected token `|'", mshell));
 	}
 	if (arg[*i] == '>')
 	{
 		if (!val_red(arg, was_cmd, i))
-			return (error_val_msg("syntax error near unexpected token '>'", mshell));
+			return (error_val_msg("syntax error near unexpected token  `>'", mshell));
 	}
 	if (arg[*i] == '<')
 	{
 		if (!val_red_in(arg, was_cmd, i))
-			return (error_val_msg("syntax error near unexpected token '<'", mshell));
+			return (error_val_msg("syntax error near unexpected token  `<'", mshell));
 	}
 	if (arg[*i] == '"' || arg[*i] == '\'')
 	{
