@@ -6,14 +6,14 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/14 15:31:44 by sheila           ###   ########.fr       */
+/*   Updated: 2024/12/31 15:46:54 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/include_builtins.h"
 
 
-int	check_execpath(t_minishell *mshell, char *path)
+/*int	check_execpath(t_minishell *mshell, char *path)
 {
 	if(strchr(path, '/') || path == '.')
 	{
@@ -82,7 +82,7 @@ void	executable(t_minishell *mshell, t_cmd *cmd)
 		clear_mshell(mshell);
 	}
 	return;
-}
+}*/
 
 /*void	wait_childs(t_minishell *mshell, t_cmd *cmd)
 {

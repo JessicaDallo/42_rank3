@@ -12,7 +12,7 @@
 
 #include "include_builtins.h"
 
-bool	redir_input(char *filename) // resertar o valor do exit_code
+bool	redir_input(char *filename)
 {
 	int		fd;
 	char	*file;
@@ -20,21 +20,20 @@ bool	redir_input(char *filename) // resertar o valor do exit_code
 	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
-	printf("file: %s\n", file);
-	if (!file || !*file)
+	if (access(file, F_OK) == 0 && access(file, R_OK) < 0)
 	{
-		error_msg("", "Invalid Name", 1);
-		return(false);
+		error_msg(file, "Permission denied", 1);
+		return false;
 	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
-		error_msg("open", "No such file or directory", 1);
+		error_msg(file, "No such file or directory", 1);
 		return(false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
-		error_msg("dup2","Erro ao redirecionar o arquivo", 1);
+		error_msg("dup2","Error redirecting", 1);
 		close(fd);
 		return(false);
 	}
@@ -42,31 +41,29 @@ bool	redir_input(char *filename) // resertar o valor do exit_code
 	return(true);
 }
 
+
 bool	redir_output(char *filename)
 {
 	int	fd;
 	char	*file;
 
-	//file = check_tilde(filename);
-	//if (!file)
-	//	file = filename;
 	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
-	if (!file || !*file)
+	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
 	{
-		error_msg("", "Invalid Name", 1);
-		return(false);
+		error_msg(file, "Permission denied", 1);
+		return false;
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if(fd < 0)
 	{
-		error_msg("open","No such file or directory", 1);
+		error_msg(file,"No such file or directory", 1);
 		return(false);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
-		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		perror_msg("dup2","Error redirecting");
 		close(fd);
 		return(false);
 	}
@@ -82,20 +79,20 @@ bool	redir_append(char *filename)
 	file = check_tilde(handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
-	if (!file || !*file)
+	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
 	{
-		error_msg("", "Invalid Name", 1);
-		return(false);
+		error_msg(file, "Permission denied", 1);
+		return false;
 	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(fd < 0)
 	{
-		error_msg("open","No such file or directory", 1);
+		error_msg(file,"No such file or directory", 1);
 		return(false);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
-		perror_msg("dup2","Erro ao redirecionar o arquivo");
+		perror_msg("dup2","Error redirecting");
 		close(fd);	
 		return(false);
 	}
@@ -103,86 +100,60 @@ bool	redir_append(char *filename)
 	return(true);
 }
 
-void    remove_token(t_token **tokens, t_token **current)
+void	remove_token(t_token **tokens, t_token **current)
 {
-    t_token   *tmp;
-    t_token   *prev;
+	t_token	*tmp;
+	t_token	*prev;
 
-    if(!tokens || !*tokens || !current || !*current)
+	if(!tokens || !*tokens || !current || !*current)
 		return;
 	tmp = *current;
-    prev = NULL;
-    if(tmp == *tokens)
+	prev = NULL;
+	if(tmp == *tokens)
 		*tokens = tmp->next;
-    else
-    {
+	else
+	{
 		prev = *tokens;
 		while(prev && prev->next != tmp)
 			prev = prev->next;
-        if(prev)
+		if(prev)
 			prev->next = tmp->next;
-    }
+	}
 	if(tmp->input)
 		free(tmp->input);
 	*current = tmp->next;
 	free(tmp);
-	//*current = NULL;
 }
 
-bool	handle_redir(t_token **tokens)
+bool	handle_redir(t_token **tokens) // checar linhas
 {
 	t_token	*temp;
-	bool	ret;
+	bool	flag;
 
 	temp = *tokens;
-	ret = true;
+	flag = true;
 	while(temp)
 	{	
 		if(temp->type == INPUT_REDIR)
 		{
-			ret = redir_input(temp->input);
+			flag = redir_input(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else if(temp->type == OUTPUT_REDIR)
 		{
-			ret = redir_output(temp->input);
+			flag = redir_output(temp->input);
 			remove_token(tokens, &temp);	
 		}
 		else if(temp->type == APPEND_REDIR)
 		{
-			ret = redir_append(temp->input);
+			flag = redir_append(temp->input);
 			remove_token(tokens, &temp);
 		}
 		else
 			temp = temp->next;
+		if(!flag)
+			break;
 	}
-	return(ret);
+	return(flag);
 }
 
-/*void	handle_redir(t_token **tokens)
-{
-	t_token	*temp;
-	t_token	*aux;
-
-	temp = *tokens;
-	while(temp)
-	{	
-		aux = temp->next;
-		if(temp->type == INPUT_REDIR)
-		{
-			redir_input(temp->input);
-			remove_token(tokens, &temp);
-		}
-		else if(temp->type == OUTPUT_REDIR)
-		{
-			redir_output(temp->input);
-			remove_token(tokens, &temp);	
-		}
-		else if(temp->type == APPEND_REDIR)
-		{
-			redir_append(temp->input);
-			remove_token(tokens, &temp);
-		}
-		temp = aux;
-	}
-}*/

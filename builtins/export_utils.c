@@ -6,15 +6,15 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:11:37 by shrodrig          #+#    #+#             */
-/*   Updated: 2024/12/29 14:26:24 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/01 23:03:50 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include_builtins.h"
 
-void    ft_env_reorder(char **keys, t_env *env)
+void	ft_env_reorder(char **keys, t_env *env)
 {
-    int		i;
+	int		i;
 	t_env	*temp;
 
 	i = -1;
@@ -36,13 +36,13 @@ void    ft_env_reorder(char **keys, t_env *env)
 	}
 }
 
-void ft_env_sorted(char **keys, int len)
+void	ft_env_sorted(char **keys, int len)
 {
-    char    *aux;
-    int     i;
-    int     j;
+	char	*aux;
+	int		i;
+	int		j;
 
-    j = 1;
+	j = 1;
 	while (j < len)
 	{
 		i = 0;
@@ -60,9 +60,9 @@ void ft_env_sorted(char **keys, int len)
 	}    
 }
 
-void    print_export(t_minishell *mshell)
+void	print_export(t_minishell *mshell)
 {
-    char	**keys;
+	char	**keys;
 	t_env	*temp;
 	int		i;
 
@@ -75,10 +75,10 @@ void    print_export(t_minishell *mshell)
 		temp = temp->next;
 	}
 	ft_env_sorted(keys, mshell->env_size);
-    ft_env_reorder(keys, mshell->env);
-    free_array(keys);
+	ft_env_reorder(keys, mshell->env);
+	free_array(keys);
 }
-//bool	check_key(t_minishell *mshell, char *input)
+
 bool	check_key(char *input)
 {
 	int		i;
@@ -86,8 +86,7 @@ bool	check_key(char *input)
 	i = 0;
 	if (!ft_isalpha(input[i]) && input[i] != '_')
 	{
-		//mshell->e_code = 1;
-		error_msg("export", "not a valid identifier", 1); //check if the exit code is correct
+		error_msg("export", "not a valid identifier", 1);
 		return (false);
 	}
 	while (input[++i])
@@ -96,8 +95,7 @@ bool	check_key(char *input)
 			break ;
 		if (!ft_isalnum(input[i]) && input[i] != '_')
 		{
-			//mshell->e_code = 1;
-			error_msg("export", "not a valid identifier", 1); //check if the exit code is correct
+			error_msg("export", "not a valid identifier", 1);
 			return (false);
 		}
 	}
