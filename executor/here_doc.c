@@ -73,7 +73,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	check_exit_status(mshell);
-	printf("exit_code: %d\n", mshell->e_code);
+	//printf("exit_code: %d\n", mshell->e_code);
 }
 
 void open_hd(t_minishell *mshell)
@@ -92,30 +92,6 @@ void open_hd(t_minishell *mshell)
 	return;
 }
 
-/*bool has_heredoc(t_minishell *mshell, t_token **tokens)
-{
-	t_token *temp;
-	t_token *aux;
-	bool    flag;
-
-	temp = *tokens;
-	flag = false;
-	while (temp)
-	{   
-		aux = temp->next;
-		if (temp->type == HEREDOC)
-		{
-			ft_heredoc(mshell, temp->input);
-			if (mshell->e_code == 130)
-				return (true);
-			remove_token(tokens, &temp);
-			open_hd(mshell);
-			flag = true;
-		}
-		temp = aux;
-	}
-	return (flag);
-}*/
 
 bool has_heredoc(t_minishell *mshell, t_token **tokens)
 {
@@ -130,29 +106,17 @@ bool has_heredoc(t_minishell *mshell, t_token **tokens)
 		aux = temp->next;
 		if (temp->type == HEREDOC)
 		{
+			flag = true;
 			ft_heredoc(mshell, temp->input);
-			//if (mshell->e_code == 130)
-			//	return (true);
 			if (mshell->e_code == 130)
 			{
-				printf("stop hd: %d\n", mshell->e_code);
-				// if (mshell->heredoc_fd != -1)
-				// 	close(mshell->heredoc_fd);
-				// unlink("/tmp/heredoc_file0001"); 
-				// mshell->heredoc_fd = -1;
-				// temp = *tokens;
-				// while (temp)
-				// {
-				// 	aux = temp->next;
-				// 	remove_token(tokens, &temp);
-				// 	temp = aux;
-				// }
+				//printf("stop hd: %d\n", mshell->e_code);
 				free_cmd(mshell->commands);
-				return (true);
+				mshell->commands = NULL;
+				return (flag);
 			}
 			remove_token(tokens, &temp);
 			open_hd(mshell);
-			flag = true;
 		}
 		else
 			temp = aux;
@@ -197,3 +161,28 @@ bool has_heredoc(t_minishell *mshell, t_token **tokens)
 	return (flag);
 }*/
 
+
+/*bool has_heredoc(t_minishell *mshell, t_token **tokens)
+{
+	t_token *temp;
+	t_token *aux;
+	bool    flag;
+
+	temp = *tokens;
+	flag = false;
+	while (temp)
+	{   
+		aux = temp->next;
+		if (temp->type == HEREDOC)
+		{
+			ft_heredoc(mshell, temp->input);
+			if (mshell->e_code == 130)
+				return (true);
+			remove_token(tokens, &temp);
+			open_hd(mshell);
+			flag = true;
+		}
+		temp = aux;
+	}
+	return (flag);
+}*/

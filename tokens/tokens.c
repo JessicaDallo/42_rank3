@@ -50,8 +50,7 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 			free_array(temp);
 			temp = NULL;
 		}
-		ft_print_tokens(&cmd);
-		ft_print_tokens(&cmd);
+		//ft_print_tokens(&cmd);
 		h_input++;
 	}
 	return (cmd);

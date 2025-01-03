@@ -28,7 +28,12 @@ void	ft_env_reorder(char **keys, t_env *env)
 				if (temp->value && ft_strlen(temp->value) > 0)
 					ft_printf("declare -x %s=\"%s\"\n",temp->key, temp->value);
 				else
-					ft_printf("declare -x %s=\"\"\n", temp->key);
+				{
+					if (temp->print)
+						ft_printf("declare -x %s=\"\"\n", temp->key);
+					else
+						ft_printf("declare -x %s\n", temp->key);
+				}
 				break;
 			}
 			temp = temp->next;

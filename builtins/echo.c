@@ -53,5 +53,5 @@ int	ft_echo(t_minishell *mshell, t_token *token)
 	}
 	if (newline)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
+	return (mshell->e_code = 0);
 }

@@ -28,7 +28,7 @@ pid_t	creat_pid(t_minishell *mshell)
 void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
 	signal(SIGINT, ft_sigint);
-	mshell->e_code = 0;
+	//mshell->e_code = 0;
 	if (*prev_fd != -1)
 		redir_fds(*prev_fd, STDIN_FILENO);
 	if (cmd->next)
@@ -45,8 +45,10 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
 	}
+	//printf("exit code cmd: %i\n", mshell->e_code);
 	exit(mshell->e_code);
 }
+
 void handle_exec(t_minishell *mshell)
 {
 	int		initial_fds[2];
@@ -57,12 +59,10 @@ void handle_exec(t_minishell *mshell)
 	{
 		if (has_heredoc(mshell, &mshell->commands->tokens))
 		{
-			//if(mshell->e_code == 130)
-			//	return;
 			if (mshell->e_code == 0)
 				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
 		}
-		printf("handle_exec_entrou\n");
+		//printf("handle_exec_entrou\n");
 		if(handle_redir(&(mshell->commands->tokens)))
 		{
 			if(!is_builtin(mshell, mshell->commands))
@@ -75,8 +75,40 @@ void handle_exec(t_minishell *mshell)
 	recover_original_fds(initial_fds);
 	close(initial_fds[0]);
 	close(initial_fds[1]);
-	printf("handle_exec_saiu\n");
+	//printf("handle_exec_saiu\n");
 	return;
+}
+
+
+void exec_cmd(t_minishell *mshell)
+{
+	t_cmd   *cmd;
+	pid_t   pid;
+	int     prev_fd;
+
+	cmd = mshell->commands;
+	prev_fd = -1;
+	while (cmd)
+	{
+		signal(SIGINT, ft_sigint);
+		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
+		{
+			if (mshell->e_code == 130)
+				return;
+			prev_fd = mshell->heredoc_fd;
+		}
+		pid = creat_pid(mshell);
+		if (pid == 0)
+			run_cmd(mshell, cmd, &prev_fd);
+		if (prev_fd != -1)
+			close(prev_fd);
+		if (cmd->next)
+			close(cmd->fd[1]);
+		prev_fd = cmd->fd[0];
+		waitpid(pid, &mshell->e_code, 0);
+		check_exit_status(mshell);
+		cmd = cmd->next;
+	}
 }
 
 /*void handle_exec(t_minishell *mshell)
@@ -110,34 +142,3 @@ void handle_exec(t_minishell *mshell)
 	close(initial_fds[1]);
 	return;
 }*/
-
-void exec_cmd(t_minishell *mshell)
-{
-	t_cmd   *cmd;
-	pid_t   pid;
-	int     prev_fd;
-
-	cmd = mshell->commands;
-	prev_fd = -1;
-	while (cmd)
-	{
-		signal(SIGINT, ft_sigint);
-		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
-		{
-			if (mshell->e_code == 130)
-				return;
-			prev_fd = mshell->heredoc_fd;
-		}
-		pid = creat_pid(mshell);
-		if (pid == 0)
-			run_cmd(mshell, cmd, &prev_fd);
-		if (prev_fd != -1)
-			close(prev_fd);
-		if (cmd->next)
-			close(cmd->fd[1]);
-		prev_fd = cmd->fd[0];
-		waitpid(pid, &mshell->e_code, 0);
-		check_exit_status(mshell);
-		cmd = cmd->next;
-	}
-}

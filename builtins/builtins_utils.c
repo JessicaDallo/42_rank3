@@ -17,6 +17,8 @@ bool	check_options(t_minishell *mshell, t_token *tokens)
 	t_token   *temp;
 
 	temp = tokens;
+	if ((ft_strcmp(temp->input, "echo")))
+		mshell->e_code = 0;
 	if (!(ft_strcmp(temp->input, "unset")) || !(ft_strcmp(temp->input, "export")) \
 		|| !(ft_strcmp(temp->input, "env")))
 	{

@@ -75,6 +75,8 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 	size_t	i;
 	
 	output = ft_strdup("");
+	if(!str) //deletar
+		return (NULL);
 	temp = rm_space(str);
 	i = -1;
 	if(temp && temp[0] == '$' && (temp[1] == '\'' || temp[1] == '\"'))

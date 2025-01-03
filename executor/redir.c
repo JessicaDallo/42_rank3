@@ -18,17 +18,22 @@ bool	redir_input(char *filename)
 	char	*file;
 
 	file = check_tilde(handle_quotes(filename, 0, 0));
-	if (!file)
+	if (!file || !*file)
 		file = handle_quotes(filename, 0, 0);
 	if (access(file, F_OK) == 0 && access(file, R_OK) < 0)
 	{
 		error_msg(file, "Permission denied", 1);
 		return false;
 	}
+	if(file[0] == '$')
+	{
+		error_msg(file, "Ambiguous redirect", 1);
+		return(false);
+	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
-		error_msg(file, "No such file or directory", 1);
+		error_msg(file, "", 1);
 		return(false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
@@ -130,11 +135,14 @@ bool	handle_redir(t_token **tokens) //checar
 	t_token	*temp;
 	bool	flag;
 
-	printf("handle_redir_entrou\n");
+	//printf("handle_redir_entrou\n");
+	if (!tokens || !*tokens)
+		return false;
 	flag = true;
 	temp = *tokens;
 	while(temp)
 	{	
+		//printf("handle_redir_entrou no while\n");
 		if(temp->type == INPUT_REDIR)
 		{
 			flag = redir_input(temp->input);
@@ -155,6 +163,6 @@ bool	handle_redir(t_token **tokens) //checar
 		if(!flag)
 			break;
 	}
-	printf("handle_redir_saiu\n");
+	//printf("handle_redir_saiu\n");
 	return(flag);
 }
