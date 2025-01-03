@@ -42,7 +42,6 @@ static bool	ft_atol(char *str)
 
 static bool	m_long(char *str)
 {
-
 	if(ft_atol(str))
 		return (false);
 	else
@@ -51,7 +50,7 @@ static bool	m_long(char *str)
 
 int	is_num(char *str)
 {
-	if(!str)
+	if(!str || !*str)
 		return (0);
 	else
 	{
@@ -59,7 +58,7 @@ int	is_num(char *str)
 			str++;
 		while (*str)
 		{
-			if (!(*str >= '0' && *str <= '9'))
+			if (!(*str >= '0' && *str <= '9') && *str != ' ' && !(*str >= 9 && *str <= 13))
 				return (0);
 			str++;
 		}

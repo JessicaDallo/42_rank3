@@ -58,6 +58,7 @@ bool	val_red(char *arg, int *was_cmd, int *i)
 	(*i)++;
 	if(arg[*i] == '\0')
 		return(false);
+	*was_cmd = 0;
 	while (arg[*i])
 	{
 		if(arg[*i] == '>')
