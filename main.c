@@ -39,6 +39,8 @@ int main(int argc, char **argv, char **envp)
 		mshell.commands = parse_input(input);
 		if(mshell.commands)
 			handle_exec(&mshell);
+		// if(mshell.commands)
+		// 	free_cmd(mshell.commands);
 		free(input);
 	}
 }

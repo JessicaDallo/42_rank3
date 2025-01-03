@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:16:09 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/03 00:31:52 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,39 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	}
 	exit(mshell->e_code);
 }
-
 void handle_exec(t_minishell *mshell)
+{
+	int		initial_fds[2];
+
+	save_original_fds(initial_fds);
+	create_pipes(mshell->commands);
+	if (mshell->commands && !mshell->commands->next)
+	{
+		if (has_heredoc(mshell, &mshell->commands->tokens))
+		{
+			//if(mshell->e_code == 130)
+			//	return;
+			if (mshell->e_code == 0)
+				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
+		}
+		printf("handle_exec_entrou\n");
+		if(handle_redir(&(mshell->commands->tokens)))
+		{
+			if(!is_builtin(mshell, mshell->commands))
+				run_execve(mshell, mshell->commands->tokens);
+		}
+	}
+	else
+		exec_cmd(mshell);
+	close_pipes(mshell->commands);
+	recover_original_fds(initial_fds);
+	close(initial_fds[0]);
+	close(initial_fds[1]);
+	printf("handle_exec_saiu\n");
+	return;
+}
+
+/*void handle_exec(t_minishell *mshell)
 {
 	t_cmd	*cmd;
 	int		initial_fds[2];
@@ -59,7 +90,12 @@ void handle_exec(t_minishell *mshell)
 	if (cmd && !cmd->next)
 	{
 		if (has_heredoc(mshell, &cmd->tokens))
-			redir_fds(mshell->heredoc_fd, STDIN_FILENO);
+		{
+			//if(mshell->e_code == 130)
+			//	return;
+			if (mshell->e_code == 0)
+				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
+		}
 		if(handle_redir(&(cmd->tokens)))
 		{
 			if(!is_builtin(mshell, cmd))
@@ -73,7 +109,7 @@ void handle_exec(t_minishell *mshell)
 	close(initial_fds[0]);
 	close(initial_fds[1]);
 	return;
-}
+}*/
 
 void exec_cmd(t_minishell *mshell)
 {
@@ -87,9 +123,11 @@ void exec_cmd(t_minishell *mshell)
 	{
 		signal(SIGINT, ft_sigint);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
+		{
+			if (mshell->e_code == 130)
+				return;
 			prev_fd = mshell->heredoc_fd;
-		if (mshell->e_code == 130)
-			break;
+		}
 		pid = creat_pid(mshell);
 		if (pid == 0)
 			run_cmd(mshell, cmd, &prev_fd);

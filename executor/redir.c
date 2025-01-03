@@ -125,13 +125,14 @@ void	remove_token(t_token **tokens, t_token **current)
 	free(tmp);
 }
 
-bool	handle_redir(t_token **tokens) // checar linhas
+bool	handle_redir(t_token **tokens) //checar
 {
 	t_token	*temp;
 	bool	flag;
 
-	temp = *tokens;
+	printf("handle_redir_entrou\n");
 	flag = true;
+	temp = *tokens;
 	while(temp)
 	{	
 		if(temp->type == INPUT_REDIR)
@@ -154,6 +155,6 @@ bool	handle_redir(t_token **tokens) // checar linhas
 		if(!flag)
 			break;
 	}
+	printf("handle_redir_saiu\n");
 	return(flag);
 }
-

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:32:22 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/03 00:41:02 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	close_pipes(t_cmd *cmd)
 	t_cmd   *tmp;
 	
 	tmp = cmd;
+	if (!cmd)
+		return;
 	while (tmp)
 	{
 		if (tmp->fd[0] != -1)
