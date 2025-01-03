@@ -14,6 +14,8 @@
 
 void	handle_expansions(t_minishell *mshell, char **line, int flag)
 {
+	if(!line || !*line) //se não tiver linha ou linha vazia EXPORT
+		return;
 	expand_exit(mshell, line, flag);
 	expand_var(mshell, line, flag);
 }

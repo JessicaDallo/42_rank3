@@ -45,7 +45,7 @@ void	free_envlist(t_env *env)
 void	free_tokens(t_token *tokens)
 {
 	t_token	*aux;
-	printf("free_tokens entrou\n");
+	//printf("free_tokens entrou\n");
 	while(tokens)
 	{
 		aux = tokens->next;
@@ -54,26 +54,27 @@ void	free_tokens(t_token *tokens)
 		free(tokens);
 		tokens = aux;
 	}
-	//tokens = NULL;
-	printf("free_tokens_saiu\n");
+	//printf("free_tokens_saiu\n");
 }
 
 void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*aux;
-	printf("free_cmd entrou\n");
+	//printf("free_cmd entrou\n");
 	if(!cmd)
 		return;
 	while(cmd)
 	{
 		aux = cmd->next;
 		if(cmd->tokens)
+		{
 			free_tokens(cmd->tokens);
+			cmd->tokens = NULL;
+		}
 		free(cmd);
 		cmd = aux;
 	}
-	//cmd = NULL;
-	printf("free_cmd saiu\n");
+	//printf("free_cmd saiu\n");
 }
 
 void	clear_mshell(t_minishell *mshell)

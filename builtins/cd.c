@@ -41,6 +41,11 @@ char	*check_tilde(char *input)
 		return(path_expand = go_path("HOME"));
 	else if(input[0] == '~')
 		return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
+	else if(input[0] == '$')
+	{
+		handle_expansions(*mshell, &input, 1);
+		return(input);
+	}
 	return(NULL);
 }
 

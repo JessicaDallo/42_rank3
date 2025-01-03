@@ -17,7 +17,7 @@ char	*ft_appendchar(char const *s1, char c)
 	char			*newstr;
 	unsigned int	i;
 
-	newstr = (char *)malloc(strlen(s1) + 2);
+	newstr = (char *)malloc(ft_strlen(s1) + 2);
 	if (!newstr)
 		return (NULL);
 	i = 0;

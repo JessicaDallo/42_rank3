@@ -66,7 +66,11 @@ void ft_export(t_minishell *mshell, t_token *tokens)
 	{
 		while(temp)
 		{
-			check_key(temp->input);
+			if(!check_key(temp->input))
+			{
+				temp = temp->next;
+				continue;
+			}
 			if (!ft_strchr(temp->input, '='))
 				update_env(mshell, temp->input, NULL, false);
 			else
