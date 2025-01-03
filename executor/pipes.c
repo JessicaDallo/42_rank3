@@ -21,7 +21,7 @@ void	create_pipes(t_cmd *cmd)
 	{
 		if (tmp->next && pipe(tmp->fd) == -1)
 		{
-			perror_msg("pipe", "Error to create pipe");
+			perror_msg("pipe", "error to create pipe");
 			return;
 		}
 		tmp = tmp->next;
@@ -33,9 +33,9 @@ void	close_pipes(t_cmd *cmd)
 {
 	t_cmd   *tmp;
 	
-	tmp = cmd;
 	if (!cmd)
 		return;
+	tmp = cmd;
 	while (tmp)
 	{
 		if (tmp->fd[0] != -1)

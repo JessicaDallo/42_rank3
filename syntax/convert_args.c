@@ -63,32 +63,4 @@ char	**convert_args(t_minishell *mshell, t_token *token)
 	return (temp);
 }
 
-/*char	**convert_args(t_minishell *mshell, t_token *token)
-{
-	char	**temp;
-	int 	i;
-	
-	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, token) + 1));
-	if (!temp)
-		return (NULL);
-	i = 0;
-	temp[i++] = strdup(token->input);
-	while (token)
-	{
-		if(token->type == ARG)
-		{
-			handle_expansions(mshell, &token->input, 0);
-			temp[i] = strdup(handle_quotes(token->input, 0, 0));
-			if (!temp[i])
-			{
-		   		free_array(temp);
-				return (NULL);
-			}
-			i++;
-		}
-		token = token->next;
-	}
-	temp[i] = NULL;
-	return (temp);
-}*/
-
+//mais de 25 linhas

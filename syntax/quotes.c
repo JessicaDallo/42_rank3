@@ -75,7 +75,7 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 	size_t	i;
 	
 	output = ft_strdup("");
-	if(!str) //deletar
+	if(!str) //tentar tratar no export
 		return (NULL);
 	temp = rm_space(str);
 	i = -1;
@@ -97,3 +97,5 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 	free(temp);
 	return(output);
 }
+
+//mais de 25 linhas

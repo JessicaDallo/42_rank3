@@ -12,11 +12,11 @@
 
 #include "include_builtins.h"
 
-void	handle_signal(void)
-{
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
-}
+// void	handle_signal(void)
+// {
+// 	signal(SIGINT, ft_sigint);
+// 	signal(SIGQUIT, ft_sigquit);
+// }
 
 void	ft_reset_prompt(int signal)
 {

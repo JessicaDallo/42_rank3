@@ -37,7 +37,7 @@ bool	val_pipe(char *arg, int *was_cmd, int *i)
 	(*i)++;
 	while (arg[*i])
 	{
-		if (arg[*i] == '<' || arg[*i] == '>' || arg[*i] == '|')
+		if (arg[*i] == '|')
 			return (false);
 		else if (arg[*i] != ' ' && arg[*i] != '|')
 			*was_cmd = 1;
