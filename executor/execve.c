@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:30:14 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/02 22:59:25 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if(pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
-		// if(!args || !args[0])
-		// 	return;
-		if(!args || !args[0] || !args[0][0])
-			error_msg("", "command '' not found", 127);
+		 if(!args || !args[0])
+		 	return;
+		//if(!args || !args[0] || !args[0][0])
+		//	error_msg("", "command '' not found", 127);
 		executable = get_execpath(mshell, args[0]);
 		if(execve(executable, args, mshell->envp))
 			check_execpath(mshell, executable);
