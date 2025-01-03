@@ -107,6 +107,8 @@ void exec_cmd(t_minishell *mshell)
 		prev_fd = cmd->fd[0];
 		waitpid(pid, &mshell->e_code, 0);
 		check_exit_status(mshell);
+		if (mshell->e_code != 0)
+			return;
 		cmd = cmd->next;
 	}
 }
