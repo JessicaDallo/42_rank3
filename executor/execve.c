@@ -81,7 +81,6 @@ void	check_exit_status(t_minishell *mshell)
 		mshell->e_code = WEXITSTATUS(mshell->e_code);
 	else if (WIFSIGNALED(mshell->e_code)) 
 		mshell->e_code = 128 + WTERMSIG(mshell->e_code);
-	//printf("exit_code: %d\n", mshell->e_code);
 	if(mshell->e_code != 0)
 	{
 		free_cmd(mshell->commands);
