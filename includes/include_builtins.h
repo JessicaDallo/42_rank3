@@ -61,6 +61,7 @@ typedef struct	s_token
 typedef	struct s_cmd
 {
 	t_token	*tokens;
+	t_split	**arr;
 	int		fd[2];
 
 	struct s_cmd *next;
