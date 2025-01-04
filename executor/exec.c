@@ -13,6 +13,101 @@
 #include "includes/include_builtins.h"
 
 
+//03.01.2025
+/*void handle_exec(t_minishell *mshell)
+{
+	t_cmd	*cmd;
+	int		initial_fds[2];
+
+	cmd = mshell->commands;
+	save_original_fds(initial_fds);
+	create_pipes(cmd);
+	if (cmd && !cmd->next)
+	{
+		if (has_heredoc(mshell, &cmd->tokens))
+		{
+			//if(mshell->e_code == 130)
+			//	return;
+			if (mshell->e_code == 0)
+				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
+		}
+		if(handle_redir(&(cmd->tokens)))
+		{
+			if(!is_builtin(mshell, cmd))
+				run_execve(mshell, cmd->tokens);
+		}
+	}
+	else
+		exec_cmd(mshell);
+	close_pipes(cmd);
+	recover_original_fds(initial_fds);
+	close(initial_fds[0]);
+	close(initial_fds[1]);
+	return;
+}
+
+bool has_heredoc(t_minishell *mshell, t_token **tokens)
+{
+	t_token *temp;
+	t_token *aux;
+	bool    flag;
+
+	temp = *tokens;
+	flag = false;
+	while (temp)
+	{   
+		aux = temp->next;
+		if (temp->type == HEREDOC)
+		{
+			ft_heredoc(mshell, temp->input);
+			if (mshell->e_code == 130)
+			{
+				if (mshell->heredoc_fd != -1)
+					close(mshell->heredoc_fd);
+				unlink("/tmp/heredoc_file0001"); 
+				mshell->heredoc_fd = -1;
+				while (temp)
+				{
+					aux = temp->next;
+					remove_token(tokens, &temp);
+					temp = aux;
+				}
+				return (false);
+			}
+			remove_token(tokens, &temp);
+			open_hd(mshell);
+			flag = true;
+		}
+		temp = aux;
+	}
+	return (flag);
+}
+
+bool has_heredoc(t_minishell *mshell, t_token **tokens)
+{
+	t_token *temp;
+	t_token *aux;
+	bool    flag;
+
+	temp = *tokens;
+	flag = false;
+	while (temp)
+	{   
+		aux = temp->next;
+		if (temp->type == HEREDOC)
+		{
+			ft_heredoc(mshell, temp->input);
+			if (mshell->e_code == 130)
+				return (true);
+			remove_token(tokens, &temp);
+			open_hd(mshell);
+			flag = true;
+		}
+		temp = aux;
+	}
+	return (flag);
+}*/
+
 /*int	check_execpath(t_minishell *mshell, char *path)
 {
 	if(strchr(path, '/') || path == '.')

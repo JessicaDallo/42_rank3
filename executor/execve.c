@@ -35,11 +35,11 @@ int	execpath_error(t_minishell *mshell, char *path)
 	return(mshell->e_code);
 }
 
-int	check_execpath(t_minishell *mshell, char *path)
+int	check_execpath(t_minishell *mshell, t_token *token, char *path)
 {
 	if(!path || path == NULL)
 	{
-		error_msg(mshell->commands->tokens->input, "command not found", 127);
+		error_msg(token->input, "command not found", 127);
 		return(mshell->e_code = 127);
 	}
 	else
@@ -81,7 +81,7 @@ void	check_exit_status(t_minishell *mshell)
 		mshell->e_code = WEXITSTATUS(mshell->e_code);
 	else if (WIFSIGNALED(mshell->e_code)) 
 		mshell->e_code = 128 + WTERMSIG(mshell->e_code);
-	if(mshell->e_code != 0)
+	if(mshell->e_code == 130)
 	{
 		free_cmd(mshell->commands);
 		mshell->commands = NULL;
@@ -105,11 +105,9 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		signal(SIGINT, ft_sigint);
 		 if(!args || !args[0])
 		 	return;
-		//if(!args || !args[0] || !args[0][0])
-		//	error_msg("", "command '' not found", 127);
 		executable = get_execpath(mshell, args[0]);
 		if(execve(executable, args, mshell->envp))
-			check_execpath(mshell, executable);
+			check_execpath(mshell, token, executable);
 		exit(mshell->e_code);
 	}
 	waitpid(pid, &mshell->e_code, 0);
@@ -117,3 +115,4 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	free_array(args);
 	return;
 }
+

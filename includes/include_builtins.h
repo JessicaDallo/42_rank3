@@ -156,16 +156,14 @@ void	ft_reset_prompt(int signal);
 void	ft_sigquit(int signal);
 void	ft_sigint_hd(int signal);
 
-
 /*------------------------------------- EXEC -------------------------------------*/
 void	ft_heredoc(t_minishell *mshell, char *delim);
 int		tmp_heredoc(t_minishell *mshell);
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand);
-//void	open_hd(t_minishell *mshell, bool *flag);
 void	open_hd(t_minishell *mshell);
 bool	has_heredoc(t_minishell *mshell, t_token **tokens);
 
-int		check_execpath(t_minishell *mshell, char *path);
+int		check_execpath(t_minishell *mshell, t_token *token, char *path);
 int		execpath_error(t_minishell *mshell, char *path);
 char	*get_execpath(t_minishell *mshell, char *cmd_name);
 void	check_exit_status(t_minishell *mshell);

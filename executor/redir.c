@@ -27,13 +27,13 @@ bool	redir_input(char *filename)
 	}
 	if(file[0] == '$')
 	{
-		error_msg(file, "Ambiguous redirect", 1);
+		error_msg(file, "ambiguous redirect", 1);
 		return(false);
 	}
 	fd = open(file, O_RDONLY);
 	if(fd < 0)
 	{
-		error_msg(file, "", 1);
+		error_msg(file, "No such file or directory", 1);
 		return(false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
@@ -130,19 +130,17 @@ void	remove_token(t_token **tokens, t_token **current)
 	free(tmp);
 }
 
-bool	handle_redir(t_token **tokens) //checar
+bool	handle_redir(t_token **tokens)
 {
 	t_token	*temp;
 	bool	flag;
 
-	//printf("handle_redir_entrou\n");
 	if (!tokens || !*tokens)
 		return false;
 	flag = true;
 	temp = *tokens;
 	while(temp)
 	{	
-		//printf("handle_redir_entrou no while\n");
 		if(temp->type == INPUT_REDIR)
 		{
 			flag = redir_input(temp->input);
@@ -163,6 +161,7 @@ bool	handle_redir(t_token **tokens) //checar
 		if(!flag)
 			break;
 	}
-	//printf("handle_redir_saiu\n");
 	return(flag);
 }
+
+// mais de 25 linhas
