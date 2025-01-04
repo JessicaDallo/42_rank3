@@ -39,19 +39,20 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 {
 	char		**temp;
+	char		**cpy_input;
 
-	while (*h_input)
+	cpy_input =  h_input;
+	while (*cpy_input)//linha 43
 	{
 		add_cmd(&cmd);
-		temp = ft_split_quots(*h_input, ' ');
+		temp = ft_split_quots(*cpy_input, ' ');
 		if (temp)
 		{
 			process_tokens(temp, &cmd);
 			free_array(temp);
 			temp = NULL;
 		}
-		//ft_print_tokens(&cmd);
-		h_input++;
+		cpy_input++;
 	}
 	return (cmd);
 }
@@ -60,11 +61,20 @@ t_cmd	*parse_input(char *input)
 {
 	t_cmd	*cmd;
 	char	**h_input;
+	char	*trimmed;
 
 	cmd = NULL;
 	input = rm_space(input);
-	input = ft_trim(input);
-	h_input = ft_split_quots(input, '|');
+	if (!input)
+		return (NULL);
+	trimmed = ft_trim(input);
+	free(input);
+	if (!trimmed)
+		return (NULL);
+	h_input = ft_split_quots(trimmed, '|');
+	free(trimmed);
+	if (!h_input)
+		return (NULL);
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
 	h_input = NULL;
