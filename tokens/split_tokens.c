@@ -60,7 +60,8 @@ static void	process_split_red(t_split *spl, char *str, char c)
 		else if (spl->redir)
 		{
 			if (spl->i > spl->init)
-				spl->arr[spl->j++] = ft_strndup(&str[spl->init], spl->i - spl->init);
+				spl->arr[spl->j++] = ft_strndup(&str[spl->init], \
+				spl->i - spl->init);
 			spl->arr[spl->j++] = ft_strndup(&str[spl->i], spl->redir);
 			spl->i += spl->redir;
 			spl->init = spl->i;

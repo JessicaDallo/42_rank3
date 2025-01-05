@@ -48,9 +48,7 @@ int	ft_count_words(char *s, char c)
 		while (s[j] == c)
 			j++;
 		if (s[j] && s[j] != c)
-		{
 			i++;
-		}
 		while (s[j] && s[j] != c)
 		{
 			if (s[j] == '"' || s[j] == '\'')

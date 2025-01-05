@@ -1,7 +1,10 @@
 {
 	"files.associations": {
 		"include_builtins.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"temp": "cpp",
+		"compare": "c",
+		"type_traits": "c"
 	},
 	"editor.renderWhitespace": "all"
 }

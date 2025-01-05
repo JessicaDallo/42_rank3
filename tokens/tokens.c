@@ -12,26 +12,43 @@
 
 #include "../includes/minishell.h"
 
-static void	process_tokens(char **temp, t_cmd **cmd)
+void	process_t(t_cmd **cmd, char **arr, int *i, bool *new_cmd)
 {
-	t_token_type	type;
-	bool		new_cmd;
-	int			i;
+	t_token_type		type;
+	char				*tmp;
+
+	tmp = NULL;
+	type = get_type(arr[*i], *new_cmd);
+	if (type == 0 && arr[*i][1] != '$')
+	{
+		if (ft_strncmp(arr[*i], "\"\"", 3) != 0
+			&& ft_strncmp(arr[*i], "\'\'", 3) != 0)
+			tmp = handle_quotes(arr[*i], 0, 0);
+	}
+	if (tmp)
+	{
+		add_token(cmd, tmp, type, *new_cmd);
+		free(tmp);
+		tmp = NULL;
+	}
+	else
+	{
+		if (is_delimiter(arr[*i]))
+			(*i)++;
+		add_token(cmd, arr[*i], type, *new_cmd);
+	}
+}
+
+static void	process_tokens(char **temp_arr, t_cmd **cmd)
+{
+	bool			new_cmd;
+	int				i;
 
 	i = 0;
 	new_cmd = true;
-	while (temp[i])
+	while (temp_arr[i])
 	{
-		type = get_type(temp[i], new_cmd);
-		if (type == 0 && temp[i][1] != '$')
-		{
-			if (ft_strncmp(temp[i], "\"\"", 3) != 0
-				&& ft_strncmp(temp[i], "\'\'", 3) != 0)
-				temp[i] = handle_quotes(temp[i], 0, 0);
-		}
-		if (is_delimiter(temp[i]))
-			i++;
-		add_token(cmd, temp[i], type, new_cmd);
+		process_t(cmd, temp_arr, &i, &new_cmd);
 		new_cmd = false;
 		i++;
 	}

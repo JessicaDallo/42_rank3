@@ -12,7 +12,6 @@
 
 #include "includes/minishell.h"
 
-
 void	handle_signal(void)
 {
 	signal(SIGINT, ft_reset_prompt);
@@ -63,7 +62,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	//clear_mshell(&mshell);
 }
-
 
 // int main(int argc, char **argv, char **envp)
 // {

@@ -16,7 +16,7 @@ static bool	ft_atol(char *str)
 {
 	long	signal;
 	long	n;
-	int i;
+	int		i;
 
 	i = 0;
 	if (!ft_strcmp("-9223372036854775808", str))
@@ -42,7 +42,7 @@ static bool	ft_atol(char *str)
 
 static bool	m_long(char *str)
 {
-	if(ft_atol(str))
+	if (ft_atol(str))
 		return (false);
 	else
 		return (true);
@@ -50,7 +50,7 @@ static bool	m_long(char *str)
 
 int	is_num(char *str)
 {
-	if(!str || !*str)
+	if (!str || !*str)
 		return (0);
 	else
 	{
@@ -58,7 +58,8 @@ int	is_num(char *str)
 			str++;
 		while (*str)
 		{
-			if (!(*str >= '0' && *str <= '9') && *str != ' ' && !(*str >= 9 && *str <= 13))
+			if (!(*str >= '0' && *str <= '9')
+				&& *str != ' ' && !(*str >= 9 && *str <= 13))
 				return (0);
 			str++;
 		}
@@ -74,7 +75,6 @@ int	get_exit(t_minishell *mshell, t_token *token)
 		error_msg("exit", "numeric argument required", 2);
 		mshell->e_code = 2;
 		clear_mshell(mshell);
-
 	}
 	else if (token->next)
 	{
