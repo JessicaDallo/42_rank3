@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 11:30:42 by sheila            #+#    #+#             */
-/*   Updated: 2024/07/23 11:47:38 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 19:27:18 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include <stdio.h>
 
 int	ft_atoi_base(const char *str, int str_base)
@@ -46,7 +47,7 @@ int	ft_atoi_base(const char *str, int str_base)
 	return (signal * result);
 }
 
-/*int	main(void)
+int	main(void)
 {
 	printf("%d\n", ft_atoi_base("a", 16));
 	printf("%d\n", ft_atoi_base("1a3F", 16));

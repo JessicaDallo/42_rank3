@@ -6,23 +6,23 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:30 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:41:57 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:10:58 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	handle_expansions(t_minishell *mshell, char **line, int flag)
 {
-	if(!line || !*line)
-		return;
+	if (!line || !*line)
+		return ;
 	expand_exit(mshell, line, flag);
 	expand_var(mshell, line, flag);
 }
 
 char	*get_position(char *line, int flag)
 {
-	char quote;
+	char	quote;
 
 	while (*line)
 	{
@@ -31,8 +31,8 @@ char	*get_position(char *line, int flag)
 			quote = *line++;
 			while (*line && *line != quote)
 			{
-				if (quote == '\"' && *line == '$' && 
-					(ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
+				if (quote == '\"' && *line == '$'
+					&& (ft_isalnum(*(line + 1)) || *(line + 1) == '_'))
 					return (line);
 				line++;
 			}
@@ -46,8 +46,8 @@ char	*get_position(char *line, int flag)
 
 void	update_line(char **line, char *value, char *str)
 {
-	char *new_line;
-	char *temp;
+	char	*new_line;
+	char	*temp;
 
 	if (!(*line)[0] && !value)
 		temp = ft_strdup("");
@@ -65,10 +65,10 @@ void	update_line(char **line, char *value, char *str)
 
 void	expand_var(t_minishell *mshell, char **line, int flag)
 {
-	char *var_pos;
-	char *key;
-	char *value;
-	int len;
+	char	*var_pos;
+	char	*key;
+	char	*value;
+	int		len;
 
 	var_pos = get_position(*line, flag);
 	while (var_pos)

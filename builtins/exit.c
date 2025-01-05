@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:01:03 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 22:58:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 static bool	ft_atol(char *str)
 {
@@ -79,7 +79,7 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	else if (token->next)
 	{
 		error_msg("exit", "too many arguments", 1);
-		return(mshell->e_code = 1);
+		return (mshell->e_code = 1);
 	}
 	else if (token->input)
 	{
@@ -89,13 +89,13 @@ int	get_exit(t_minishell *mshell, t_token *token)
 			mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;
 		clear_mshell(mshell);
 	}
-	return(mshell->e_code);
+	return (mshell->e_code);
 }
 
 int	ft_exit(t_minishell *mshell, t_token *token)
 {
-	int exit_code;
-	
+	int	exit_code;
+
 	token = token->next;
 	if (!token || !token->input)
 	{
@@ -111,4 +111,3 @@ int	ft_exit(t_minishell *mshell, t_token *token)
 	}
 	return (exit_code);
 }
-

@@ -6,15 +6,15 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:56:16 by jesilva-          #+#    #+#             */
-/*   Updated: 2025/01/02 23:08:11 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:24:42 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 static void	process_tokens(char **temp, t_cmd **cmd)
 {
-	token_type	type;
+	t_token_type	type;
 	bool		new_cmd;
 	int			i;
 
@@ -23,10 +23,11 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	while (temp[i])
 	{
 		type = get_type(temp[i], new_cmd);
-		if(type == 0 && temp[i][1] != '$')
+		if (type == 0 && temp[i][1] != '$')
 		{
-			if(ft_strncmp(temp[i], "\"\"", 3) != 0 && ft_strncmp(temp[i], "\'\'", 3) != 0)
-				temp[i] = handle_quotes(temp[i], 0, 0); //testar se alterar para strncmp e verificar se é ""
+			if (ft_strncmp(temp[i], "\"\"", 3) != 0
+				&& ft_strncmp(temp[i], "\'\'", 3) != 0)
+				temp[i] = handle_quotes(temp[i], 0, 0);
 		}
 		if (is_delimiter(temp[i]))
 			i++;
@@ -41,8 +42,8 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 	char		**temp;
 	char		**cpy_input;
 
-	cpy_input =  h_input;
-	while (*cpy_input)//linha 43
+	cpy_input = h_input;
+	while (*cpy_input)
 	{
 		add_cmd(&cmd);
 		temp = ft_split_quots(*cpy_input, ' ');

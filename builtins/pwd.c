@@ -6,19 +6,19 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:11:28 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 22:58:49 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-int ft_pwd(t_minishell *mshell, t_token *token)
+int	ft_pwd(t_minishell *mshell, t_token *token)
 {
-	char *pwd;
-	
-	if(token->next)
+	char	*pwd;
+
+	if (token->next)
 	{
-		if(ft_strncmp(token->next->input, "-", 1) == 0)
+		if (ft_strncmp(token->next->input, "-", 1) == 0)
 		{
 			error_msg("pwd", "invalid options", 1);
 			return (mshell->e_code = 1);
@@ -31,7 +31,7 @@ int ft_pwd(t_minishell *mshell, t_token *token)
 		if (!pwd)
 		{
 			error_msg("pwd", "No such file or directory", 1);
-			return(mshell->e_code = 1);
+			return (mshell->e_code = 1);
 		}
 	}
 	ft_putendl_fd(pwd, STDOUT_FILENO);

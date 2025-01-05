@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 int	error_val_msg(char *str, t_minishell *mshell)
 {
@@ -53,11 +53,12 @@ int	val_sintax(char *arg, t_minishell *mshell)
 
 	i = 0;
 	was_cmd = 0;
-	if(!arg)
+	//arg = ft_trim(arg);
+	if (!arg)
 		return (1);
 	while (arg[i])
 	{
-		if(!arg)
+		if (!arg)
 			return (1);
 		if (ft_check_delimiters(arg, &was_cmd, &i, mshell))
 			return (1);

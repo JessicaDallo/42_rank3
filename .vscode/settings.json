@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"include_builtins.h": "c",
+		"libft.h": "c"
+	},
+	"editor.renderWhitespace": "all"
+}

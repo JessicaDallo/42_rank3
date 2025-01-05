@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 08:41:51 by sheila            #+#    #+#             */
-/*   Updated: 2024/12/06 12:36:45 by shrodrig         ###   ########.fr       */
+/*   Updated: 2025/01/04 19:27:28 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ the allocation fails.
 */
 
 #include "libft.h"
-
 
 static int	count_words(const char *str, char c)
 {
@@ -48,7 +47,7 @@ static char	*word_dup(const char *str, int start, int end)
 
 	i = 0;
 	word = malloc((end - start + 1) * sizeof(char));
-	if(!word)
+	if (!word)
 		return (NULL);
 	while (start < end)
 		word[i++] = str[start++];

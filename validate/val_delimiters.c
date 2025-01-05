@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 bool	val_quot(char *arg, int *i)
 {
@@ -56,18 +56,18 @@ bool	val_red(char *arg, int *was_cmd, int *i)
 
 	was_red = 1;
 	(*i)++;
-	if(arg[*i] == '\0')
-		return(false);
+	if (arg[*i] == '\0')
+		return (false);
 	*was_cmd = 0;
 	while (arg[*i])
 	{
-		if(arg[*i] == '>')
+		if (arg[*i] == '>')
 		{
-			was_red++; 
-			if(arg[*i - 1] == ' ')
+			was_red++;
+			if (arg[*i - 1] == ' ')
 				return (false);
 		}
-		if ((arg[*i] == '<' || arg[*i] == '|'|| was_red > 2) && !(*was_cmd))
+		if ((arg[*i] == '<' || arg[*i] == '|' || was_red > 2) && !(*was_cmd))
 			return (false);
 		else if (arg[*i] != ' ' && arg[*i] != '>')
 			*was_cmd = 1;
@@ -84,18 +84,18 @@ bool	val_red_in(char *arg, int *was_cmd, int *i)
 
 	was_red = 1;
 	(*i)++;
-	if(arg[*i] == '\0')
-		return(false);
+	if (arg[*i] == '\0')
+		return (false);
 	*was_cmd = 0;
 	while (arg[*i])
 	{
 		if (arg[*i] == '<')
 		{
-			was_red++; 
-			if(arg[*i - 1] == ' ')
+			was_red++;
+			if (arg[*i - 1] == ' ')
 				return (false);
 		}
-		if ((arg[*i] == '>' || arg[*i] == '|'|| was_red > 2) && !(*was_cmd))
+		if ((arg[*i] == '>' || arg[*i] == '|' || was_red > 2) && !(*was_cmd))
 			return (false);
 		else if (arg[*i] != ' ' && arg[*i] != '<')
 			*was_cmd = 1;

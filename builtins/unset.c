@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:56:31 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:12:10 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 22:59:05 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	remove_env(t_minishell *mshell, char *key)
 {
@@ -19,9 +19,9 @@ void	remove_env(t_minishell *mshell, char *key)
 
 	temp = mshell->env;
 	aux = NULL;
-	while(temp)
+	while (temp)
 	{
-		if(ft_strcmp(temp->key, key) == 0)
+		if (ft_strcmp(temp->key, key) == 0)
 		{
 			if (aux)
 				aux->next = temp->next;
@@ -31,23 +31,23 @@ void	remove_env(t_minishell *mshell, char *key)
 			free(temp->value);
 			free(temp);
 			mshell->env_size--;
-			return;
+			return ;
 		}
-		aux = temp; 
-		temp = temp->next; 
+		aux = temp;
+		temp = temp->next;
 	}
 }
 
-void ft_unset(t_minishell *mshell, t_token *tokens)
+void	ft_unset(t_minishell *mshell, t_token *tokens)
 {
-	t_token *temp;
-	
+	t_token	*temp;
+
 	temp = tokens;
 	temp = temp->next;
-	while(temp)
+	while (temp)
 	{
 		if (!temp->input)
-			return;
+			return ;
 		remove_env(mshell, temp->input);
 		temp = temp->next;
 	}

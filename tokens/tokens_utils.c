@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jesilva- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 19:09:52 by jesilva-          #+#    #+#             */
-/*   Updated: 2024/12/23 19:09:55 by jesilva-         ###   ########.fr       */
+/*   Updated: 2025/01/04 23:18:55 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 bool	is_delimiter(char *arg)
 {
@@ -51,7 +51,7 @@ int	ft_count_words(char *s, char c)
 		{
 			i++;
 		}
-		while (s[j]&& s[j] != c)
+		while (s[j] && s[j] != c)
 		{
 			if (s[j] == '"' || s[j] == '\'')
 			{

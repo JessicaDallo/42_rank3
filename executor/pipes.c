@@ -6,35 +6,35 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/03 00:41:02 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	create_pipes(t_cmd *cmd)
 {
 	t_cmd	*tmp;
-	
+
 	tmp = cmd;
 	while (tmp)
 	{
 		if (tmp->next && pipe(tmp->fd) == -1)
 		{
 			perror_msg("pipe", "error to create pipe");
-			return;
+			return ;
 		}
 		tmp = tmp->next;
 	}
-	return;
+	return ;
 }
 
 void	close_pipes(t_cmd *cmd)
 {
-	t_cmd   *tmp;
-	
+	t_cmd	*tmp;
+
 	if (!cmd)
-		return;
+		return ;
 	tmp = cmd;
 	while (tmp)
 	{
@@ -47,17 +47,17 @@ void	close_pipes(t_cmd *cmd)
 }
 
 void	redir_fds(int redir, int local)
-{  
-	if(redir < 0 || local < 0)
+{
+	if (redir < 0 || local < 0)
 	{
 		error_msg("fd", "No such file or directory", 1);
-		return;
+		return ;
 	}
 	else if (dup2(redir, local) < 0)
 	{
 		perror_msg("dup2", "Error redirecting");
 		close(redir);
-		return;
+		return ;
 	}
 	close(redir);
 }

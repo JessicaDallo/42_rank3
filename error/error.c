@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:10:05 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:28:46 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:00:16 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	error_msg(char *cmd, char *str, int e_code)
 {
