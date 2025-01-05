@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 18:39:26 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_array(char **str)
 	while (str[i])
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	free(str);
@@ -86,6 +87,8 @@ void	clear_mshell(t_minishell *mshell)
 	if (mshell->envp)
 		free_array(mshell->envp);
 	close(mshell->heredoc_fd);
+	close(mshell->initial_fds[0]);
+	close(mshell->initial_fds[1]);
 	close_fds();
 	exit(mshell->e_code);
 }

@@ -6,30 +6,51 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:58:27 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 20:20:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	ft_atol(char *str)
+{
+	long	signal;
+	long	n;
+	int i;
+
+	i = 0;
+	if (!ft_strcmp("-9223372036854775808", str))
+		return (true);
+	signal = 1;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+		signal = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	n = 0;
+	while (ft_isdigit(str[i]))
+	{
+		if (n > n * 10 + (str[i] - '0'))
+			return (false);
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	n = n * signal;
+	return (true);
+}
+
 static bool	m_long(char *str)
 {
-	long long	result;
-	int			len;
-
-	len = ft_strlen(str);
-	if (len > 20)
-		return (true);
-	result = ft_atoi(str);
-	if (result >= LLONG_MAX || result <= LLONG_MIN)
-		return (true);
-	else
+	if(ft_atol(str))
 		return (false);
+	else
+		return (true);
 }
 
 int	is_num(char *str)
 {
-	if (!str)
+	if(!str || !*str)
 		return (0);
 	else
 	{
@@ -37,7 +58,7 @@ int	is_num(char *str)
 			str++;
 		while (*str)
 		{
-			if (!(*str >= '0' && *str <= '9'))
+			if (!(*str >= '0' && *str <= '9') && *str != ' ' && !(*str >= 9 && *str <= 13))
 				return (0);
 			str++;
 		}
@@ -47,11 +68,42 @@ int	is_num(char *str)
 
 int	get_exit(t_minishell *mshell, t_token *token)
 {
+	char	*clean_input;
+	
+	clean_input = handle_quotes(token->input, 0, 0);
+	if (!is_num(clean_input) || m_long(clean_input))
+	{
+		error_msg("exit", "numeric argument required", 2);
+		free(clean_input);
+		clear_mshell(mshell);
+	}
+	else if (token->next)
+	{
+		error_msg("exit", "too many arguments", 1);
+		free(clean_input);
+		return (mshell->e_code = 1);
+	}
+	else if (token->input)
+	{
+		if (ft_atoi(clean_input) < 0)
+			mshell->e_code = (256 + ft_atoi(clean_input));
+		else
+			mshell->e_code = ft_atoi(clean_input) % 256;
+		free(clean_input);
+		clear_mshell(mshell);
+	}
+	return (mshell->e_code);
+}
+
+/*int	get_exit(t_minishell *mshell, t_token *token)
+{
 	mshell->e_code = 0;
 	if (!is_num(handle_quotes(token->input, 0, 0)) || m_long(token->input))
 	{
 		error_msg("exit", "numeric argument required", 2);
-		return ((mshell->e_code = 2));
+		mshell->e_code = 2;
+		clear_mshell(mshell);
+
 	}
 	else if (token->next)
 	{
@@ -67,7 +119,7 @@ int	get_exit(t_minishell *mshell, t_token *token)
 		clear_mshell(mshell);
 	}
 	return (mshell->e_code);
-}
+}*/
 
 int	ft_exit(t_minishell *mshell, t_token *token)
 {

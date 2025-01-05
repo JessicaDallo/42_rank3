@@ -1,0 +1,46 @@
+static void	process_tokens(char **temp_arr, t_cmd **cmd)
+{
+	t_token_type	type;
+	char *			temp;
+	bool			new_cmd;
+	int				i;
+
+	i = 0;
+	new_cmd = true;
+	temp = NULL;
+	while (temp_arr[i])
+	{
+		type = get_type(temp_arr[i], new_cmd);
+		if (type == 0 && temp_arr[i][1] != '$')
+		{
+			if (ft_strncmp(temp_arr[i], "\"\"", 3) != 0
+				&& ft_strncmp(temp_arr[i], "\'\'", 3) != 0)
+				temp = handle_quotes(temp_arr[i], 0, 0);
+		}
+		if(temp)
+		{
+			if (is_delimiter(temp))
+				i++;
+			add_token(cmd, temp, type, new_cmd);
+			free(temp);
+			temp = NULL;
+		}
+		else
+		{
+			if (is_delimiter(temp_arr[i]))
+				i++;
+			add_token(cmd, temp_arr[i], type, new_cmd);
+		}
+		new_cmd = false;
+		i++;
+	}
+}
+
+
+if(is_empty_quotes(temp_arr[i]))
+				temp = handle_quotes(temp_arr[i], 0, 0);
+
+                static bool	is_empty_quotes(char *token)
+{
+	return (ft_strncmp(token, "\"\"", 3) == 0 || ft_strncmp(token, "\'\'", 3) == 0);
+}

@@ -100,9 +100,13 @@ void	process_trim(t_split *spl)
 	int		i;
 
 	i = 0;
+	temp = NULL;
+	if (spl->arr == NULL)
+		return ;
 	while (spl->arr[i] != NULL)
 	{
 		temp = ft_trim(spl->arr[i]);
+		free(spl->arr[i]);
 		spl->arr[i] = temp;
 		i++;
 	}

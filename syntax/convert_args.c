@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 23:13:58 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 20:36:41 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	if (!temp)
 		return (NULL);
 	i = 0;
-	if (!ft_strncmp(tk->input, "\"\"", 3) || !ft_strncmp(tk->input, "\'\'", 3))
+	if (!ft_strncmp(tk->input, "\"", 1) || !ft_strncmp(tk->input, "\'", 1))
 		temp[i++] = ft_strdup(tk->input);
 	while (tk)
 	{
 		if (tk->input && *tk->input)
 		{
-			temp[i] = ft_strdup(handle_quotes(tk->input, 0, 0));
+			temp[i] = handle_quotes(tk->input, 0, 0);
 			if (!temp[i])
 			{
 				free_array(temp);

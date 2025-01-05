@@ -21,15 +21,15 @@ void	handle_signal(void)
 //{
 //}
 
-void	main_exec(t_minishell mshell, char *input)
+void	main_exec(t_minishell *mshell, char *input)
 {
-	mshell.commands = parse_input(input);
-	if (mshell.commands)
-		handle_exec(&mshell);
-	if (mshell.commands)
+	mshell->commands = parse_input(input);
+	if (mshell->commands)
+		handle_exec(mshell);
+	if (mshell->commands)
 	{
-		free_cmd(mshell.commands);
-		mshell.commands = NULL;
+		free_cmd(mshell->commands);
+		mshell->commands = NULL;
 	}
 }
 
@@ -57,47 +57,44 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 		if (val_sintax(input, &mshell) > 0)
 			continue ;
-		main_exec(mshell, input);
+		main_exec(&mshell, input);
 		free(input);
 	}
 	//clear_mshell(&mshell);
 }
 
-/*int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	t_minishell mshell;
-	char		*input;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	t_minishell mshell;
 
-	input = NULL;
-	init_struct(&mshell, envp);
-	while (1)
-	{
-		signal(SIGINT, ft_reset_prompt);
-		signal(SIGQUIT, SIG_IGN);
-		input = readline("minishell> ");
-		if (!input)
-		{
-			printf("exit_main\n");
-			break;
-		}
-		if(*input == '\0')
-			continue ;
-		if(*input)
-			add_history(input);
-		if (val_sintax(input, &mshell) > 0)
-			continue ;
-		mshell.commands = parse_input(input);
-		if(mshell.commands)
-			handle_exec(&mshell);
-		if(mshell.commands)
-		{
-		  	free_cmd(mshell.commands);
-				mshell.commands = NULL;
-		}
-		free(input);
-	}
-}*/
-
-//mais de 25 linhas
+// 	char	*input = NULL;
+// 	init_struct(&mshell, envp);
+// 	while (1)
+// 	{
+// 		signal(SIGINT, ft_reset_prompt);
+// 		signal(SIGQUIT, SIG_IGN);
+// 		input = readline("minishell> ");
+// 		if (!input)
+// 		{
+// 			printf("exit_main\n");
+// 			break;
+// 		}
+// 		if(*input == '\0')
+// 			continue ;
+// 		if(*input)
+// 			add_history(input);
+// 		if (val_sintax(input, &mshell) > 0)
+// 			continue ;
+// 		mshell.commands = parse_input(input);
+// 		if(mshell.commands)
+// 			handle_exec(&mshell);
+// 		if(mshell.commands)
+// 		{
+// 		  	free_cmd(mshell.commands);
+// 				mshell.commands = NULL;
+// 		}
+// 		free(input);
+// 	}
+// }

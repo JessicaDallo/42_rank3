@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 00:05:24 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 22:13:46 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ void	exec_multi_cmds(t_minishell *mshell)
 
 void	handle_exec(t_minishell *mshell)
 {
-	int		initial_fds[2];
+	//int		initial_fds[2];
 
-	save_original_fds(initial_fds);
+	save_original_fds(mshell->initial_fds);
 	create_pipes(mshell->commands);
 	if (mshell->commands && !mshell->commands->next)
 	{
@@ -110,7 +110,7 @@ void	handle_exec(t_minishell *mshell)
 	close_pipes(mshell->commands);
 	if (mshell->heredoc_fd != -1)
 		close(mshell->heredoc_fd);
-	recover_original_fds(initial_fds);
-	close(initial_fds[0]);
-	close(initial_fds[1]);
+	recover_original_fds(mshell->initial_fds);
+	//close(mshell->initial_fds[0]);
+	//close(mshell->initial_fds[1]);
 }
