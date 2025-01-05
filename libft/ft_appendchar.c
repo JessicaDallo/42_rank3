@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_appendchar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 16:31:32 by sheila            #+#    #+#             */
-/*   Updated: 2024/11/21 16:40:35 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 19:27:12 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_appendchar(char const *s1, char c)
 		i++;
 	}
 	newstr[i++] = c;
-    newstr[i] = '\0';
+	newstr[i] = '\0';
 	return (newstr);
 }
 

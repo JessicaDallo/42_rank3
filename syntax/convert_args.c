@@ -6,15 +6,15 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/02 23:00:42 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:13:58 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 int	ft_arraylen(t_minishell *mshell, t_token *token)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (token)
@@ -29,38 +29,44 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	return (i);
 }
 
-char	**convert_args(t_minishell *mshell, t_token *token)
+void	expand_args(t_minishell *mshell, t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->type == CMD || tmp->type == ARG)
+			handle_expansions(mshell, &tmp->input, 0);
+		tmp = tmp->next;
+	}
+}
+
+char	**convert_args(t_minishell *mshell, t_token *tk)
 {
 	char	**temp;
-	int 	i;
-	
-	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, token) + 1));
+	int		i;
+
+	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, tk) + 1));
 	if (!temp)
 		return (NULL);
 	i = 0;
-	temp[i++] = ft_strdup(token->input);
-	while (token)
+	if (!ft_strncmp(tk->input, "\"\"", 3) || !ft_strncmp(tk->input, "\'\'", 3))
+		temp[i++] = ft_strdup(tk->input);
+	while (tk)
 	{
-		if(token->type == ARG)
+		if (tk->input && *tk->input)
 		{
-			handle_expansions(mshell, &token->input, 0);
-			if(!token->input || !*token->input) 
-			{
-				token = token->next;
-				continue;
-			}
-			temp[i] = ft_strdup(handle_quotes(token->input, 0, 0));
+			temp[i] = ft_strdup(handle_quotes(tk->input, 0, 0));
 			if (!temp[i])
 			{
-		   		free_array(temp);
+				free_array(temp);
 				return (NULL);
 			}
 			i++;
 		}
-		token = token->next;
+		tk = tk->next;
 	}
 	temp[i] = NULL;
 	return (temp);
 }
-
-//mais de 25 linhas

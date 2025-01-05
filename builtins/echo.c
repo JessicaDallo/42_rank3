@@ -6,21 +6,22 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:00:09 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 22:58:13 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 bool	check_echo(t_token *token, bool *flag, int *newline)
 {
-	char    *str;
+	char	*str;
 
+	*flag = true;
 	str = token->input;
 	str += 2;
-	while(*str == 'n')
+	while (*str == 'n')
 		str++;
-	if(*str != '\0')
+	if (*str != '\0')
 		*flag = false;
 	else
 		*newline = 0;
@@ -29,19 +30,19 @@ bool	check_echo(t_token *token, bool *flag, int *newline)
 
 int	ft_echo(t_minishell *mshell, t_token *token)
 {
-	int		newline = 1;
+	int		newline;
 	char	*temp;
 	bool	flag;
-	
+
 	token = token->next;
-	flag = true;
-	while(token) 
+	newline = 1;
+	while (token)
 	{
-		if (token && token->input && flag && ft_strncmp(token->input, "-n", 2) == 0)
+		if (token && token->input && flag && !ft_strncmp(token->input, "-n", 2))
 		{
-			if(check_echo(token, &flag, &newline))
+			if (check_echo(token, &flag, &newline))
 				token = token->next;
-			continue;
+			continue ;
 		}
 		handle_expansions(mshell, &token->input, 1);
 		temp = handle_quotes(token->input, 0, 0);

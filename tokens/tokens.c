@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:56:16 by jesilva-          #+#    #+#             */
-/*   Updated: 2025/01/02 23:08:11 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:24:42 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 static void	process_tokens(char **temp, t_cmd **cmd)
 {
@@ -23,10 +23,11 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 	while (temp[i])
 	{
 		type = get_type(temp[i], new_cmd);
-		if(type == 0 && temp[i][1] != '$')
+		if (type == 0 && temp[i][1] != '$')
 		{
-			if(ft_strncmp(temp[i], "\"\"", 3) != 0 && ft_strncmp(temp[i], "\'\'", 3) != 0)
-				temp[i] = handle_quotes(temp[i], 0, 0); //testar se alterar para strncmp e verificar se é ""
+			if (ft_strncmp(temp[i], "\"\"", 3) != 0
+				&& ft_strncmp(temp[i], "\'\'", 3) != 0)
+				temp[i] = handle_quotes(temp[i], 0, 0);
 		}
 		if (is_delimiter(temp[i]))
 			i++;
@@ -39,19 +40,20 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 {
 	char		**temp;
+	char		**cpy_input;
 
-	while (*h_input)
+	cpy_input = h_input;
+	while (*cpy_input) //linha 43
 	{
 		add_cmd(&cmd);
-		temp = ft_split_quots(*h_input, ' ');
+		temp = ft_split_quots(*cpy_input, ' ');
 		if (temp)
 		{
 			process_tokens(temp, &cmd);
 			free_array(temp);
 			temp = NULL;
 		}
-		//ft_print_tokens(&cmd);
-		h_input++;
+		cpy_input++;
 	}
 	return (cmd);
 }
@@ -60,11 +62,20 @@ t_cmd	*parse_input(char *input)
 {
 	t_cmd	*cmd;
 	char	**h_input;
+	char	*trimmed;
 
 	cmd = NULL;
 	input = rm_space(input);
-	input = ft_trim(input);
-	h_input = ft_split_quots(input, '|');
+	if (!input)
+		return (NULL);
+	trimmed = ft_trim(input);
+	free(input);
+	if (!trimmed)
+		return (NULL);
+	h_input = ft_split_quots(trimmed, '|');
+	free(trimmed);
+	if (!h_input)
+		return (NULL);
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
 	h_input = NULL;

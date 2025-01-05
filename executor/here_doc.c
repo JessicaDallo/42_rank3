@@ -6,46 +6,46 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/03 00:41:39 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 int	tmp_heredoc(t_minishell *mshell)
 {
 	int	fd;
-	
+
 	fd = open("/tmp/heredoc_file0001", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if(fd < 0)
+	if (fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
+		perror_msg("open", "Erro ao abrir o arquivo");
 		mshell->e_code = errno;
-		return(-1);
+		return (-1);
 	}
-	return(fd);
+	return (fd);
 }
 
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 {
 	char	*line;
 	int		fd;
-	
+
 	fd = tmp_heredoc(mshell);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 		{
-			error_msg("warning: here-document delimited by EOF. Wanted", eof, 1);
+			error_msg("warning:here-document delimited by EOF. Wanted", eof, 1);
 			break ;
 		}
 		if (!ft_strcmp(line, eof))
 		{
 			free(line);
-			break;
+			break ;
 		}
-		if(expand)
+		if (expand)
 			handle_expansions(mshell, &line, 1);
 		ft_putendl_fd(line, fd);
 		free(line);
@@ -59,50 +59,49 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	pid_t	pid;
 	bool	expand;
 	char	*eof;
-	
+
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
 	pid = creat_pid(mshell);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	if(pid == 0)
+	if (pid == 0)
 	{
-		signal(SIGINT, ft_sigint_hd); 
+		signal(SIGINT, ft_sigint_hd);
 		read_heredoc(mshell, eof, expand);
 		exit(mshell->e_code);
 	}
 	waitpid(pid, &mshell->e_code, 0);
 	check_exit_status(mshell);
-	//printf("exit_code: %d\n", mshell->e_code);
+	open_hd(mshell);
 }
 
-void open_hd(t_minishell *mshell)
+void	open_hd(t_minishell *mshell)
 {
-	int fd;
+	int	fd;
 
 	fd = open("/tmp/heredoc_file0001", O_RDONLY);
 	if (fd < 0)
 	{
 		perror_msg("open", "Erro ao abrir arquivo do heredoc");
 		mshell->e_code = errno;
-		return;
+		return ;
 	}
 	mshell->heredoc_fd = fd;
 	unlink("/tmp/heredoc_file0001");
-	return;
+	return ;
 }
 
-
-bool has_heredoc(t_minishell *mshell, t_token **tokens)
+bool	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
-	t_token *temp;
-	t_token *aux;
-	bool    flag;
+	t_token	*temp;
+	t_token	*aux;
+	bool	flag;
 
 	temp = *tokens;
 	flag = false;
 	while (temp)
-	{   
+	{
 		aux = temp->next;
 		if (temp->type == HEREDOC)
 		{
@@ -110,18 +109,14 @@ bool has_heredoc(t_minishell *mshell, t_token **tokens)
 			ft_heredoc(mshell, temp->input);
 			if (mshell->e_code == 130)
 			{
-				//printf("stop hd: %d\n", mshell->e_code);
 				free_cmd(mshell->commands);
 				mshell->commands = NULL;
 				return (flag);
 			}
 			remove_token(tokens, &temp);
-			open_hd(mshell);
 		}
 		else
 			temp = aux;
 	}
 	return (flag);
 }
-
-// mais de 25 linhas

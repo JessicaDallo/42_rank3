@@ -6,26 +6,26 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:34:25 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:41:41 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:09:52 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 bool	is_expand(char *delim)
 {
 	if (ft_strchr(delim, '\''))
-		return(false);
+		return (false);
 	else if (ft_strchr(delim, '\"'))
 		return (false);
 	else
-	return(true);
+		return (true);
 }
 
 char	*get_epos(char *line, int flag)
 {
 	char	quote;
-	
+
 	while (*line)
 	{
 		if (flag && (*line == '\'' || *line == '\"'))
@@ -47,11 +47,11 @@ char	*get_epos(char *line, int flag)
 
 void	expand_exit(t_minishell *mshell, char **line, int flag)
 {
-	char 	*e_pos;
+	char	*e_pos;
 	char	*new_line;
 	char	*temp;
 	char	*exit;
-		
+
 	e_pos = get_epos(*line, flag);
 	while (e_pos)
 	{

@@ -6,17 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:43:34 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:43:27 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:14:14 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
-
-// void	handle_signal(void)
-// {
-// 	signal(SIGINT, ft_sigint);
-// 	signal(SIGQUIT, ft_sigquit);
-// }
+#include "minishell.h"
 
 void	ft_reset_prompt(int signal)
 {
@@ -49,7 +43,7 @@ void	ft_sigquit(int signal)
 	(void)signal;
 	mshell = get_shell();
 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-	(*mshell)->e_code  = 131;
+	(*mshell)->e_code = 131;
 }
 
 void	ft_sigint_hd(int signal)

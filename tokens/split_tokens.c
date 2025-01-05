@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 static int	split_delimiter(t_split *spl, char *str, char c)
 {
@@ -23,7 +23,7 @@ static int	split_delimiter(t_split *spl, char *str, char c)
 		spl->arr[spl->j++] = temp;
 		spl->init = spl->i + 1;
 	}
-	if(!temp)
+	if (!temp)
 	{
 		free(temp);
 		temp = NULL;

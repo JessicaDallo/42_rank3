@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shrodrig <shrodrig@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 15:07:39 by sheila            #+#    #+#             */
-/*   Updated: 2024/07/23 12:02:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/04 19:27:02 by shrodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include "flood_fill.h"
@@ -45,7 +46,7 @@ char** make_area(char** zone, t_point size)
 	return new;
 }
 
-/*int main(void)
+int main(void)
 {
 	t_point size = {8, 5};
 	char *zone[] = {
