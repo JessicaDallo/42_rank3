@@ -36,8 +36,10 @@ void	free_envlist(t_env *env)
 	while (env)
 	{
 		aux = env->next;
-		free(env->key);
-		free(env->value);
+		if(env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
 		free(env);
 		env = aux;
 	}
@@ -90,5 +92,5 @@ void	clear_mshell(t_minishell *mshell)
 	close(mshell->initial_fds[0]);
 	close(mshell->initial_fds[1]);
 	close_fds();
-	exit(mshell->e_code);
+	exit(g_e_code);
 }

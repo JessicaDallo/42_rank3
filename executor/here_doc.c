@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	tmp_heredoc(t_minishell *mshell)
+int	tmp_heredoc()
 {
 	int	fd;
 
@@ -20,7 +20,7 @@ int	tmp_heredoc(t_minishell *mshell)
 	if (fd < 0)
 	{
 		perror_msg("open", "Erro ao abrir o arquivo");
-		mshell->e_code = errno;
+		g_e_code = errno;
 		return (-1);
 	}
 	return (fd);
@@ -31,7 +31,7 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 	char	*line;
 	int		fd;
 
-	fd = tmp_heredoc(mshell);
+	fd = tmp_heredoc();
 	while (1)
 	{
 		line = readline("> ");
@@ -51,7 +51,9 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 		free(line);
 	}
 	close(fd);
-	exit(mshell->e_code = 0);
+	free(eof);
+	clear_mshell(mshell);
+	//exit(mshell->e_code = 0);
 }
 
 void	ft_heredoc(t_minishell *mshell, char *delim)
@@ -62,17 +64,19 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
-	pid = creat_pid(mshell);
+	pid = creat_pid();
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	if (pid == 0)
 	{
 		signal(SIGINT, ft_sigint_hd);
 		read_heredoc(mshell, eof, expand);
-		exit(mshell->e_code);
+		clear_mshell(mshell);
+		//exit(mshell->e_code);
 	}
-	waitpid(pid, &mshell->e_code, 0);
+	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
+	free(eof);
 	open_hd(mshell);
 }
 
@@ -84,7 +88,7 @@ void	open_hd(t_minishell *mshell)
 	if (fd < 0)
 	{
 		perror_msg("open", "Erro ao abrir arquivo do heredoc");
-		mshell->e_code = errno;
+		g_e_code = errno;
 		return ;
 	}
 	mshell->heredoc_fd = fd;
@@ -107,7 +111,7 @@ bool	has_heredoc(t_minishell *mshell, t_token **tokens)
 		{
 			flag = true;
 			ft_heredoc(mshell, temp->input);
-			if (mshell->e_code == 130)
+			if (g_e_code == 130)
 			{
 				free_cmd(mshell->commands);
 				mshell->commands = NULL;

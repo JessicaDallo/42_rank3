@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-pid_t	creat_pid(t_minishell *mshell)
+pid_t	creat_pid()
 {
 	pid_t	child;
 
@@ -20,19 +20,19 @@ pid_t	creat_pid(t_minishell *mshell)
 	if (child < 0)
 	{
 		perror_msg("ERROR", "fork");
-		mshell->e_code = 127;
+		g_e_code = 127;
 	}
 	return (child);
 }
 
 void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
-	mshell->e_code = 0;
+	g_e_code = 0;
 	if (*prev_fd != -1)
 		redir_fds(*prev_fd, STDIN_FILENO);
 	if (cmd->next)
 		redir_fds(cmd->fd[1], STDOUT_FILENO);
-	if (handle_redir(&(cmd->tokens)))
+	if (handle_redir(mshell, &(cmd->tokens)))
 	{
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
@@ -44,14 +44,19 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
 	}
-	exit(mshell->e_code);
+	close(mshell->heredoc_fd);
+	close(mshell->initial_fds[0]);
+	close(mshell->initial_fds[1]);
+	clear_mshell(mshell);
+	exit(g_e_code);
+	//exit(mshell->e_code);
 }
 
 void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
 	pid_t	pid;
 
-	pid = creat_pid(mshell);
+	pid = creat_pid();
 	if (pid == 0)
 		run_cmd(mshell, cmd, prev_fd);
 	if (*prev_fd != -1)
@@ -59,9 +64,30 @@ void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	if (cmd->next)
 		close(cmd->fd[1]);
 	*prev_fd = cmd->fd[0];
-	waitpid(pid, &mshell->e_code, 0);
+	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
 }
+
+/*void	exec_multi_cmds(t_minishell *mshell)
+{
+	int		prev_fd;
+
+	prev_fd = -1;
+	while (mshell->commands)
+	{
+		signal(SIGINT, SIG_IGN);
+		if (mshell->commands->tokens && has_heredoc(mshell, &(mshell->commands->tokens)))
+		{
+			if (mshell->e_code == 130)
+				return ;
+			prev_fd = mshell->heredoc_fd;
+		}
+		exec_child(mshell, mshell->commands, &prev_fd);
+		if (mshell->e_code == 130)
+			return ;
+		mshell->commands = mshell->commands->next;
+	}
+}*/
 
 void	exec_multi_cmds(t_minishell *mshell)
 {
@@ -75,12 +101,12 @@ void	exec_multi_cmds(t_minishell *mshell)
 		signal(SIGINT, SIG_IGN);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
 		{
-			if (mshell->e_code == 130)
+			if (g_e_code == 130)
 				return ;
 			prev_fd = mshell->heredoc_fd;
 		}
 		exec_child(mshell, cmd, &prev_fd);
-		if (mshell->e_code == 130)
+		if (g_e_code == 130)
 			return ;
 		cmd = cmd->next;
 	}
@@ -96,10 +122,10 @@ void	handle_exec(t_minishell *mshell)
 	{
 		if (has_heredoc(mshell, &mshell->commands->tokens))
 		{
-			if (mshell->e_code == 0)
+			if (g_e_code == 0)
 				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
 		}
-		if (handle_redir(&(mshell->commands->tokens)))
+		if (handle_redir(mshell, &(mshell->commands->tokens)))
 		{
 			if (!is_builtin(mshell, mshell->commands))
 				run_execve(mshell, mshell->commands->tokens);

@@ -60,36 +60,6 @@ int	ft_echo(t_minishell *mshell, t_token *token)
 	}
 	if (newline)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (mshell->e_code = 0);
+	return (g_e_code = 0);
 }
 
-/*int	ft_echo(t_minishell *mshell, t_token *token)
-{
-	int		newline;
-	char	*temp;
-	bool	flag;
-
-	token = token->next;
-	newline = 1;
-	flag = true;
-	temp = NULL;
-	while (token)
-	{
-		if (token && token->input && flag && !ft_strncmp(token->input, "-n", 2))
-		{
-			if (check_echo(token, &flag, &newline))
-				token = token->next;
-			continue ;
-		}
-		handle_expansions(mshell, &token->input, 1);
-		temp = handle_quotes(token->input, 0, 0);
-		ft_putstr_fd(temp, STDOUT_FILENO);
-		if (token->next)
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		free(temp);
-		token = token->next;
-	}
-	if (newline)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (mshell->e_code = 0);
-}*/

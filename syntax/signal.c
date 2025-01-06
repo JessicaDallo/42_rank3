@@ -22,29 +22,23 @@ void	ft_reset_prompt(int signal)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	(*mshell)->e_code = 130;
+	g_e_code = 130;
 }
 
 void	ft_sigint(int signal)
 {
-	t_minishell	**mshell;
-
-	mshell = get_shell();
 	(void)signal;
 	ft_putstr_fd("\n", STDERR_FILENO);
 	rl_on_new_line();
-	(*mshell)->e_code = 130;
+	g_e_code = 130;
 }
 
 void	ft_sigquit(int signal)
 {
-	t_minishell	**mshell;
-
 	(void)signal;
-	mshell = get_shell();
 	ft_putstr_fd("", STDERR_FILENO);
 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-	(*mshell)->e_code = 131;
+	g_e_code = 131;
 }
 
 void	ft_sigint_hd(int signal)
@@ -54,7 +48,7 @@ void	ft_sigint_hd(int signal)
 	mshell = get_shell();
 	if (signal == SIGINT)
 	{
-		(*mshell)->e_code = 130;
+		g_e_code = 130;
 		ft_putstr_fd("\n", STDERR_FILENO);
 		rl_on_new_line();
 		clear_mshell((*mshell));

@@ -12,13 +12,11 @@
 
 #include "minishell.h"
 
-char	*go_path(char *env)
+char	*go_path(t_minishell *mshell, char *env)
 {
-	t_minishell	**mshell;
 	char		*path;
 
-	mshell = get_shell();
-	path = ft_strdup(get_value(*mshell, env));
+	path = ft_strdup(get_value(mshell, env));
 	if (!path)
 	{
 		if (ft_strcmp(env, "HOME") == 0)
@@ -30,20 +28,19 @@ char	*go_path(char *env)
 	return (path);
 }
 
-char	*check_tilde(char *input)
+char	*check_tilde(t_minishell *mshell, char *input)
 {
-	t_minishell	**mshell;
 	char		*path_expand;
 
-	mshell = get_shell();
-	(*mshell)->e_code = 0;
+
+	g_e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
-		return (path_expand = go_path("HOME"));
+		return (path_expand = go_path(mshell, "HOME"));
 	else if (input[0] == '~')
-		return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
+		return (path_expand = ft_strjoin(go_path(mshell, "HOME"), input + 1));
 	else if (input[0] == '$')
 	{
-		handle_expansions(*mshell, &input, 1);
+		handle_expansions(mshell, &input, 1);
 		return (input);
 	}
 	return (NULL);
@@ -59,13 +56,13 @@ void	get_path(t_minishell *mshell, t_token *token, char **path)
 	else if (token->input[0] == '~')
 	{
 		if (token->input[1] == '\0')
-			*path = go_path("HOME");
+			*path = go_path(mshell, "HOME");
 		else
-			*path = ft_strjoin(go_path("HOME"), token->input + 1);
+			*path = ft_strjoin(go_path(mshell, "HOME"), token->input + 1);
 	}
 	else if (token->input[0] == '-' && token->input[1] == '\0')
 	{
-		*path = go_path("OLDPWD");
+		*path = go_path(mshell, "OLDPWD");
 		if (*path)
 			ft_putendl_fd(*path, STDOUT_FILENO);
 	}
@@ -83,7 +80,7 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 	path = NULL;
 	oldpwd = get_value(mshell, "PWD");
 	if (!token->next || !token->next->input)
-		path = go_path("HOME");
+		path = go_path(mshell,"HOME");
 	else
 		get_path(mshell, token->next, &path);
 	if (!path || path[0] == '\0')
