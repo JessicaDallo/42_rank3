@@ -33,11 +33,14 @@ void	expand_args(t_minishell *mshell, t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token || !token->input)
+		return ;
 	tmp = token;
 	while (tmp)
 	{
 		if (tmp->type == CMD || tmp->type == ARG)
 			handle_expansions(mshell, &tmp->input, 0);
+		//printf("VAR EXPAND:%s\n", tmp->input);
 		tmp = tmp->next;
 	}
 }
@@ -51,13 +54,15 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	if (!temp)
 		return (NULL);
 	i = 0;
-	if (!ft_strncmp(tk->input, "\"", 1) || !ft_strncmp(tk->input, "\'", 1))
+	if (!ft_strncmp(tk->input, "\"\"", 2) || !ft_strncmp(tk->input, "\'\'", 2))
 		temp[i++] = ft_strdup(tk->input);
 	while (tk)
 	{
+		//printf("CONVERT VAR EXPAND:%s\n", tk->input);
 		if (tk->input && *tk->input)
 		{
 			temp[i] = handle_quotes(tk->input, 0, 0);
+			//printf("ARGS:%s\n", temp[i]);
 			if (!temp[i])
 			{
 				free_array(temp);
@@ -68,5 +73,8 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		tk = tk->next;
 	}
 	temp[i] = NULL;
+	//printf("ARGS:%s\n", temp[0]);
+	//printf("ARGS:%s\n", temp[1]);
+	//printf("i: %i\n", i);
 	return (temp);
 }

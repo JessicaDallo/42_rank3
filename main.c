@@ -12,6 +12,8 @@
 
 #include "includes/minishell.h"
 
+int g_e_code;
+
 void	handle_signal(void)
 {
 	signal(SIGINT, ft_reset_prompt);
@@ -42,6 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	input = NULL;
 	init_struct(&mshell, envp);
+	g_e_code = 0;
 	while (1)
 	{
 		handle_signal();
@@ -55,11 +58,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		if (*input)
 			add_history(input);
-		if (val_sintax(input, &mshell) > 0)
+		if (val_sintax(input) > 0)
 			continue ;
 		main_exec(&mshell, input);
 		free(input);
 	}
+	clear_mshell(&mshell);
 }
 
 // int main(int argc, char **argv, char **envp)

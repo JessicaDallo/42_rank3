@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-bool	check_options(t_minishell *mshell, t_token *tokens)
+bool	check_options(t_token *tokens)
 {
 	t_token	*temp;
 
 	temp = tokens;
 	if ((ft_strcmp(temp->input, "echo")))
-		mshell->e_code = 0;
+		g_e_code = 0;
 	if (!(ft_strcmp(temp->input, "unset")) || !(ft_strcmp(temp->input, "env")) \
 		|| !(ft_strcmp(temp->input, "export")))
 	{
@@ -27,7 +27,7 @@ bool	check_options(t_minishell *mshell, t_token *tokens)
 		temp = temp->next;
 		if (ft_strncmp(temp->input, "-", 1) == 0)
 		{
-			mshell->e_code = 1;
+			g_e_code = 1;
 			error_msg(tokens->input, "no support for options", 1);
 			return (true);
 		}
@@ -39,7 +39,7 @@ int	is_builtin(t_minishell *mshell, t_cmd *commands)
 {
 	if (!commands || !commands->tokens)
 		return (0);
-	if (!check_options(mshell, commands->tokens))
+	if (!check_options(commands->tokens))
 	{
 		if (!(ft_strcmp(commands->tokens->input, "cd")))
 			return (ft_cd(mshell, commands->tokens), 1);

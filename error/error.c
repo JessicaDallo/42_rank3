@@ -14,27 +14,21 @@
 
 void	error_msg(char *cmd, char *str, int e_code)
 {
-	t_minishell	**mshell;
-
-	mshell = get_shell();
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	(*mshell)->e_code = e_code;
+	g_e_code = e_code;
 }
 
 void	perror_msg(char *cmd, char *str)
 {
-	t_minishell	**mshell;
-
-	mshell = get_shell();
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	perror(str);
-	(*mshell)->e_code = errno;
+	g_e_code = errno;
 }
 
 t_minishell	**get_shell(void)

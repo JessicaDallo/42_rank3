@@ -29,6 +29,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+extern int g_e_code;
+
 typedef enum e_type
 {
 	CMD,
@@ -82,7 +84,7 @@ typedef struct s_minishell
 	t_cmd	*commands;
 	char	**envp;
 	int		heredoc_fd;
-	int		e_code;
+	//int		e_code;
 	int		env_size;
 	int		initial_fds[2];
 
@@ -118,8 +120,8 @@ void		ft_env_sorted(char **keys, int len);
 
 void		ft_cd(t_minishell *mshell, t_token *token);
 void		get_path(t_minishell *mshell, t_token *token, char **path);
-char		*check_tilde(char *input);
-char		*go_path(char *env);
+char		*check_tilde(t_minishell *mshell, char *input);
+char		*go_path(t_minishell *mshell, char *env);
 
 int			is_builtin(t_minishell *mshell, t_cmd *commands);
 void		run_builtin(t_minishell *mshell, t_cmd *commands);
@@ -128,7 +130,7 @@ void		run_builtin(t_minishell *mshell, t_cmd *commands);
 void		handle_expansions(t_minishell *mshell, char **line, int flag);
 void		update_line(char **line, char *value, char *str);
 void		expand_var(t_minishell *mshell, char **line, int flag);
-void		expand_exit(t_minishell *mshell, char **line, int flag);
+void		expand_exit(char **line, int flag);
 char		*get_position(char *line, int flag);
 char		*get_epos(char *line, int flag);
 bool		is_expand(char *delim);
@@ -163,18 +165,18 @@ void		ft_sigint_hd(int signal);
 
 /*--------------------------------- EXEC ---------------------------------*/
 void		ft_heredoc(t_minishell *mshell, char *delim);
-int			tmp_heredoc(t_minishell *mshell);
+int			tmp_heredoc();
 void		read_heredoc(t_minishell *mshell, char *eof, bool expand);
 void		open_hd(t_minishell *mshell);
 bool		has_heredoc(t_minishell *mshell, t_token **tokens);
 
-int			check_execpath(t_minishell *mshell, t_token *token, char *path);
-int			execpath_error(t_minishell *mshell, char *path);
+int			check_execpath(t_token *token, char *path);
+int			execpath_error(char *path);
 char		*get_execpath(t_minishell *mshell, char *cmd_name);
 void		check_exit_status(t_minishell *mshell);
 void		run_execve(t_minishell *mshell, t_token *token);
 
-pid_t		creat_pid(t_minishell *mshell);
+pid_t		creat_pid();
 void		exec_multi_cmds(t_minishell *mshell);
 int			check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void		exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
@@ -188,23 +190,23 @@ void		save_original_fds(int initial_fds[2]);
 void		recover_original_fds(int initial_fds[2]);
 
 /*--------------------------------- REDIR ---------------------------------*/
-bool		handle_redir(t_token **tokens);
-bool		check_redir(t_token *temp);
-bool		redir_append(char *filename);
-bool		redir_output(char *filename);
+bool		handle_redir(t_minishell *mshell, t_token **tokens);
+bool		check_redir(t_minishell *mshell, t_token *temp);
+bool		redir_append(t_minishell *mshell, char *filename);
+bool		redir_output(t_minishell *mshell, char *filename);
 bool		check_redir_out(char *file);
-bool		redir_input(char *filename);
+bool		redir_input(t_minishell *mshell, char *filename);
 bool		check_redir_input(char *file);
 void		remove_token(t_token **tokens, t_token **current);
 
 /*-------------------------------- JESSICA --------------------------------*/
 /*------------------------------- VALIDATE --------------------------------*/
-int			val_sintax(char *arg, t_minishell *mshell);
+int			val_sintax(char *arg);
 bool		val_quot(char *arg, int *i);
 bool		val_pipe(char *arg, int *was_cmd, int *i);
 bool		val_red(char *arg, int *was_cmd, int *i);
 bool		val_red_in(char *arg, int *was_cmd, int *i);
-int			error_val_msg(char *str, t_minishell *mshell);
+int			error_val_msg(char *str);
 
 /*-------------------------------- TOKENS ---------------------------------*/
 t_token		*create_token(char *arg, t_token_type type);

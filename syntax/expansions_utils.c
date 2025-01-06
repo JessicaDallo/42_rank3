@@ -45,7 +45,7 @@ char	*get_epos(char *line, int flag)
 	return (NULL);
 }
 
-void	expand_exit(t_minishell *mshell, char **line, int flag)
+void	expand_exit(char **line, int flag)
 {
 	char	*e_pos;
 	char	*new_line;
@@ -56,7 +56,7 @@ void	expand_exit(t_minishell *mshell, char **line, int flag)
 	e_pos = get_epos(*line, flag);
 	while (e_pos)
 	{
-		exit = ft_itoa(mshell->e_code);
+		exit = ft_itoa(g_e_code);
 		substr = ft_substr(*line, 0, e_pos - *line);
 		temp = ft_strjoin(substr, exit);
 		new_line = ft_strjoin(temp, (e_pos + 2));

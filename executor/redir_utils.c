@@ -42,14 +42,13 @@ bool	check_redir_out(char *file)
 	return (true);
 }
 
-bool	redir_input(char *filename)
+bool	redir_input(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
 	char	*temp;
 
-	temp = handle_quotes(filename, 0, 0);
-	file = check_tilde(temp);
+	file = check_tilde(mshell, handle_quotes(filename, 0, 0));
 	if (!file || !*file)
 		file = ft_strdup(temp);
 	if (!check_redir_input(file))
@@ -68,16 +67,15 @@ bool	redir_input(char *filename)
 	}
 	close(fd);
 	free(file);
-	free(temp);
 	return (true);
 }
 
-bool	redir_output(char *filename)
+bool	redir_output(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
 
-	file = check_tilde(handle_quotes(filename, 0, 0));
+	file = check_tilde(mshell, handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
 	if (!check_redir_out(file))
@@ -95,16 +93,16 @@ bool	redir_output(char *filename)
 		return (false);
 	}
 	close(fd);
-	//free(file);
+	free(file);
 	return (true);
 }
 
-bool	redir_append(char *filename)
+bool	redir_append(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
 
-	file = check_tilde(handle_quotes(filename, 0, 0));
+	file = check_tilde(mshell, handle_quotes(filename, 0, 0));
 	if (!file)
 		file = handle_quotes(filename, 0, 0);
 	if (!check_redir_out(file))
@@ -122,6 +120,6 @@ bool	redir_append(char *filename)
 		return (false);
 	}
 	close(fd);
-	//free(file);
+	free(file);
 	return (true);
 }

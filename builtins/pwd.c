@@ -21,7 +21,7 @@ int	ft_pwd(t_minishell *mshell, t_token *token)
 		if (ft_strncmp(token->next->input, "-", 1) == 0)
 		{
 			error_msg("pwd", "invalid options", 1);
-			return (mshell->e_code = 1);
+			return (g_e_code = 1);
 		}
 	}
 	pwd = getcwd(NULL, 0);
@@ -31,7 +31,7 @@ int	ft_pwd(t_minishell *mshell, t_token *token)
 		if (!pwd)
 		{
 			error_msg("pwd", "No such file or directory", 1);
-			return (mshell->e_code = 1);
+			return (g_e_code = 1);
 		}
 	}
 	ft_putendl_fd(pwd, STDOUT_FILENO);

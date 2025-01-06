@@ -37,21 +37,21 @@ void	remove_token(t_token **tokens, t_token **current)
 	free(tmp);
 }
 
-bool	check_redir(t_token *temp)
+bool	check_redir(t_minishell *mshell, t_token *temp)
 {
 	bool	redir;
 
 	redir = true;
 	if (temp->type == INPUT_REDIR)
-		redir = redir_input(temp->input);
+		redir = redir_input(mshell, temp->input);
 	else if (temp->type == OUTPUT_REDIR)
-		redir = redir_output(temp->input);
+		redir = redir_output(mshell, temp->input);
 	else if (temp->type == APPEND_REDIR)
-		redir = redir_append(temp->input);
+		redir = redir_append(mshell, temp->input);
 	return (redir);
 }
 
-bool	handle_redir(t_token **tokens)
+bool	handle_redir(t_minishell *mshell, t_token **tokens)
 {
 	t_token	*temp;
 	bool	flag;
@@ -65,7 +65,7 @@ bool	handle_redir(t_token **tokens)
 		if (temp->type == INPUT_REDIR || temp->type == OUTPUT_REDIR \
 			|| temp->type == APPEND_REDIR)
 		{
-			flag = check_redir(temp);
+			flag = check_redir(mshell, temp);
 			remove_token(tokens, &temp);
 		}
 		else
