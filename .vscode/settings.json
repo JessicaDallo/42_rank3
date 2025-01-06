@@ -4,7 +4,8 @@
 		"libft.h": "c",
 		"temp": "cpp",
 		"compare": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"minishell.h": "c"
 	},
 	"editor.renderWhitespace": "all"
 }

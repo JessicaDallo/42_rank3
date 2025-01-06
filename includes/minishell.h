@@ -99,6 +99,7 @@ void		init_struct(t_minishell *mshell, char **envp);
 int			ft_exit(t_minishell *mshell, t_token *token);
 int			get_exit(t_minishell *mshell, t_token *token);
 int			is_num(char *str);
+bool		m_long(char *str);
 
 int			ft_pwd(t_minishell *mshell, t_token *token);
 
