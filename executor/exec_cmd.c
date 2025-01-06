@@ -88,8 +88,6 @@ void	exec_multi_cmds(t_minishell *mshell)
 
 void	handle_exec(t_minishell *mshell)
 {
-	//int		initial_fds[2];
-
 	save_original_fds(mshell->initial_fds);
 	create_pipes(mshell->commands);
 	if (mshell->commands && !mshell->commands->next)

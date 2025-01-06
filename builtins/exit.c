@@ -12,47 +12,20 @@
 
 #include "minishell.h"
 
-static bool	ft_atol(char *str)
-{
-	long	signal;
-	long	n;
-	int i;
-
-	i = 0;
-	if (!ft_strcmp("-9223372036854775808", str))
-		return (true);
-	signal = 1;
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-		signal = -1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	n = 0;
-	while (ft_isdigit(str[i]))
-	{
-		if (n > n * 10 + (str[i] - '0'))
-			return (false);
-		n = n * 10 + (str[i] - '0');
-		i++;
-	}
-	n = n * signal;
-	return (true);
-}
-
-static void exit_mshell(t_minishell *mshell)
+static void	exit_mshell(t_minishell *mshell)
 {
 	if (mshell->e_code != 1)
 	{
-		close_pipes(mshell->commands);
 		clear_mshell(mshell);
 	}
+	close_fds();
 }
 
 int	get_exit(t_minishell *mshell, t_token *token)
 {
-	char *temp = handle_quotes(token->input, 0, 0);
+	char	*temp;
 
+	temp = handle_quotes(token->input, 0, 0);
 	mshell->e_code = 0;
 	if (!is_num(temp) || m_long(token->input))
 	{

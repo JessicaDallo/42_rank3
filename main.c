@@ -60,7 +60,6 @@ int	main(int argc, char **argv, char **envp)
 		main_exec(&mshell, input);
 		free(input);
 	}
-	//clear_mshell(&mshell);
 }
 
 // int main(int argc, char **argv, char **envp)

@@ -94,7 +94,7 @@ void	new_env(t_minishell *mshell, t_token *temp)
 	else
 		update_env(mshell, new_env[0], new_env[1], true);
 	free_array(new_env);
-	if(clean_env)
+	if (clean_env)
 		free(clean_env);
 }
 
