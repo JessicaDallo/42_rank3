@@ -44,7 +44,8 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
 	}
-	exit(mshell->e_code);
+	clear_mshell(mshell);
+	//exit(mshell->e_code);
 }
 
 void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)

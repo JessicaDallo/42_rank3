@@ -51,7 +51,9 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 		free(line);
 	}
 	close(fd);
-	exit(mshell->e_code = 0);
+	free(eof);
+	clear_mshell(mshell);
+	//exit(mshell->e_code = 0);
 }
 
 void	ft_heredoc(t_minishell *mshell, char *delim)
@@ -69,9 +71,11 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	{
 		signal(SIGINT, ft_sigint_hd);
 		read_heredoc(mshell, eof, expand);
-		exit(mshell->e_code);
+		//free(eof);
+		//clear_mshell(mshell);
 	}
 	waitpid(pid, &mshell->e_code, 0);
+	free(eof);
 	check_exit_status(mshell);
 	open_hd(mshell);
 }
@@ -88,6 +92,7 @@ void	open_hd(t_minishell *mshell)
 		return ;
 	}
 	mshell->heredoc_fd = fd;
+	close(fd);
 	unlink("/tmp/heredoc_file0001");
 	return ;
 }
