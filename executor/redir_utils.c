@@ -46,32 +46,24 @@ bool	redir_input(char *filename)
 {
 	int		fd;
 	char	*file;
-	char *temp;
-	temp = handle_quotes(filename, 0, 0);
+	char	*temp;
 
+	temp = handle_quotes(filename, 0, 0);
 	file = check_tilde(temp);
 	if (!file || !*file)
-	{
-		free(file);
-		file = temp;
-	}
+		file = ft_strdup(temp);
 	if (!check_redir_input(file))
-	{
-		free(file);
 		return (false);
-	}
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
 		error_msg(file, "No such file or directory", 1);
-		free(file);
 		return (false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		error_msg("dup2", "Error redirecting", 1);
 		close(fd);
-		free(file);
 		return (false);
 	}
 	close(fd);

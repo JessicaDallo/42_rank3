@@ -89,10 +89,9 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 		{
 			aux = ft_appendchar(output, temp[i]);
 			free(output);
-			output = ft_strdup(aux);
+			output = aux;
 		}
 	}
 	free(temp);
-	free(aux);
 	return (output);
 }
