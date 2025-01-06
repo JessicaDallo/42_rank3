@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 17:56:16 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:34:04 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ bool	redir_input(char *filename)
 		return (false);
 	}
 	close(fd);
+	//free(file);
 	return (true);
 }
 
@@ -91,6 +92,7 @@ bool	redir_output(char *filename)
 		return (false);
 	}
 	close(fd);
+	//free(file);
 	return (true);
 }
 
@@ -117,5 +119,6 @@ bool	redir_append(char *filename)
 		return (false);
 	}
 	close(fd);
+	//free(file);
 	return (true);
 }

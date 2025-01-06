@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:34:25 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:09:52 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 20:27:55 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,19 @@ void	expand_exit(t_minishell *mshell, char **line, int flag)
 	char	*new_line;
 	char	*temp;
 	char	*exit;
+	char	*substr;
 
 	e_pos = get_epos(*line, flag);
 	while (e_pos)
 	{
 		exit = ft_itoa(mshell->e_code);
-		temp = ft_strjoin((ft_substr(*line, 0, e_pos - *line)), exit);
+		substr = ft_substr(*line, 0, e_pos - *line);
+		temp = ft_strjoin(substr, exit);
 		new_line = ft_strjoin(temp, (e_pos + 2));
 		free(temp);
 		free(*line);
+		free(exit);
+		free(substr);
 		*line = new_line;
 		e_pos = get_epos(*line, flag);
 	}

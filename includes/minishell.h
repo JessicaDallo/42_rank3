@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:13:05 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:39:39 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_minishell
 	int		heredoc_fd;
 	int		e_code;
 	int		env_size;
+	int		initial_fds[2];
 
 }	t_minishell;
 
@@ -116,8 +117,7 @@ void		ft_env_reorder(char **keys, t_env *env);
 void		ft_env_sorted(char **keys, int len);
 
 void		ft_cd(t_minishell *mshell, t_token *token);
-void		get_path(t_minishell *mshell, t_token *token, char **path,
-				bool *flag);
+void		get_path(t_minishell *mshell, t_token *token, char **path);
 char		*check_tilde(char *input);
 char		*go_path(char *env);
 

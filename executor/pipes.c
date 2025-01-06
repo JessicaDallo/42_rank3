@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 22:25:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,31 @@
 
 void	create_pipes(t_cmd *cmd)
 {
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	while (tmp)
+	if (!cmd)
+		return ;
+	while (cmd)
 	{
-		if (tmp->next && pipe(tmp->fd) == -1)
+		if (cmd->next && pipe(cmd->fd) == -1)
 		{
 			perror_msg("pipe", "error to create pipe");
 			return ;
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
 	return ;
 }
 
 void	close_pipes(t_cmd *cmd)
 {
-	t_cmd	*tmp;
-
 	if (!cmd)
 		return ;
-	tmp = cmd;
-	while (tmp)
+	while (cmd)
 	{
-		if (tmp->fd[0] != -1)
-			close(tmp->fd[0]);
-		else if (tmp->fd[1] != -1)
-			close(tmp->fd[1]);
-		tmp = tmp->next;
+		if (cmd->fd[0] != -1)
+			close(cmd->fd[0]);
+		else if (cmd->fd[1] != -1)
+			close(cmd->fd[1]);
+		cmd = cmd->next;
 	}
 }
 

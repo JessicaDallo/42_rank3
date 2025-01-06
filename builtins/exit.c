@@ -6,11 +6,39 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:58:27 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 20:20:27 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	ft_atol(char *str)
+{
+	long	signal;
+	long	n;
+	int i;
+
+	i = 0;
+	if (!ft_strcmp("-9223372036854775808", str))
+		return (true);
+	signal = 1;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+		signal = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	n = 0;
+	while (ft_isdigit(str[i]))
+	{
+		if (n > n * 10 + (str[i] - '0'))
+			return (false);
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	n = n * signal;
+	return (true);
+}
 
 static void exit_mshell(t_minishell *mshell)
 {
