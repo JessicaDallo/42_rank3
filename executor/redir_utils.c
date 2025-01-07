@@ -46,16 +46,20 @@ bool	redir_input(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
+	char	*temp;
 
-	file = check_tilde(mshell, handle_quotes(filename, 0, 0));
+	temp = handle_quotes(filename, 0, 0);
+	file = check_tilde(mshell, temp);
 	if (!file || !*file)
-		file = handle_quotes(filename, 0, 0);
+		file = ft_strdup(temp);
 	if (!check_redir_input(file))
 		return (false);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
+		free(temp);
 		error_msg(file, "No such file or directory", 1);
+		free(file);
 		return (false);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
@@ -66,6 +70,7 @@ bool	redir_input(t_minishell *mshell, char *filename)
 	}
 	close(fd);
 	free(file);
+	free(temp);
 	return (true);
 }
 
@@ -119,6 +124,6 @@ bool	redir_append(t_minishell *mshell, char *filename)
 		return (false);
 	}
 	close(fd);
-	free(file);
+	//free(file);
 	return (true);
 }

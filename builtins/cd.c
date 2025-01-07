@@ -83,6 +83,8 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 		path = go_path(mshell,"HOME");
 	else
 		get_path(mshell, token->next, &path);
+	if(g_e_code == 1)
+		return ;
 	if (!path || path[0] == '\0')
 	{
 		if (path[0] == '\0')

@@ -26,7 +26,7 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 		}
 		token = token->next;
 	}
-	printf("len:%i\n", i);
+	//printf("len:%i\n", i);
 	return (i);
 }
 
@@ -44,6 +44,7 @@ void	expand_args(t_minishell *mshell, t_token *token)
 		//printf("VAR EXPAND:%s\n", tmp->input);
 		tmp = tmp->next;
 	}
+	g_e_code = 0;
 }
 
 char	**convert_args(t_minishell *mshell, t_token *tk)

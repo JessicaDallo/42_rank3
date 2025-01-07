@@ -12,10 +12,11 @@
 
 #include "minishell.h"
 
-static void exit_mshell(t_minishell *mshell)
+static void exit_mshell(t_minishell *mshell,char *cmd_name)
 {
 	if (g_e_code != 1)
 	{
+		free(cmd_name);
 		close_pipes(mshell->commands);
 		clear_mshell(mshell);
 	}
@@ -26,6 +27,7 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	char *temp = handle_quotes(token->input, 0, 0);
 
 	g_e_code = 0;
+	(void)mshell;
 	if (!is_num(temp) || m_long(token->input))
 	{
 		error_msg("exit", "numeric argument required", 2);
@@ -45,20 +47,26 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	}
 	free(temp);
 	temp = NULL;
-	exit_mshell(mshell);
+//	exit_mshell(mshell);
 	return (g_e_code);
 }
 
-int	ft_exit(t_minishell *mshell, t_token *token, char * cmd_name)
+int	ft_exit(t_minishell *mshell, t_token *token, char *cmd_name)
 {
 	int	exit_code;
 
+	(void)cmd_name;
 	token = token->next;
-	free(cmd_name);
+	// if(cmd_name)
+	// {
+	// 	free(cmd_name);
+	// 	cmd_name=NULL;
+	// }
 	if (!token || !token->input)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit_code = 0;
+		free(cmd_name);
 		g_e_code = exit_code;
 		clear_mshell(mshell);
 	}
@@ -66,6 +74,7 @@ int	ft_exit(t_minishell *mshell, t_token *token, char * cmd_name)
 	{
 		exit_code = get_exit(mshell, token);
 		g_e_code = exit_code;
+		exit_mshell(mshell, cmd_name);
 	}
 	return (exit_code);
 }
