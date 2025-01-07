@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:09:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 19:37:40 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:52:33 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,10 @@ bool	check_options(t_token *tokens, char *cmd_name)
 	t_token	*temp;
 
 	temp = tokens;
-<<<<<<< Updated upstream
 	//if ((ft_strcmp(temp->input, "echo")))
 	//	g_e_code = 0;
 	if (!(ft_strcmp(cmd_name, "unset")) || !(ft_strcmp(cmd_name, "env")) \
 		|| !(ft_strcmp(cmd_name, "export")))
-=======
-	// if ((ft_strcmp(temp->input, "echo")))
-	// 	g_e_code = 0;
-	if (!(ft_strcmp(temp->input, "unset")) || !(ft_strcmp(temp->input, "env")) \
-		|| !(ft_strcmp(temp->input, "export")))
->>>>>>> Stashed changes
 	{
 		if (!temp->next)
 			return (false);
@@ -54,14 +47,15 @@ void	run_builtin(t_minishell *mshell, t_cmd *commands)
 	else if (!(ft_strcmp(cmd_name, "env")))
 		ft_env(mshell->env);
 	else if (!(ft_strcmp(cmd_name, "exit")))
-		ft_exit(mshell, commands->tokens);
+		ft_exit(mshell, commands->tokens, cmd_name);
 	else if (!(ft_strcmp(cmd_name, "export")))
 		ft_export(mshell, commands->tokens);
 	else if (!(ft_strcmp(cmd_name, "pwd")))
 		ft_pwd(mshell, commands->tokens);
 	else if (!(ft_strcmp(cmd_name, "unset")))
 		ft_unset(mshell, commands->tokens);
-	free(cmd_name);
+	if(cmd_name)
+		free(cmd_name);
 	return ;
 }
 
@@ -84,6 +78,7 @@ int	is_builtin(t_cmd *commands)
 			}
 		
 	}
-	free(cmd_name);
+	if(cmd_name)
+		free(cmd_name);
 	return (0);
 }

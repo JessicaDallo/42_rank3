@@ -26,6 +26,7 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 		}
 		token = token->next;
 	}
+	printf("len:%i\n", i);
 	return (i);
 }
 
