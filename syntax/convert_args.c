@@ -55,14 +55,17 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		return (NULL);
 	i = 0;
 	if (!ft_strncmp(tk->input, "\"\"", 2) || !ft_strncmp(tk->input, "\'\'", 2))
+	{
 		temp[i++] = ft_strdup(tk->input);
+		tk = tk->next;
+	}
 	while (tk)
 	{
-		//printf("CONVERT VAR EXPAND:%s\n", tk->input);
+		printf("CONVERT VAR EXPAND:%s\n", tk->input);
 		if (tk->input && *tk->input)
 		{
 			temp[i] = handle_quotes(tk->input, 0, 0);
-			//printf("ARGS:%s\n", temp[i]);
+			printf("ARGS:%s\n", temp[i]);
 			if (!temp[i])
 			{
 				free_array(temp);
@@ -75,6 +78,6 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	temp[i] = NULL;
 	//printf("ARGS:%s\n", temp[0]);
 	//printf("ARGS:%s\n", temp[1]);
-	//printf("i: %i\n", i);
+	printf("i: %i\n", i);
 	return (temp);
 }

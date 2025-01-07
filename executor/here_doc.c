@@ -29,9 +29,8 @@ int	tmp_heredoc()
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 {
 	char	*line;
-	int		fd;
 
-	fd = tmp_heredoc();
+	mshell->heredoc_fd = tmp_heredoc();
 	while (1)
 	{
 		line = readline("> ");
@@ -47,11 +46,12 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 		}
 		if (expand)
 			handle_expansions(mshell, &line, 1);
-		ft_putendl_fd(line, fd);
+		ft_putendl_fd(line, mshell->heredoc_fd);
 		free(line);
 	}
-	close(fd);
+	close(mshell->heredoc_fd);
 	free(eof);
+	close_pipes(mshell->commands);
 	clear_mshell(mshell);
 	//exit(mshell->e_code = 0);
 }
@@ -77,22 +77,19 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
 	free(eof);
-	open_hd(mshell);
+	//open_hd(mshell);
 }
 
 void	open_hd(t_minishell *mshell)
 {
-	int	fd;
 
-	fd = open("/tmp/heredoc_file0001", O_RDONLY);
-	if (fd < 0)
+	mshell->heredoc_fd = open("/tmp/heredoc_file0001", O_RDONLY);
+	if (mshell->heredoc_fd < 0)
 	{
 		perror_msg("open", "Erro ao abrir arquivo do heredoc");
 		g_e_code = errno;
 		return ;
 	}
-	mshell->heredoc_fd = fd;
-	close(fd);
 	unlink("/tmp/heredoc_file0001");
 	return ;
 }

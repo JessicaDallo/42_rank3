@@ -145,7 +145,7 @@ int			ft_arraylen(t_minishell *mshell, t_token *token);
 void		expand_args(t_minishell *mshell, t_token *token);
 
 /*--------------------------------- ERROR ---------------------------------*/
-t_minishell	**get_shell(void);
+t_minishell	*minishell(t_minishell *mshell);
 void		close_fds(void);
 void		error_msg(char *cmd, char *str, int e_code);
 void		perror_msg(char *cmd, char *str);

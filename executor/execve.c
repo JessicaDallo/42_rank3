@@ -107,14 +107,16 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if (!token || !token->input)
 		return ;
 	args = convert_args(mshell, token);
+	if (!args || !args[0])
+		return ;
 	pid = creat_pid();
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, ft_sigquit);
 	if (pid == 0)
 	{
 		signal(SIGINT, ft_sigint);
-		if (!args || !args[0])
-			return ;
+		// if (!args || !args[0])
+		// 	return ;
 		executable = get_execpath(mshell, args[0]);
 		if(!executable)
 		{

@@ -45,8 +45,9 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 			close(cmd->fd[0]);
 	}
 	close(mshell->heredoc_fd);
-	close(mshell->initial_fds[0]);
-	close(mshell->initial_fds[1]);
+	close_pipes(cmd);
+	//close(mshell->initial_fds[0]);
+	//close(mshell->initial_fds[1]);
 	clear_mshell(mshell);
 	exit(g_e_code);
 	//exit(mshell->e_code);
@@ -101,8 +102,12 @@ void	exec_multi_cmds(t_minishell *mshell)
 		signal(SIGINT, SIG_IGN);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
 		{
+			open_hd(mshell);
 			if (g_e_code == 130)
+			{
+				close_pipes(mshell->commands);
 				return ;
+			}
 			prev_fd = mshell->heredoc_fd;
 		}
 		exec_child(mshell, cmd, &prev_fd);
@@ -120,6 +125,7 @@ void	handle_exec(t_minishell *mshell)
 	{
 		if (has_heredoc(mshell, &mshell->commands->tokens))
 		{
+			open_hd(mshell);
 			if (g_e_code == 0)
 				redir_fds(mshell->heredoc_fd, STDIN_FILENO);
 		}

@@ -36,7 +36,7 @@ void	close_pipes(t_cmd *cmd)
 	{
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
-		else if (cmd->fd[1] != -1)
+		if (cmd->fd[1] != -1)
 			close(cmd->fd[1]);
 		cmd = cmd->next;
 	}
