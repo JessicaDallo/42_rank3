@@ -48,7 +48,8 @@ bool	redir_input(t_minishell *mshell, char *filename)
 	char	*file;
 	char	*temp;
 
-	file = check_tilde(mshell, handle_quotes(filename, 0, 0));
+	temp = handle_quotes(filename, 0, 0);
+	file = check_tilde(mshell, temp);
 	if (!file || !*file)
 		file = ft_strdup(temp);
 	if (!check_redir_input(file))
@@ -67,6 +68,7 @@ bool	redir_input(t_minishell *mshell, char *filename)
 	}
 	close(fd);
 	free(file);
+	free(temp);
 	return (true);
 }
 
@@ -120,6 +122,6 @@ bool	redir_append(t_minishell *mshell, char *filename)
 		return (false);
 	}
 	close(fd);
-	free(file);
+	//free(file);
 	return (true);
 }

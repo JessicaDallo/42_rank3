@@ -14,7 +14,7 @@
 
 int	execpath_error(char *path)
 {
-	ft_putendl("entrei exec_path 2");
+	//ft_putendl("entrei exec_path 2");
 	if (ft_strchr(path, '/') || path[0] == '.')
 	{
 		if (access(path, F_OK) < 0)
@@ -38,7 +38,7 @@ int	execpath_error(char *path)
 
 int	check_execpath(t_token *token, char *path)
 {
-	ft_putendl("entrei exec_path 1");
+	//ft_putendl("entrei exec_path 1");
 	if (!path || path == NULL)
 	{
 		error_msg(token->input, "command not found", 127);

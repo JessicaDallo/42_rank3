@@ -96,7 +96,7 @@ bool		check_echo(t_token *token, bool *flag, int *newline);
 
 void		ft_env(t_env *env);
 void		init_env(t_minishell *mshell);
-void		add_env(t_minishell *mshelline = readline("> ");l, char *key, char *value, bool flag);
+void		add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void		init_struct(t_minishell *mshell, char **envp);
 
 int			ft_exit(t_minishell *mshell, t_token *token);

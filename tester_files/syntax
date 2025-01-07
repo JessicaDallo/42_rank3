@@ -1,0 +1,80 @@
+		     
+             
+			
+|
+| echo oi
+| |
+| $
+| >
+>
+>>
+>>>
+> >>
+>> >
+<
+<<
+<<<
+< <<
+<a<b
+<a <b
+<a < b
+< a<b
+< a< b
+< <b
+< <        b
+< < b
+>a>b
+>a >b
+>a > b
+> a>b
+> a> b
+> >b
+> >        b
+> > b
+<a>b
+<a >b
+<a > b
+< a>b
+< a> b
+< >b
+< >        b
+< > b
+>a<b
+>a <b
+>a < b
+> a<b
+> a< b
+> <b
+> <        b
+> < b
+><
+>       <
+<>
+<       >
+<>>
+echo hi <
+< a | d >> c
+a<|d>>c
+a | >> b
+< a | < b
+a< | d>>c
+a <|d >>c
+a < | d>>c
+a<| d >> c
+cat    <| ls
+echo hi | >
+echo hi | > >>
+echo hi | < |
+echo hi |   |
+echo hi |  "|"
+cat Makefile| grep NAME >> saida
+cat Makefile |grep NAME >>saida
+cat < Makefile|grep NAME >saida
+cat Makefile      | grep NAME     >>saida
+cat          Makefile    | grep    NAME >> saida
+catMakefile           |                grepNAME
+cat Makefile|grep NAME>>saida
+cat Makefile|grep    NAME>>saida
+cat Makefile|grep NAME>>        saida
+cat Makefile|grep NAME         >>saida
+cat Makefile    |        grep NAME> >saida

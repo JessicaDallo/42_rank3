@@ -14,10 +14,10 @@
 
 void	ft_reset_prompt(int signal)
 {
-	t_minishell	**mshell;
+	//t_minishell	**mshell;
 
 	(void)signal;
-	mshell = get_shell();
+	//mshell = get_shell();
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
