@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:58:20 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:57:17 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_env(t_env *env)
 		}
 		temp = temp->next;
 	}
-	return ;
+	g_e_code = 0;
 }
 
 void	add_env(t_minishell *mshell, char *key, char *value, bool flag)
@@ -86,6 +86,7 @@ void	init_struct(t_minishell *mshell, char **envp)
 	ft_bzero(mshell, sizeof(t_minishell));
 	if (!mshell)
 		return ;
+	//mshell->heredoc_fd = -1;
 	minishell(mshell);
 	i = 0;
 	while (envp[i])

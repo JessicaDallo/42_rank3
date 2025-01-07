@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <wait.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -84,7 +85,9 @@ typedef struct s_minishell
 	t_cmd	*commands;
 	char	**envp;
 	int		heredoc_fd;
-	//int		e_code;
+	int		e_code;
+	int		i;
+	pid_t	child[1024];
 	int		env_size;
 	int		initial_fds[2];
 
@@ -99,7 +102,7 @@ void		init_env(t_minishell *mshell);
 void		add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void		init_struct(t_minishell *mshell, char **envp);
 
-int			ft_exit(t_minishell *mshell, t_token *token);
+int			ft_exit(t_minishell *mshell, t_token *token, char *cmd_name);
 int			get_exit(t_minishell *mshell, t_token *token);
 int			is_num(char *str);
 bool		m_long(char *str);
@@ -123,7 +126,7 @@ void		get_path(t_minishell *mshell, t_token *token, char **path);
 char		*check_tilde(t_minishell *mshell, char *input);
 char		*go_path(t_minishell *mshell, char *env);
 
-int			is_builtin(t_minishell *mshell, t_cmd *commands);
+int			is_builtin(t_cmd *commands);
 void		run_builtin(t_minishell *mshell, t_cmd *commands);
 
 /*--------------------------------- SYNTAX ---------------------------------*/

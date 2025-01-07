@@ -46,6 +46,10 @@ void	ft_sigint_hd(int signal)
 		g_e_code = 130;
 		ft_putstr_fd("\n", STDERR_FILENO);
 		rl_on_new_line();
-		clear_mshell((minishell(NULL)));
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_done = 1;
+		ioctl(0,TIOCSTI, "");
+		//clear_mshell((minishell(NULL)));
 	}
 }

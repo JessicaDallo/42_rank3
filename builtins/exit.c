@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:58:27 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:52:56 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ int	get_exit(t_minishell *mshell, t_token *token)
 	return (g_e_code);
 }
 
-int	ft_exit(t_minishell *mshell, t_token *token)
+int	ft_exit(t_minishell *mshell, t_token *token, char * cmd_name)
 {
 	int	exit_code;
 
 	token = token->next;
+	free(cmd_name);
 	if (!token || !token->input)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);

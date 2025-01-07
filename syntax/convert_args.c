@@ -26,6 +26,7 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 		}
 		token = token->next;
 	}
+	printf("len:%i\n", i);
 	return (i);
 }
 
@@ -61,11 +62,11 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	}
 	while (tk)
 	{
-		printf("CONVERT VAR EXPAND:%s\n", tk->input);
+		//printf("CONVERT VAR EXPAND:%s\n", tk->input);
 		if (tk->input && *tk->input)
 		{
 			temp[i] = handle_quotes(tk->input, 0, 0);
-			printf("ARGS:%s\n", temp[i]);
+			//printf("ARGS:%s\n", temp[i]);
 			if (!temp[i])
 			{
 				free_array(temp);
@@ -78,6 +79,6 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	temp[i] = NULL;
 	//printf("ARGS:%s\n", temp[0]);
 	//printf("ARGS:%s\n", temp[1]);
-	printf("i: %i\n", i);
+	//printf("i: %i\n", i);
 	return (temp);
 }

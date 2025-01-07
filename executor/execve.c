@@ -14,7 +14,7 @@
 
 int	execpath_error(char *path)
 {
-	ft_putendl("entrei exec_path 2");
+	//ft_putendl("entrei exec_path 2");
 	if (ft_strchr(path, '/') || path[0] == '.')
 	{
 		if (access(path, F_OK) < 0)
@@ -38,7 +38,7 @@ int	execpath_error(char *path)
 
 int	check_execpath(t_token *token, char *path)
 {
-	ft_putendl("entrei exec_path 1");
+	//ft_putendl("entrei exec_path 1");
 	if (!path || path == NULL)
 	{
 		error_msg(token->input, "command not found", 127);
@@ -85,11 +85,12 @@ void	check_exit_status(t_minishell *mshell)
 		g_e_code = WEXITSTATUS(g_e_code);
 	else if (WIFSIGNALED(g_e_code))
 		g_e_code = 128 + WTERMSIG(g_e_code);
-	if (g_e_code == 130)
-	{
-		free_cmd(mshell->commands);
-		mshell->commands = NULL;
-	}
+	mshell->e_code = g_e_code;
+	// if (g_e_code == 130)
+	// {
+	// 	free_cmd(mshell->commands);
+	// 	mshell->commands = NULL;
+	// }
 }
 // void	child_run_execve()
 // {
@@ -114,7 +115,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	signal(SIGQUIT, ft_sigquit);
 	if (pid == 0)
 	{
-		signal(SIGINT, ft_sigint);
+		signal(SIGINT, SIG_DFL);
 		// if (!args || !args[0])
 		// 	return ;
 		executable = get_execpath(mshell, args[0]);
@@ -129,7 +130,8 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		free(executable);
 		free_array(args);
 		clear_mshell(mshell);
-		//exit(mshell->e_code);
+		//close(mshell->initial_fds[0]);
+		//close(mshell->initial_fds[1]);
 	}
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
