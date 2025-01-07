@@ -74,11 +74,5 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		tk = tk->next;
 	}
 	temp[i] = NULL;
-	//printf("i: %i\n", i);
-	//while(i)
-	//{
-	//	printf("ARGS:%s\n", temp[i]);
-	//	i--;
-	//}
 	return (temp);
 }

@@ -70,6 +70,7 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 			free_array(temp);
 			temp = NULL;
 		}
+		
 		cpy_input++;
 	}
 	return (cmd);

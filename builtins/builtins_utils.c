@@ -17,10 +17,17 @@ bool	check_options(t_token *tokens, char *cmd_name)
 	t_token	*temp;
 
 	temp = tokens;
+<<<<<<< Updated upstream
 	//if ((ft_strcmp(temp->input, "echo")))
 	//	g_e_code = 0;
 	if (!(ft_strcmp(cmd_name, "unset")) || !(ft_strcmp(cmd_name, "env")) \
 		|| !(ft_strcmp(cmd_name, "export")))
+=======
+	// if ((ft_strcmp(temp->input, "echo")))
+	// 	g_e_code = 0;
+	if (!(ft_strcmp(temp->input, "unset")) || !(ft_strcmp(temp->input, "env")) \
+		|| !(ft_strcmp(temp->input, "export")))
+>>>>>>> Stashed changes
 	{
 		if (!temp->next)
 			return (false);
