@@ -25,19 +25,6 @@ pid_t	creat_pid()
 	return (child);
 }
 
-int	get_ncmds(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd)
-	{
-		i++;
-		cmd = cmd->next;
-	}
-	return (i);
-}
-
 void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
 	g_e_code = 0;

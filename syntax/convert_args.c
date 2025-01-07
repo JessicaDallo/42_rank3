@@ -26,7 +26,6 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 		}
 		token = token->next;
 	}
-	printf("len:%i\n", i);
 	return (i);
 }
 
@@ -55,7 +54,7 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	if (!temp)
 		return (NULL);
 	i = 0;
-	if (!ft_strncmp(tk->input, "\"\"", 2) || !ft_strncmp(tk->input, "\'\'", 2))
+	if (!ft_strncmp(tk->input, "\"\"", 3) || !ft_strncmp(tk->input, "\'\'", 3))
 	{
 		temp[i++] = ft_strdup(tk->input);
 		tk = tk->next;
