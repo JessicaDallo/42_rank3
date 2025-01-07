@@ -14,10 +14,7 @@
 
 void	ft_reset_prompt(int signal)
 {
-	t_minishell	**mshell;
-
 	(void)signal;
-	mshell = get_shell();
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -43,14 +40,12 @@ void	ft_sigquit(int signal)
 
 void	ft_sigint_hd(int signal)
 {
-	t_minishell	**mshell;
-
-	mshell = get_shell();
+	
 	if (signal == SIGINT)
 	{
 		g_e_code = 130;
 		ft_putstr_fd("\n", STDERR_FILENO);
 		rl_on_new_line();
-		clear_mshell((*mshell));
+		clear_mshell((minishell(NULL)));
 	}
 }
