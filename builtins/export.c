@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 19:53:24 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:12:21 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ bool	check_key(char *input)
 			return (false);
 		}
 	}
+	g_e_code = 0;
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:50:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:44:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	execpath_error(char *path)
 {
-	//ft_putendl("entrei exec_path 2");
 	if (ft_strchr(path, '/') || path[0] == '.')
 	{
 		if (access(path, F_OK) < 0)
@@ -38,7 +37,6 @@ int	execpath_error(char *path)
 
 int	check_execpath(t_token *token, char *path)
 {
-	//ft_putendl("entrei exec_path 1");
 	if (!path || path == NULL)
 	{
 		error_msg(token->input, "command not found", 127);
@@ -114,7 +112,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	signal(SIGQUIT, ft_sigquit);
 	if (pid == 0)
 	{
-		signal(SIGINT, ft_sigint);
+		signal(SIGINT, SIG_DFL);
 		// if (!args || !args[0])
 		// 	return ;
 		executable = get_execpath(mshell, args[0]);

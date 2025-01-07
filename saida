@@ -1,0 +1,12 @@
+CONVERT VAR EXPAND:grep
+ARGS:grep
+CONVERT VAR EXPAND:NAME
+ARGS:NAME
+i: 2
+NAME = minishell
+$(NAME): ${OBJS}
+		${CC} ${OBJS} ${LIBFT} -o ${NAME}
+all: ${NAME}
+		${RM} ${NAME}
+	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s --log-file=output.log ./$(NAME)
+#valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --gen-suppressions=all -s --log-file=output.log ./$(NAME)

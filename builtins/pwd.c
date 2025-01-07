@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:58:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:11:35 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int	ft_pwd(t_minishell *mshell, t_token *token)
 	ft_putendl_fd(pwd, STDOUT_FILENO);
 	if (pwd && pwd != get_value(mshell, "PWD"))
 		free(pwd);
-	return (0);
+	return (g_e_code = 0);
 }

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 19:39:39 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:01:40 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/ioctl.h>
 
 extern int g_e_code;
 
@@ -84,6 +85,8 @@ typedef struct s_minishell
 	t_cmd	*commands;
 	char	**envp;
 	int		heredoc_fd;
+	int		i;
+	pid_t	child[1024];
 	//int		e_code;
 	int		env_size;
 	int		initial_fds[2];
@@ -123,7 +126,7 @@ void		get_path(t_minishell *mshell, t_token *token, char **path);
 char		*check_tilde(t_minishell *mshell, char *input);
 char		*go_path(t_minishell *mshell, char *env);
 
-int			is_builtin(t_minishell *mshell, t_cmd *commands);
+int			is_builtin(t_cmd *commands);
 void		run_builtin(t_minishell *mshell, t_cmd *commands);
 
 /*--------------------------------- SYNTAX ---------------------------------*/

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 19:39:21 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:13:13 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*check_tilde(t_minishell *mshell, char *input)
 {
 	char		*path_expand;
 
-
 	g_e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
 		return (path_expand = go_path(mshell, "HOME"));
@@ -48,6 +47,7 @@ char	*check_tilde(t_minishell *mshell, char *input)
 
 void	get_path(t_minishell *mshell, t_token *token, char **path)
 {
+	g_e_code = 0;
 	if (token->next)
 	{
 		error_msg("cd", "too many arguments", 1);
@@ -84,7 +84,11 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 	else
 		get_path(mshell, token->next, &path);
 	if (!path || path[0] == '\0')
+	{
+		if (path[0] == '\0')
+			free(path);
 		return ;
+	}
 	if (chdir(path) != 0)
 		error_msg("cd", "No such file or directory", 1);
 	update_env(mshell, "OLDPWD", oldpwd, true);

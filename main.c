@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 00:18:43 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:52:21 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int g_e_code;
 
-void	handle_signal(void)
+void	handle_signal_main(void)
 {
 	signal(SIGINT, ft_reset_prompt);
 	signal(SIGQUIT, SIG_IGN);
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	g_e_code = 0;
 	while (1)
 	{
-		handle_signal();
+		handle_signal_main();
 		input = readline("minishell> ");
 		if (!input)
 		{
