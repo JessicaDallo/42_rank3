@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:56:16 by jesilva-          #+#    #+#             */
-/*   Updated: 2025/01/04 23:24:42 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:07:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	process_t(t_cmd **cmd, char **arr, int *i, bool *new_cmd)
 
 	tmp = NULL;
 	type = get_type(arr[*i], *new_cmd);
-	if (type == 0 && arr[*i][1] != '$')
-	{
-		if (ft_strncmp(arr[*i], "\"\"", 3) != 0
-			&& ft_strncmp(arr[*i], "\'\'", 3) != 0)
-			tmp = handle_quotes(arr[*i], 0, 0);
-	}
+	//if (type == 0 && arr[*i][1] != '$')
+	//{
+	//	if (ft_strncmp(arr[*i], "\"\"", 3) != 0
+	//		&& ft_strncmp(arr[*i], "\'\'", 3) != 0)
+	//		tmp = handle_quotes(arr[*i], 0, 0);
+	//}
 	if (tmp)
 	{
 		add_token(cmd, tmp, type, *new_cmd);

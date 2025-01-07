@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/05 20:36:41 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:53:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	expand_args(t_minishell *mshell, t_token *token)
 	{
 		if (tmp->type == CMD || tmp->type == ARG)
 			handle_expansions(mshell, &tmp->input, 0);
-		//printf("VAR EXPAND:%s\n", tmp->input);
 		tmp = tmp->next;
 	}
+	g_e_code = 0;
 }
 
 char	**convert_args(t_minishell *mshell, t_token *tk)
@@ -61,11 +61,9 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	}
 	while (tk)
 	{
-		printf("CONVERT VAR EXPAND:%s\n", tk->input);
 		if (tk->input && *tk->input)
 		{
 			temp[i] = handle_quotes(tk->input, 0, 0);
-			printf("ARGS:%s\n", temp[i]);
 			if (!temp[i])
 			{
 				free_array(temp);
@@ -76,8 +74,11 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		tk = tk->next;
 	}
 	temp[i] = NULL;
-	//printf("ARGS:%s\n", temp[0]);
-	//printf("ARGS:%s\n", temp[1]);
-	printf("i: %i\n", i);
+	//printf("i: %i\n", i);
+	//while(i)
+	//{
+	//	printf("ARGS:%s\n", temp[i]);
+	//	i--;
+	//}
 	return (temp);
 }

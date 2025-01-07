@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shrodrig <shrodrig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:09:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 22:57:24 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:37:40 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_options(t_token *tokens)
+bool	check_options(t_token *tokens, char *cmd_name)
 {
 	t_token	*temp;
 
 	temp = tokens;
-	if ((ft_strcmp(temp->input, "echo")))
-		g_e_code = 0;
-	if (!(ft_strcmp(temp->input, "unset")) || !(ft_strcmp(temp->input, "env")) \
-		|| !(ft_strcmp(temp->input, "export")))
+	//if ((ft_strcmp(temp->input, "echo")))
+	//	g_e_code = 0;
+	if (!(ft_strcmp(cmd_name, "unset")) || !(ft_strcmp(cmd_name, "env")) \
+		|| !(ft_strcmp(cmd_name, "export")))
 	{
 		if (!temp->next)
 			return (false);
@@ -35,26 +35,48 @@ bool	check_options(t_token *tokens)
 	return (false);
 }
 
-int	is_builtin(t_minishell *mshell, t_cmd *commands)
+void	run_builtin(t_minishell *mshell, t_cmd *commands)
 {
+	char	*cmd_name;
+
+	cmd_name = handle_quotes(commands->tokens->input, 0, 0);
+	if (!(ft_strcmp(cmd_name, "cd")))
+		ft_cd(mshell, commands->tokens);
+	else if (!(ft_strcmp(cmd_name, "echo")))
+		ft_echo(mshell, commands->tokens);
+	else if (!(ft_strcmp(cmd_name, "env")))
+		ft_env(mshell->env);
+	else if (!(ft_strcmp(cmd_name, "exit")))
+		ft_exit(mshell, commands->tokens);
+	else if (!(ft_strcmp(cmd_name, "export")))
+		ft_export(mshell, commands->tokens);
+	else if (!(ft_strcmp(cmd_name, "pwd")))
+		ft_pwd(mshell, commands->tokens);
+	else if (!(ft_strcmp(cmd_name, "unset")))
+		ft_unset(mshell, commands->tokens);
+	free(cmd_name);
+	return ;
+}
+
+int	is_builtin(t_cmd *commands)
+{
+	char	*cmd_name;
+
 	if (!commands || !commands->tokens)
 		return (0);
-	if (!check_options(commands->tokens))
+	cmd_name = handle_quotes(commands->tokens->input, 0, 0);
+	if (!check_options(commands->tokens, cmd_name))
 	{
-		if (!(ft_strcmp(commands->tokens->input, "cd")))
-			return (ft_cd(mshell, commands->tokens), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "echo")))
-			return (ft_echo(mshell, commands->tokens), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "env")))
-			return (ft_env(mshell->env), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "exit")))
-			return (ft_exit(mshell, commands->tokens), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "export")))
-			return (ft_export(mshell, commands->tokens), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "pwd")))
-			return (ft_pwd(mshell, commands->tokens), 1);
-		else if (!(ft_strcmp(commands->tokens->input, "unset")))
-			return (ft_unset(mshell, commands->tokens), 1);
+		if (!(ft_strcmp(cmd_name, "cd")) || !(ft_strcmp(cmd_name, "echo"))
+			|| !(ft_strcmp(cmd_name, "env")) ||!(ft_strcmp(cmd_name, "exit"))
+			||!(ft_strcmp(cmd_name, "export")) || !(ft_strcmp(cmd_name, "pwd"))
+			|| (!(ft_strcmp(cmd_name, "unset"))))
+			{
+				free(cmd_name);
+				return (1);
+			}
+		
 	}
+	free(cmd_name);
 	return (0);
 }

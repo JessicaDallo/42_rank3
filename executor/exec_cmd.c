@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 22:13:46 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:57:43 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,23 @@ pid_t	creat_pid()
 	return (child);
 }
 
+int	get_ncmds(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd)
+	{
+		i++;
+		cmd = cmd->next;
+	}
+	return (i);
+}
+
 void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 {
-	g_e_code = 0;
+	//g_e_code = 0;
+	//signal(SIGINT, SIG_DFL);
 	if (*prev_fd != -1)
 		redir_fds(*prev_fd, STDIN_FILENO);
 	if (cmd->next)
@@ -36,8 +50,10 @@ void	run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	{
 		if (cmd->fd[0] != -1)
 			close(cmd->fd[0]);
-		if (!is_builtin(mshell, cmd))
-			run_execve(mshell, cmd->tokens);
+		if (is_builtin(mshell->commands))
+			run_builtin(mshell, mshell->commands);
+		else
+			run_execve(mshell, mshell->commands->tokens);
 	}
 	else
 	{
@@ -58,6 +74,8 @@ void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	pid_t	pid;
 
 	pid = creat_pid();
+	signal(SIGINT, ft_sigint);
+	signal(SIGQUIT, ft_sigquit);
 	if (pid == 0)
 		run_cmd(mshell, cmd, prev_fd);
 	if (*prev_fd != -1)
@@ -65,62 +83,46 @@ void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	if (cmd->next)
 		close(cmd->fd[1]);
 	*prev_fd = cmd->fd[0];
-	waitpid(pid, &g_e_code, 0);
-	check_exit_status(mshell);
+	mshell->child[mshell->i] = pid;
+	//waitpid(pid, &g_e_code, 0);
+	//check_exit_status(mshell);
 }
 
-/*void	exec_multi_cmds(t_minishell *mshell)
-{
-	int		prev_fd;
-
-	prev_fd = -1;
-	while (mshell->commands)
-	{
-		signal(SIGINT, SIG_IGN);
-		if (mshell->commands->tokens && has_heredoc(mshell, &(mshell->commands->tokens)))
-		{
-			if (mshell->e_code == 130)
-				return ;
-			prev_fd = mshell->heredoc_fd;
-		}
-		exec_child(mshell, mshell->commands, &prev_fd);
-		if (mshell->e_code == 130)
-			return ;
-		mshell->commands = mshell->commands->next;
-	}
-}*/
 
 void	exec_multi_cmds(t_minishell *mshell)
 {
 	t_cmd	*cmd;
 	int		prev_fd;
+	int		n_cmds;
+	int		j;
 
 	cmd = mshell->commands;
 	prev_fd = -1;
+	n_cmds = get_ncmds(mshell->commands);
+	mshell->i = 0;
 	while (cmd)
 	{
-		signal(SIGINT, SIG_IGN);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
 		{
 			open_hd(mshell);
 			if (g_e_code == 130)
-			{
-				close_pipes(mshell->commands);
 				return ;
-			}
 			prev_fd = mshell->heredoc_fd;
 		}
 		exec_child(mshell, cmd, &prev_fd);
-		if (g_e_code == 130)
-			return ;
 		cmd = cmd->next;
 	}
+	j = 0;
+	while (j < n_cmds)
+	{
+		waitpid(mshell->child[j], &g_e_code, 0);
+		j++;
+	}
+	check_exit_status(mshell);
 }
 
 void	handle_exec(t_minishell *mshell)
 {
-	//int		initial_fds[2];
-
 	save_original_fds(mshell->initial_fds);
 	create_pipes(mshell->commands);
 	if (mshell->commands && !mshell->commands->next)
@@ -133,7 +135,9 @@ void	handle_exec(t_minishell *mshell)
 		}
 		if (handle_redir(mshell, &(mshell->commands->tokens)))
 		{
-			if (!is_builtin(mshell, mshell->commands))
+			if (is_builtin(mshell->commands))
+				run_builtin(mshell, mshell->commands);
+			else
 				run_execve(mshell, mshell->commands->tokens);
 		}
 	}
@@ -143,6 +147,6 @@ void	handle_exec(t_minishell *mshell)
 	if (mshell->heredoc_fd != -1)
 		close(mshell->heredoc_fd);
 	recover_original_fds(mshell->initial_fds);
-	//close(mshell->initial_fds[0]);
-	//close(mshell->initial_fds[1]);
+	close(mshell->initial_fds[0]);
+	close(mshell->initial_fds[1]);
 }
