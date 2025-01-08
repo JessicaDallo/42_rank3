@@ -37,7 +37,7 @@ OBJS = ${SRC:.c=.o}
 
 $(NAME): ${OBJS}
 		make -C ${LIBFT_PATH}
-		${CC} ${OBJS} ${LIBFT} -o ${NAME}
+		${CC} ${OBJS} ${LIBFT} ${CFLAGS} -o ${NAME}
 
 all: ${NAME}
 

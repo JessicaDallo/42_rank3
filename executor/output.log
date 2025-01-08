@@ -1,0 +1,7 @@
+==348567== Memcheck, a memory error detector
+==348567== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==348567== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==348567== Command: /usr/bin/cat
+==348567== Parent PID: 348530
+==348567== 
+==348567== FATAL: can't open suppressions file "readline.supp"

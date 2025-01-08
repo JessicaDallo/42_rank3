@@ -12,7 +12,7 @@
 
 #include "includes/minishell.h"
 
-int g_e_code;
+int	g_e_code;
 
 void	handle_signal_main(void)
 {
@@ -65,39 +65,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	clear_mshell(&mshell);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	t_minishell mshell;
-
-// 	char	*input = NULL;
-// 	init_struct(&mshell, envp);
-// 	while (1)
-// 	{
-// 		signal(SIGINT, ft_reset_prompt);
-// 		signal(SIGQUIT, SIG_IGN);
-// 		input = readline("minishell> ");
-// 		if (!input)
-// 		{
-// 			printf("exit_main\n");
-// 			break;
-// 		}
-// 		if(*input == '\0')
-// 			continue ;
-// 		if(*input)
-// 			add_history(input);
-// 		if (val_sintax(input, &mshell) > 0)
-// 			continue ;
-// 		mshell.commands = parse_input(input);
-// 		if(mshell.commands)
-// 			handle_exec(&mshell);
-// 		if(mshell.commands)
-// 		{
-// 		  	free_cmd(mshell.commands);
-// 				mshell.commands = NULL;
-// 		}
-// 		free(input);
-// 	}
-// }

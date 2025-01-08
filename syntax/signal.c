@@ -40,7 +40,6 @@ void	ft_sigquit(int signal)
 
 void	ft_sigint_hd(int signal)
 {
-	
 	if (signal == SIGINT)
 	{
 		g_e_code = 130;
@@ -49,18 +48,6 @@ void	ft_sigint_hd(int signal)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_done = 1;
-		ioctl(0,TIOCSTI, "");
+		ioctl(0, TIOCSTI, "");
 	}
 }
-
-//void	ft_sigint_hd(int signal)
-//{
-	
-//	if (signal == SIGINT)
-//	{
-//		g_e_code = 130;
-//		ft_putstr_fd("\n", STDERR_FILENO);
-//		rl_on_new_line();
-//		clear_mshell((minishell(NULL)));
-//	}
-//}

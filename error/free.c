@@ -36,7 +36,7 @@ void	free_envlist(t_env *env)
 	while (env)
 	{
 		aux = env->next;
-		if(env->key)
+		if (env->key)
 			free(env->key);
 		if (env->value)
 			free(env->value);
@@ -92,6 +92,5 @@ void	clear_mshell(t_minishell *mshell)
 	close(mshell->heredoc_fd);
 	close(mshell->initial_fds[0]);
 	close(mshell->initial_fds[1]);
-	//close_fds();
 	exit(g_e_code);
 }

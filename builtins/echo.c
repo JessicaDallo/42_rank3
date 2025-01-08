@@ -62,4 +62,3 @@ int	ft_echo(t_minishell *mshell, t_token *token)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (g_e_code = 0);
 }
-

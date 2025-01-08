@@ -30,19 +30,25 @@ char	*go_path(t_minishell *mshell, char *env)
 
 char	*check_tilde(t_minishell *mshell, char *input)
 {
-	char		*path_expand;
+	char	*path_expand;
+	char	*clean;
 
 	g_e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
 		return (path_expand = go_path(mshell, "HOME"));
 	else if (input[0] == '~')
 		return (path_expand = ft_strjoin(go_path(mshell, "HOME"), input + 1));
-	else if (input[0] == '$')
+	clean = handle_quotes(input, 0, 0);
+	if (clean[0] == '$')
 	{
-		handle_expansions(mshell, &input, 1);
-		return (input);
+		handle_expansions(mshell, &clean, 1);
+		if (!*clean)
+		{
+			free(clean);
+			return (ft_strdup(input));
+		}
 	}
-	return (NULL);
+	return (clean);
 }
 
 void	get_path(t_minishell *mshell, t_token *token, char **path)
@@ -80,10 +86,10 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 	path = NULL;
 	oldpwd = get_value(mshell, "PWD");
 	if (!token->next || !token->next->input)
-		path = go_path(mshell,"HOME");
+		path = go_path(mshell, "HOME");
 	else
 		get_path(mshell, token->next, &path);
-	if(g_e_code == 1)
+	if (g_e_code == 1)
 		return ;
 	if (!path || path[0] == '\0')
 	{

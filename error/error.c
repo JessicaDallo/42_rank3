@@ -37,5 +37,3 @@ void	ds(void)
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 }
-
-

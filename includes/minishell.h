@@ -31,7 +31,7 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
-extern int g_e_code;
+extern int	g_e_code;
 
 typedef enum e_type
 {
@@ -170,7 +170,7 @@ void		ft_sigint_hd(int signal);
 
 /*--------------------------------- EXEC ---------------------------------*/
 void		ft_heredoc(t_minishell *mshell, char *delim);
-int			tmp_heredoc();
+int			tmp_heredoc(void);
 void		read_heredoc(t_minishell *mshell, char *eof, bool expand);
 void		open_hd(t_minishell *mshell);
 bool		has_heredoc(t_minishell *mshell, t_token **tokens);
@@ -181,7 +181,7 @@ char		*get_execpath(t_minishell *mshell, char *cmd_name);
 void		check_exit_status(t_minishell *mshell);
 void		run_execve(t_minishell *mshell, t_token *token);
 
-pid_t		creat_pid();
+pid_t		creat_pid(void);
 void		exec_multi_cmds(t_minishell *mshell);
 int			check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void		exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
