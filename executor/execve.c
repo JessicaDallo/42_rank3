@@ -84,12 +84,7 @@ void	check_exit_status(t_minishell *mshell)
 		g_e_code = WEXITSTATUS(g_e_code);
 	else if (WIFSIGNALED(g_e_code))
 		g_e_code = 128 + WTERMSIG(g_e_code);
-	//mshell->e_code = g_e_code;
-	// if (g_e_code == 130)
-	// {
-	// 	free_cmd(mshell->commands);
-	// 	mshell->commands = NULL;
-	// }
+	
 }
 // void	child_run_execve()
 // {
@@ -117,6 +112,8 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		signal(SIGINT, SIG_DFL);
 		// if (!args || !args[0])
 		// 	return ;
+		close(mshell->initial_fds[0]);
+		close(mshell->initial_fds[1]);
 		executable = get_execpath(mshell, args[0]);
 		if(!executable)
 		{
@@ -129,8 +126,7 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		free(executable);
 		free_array(args);
 		clear_mshell(mshell);
-		//close(mshell->initial_fds[0]);
-		//close(mshell->initial_fds[1]);
+	
 	}
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
