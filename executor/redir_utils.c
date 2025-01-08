@@ -55,10 +55,13 @@ bool	redir_input(t_minishell *mshell, char *filename)
 	if (!check_redir_input(file))
 		return (false);
 	fd = open(file, O_RDONLY);
+	if (filename[0] != '$')
+		free(temp);
 	if (fd < 0)
 	{
 		free(temp);
 		error_msg(file, "No such file or directory", 1);
+		free(file);
 		free(file);
 		return (false);
 	}
@@ -92,6 +95,7 @@ bool	redir_output(t_minishell *mshell, char *filename)
 		free(temp);
 		error_msg(file, "No such file or directory", 1);
 		free(file);
+		free(file);
 		return (false);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -123,6 +127,7 @@ bool	redir_append(t_minishell *mshell, char *filename)
 	{
 		free(temp);
 		error_msg(file, "No such file or directory", 1);
+		free(file);
 		free(file);
 		return (false);
 	}

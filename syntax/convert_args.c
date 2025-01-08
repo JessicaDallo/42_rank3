@@ -17,11 +17,12 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	int	i;
 
 	i = 0;
+	(void)mshell;
 	while (token)
 	{
 		if (token->type == CMD || token->type == ARG)
 		{
-			handle_expansions(mshell, &token->input, 0);
+			//handle_expansions(mshell, &token->input, 0);
 			i++;
 		}
 		token = token->next;
