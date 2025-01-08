@@ -19,8 +19,7 @@ bool	check_options(t_token *tokens, char *cmd_name)
 	temp = tokens;
 	//if ((ft_strcmp(temp->input, "echo")))
 	//	g_e_code = 0;
-	if (!(ft_strcmp(cmd_name, "unset")) || !(ft_strcmp(cmd_name, "env")) \
-		|| !(ft_strcmp(cmd_name, "export")))
+	if (!(ft_strcmp(cmd_name, "unset")) || !(ft_strcmp(cmd_name, "export")))
 	{
 		if (!temp->next)
 			return (false);
@@ -40,20 +39,23 @@ void	run_builtin(t_minishell *mshell, t_cmd *commands)
 	char	*cmd_name;
 
 	cmd_name = handle_quotes(commands->tokens->input, 0, 0);
-	if (!(ft_strcmp(cmd_name, "cd")))
-		ft_cd(mshell, commands->tokens);
-	else if (!(ft_strcmp(cmd_name, "echo")))
-		ft_echo(mshell, commands->tokens);
-	else if (!(ft_strcmp(cmd_name, "env")))
-		ft_env(mshell->env);
-	else if (!(ft_strcmp(cmd_name, "exit")))
-		ft_exit(mshell, commands->tokens, cmd_name);
-	else if (!(ft_strcmp(cmd_name, "export")))
-		ft_export(mshell, commands->tokens);
-	else if (!(ft_strcmp(cmd_name, "pwd")))
-		ft_pwd(mshell, commands->tokens);
-	else if (!(ft_strcmp(cmd_name, "unset")))
-		ft_unset(mshell, commands->tokens);
+	if (!check_options(commands->tokens, cmd_name))
+	{
+		if (!(ft_strcmp(cmd_name, "cd")))
+			ft_cd(mshell, commands->tokens);
+		else if (!(ft_strcmp(cmd_name, "echo")))
+			ft_echo(mshell, commands->tokens);
+		else if (!(ft_strcmp(cmd_name, "env")))
+			ft_env(mshell->env, commands->tokens);
+		else if (!(ft_strcmp(cmd_name, "exit")))
+			ft_exit(mshell, commands->tokens, cmd_name);
+		else if (!(ft_strcmp(cmd_name, "export")))
+			ft_export(mshell, commands->tokens);
+		else if (!(ft_strcmp(cmd_name, "pwd")))
+			ft_pwd(mshell, commands->tokens);
+		else if (!(ft_strcmp(cmd_name, "unset")))
+			ft_unset(mshell, commands->tokens);
+	}
 	if(cmd_name)
 		free(cmd_name);
 	return ;
@@ -66,8 +68,8 @@ int	is_builtin(t_cmd *commands)
 	if (!commands || !commands->tokens)
 		return (0);
 	cmd_name = handle_quotes(commands->tokens->input, 0, 0);
-	if (!check_options(commands->tokens, cmd_name))
-	{
+	// if (!check_options(commands->tokens, cmd_name))
+	// {
 		if (!(ft_strcmp(cmd_name, "cd")) || !(ft_strcmp(cmd_name, "echo"))
 			|| !(ft_strcmp(cmd_name, "env")) ||!(ft_strcmp(cmd_name, "exit"))
 			||!(ft_strcmp(cmd_name, "export")) || !(ft_strcmp(cmd_name, "pwd"))
@@ -77,7 +79,7 @@ int	is_builtin(t_cmd *commands)
 				return (1);
 			}
 		
-	}
+	//}
 	if(cmd_name)
 		free(cmd_name);
 	return (0);

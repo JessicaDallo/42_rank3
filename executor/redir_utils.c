@@ -68,7 +68,7 @@ bool	redir_input(t_minishell *mshell, char *filename)
 	}
 	close(fd);
 	free(file);
-//	free(temp);
+	//free(temp);
 	return (true);
 }
 

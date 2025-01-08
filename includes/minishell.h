@@ -98,7 +98,7 @@ typedef struct s_minishell
 int			ft_echo(t_minishell *mshell, t_token *tokens);
 bool		check_echo(t_token *token, bool *flag, int *newline);
 
-void		ft_env(t_env *env);
+void		ft_env(t_env *env, t_token *tokens);
 void		init_env(t_minishell *mshell);
 void		add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void		init_struct(t_minishell *mshell, char **envp);

@@ -50,7 +50,6 @@ void	ft_sigint_hd(int signal)
 		rl_on_new_line();
 		rl_done = 1;
 		ioctl(0,TIOCSTI, "");
-		//clear_mshell((minishell(NULL)));
 	}
 }
 

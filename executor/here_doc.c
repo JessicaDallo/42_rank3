@@ -69,6 +69,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
+	g_e_code = 0;
 	pid = creat_pid();
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
