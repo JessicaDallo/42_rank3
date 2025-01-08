@@ -19,9 +19,6 @@ void	handle_signal_main(void)
 	signal(SIGINT, ft_reset_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
-//void	read_input(t_minishell *mshell, char *input)
-//{
-//}
 
 void	main_exec(t_minishell *mshell, char *input)
 {
@@ -35,16 +32,11 @@ void	main_exec(t_minishell *mshell, char *input)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+void	read_input(t_minishell *mshell)
 {
-	t_minishell	mshell;
-	char		*input;
+	char	*input;
 
-	(void)argc;
-	(void)argv;
 	input = NULL;
-	init_struct(&mshell, envp);
-	g_e_code = 0;
 	while (1)
 	{
 		handle_signal_main();
@@ -60,9 +52,22 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 		if (val_sintax(input) > 0)
 			continue ;
-		main_exec(&mshell, input);
+		main_exec(mshell, input);
 		free(input);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_minishell	mshell;
+	char		*input;
+
+	(void)argc;
+	(void)argv;
+	input = NULL;
+	init_struct(&mshell, envp);
+	g_e_code = 0;
+	read_input(&mshell);
 	clear_mshell(&mshell);
 }
 

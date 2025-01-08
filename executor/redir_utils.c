@@ -46,17 +46,14 @@ bool	redir_input(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
-	char	*temp;
 
-	temp = handle_quotes(filename, 0, 0);
-	file = check_tilde(mshell, temp);
-	if (!file || !*file)
-		file = ft_strdup(temp);
+	file = check_tilde(mshell, filename);
 	if (!check_redir_input(file))
+	{
+		free(file);
 		return (false);
+	}
 	fd = open(file, O_RDONLY);
-	if (filename[0] != '$')
-		free(temp);
 	if (fd < 0)
 	{
 		error_msg(file, "No such file or directory", 1);
@@ -78,14 +75,13 @@ bool	redir_output(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
-	char	*temp;
 
-	temp = handle_quotes(filename, 0, 0);
-	file = check_tilde(mshell, temp);
-	if (!file || !*file)
-		file = ft_strdup(temp);
+	file = check_tilde(mshell, filename);
 	if (!check_redir_out(file))
+	{
+		free(file);
 		return (false);
+	}
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -101,7 +97,6 @@ bool	redir_output(t_minishell *mshell, char *filename)
 	}
 	close(fd);
 	free(file);
-	free(temp);
 	return (true);
 }
 
@@ -109,14 +104,13 @@ bool	redir_append(t_minishell *mshell, char *filename)
 {
 	int		fd;
 	char	*file;
-	char	*temp;
 
-	temp = handle_quotes(filename, 0, 0);
-	file = check_tilde(mshell, temp);
-	if (!file || !*file)
-		file = ft_strdup(temp);
+	file = check_tilde(mshell, filename);
 	if (!check_redir_out(file))
+	{
+		free(file);
 		return (false);
+	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
@@ -132,6 +126,5 @@ bool	redir_append(t_minishell *mshell, char *filename)
 	}
 	close(fd);
 	free(file);
-	free(temp);
 	return (true);
 }

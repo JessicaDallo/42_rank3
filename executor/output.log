@@ -1,0 +1,7 @@
+==449402== Memcheck, a memory error detector
+==449402== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==449402== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==449402== Command: /usr/bin/ls
+==449402== Parent PID: 449388
+==449402== 
+==449402== FATAL: can't open suppressions file "readline.supp"
