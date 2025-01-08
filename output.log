@@ -1,29 +1,30 @@
-==553753== Memcheck, a memory error detector
-==553753== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==553753== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==553753== Command: ./minishell
-==553753== Parent PID: 553752
-==553753== 
-==553753== 
-==553753== FILE DESCRIPTORS: 1 open (0 std) at exit.
-==553753== Open file descriptor 3: /home/jesilva-/Documents/42_rank3/output.log
-==553753==    <inherited from parent>
-==553753== 
-==553753== 
-==553753== HEAP SUMMARY:
-==553753==     in use at exit: 208,274 bytes in 229 blocks
-==553753==   total heap usage: 1,102 allocs, 873 frees, 247,682 bytes allocated
-==553753== 
-==553753== LEAK SUMMARY:
-==553753==    definitely lost: 0 bytes in 0 blocks
-==553753==    indirectly lost: 0 bytes in 0 blocks
-==553753==      possibly lost: 0 bytes in 0 blocks
-==553753==    still reachable: 0 bytes in 0 blocks
-==553753==         suppressed: 208,274 bytes in 229 blocks
-==553753== 
-==553753== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
---553753-- 
---553753-- used_suppression:     63 leak readline readline.supp:2 suppressed: 204,170 bytes in 222 blocks
---553753-- used_suppression:      4 leak add_history readline.supp:8 suppressed: 4,104 bytes in 7 blocks
-==553753== 
-==553753== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==313211== Memcheck, a memory error detector
+==313211== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==313211== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==313211== Command: ./minishell
+==313211== Parent PID: 313210
+==313211== 
+==313215== 
+==313215== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==313215== Open file descriptor 3: /home/jesilva-/Documents/42_rank3/output.log
+==313215==    <inherited from parent>
+==313215== 
+==313215== 
+==313215== HEAP SUMMARY:
+==313215==     in use at exit: 208,233 bytes in 226 blocks
+==313215==   total heap usage: 1,067 allocs, 841 frees, 247,153 bytes allocated
+==313215== 
+==313215== LEAK SUMMARY:
+==313215==    definitely lost: 0 bytes in 0 blocks
+==313215==    indirectly lost: 0 bytes in 0 blocks
+==313215==      possibly lost: 0 bytes in 0 blocks
+==313215==    still reachable: 0 bytes in 0 blocks
+==313215==         suppressed: 208,233 bytes in 226 blocks
+==313215== 
+==313215== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--313215-- 
+--313215-- used_suppression:     63 leak readline readline.supp:2 suppressed: 204,173 bytes in 222 blocks
+--313215-- used_suppression:      4 leak add_history readline.supp:8 suppressed: 4,060 bytes in 4 blocks
+==313215== 
+==313215== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+     
