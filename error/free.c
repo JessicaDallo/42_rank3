@@ -65,6 +65,7 @@ void	free_cmd(t_cmd *cmd)
 
 	if (!cmd)
 		return ;
+	close_pipes(cmd);
 	while (cmd)
 	{
 		aux = cmd->next;

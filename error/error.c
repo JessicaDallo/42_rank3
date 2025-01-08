@@ -31,16 +31,6 @@ void	perror_msg(char *cmd, char *str)
 	g_e_code = errno;
 }
 
-t_minishell	*minishell(t_minishell *mshell)
-{
-	static t_minishell	*minishell = NULL;
-
-	if(mshell)
-		minishell = mshell;
-
-	return (minishell);
-}
-
 void	close_fds(void)
 {
 	close(STDIN_FILENO);
@@ -48,19 +38,4 @@ void	close_fds(void)
 	close(STDERR_FILENO);
 }
 
-void	free_mshell(t_minishell *mshell)
-{
-	if (!mshell)
-		return ;
-	if (mshell->env)
-		free_envlist(mshell->env);
-	if (mshell->commands)
-		free_cmd(mshell->commands);
-	if (mshell->envp)
-		free_array(mshell->envp);
-	close(mshell->heredoc_fd);
-	//close(mshell->initial_fds[0]);
-	//close(mshell->initial_fds[1]);
-	close_fds();
-}
 

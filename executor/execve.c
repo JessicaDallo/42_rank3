@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:50:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:44:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	execpath_error(char *path)
 {
-	//ft_putendl("entrei exec_path 2");
 	if (ft_strchr(path, '/') || path[0] == '.')
 	{
 		if (access(path, F_OK) < 0)
@@ -38,7 +37,6 @@ int	execpath_error(char *path)
 
 int	check_execpath(t_token *token, char *path)
 {
-	//ft_putendl("entrei exec_path 1");
 	if (!path || path == NULL)
 	{
 		error_msg(token->input, "command not found", 127);
@@ -81,11 +79,12 @@ char	*get_execpath(t_minishell *mshell, char *cmd_name)
 
 void	check_exit_status(t_minishell *mshell)
 {
+	(void)mshell;
 	if (WIFEXITED(g_e_code))
 		g_e_code = WEXITSTATUS(g_e_code);
 	else if (WIFSIGNALED(g_e_code))
 		g_e_code = 128 + WTERMSIG(g_e_code);
-	mshell->e_code = g_e_code;
+	//mshell->e_code = g_e_code;
 	// if (g_e_code == 130)
 	// {
 	// 	free_cmd(mshell->commands);

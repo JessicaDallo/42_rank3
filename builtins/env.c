@@ -12,11 +12,18 @@
 
 #include "minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_env(t_env *env, t_token *tokens)
 {
 	t_env	*temp;
 
 	temp = env;
+
+	if (tokens->next)
+	{
+		g_e_code = 1;
+		error_msg(tokens->input, "arguments or options aren't supported", 1);
+		return ;
+	}
 	while (temp != NULL)
 	{
 		if (temp->print)
@@ -87,7 +94,6 @@ void	init_struct(t_minishell *mshell, char **envp)
 	if (!mshell)
 		return ;
 	//mshell->heredoc_fd = -1;
-	minishell(mshell);
 	i = 0;
 	while (envp[i])
 		i++;

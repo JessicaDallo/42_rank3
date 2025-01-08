@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 22:13:46 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:57:43 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,12 +196,15 @@ void	exec_multi_cmds(t_minishell *mshell)
 {
 	t_cmd	*cmd;
 	int		prev_fd;
+	int		n_cmds;
+	int		j;
 
 	cmd = mshell->commands;
 	prev_fd = -1;
+	n_cmds = get_ncmds(mshell->commands);
+	mshell->i = 0;
 	while (cmd)
 	{
-		signal(SIGINT, SIG_IGN);
 		if (cmd->tokens && has_heredoc(mshell, &(cmd->tokens)))
 		{
 			open_hd(mshell);
@@ -212,6 +215,13 @@ void	exec_multi_cmds(t_minishell *mshell)
 		exec_child(mshell, cmd, &prev_fd);
 		cmd = cmd->next;
 	}
+	j = 0;
+	while (j < n_cmds)
+	{
+		waitpid(mshell->child[j], &g_e_code, 0);
+		j++;
+	}
+	check_exit_status(mshell);
 }
 
 void	handle_exec(t_minishell *mshell)
@@ -228,7 +238,9 @@ void	handle_exec(t_minishell *mshell)
 		}
 		if (handle_redir(mshell, &(mshell->commands->tokens)))
 		{
-			if (!is_builtin(mshell, mshell->commands))
+			if (is_builtin(mshell->commands))
+				run_builtin(mshell, mshell->commands);
+			else
 				run_execve(mshell, mshell->commands->tokens);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:43:34 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:14:14 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:59:58 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,17 @@ void	ft_sigint_hd(int signal)
 		rl_on_new_line();
 		rl_done = 1;
 		ioctl(0,TIOCSTI, "");
-		//clear_mshell((minishell(NULL)));
 	}
 }
+
+//void	ft_sigint_hd(int signal)
+//{
+	
+//	if (signal == SIGINT)
+//	{
+//		g_e_code = 130;
+//		ft_putstr_fd("\n", STDERR_FILENO);
+//		rl_on_new_line();
+//		clear_mshell((minishell(NULL)));
+//	}
+//}

@@ -30,7 +30,7 @@ bool	check_echo(t_token *token, bool *flag, int *newline)
 void	loop_echo(t_minishell *mshell, t_token *token, int *newline, bool *flag)
 {
 	char	*tmp;
-	
+
 	tmp = NULL;
 	if (token && token->input && flag && !ft_strncmp(token->input, "-n", 2))
 	{

@@ -1,29 +1,29 @@
-==591332== Memcheck, a memory error detector
-==591332== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==591332== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==591332== Command: ./minishell
-==591332== Parent PID: 591331
-==591332== 
-==591332== 
-==591332== FILE DESCRIPTORS: 1 open (0 std) at exit.
-==591332== Open file descriptor 3: /home/shrodrig/Desktop/last_mshell_copy/output.log
-==591332==    <inherited from parent>
-==591332== 
-==591332== 
-==591332== HEAP SUMMARY:
-==591332==     in use at exit: 208,227 bytes in 226 blocks
-==591332==   total heap usage: 1,116 allocs, 890 frees, 248,544 bytes allocated
-==591332== 
-==591332== LEAK SUMMARY:
-==591332==    definitely lost: 0 bytes in 0 blocks
-==591332==    indirectly lost: 0 bytes in 0 blocks
-==591332==      possibly lost: 0 bytes in 0 blocks
-==591332==    still reachable: 0 bytes in 0 blocks
-==591332==         suppressed: 208,227 bytes in 226 blocks
-==591332== 
-==591332== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
---591332-- 
---591332-- used_suppression:     63 leak readline readline.supp:2 suppressed: 204,170 bytes in 222 blocks
---591332-- used_suppression:      4 leak add_history readline.supp:8 suppressed: 4,057 bytes in 4 blocks
-==591332== 
-==591332== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==426094== Memcheck, a memory error detector
+==426094== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==426094== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==426094== Command: ./minishell
+==426094== Parent PID: 426093
+==426094== 
+==426094== 
+==426094== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==426094== Open file descriptor 3: /home/shrodrig/Desktop/mshell_v2.0/output.log
+==426094==    <inherited from parent>
+==426094== 
+==426094== 
+==426094== HEAP SUMMARY:
+==426094==     in use at exit: 208,358 bytes in 235 blocks
+==426094==   total heap usage: 1,199 allocs, 964 frees, 249,210 bytes allocated
+==426094== 
+==426094== LEAK SUMMARY:
+==426094==    definitely lost: 0 bytes in 0 blocks
+==426094==    indirectly lost: 0 bytes in 0 blocks
+==426094==      possibly lost: 0 bytes in 0 blocks
+==426094==    still reachable: 0 bytes in 0 blocks
+==426094==         suppressed: 208,358 bytes in 235 blocks
+==426094== 
+==426094== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--426094-- 
+--426094-- used_suppression:     63 leak readline readline.supp:2 suppressed: 204,170 bytes in 222 blocks
+--426094-- used_suppression:      4 leak add_history readline.supp:8 suppressed: 4,188 bytes in 13 blocks
+==426094== 
+==426094== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

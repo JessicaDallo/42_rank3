@@ -6,11 +6,12 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:04:10 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int	tmp_heredoc()
 {
@@ -68,6 +69,7 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
+	g_e_code = 0;
 	pid = creat_pid();
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -126,6 +128,7 @@ bool	has_heredoc(t_minishell *mshell, t_token **tokens)
 	}
 	return (flag);
 }
+
 
 /*int	tmp_heredoc()
 {
