@@ -43,6 +43,8 @@ static int	check_del(char *arg, int *was_cmd, int *i)
 		if (!val_quot(arg, i))
 			return (err_val("syntax error quote not closed"));
 	}
+	if (arg[*i] == '&' && arg[*i+1] == '&')
+		return (err_val("syntax error near unexpected token `&'"));
 	return (0);
 }
 
@@ -55,6 +57,7 @@ int	val_sintax(char *arg)
 	was_cmd = 0;
 	if (!arg)
 		return (1);
+
 	while (arg[i])
 	{
 		if (!arg)

@@ -114,7 +114,8 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	signal(SIGQUIT, ft_sigquit);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		close(mshell->initial_fds[0]);
+		close(mshell->initial_fds[1]);
 		signal(SIGINT, SIG_DFL);
 		// if (!args || !args[0])
 		// 	return ;
@@ -130,8 +131,6 @@ void	run_execve(t_minishell *mshell, t_token *token)
 		free(executable);
 		free_array(args);
 		clear_mshell(mshell);
-		//close(mshell->initial_fds[0]);
-		//close(mshell->initial_fds[1]);
 	}
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);

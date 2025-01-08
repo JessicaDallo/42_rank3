@@ -52,21 +52,21 @@ fclean: clean
 re: fclean all
 
 leaks: readline.supp
-	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s --log-file=output.log ./$(NAME)
+	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes  --trace-children=yes --gen-suppressions=all -s --log-file=output.log ./$(NAME)
 
-readline.supp:
-	@echo "{" > readline.supp
-	@echo "    leak readline" >> readline.supp
-	@echo "    Memcheck:Leak" >> readline.supp
-	@echo "    ..." >> readline.supp
-	@echo "    fun:readline" >> readline.supp
-	@echo "}" >> readline.supp
-	@echo "{" >> readline.supp
-	@echo "    leak add_history" >> readline.supp
-	@echo "    Memcheck:Leak" >> readline.supp
-	@echo "    ..." >> readline.supp
-	@echo "    fun:add_history" >> readline.supp
-	@echo "}" >> readline.supp
+# readline.supp:
+# 	@echo "{" > readline.supp
+# 	@echo "    leak readline" >> readline.supp
+# 	@echo "    Memcheck:Leak" >> readline.supp
+# 	@echo "    ..." >> readline.supp
+# 	@echo "    fun:readline" >> readline.supp
+# 	@echo "}" >> readline.supp
+# 	@echo "{" >> readline.supp
+# 	@echo "    leak add_history" >> readline.supp
+# 	@echo "    Memcheck:Leak" >> readline.supp
+# 	@echo "    ..." >> readline.supp
+# 	@echo "    fun:add_history" >> readline.supp
+# 	@echo "}" >> readline.supp
 
 #valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --gen-suppressions=all -s --log-file=output.log ./$(NAME)
 
