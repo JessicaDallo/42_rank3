@@ -139,6 +139,8 @@ void		expand_exit(char **line, int flag);
 char		*get_position(char *line, int flag);
 char		*get_epos(char *line, int flag);
 bool		is_expand(char *delim);
+void		close_heredoc(t_minishell *mshell, char *eof);
+void		handle_expansion_hd(t_minishell *mshell, char *line, bool expand);
 
 bool		process_char(char current, char *prev, char *result,
 				bool *insid_quote);
@@ -180,6 +182,8 @@ int			execpath_error(char *path);
 char		*get_execpath(t_minishell *mshell, char *cmd_name, int i);
 void		check_exit_status(t_minishell *mshell);
 void		run_execve(t_minishell *mshell, t_token *token);
+void		check_execve(t_minishell *mshell, char **args);
+void		check_pid(t_token *token);
 
 pid_t		creat_pid(void);
 void		exec_multi_cmds(t_minishell *mshell);
@@ -236,7 +240,4 @@ int			len_red(char *str, char c);
 void		ft_print_array(char **cmd);
 void		ft_print_tokens(t_cmd **cmd);
 
-void		close_heredoc(t_minishell *mshell, char *eof);
-void		handle_expansion_hd(t_minishell *mshell, char *line, bool expand);
-void		check_execve(t_minishell *mshell, char **args);
 #endif

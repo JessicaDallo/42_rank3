@@ -19,7 +19,6 @@ void	handle_signal_main(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_reset_prompt);
-	//signal(SIGQUIT, SIG_IGN);
 }
 
 void	main_exec(t_minishell *mshell, char *input)

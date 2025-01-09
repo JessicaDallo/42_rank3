@@ -53,3 +53,17 @@ void	check_execve(t_minishell *mshell, char **args)
 	free(executable);
 	free_array(args);
 }
+
+void	check_pid(t_token *token)
+{
+	if (ft_strcmp(token->input, "./minishell") == 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, ft_sigint);
+		signal(SIGQUIT, ft_sigquit);
+	}
+}
