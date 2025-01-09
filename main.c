@@ -45,7 +45,7 @@ void	read_input(t_minishell mshell)
 		input = readline("minishell> ");
 		if (!input)
 		{
-			printf("exit_main\n");
+			printf("exit\n");
 			break ;
 		}
 		if (*input == '\0')

@@ -66,6 +66,7 @@ int	ft_exit(t_minishell *mshell, t_token *token, char *cmd_name)
 	}
 	else
 	{
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit_code = get_exit(token);
 		g_e_code = exit_code;
 		exit_mshell(mshell, cmd_name);
