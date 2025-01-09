@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 19:13:13 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:19:37 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,15 @@ char	*check_tilde(t_minishell *mshell, char *input)
 	clean = handle_quotes(input, 0, 0);
 	if (clean[0] == '$')
 	{
-		ft_putendl(input);
-		if(input[0] == '\'')
+		if (input[0] == '\'')
 		{
-			ft_putendl("passa aqui");
 			handle_expansions(mshell, &clean, 0);
-			ft_putendl(clean);
+			//ft_putendl(clean);
 		}
 		else
 			handle_expansions(mshell, &clean, 1);
-		ft_putendl(clean);
-		if(!*clean)
+		//ft_putendl(clean);
+		if (!*clean)
 		{
 			free(clean);
 			return (ft_strdup(input));
@@ -86,24 +84,52 @@ void	get_path(t_minishell *mshell, t_token *token, char **path)
 	handle_expansions(mshell, path, 1);
 }
 
+//void	ft_cd(t_minishell *mshell, t_token *token)
+//{
+//	char	*oldpwd;
+//	char	*newpwd;
+//	char	*path;
+
+//	path = NULL;
+//	oldpwd = get_value(mshell, "PWD");
+//	if (!token->next || !token->next->input)
+//		path = go_path(mshell,"HOME");
+//	else
+//		get_path(mshell, token->next, &path);
+//	if(g_e_code == 1)
+//		return ;
+//	if (!path || path[0] == '\0')
+//	{
+//		if (path[0] == '\0')
+//			free(path);
+//		return ;
+//	}
+//	if (chdir(path) != 0)
+//		error_msg("cd", "No such file or directory", 1);
+//	update_env(mshell, "OLDPWD", oldpwd, true);
+//	newpwd = getcwd(NULL, 0);
+//	if (!newpwd)
+//		newpwd = ft_strdup(path);
+//	update_env(mshell, "PWD", newpwd, true);
+//	free(path);
+//	if (newpwd)
+//		free(newpwd);
+//}
 void	ft_cd(t_minishell *mshell, t_token *token)
 {
 	char	*oldpwd;
 	char	*newpwd;
 	char	*path;
 
-	path = NULL;
 	oldpwd = get_value(mshell, "PWD");
+	path = NULL;
 	if (!token->next || !token->next->input)
-		path = go_path(mshell,"HOME");
+		path = go_path(mshell, "HOME");
 	else
 		get_path(mshell, token->next, &path);
-	if(g_e_code == 1)
-		return ;
-	if (!path || path[0] == '\0')
+	if (g_e_code == 1 || !path || !*path)
 	{
-		if (path[0] == '\0')
-			free(path);
+		free(path);
 		return ;
 	}
 	if (chdir(path) != 0)
@@ -114,6 +140,5 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 		newpwd = ft_strdup(path);
 	update_env(mshell, "PWD", newpwd, true);
 	free(path);
-	if (newpwd)
-		free(newpwd);
+	free(newpwd);
 }

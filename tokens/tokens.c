@@ -19,12 +19,6 @@ void	process_t(t_cmd **cmd, char **arr, int *i, bool *new_cmd)
 
 	tmp = NULL;
 	type = get_type(arr[*i], *new_cmd);
-	//if (type == 0 && arr[*i][1] != '$')
-	//{
-	//	if (ft_strncmp(arr[*i], "\"\"", 3) != 0
-	//		&& ft_strncmp(arr[*i], "\'\'", 3) != 0)
-	//		tmp = handle_quotes(arr[*i], 0, 0);
-	//}
 	if (tmp)
 	{
 		add_token(cmd, tmp, type, *new_cmd);
@@ -70,7 +64,6 @@ t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 			free_array(temp);
 			temp = NULL;
 		}
-	//	ft_print_tokens(&cmd);
 		cpy_input++;
 	}
 	return (cmd);

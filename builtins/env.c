@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:56:58 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/07 20:57:17 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:24:02 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_env(t_env *env, t_token *tokens)
 	t_env	*temp;
 
 	temp = env;
-
 	if (tokens->next)
 	{
 		g_e_code = 1;
@@ -93,7 +92,6 @@ void	init_struct(t_minishell *mshell, char **envp)
 	ft_bzero(mshell, sizeof(t_minishell));
 	if (!mshell)
 		return ;
-	//mshell->heredoc_fd = -1;
 	i = 0;
 	while (envp[i])
 		i++;

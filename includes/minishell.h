@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 20:01:40 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 02:28:47 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
-extern int g_e_code;
+extern int	g_e_code;
 
 typedef enum e_type
 {
@@ -104,7 +104,7 @@ void		add_env(t_minishell *mshell, char *key, char *value, bool flag);
 void		init_struct(t_minishell *mshell, char **envp);
 
 int			ft_exit(t_minishell *mshell, t_token *token, char *cmd_name);
-int			get_exit(t_minishell *mshell, t_token *token);
+int			get_exit(t_token *token);
 int			is_num(char *str);
 bool		m_long(char *str);
 
@@ -170,23 +170,26 @@ void		ft_sigint_hd(int signal);
 
 /*--------------------------------- EXEC ---------------------------------*/
 void		ft_heredoc(t_minishell *mshell, char *delim);
-int			tmp_heredoc();
+int			tmp_heredoc(void);
 void		read_heredoc(t_minishell *mshell, char *eof, bool expand);
 void		open_hd(t_minishell *mshell);
 bool		has_heredoc(t_minishell *mshell, t_token **tokens);
 
-int			check_execpath(t_token *token, char *path);
+int			check_execpath(char *args, char *path);
 int			execpath_error(char *path);
-char		*get_execpath(t_minishell *mshell, char *cmd_name);
+char		*get_execpath(t_minishell *mshell, char *cmd_name, int i);
 void		check_exit_status(t_minishell *mshell);
 void		run_execve(t_minishell *mshell, t_token *token);
 
-pid_t		creat_pid();
+pid_t		creat_pid(void);
 void		exec_multi_cmds(t_minishell *mshell);
 int			check_cmd(t_minishell *mshell, t_cmd **cmd, int *prev_fd);
 void		exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
 void		run_cmd(t_minishell *mshell, t_cmd *cmd, int *prev_fd);
 void		handle_exec(t_minishell *mshell);
+
+void		wait_childs(t_minishell *mshell, int n_cmds);
+int			get_ncmds(t_cmd *cmd);
 
 void		create_pipes(t_cmd *cmd);
 void		close_pipes(t_cmd *cmd);
@@ -233,4 +236,7 @@ int			len_red(char *str, char c);
 void		ft_print_array(char **cmd);
 void		ft_print_tokens(t_cmd **cmd);
 
+void		close_heredoc(t_minishell *mshell, char *eof);
+void		handle_expansion_hd(t_minishell *mshell, char *line, bool expand);
+void	check_execve(t_minishell *mshell, char **args);
 #endif

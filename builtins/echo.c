@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/05 19:13:46 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:24:10 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,3 @@ int	ft_echo(t_minishell *mshell, t_token *token)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (g_e_code = 0);
 }
-

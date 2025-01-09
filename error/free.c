@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 18:39:26 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:25:09 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_envlist(t_env *env)
 	while (env)
 	{
 		aux = env->next;
-		if(env->key)
+		if (env->key)
 			free(env->key);
 		if (env->value)
 			free(env->value);

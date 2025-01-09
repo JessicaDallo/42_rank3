@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2025/01/04 17:57:49 by sheila           ###   ########.fr        #
+#    Updated: 2025/01/09 02:30:48 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = -L ${LIBFT_PATH} -lft -lreadline
 
 BUILTINS = cd.c echo.c pwd.c export.c export_utils.c unset.c env.c exit.c exit_utils.c builtins_utils.c
 SYNTAX = expansions.c expansions_utils.c quotes.c signal.c convert_args.c
-EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c redir_utils.c
+EXEC = here_doc.c execve.c exec_cmd.c redir.c pipes.c redir_utils.c exec_utils.c
 ERROR = error.c free.c
 VALIDATE = validate.c val_delimiters.c
 TOKENS = tokens.c create_tokens.c tokens_utils.c split_tokens.c tokens_str_utils.c
