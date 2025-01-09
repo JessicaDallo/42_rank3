@@ -30,6 +30,26 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	return (i);
 }
 
+bool	loop_convert_args(t_token *tk, int i, char **temp)
+{
+	while (tk)
+	{
+		if (tk->input && *tk->input)
+		{
+			temp[i] = handle_quotes(tk->input, 0, 0);
+			if (!temp[i])
+			{
+				free_array(temp);
+				return (false);
+			}
+			i++;
+		}
+		tk = tk->next;
+	}
+	temp[i] = NULL;
+	return (true);
+}
+
 char	**convert_args(t_minishell *mshell, t_token *tk)
 {
 	char	**temp;
@@ -38,7 +58,7 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, tk) + 1));
 	if (!temp)
 		return (NULL);
-	if (!*tk->input)
+	if (!*tk->input && !tk->next)
 	{
 		free(temp);
 		return (NULL);
@@ -49,20 +69,7 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		temp[i++] = ft_strdup(tk->input);
 		tk = tk->next;
 	}
-	while (tk)
-	{
-		if (tk->input && *tk->input)
-		{
-			temp[i] = handle_quotes(tk->input, 0, 0);
-			if (!temp[i])
-			{
-				free_array(temp);
-				return (NULL);
-			}
-			i++;
-		}
-		tk = tk->next;
-	}
-	temp[i] = NULL;
+	if (!loop_convert_args(tk, i, temp))
+		return (NULL);
 	return (temp);
 }
