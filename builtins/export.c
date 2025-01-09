@@ -73,7 +73,6 @@ bool	check_key(char *input)
 			return (false);
 		}
 	}
-	g_e_code = 0;
 	return (true);
 }
 
@@ -104,6 +103,7 @@ void	ft_export(t_minishell *mshell, t_token *tokens)
 	t_token	*temp;
 
 	temp = tokens->next;
+	g_e_code = 0;
 	if (!temp || !temp->input)
 		print_export(mshell);
 	else

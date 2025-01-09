@@ -84,6 +84,21 @@ void	check_exit_status(t_minishell *mshell)
 		g_e_code = 128 + WTERMSIG(g_e_code);
 }
 
+
+// static void	check_pid(t_token token);
+// {
+// 	if (ft_strcmp(token->input, "./minishell") == 0)
+// 	{
+// 		signal(SIGINT, SIG_IGN);
+// 		signal(SIGQUIT, SIG_IGN);
+// 	}
+// 	else
+// 	{
+// 		signal(SIGINT, ft_sigint);
+// 		signal(SIGQUIT, ft_sigquit);
+// 	}
+// }
+
 void	run_execve(t_minishell *mshell, t_token *token)
 {
 	char	**args;
@@ -95,16 +110,25 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if (!args || !args[0])
 		return ;
 	pid = creat_pid();
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
+	if (ft_strcmp(token->input, "./minishell") == 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, ft_sigint);
+		signal(SIGQUIT, ft_sigquit);
+	}
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		close(mshell->initial_fds[0]);
-		close(mshell->initial_fds[1]);
+		//close(mshell->initial_fds[0]);
+		//close(mshell->initial_fds[1]);
+		close_pipes(mshell->commands);
 		check_execve(mshell, args);
 		clear_mshell(mshell);
 	}
+	close_pipes(mshell->commands);
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
 	free_array(args);

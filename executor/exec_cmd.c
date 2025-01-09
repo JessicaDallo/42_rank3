@@ -109,6 +109,7 @@ void	handle_exec(t_minishell *mshell)
 		}
 		if (handle_redir(mshell, &(mshell->commands->tokens)))
 		{
+			//close(mshell->commands->fd[0]);
 			if (is_builtin(mshell->commands))
 				run_builtin(mshell, mshell->commands);
 			else
@@ -117,7 +118,7 @@ void	handle_exec(t_minishell *mshell)
 	}
 	else
 		exec_multi_cmds(mshell);
-	close_pipes(mshell->commands);
+	//close_pipes(mshell->commands);
 	if (mshell->heredoc_fd != -1)
 		close(mshell->heredoc_fd);
 	recover_original_fds(mshell->initial_fds);
