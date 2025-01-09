@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 int	is_redir(t_split *spl, char *str)
 {
@@ -82,7 +82,7 @@ char	*ft_trim(char *str)
 	while ((str[j] == ' ' || (str[j] >= 9 && str[j] <= 13)) && i <= j)
 		j--;
 	temp = ft_calloc(j - i + 2, sizeof(char));
-	if(!temp)
+	if (!temp)
 		return (NULL);
 	while (i <= j)
 	{
@@ -100,9 +100,13 @@ void	process_trim(t_split *spl)
 	int		i;
 
 	i = 0;
+	temp = NULL;
+	if (spl->arr == NULL)
+		return ;
 	while (spl->arr[i] != NULL)
 	{
 		temp = ft_trim(spl->arr[i]);
+		free(spl->arr[i]);
 		spl->arr[i] = temp;
 		i++;
 	}

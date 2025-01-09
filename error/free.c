@@ -6,22 +6,23 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:12:41 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:14:53 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:25:09 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	free_array(char **str)
 {
 	int	i;
-	
-	if(!str)
-		return;
+
+	if (!str)
+		return ;
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	free(str);
@@ -32,11 +33,13 @@ void	free_envlist(t_env *env)
 {
 	t_env	*aux;
 
-	while(env)
+	while (env)
 	{
 		aux = env->next;
-		free(env->key);
-		free(env->value);
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
 		free(env);
 		env = aux;
 	}
@@ -45,11 +48,11 @@ void	free_envlist(t_env *env)
 void	free_tokens(t_token *tokens)
 {
 	t_token	*aux;
-	
-	while(tokens)
+
+	while (tokens)
 	{
 		aux = tokens->next;
-		if(tokens->input)
+		if (tokens->input)
 			free(tokens->input);
 		free(tokens);
 		tokens = aux;
@@ -59,12 +62,18 @@ void	free_tokens(t_token *tokens)
 void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*aux;
-	
-	while(cmd)
+
+	if (!cmd)
+		return ;
+	close_pipes(cmd);
+	while (cmd)
 	{
 		aux = cmd->next;
-		if(cmd->tokens)
+		if (cmd->tokens)
+		{
 			free_tokens(cmd->tokens);
+			cmd->tokens = NULL;
+		}
 		free(cmd);
 		cmd = aux;
 	}
@@ -72,15 +81,17 @@ void	free_cmd(t_cmd *cmd)
 
 void	clear_mshell(t_minishell *mshell)
 {
-	if(!mshell)
-		return;
-	if(mshell->env)
+	if (!mshell)
+		return ;
+	if (mshell->env)
 		free_envlist(mshell->env);
-	if(mshell->commands)
+	if (mshell->commands)
 		free_cmd(mshell->commands);
-	if(mshell->envp)
+	if (mshell->envp)
 		free_array(mshell->envp);
 	close(mshell->heredoc_fd);
+	close(mshell->initial_fds[0]);
+	close(mshell->initial_fds[1]);
 	close_fds();
-	exit(mshell->e_code);
+	exit(g_e_code);
 }

@@ -6,66 +6,70 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:00:23 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:19:37 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-char	*go_path(char *env)
+char	*go_path(t_minishell *mshell, char *env)
 {
-	t_minishell	**mshell;
-	char        *path;
+	char		*path;
 
-	mshell = get_shell();
-	path = get_value(*mshell, env);
+	path = ft_strdup(get_value(mshell, env));
 	if (!path)
 	{
 		if (ft_strcmp(env, "HOME") == 0)
 			error_msg("cd", "HOME is not set", 1);
 		else
 			error_msg("cd", "OLDPWD is not set", 1);
-		return(NULL);
+		return (NULL);
 	}
-	return(path);
+	return (path);
 }
 
-char	*check_tilde(char *input)
+char	*check_tilde(t_minishell *mshell, char *input)
 {
-	t_minishell	**mshell;
-	char		*path_expand;
+	char	*path_expand;
+	char	*clean;
 
-	mshell = get_shell();
-	(*mshell)->e_code = 0;
+	g_e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
-		return(path_expand = go_path("HOME"));
-	else if(input[0] == '~')
-		return (path_expand = ft_strjoin(go_path("HOME"), input + 1));
-	return(NULL);
+		return (path_expand = go_path(mshell, "HOME"));
+	else if (input[0] == '~')
+		return (path_expand = ft_strjoin(go_path(mshell, "HOME"), input + 1));
+	clean = handle_quotes(input, 0, 0);
+	if (input[0] == '$' || ((input[0] == '\"' && input[1] == '$')))
+	{
+		handle_expansions(mshell, &clean, 1);
+		if (!*clean)
+		{
+			free(clean);
+			return (ft_strdup(input));
+		}
+	}
+	return (clean);
 }
 
-void	get_path(t_minishell *mshell, t_token *token, char **path, bool *flag)
+void	get_path(t_minishell *mshell, t_token *token, char **path)
 {
-	*flag = false;
-	if(token->next)
+	g_e_code = 0;
+	if (token->next)
 	{
 		error_msg("cd", "too many arguments", 1);
-		return;
+		return ;
 	}
-	else if(token->input[0] == '~')
+	else if (token->input[0] == '~')
 	{
-		if(token->input[1] == '\0')
-			*path = go_path("HOME");
+		if (token->input[1] == '\0')
+			*path = go_path(mshell, "HOME");
 		else
-		{
-			*flag = true;
-			*path = ft_strjoin(go_path("HOME"), token->input + 1);
-		}
+			*path = ft_strjoin(go_path(mshell, "HOME"), token->input + 1);
 	}
 	else if (token->input[0] == '-' && token->input[1] == '\0')
 	{
-		*path = go_path("OLDPWD");
-		if(*path)
+		*path = go_path(mshell, "OLDPWD");
+		if (*path)
 			ft_putendl_fd(*path, STDOUT_FILENO);
 	}
 	else
@@ -76,28 +80,27 @@ void	get_path(t_minishell *mshell, t_token *token, char **path, bool *flag)
 void	ft_cd(t_minishell *mshell, t_token *token)
 {
 	char	*oldpwd;
-	char	pwd[PATH_MAX];
+	char	*newpwd;
 	char	*path;
-	bool	flag;
-	
-	token = token->next;
+
+	oldpwd = get_value(mshell, "PWD");
 	path = NULL;
-	if(!(oldpwd = getcwd(pwd, sizeof(pwd))))
-	{
-		perror("getcwd() error:");
-		return;
-	}
-	if (!token || !token->input)
-		path = go_path("HOME");
+	if (!token->next || !token->next->input)
+		path = go_path(mshell, "HOME");
 	else
-		get_path(mshell, token, &path, &flag);
-	if(!path || path[0] == '\0')
-		return;
-	if(chdir(path) != 0)
-		error_msg("cd", "No such file or directory", 1); //alterar a funcao para incluir o exite code
-	update_env(mshell, "OLDPWD",oldpwd, true);
-	getcwd(pwd, sizeof(pwd));
-	update_env(mshell, "PWD", pwd, true);
-	if(flag)
+		get_path(mshell, token->next, &path);
+	if (g_e_code == 1 || !path || !*path)
+	{
 		free(path);
+		return ;
+	}
+	if (chdir(path) != 0)
+		error_msg("cd", "No such file or directory", 1);
+	update_env(mshell, "OLDPWD", oldpwd, true);
+	newpwd = getcwd(NULL, 0);
+	if (!newpwd)
+		newpwd = ft_strdup(path);
+	update_env(mshell, "PWD", newpwd, true);
+	free(path);
+	free(newpwd);
 }

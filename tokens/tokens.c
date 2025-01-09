@@ -6,57 +6,43 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:56:16 by jesilva-          #+#    #+#             */
-/*   Updated: 2024/12/31 17:09:01 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:07:24 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
-/*static char	*rm_quotes(char *str)
+void	process_t(t_cmd **cmd, char **arr, int *i, bool *new_cmd)
 {
-	int	i;
-	int j;
-	char *temp;
+	t_token_type		type;
+	char				*tmp;
 
-	j = 0;
-	i = 0;
-	while(str[i] != '\0')
+	tmp = NULL;
+	type = get_type(arr[*i], *new_cmd);
+	if (tmp)
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			i++;
-		i++;
-		j++;
+		add_token(cmd, tmp, type, *new_cmd);
+		free(tmp);
+		tmp = NULL;
 	}
-	temp = ft_calloc(sizeof(char), j + 1);
-	i = 0;
-	j = 0;
-	while(str[i] != '\0')
+	else
 	{
-		if(str[i] == '"' || str[i] == '\'')
-			i++;
-		temp[j++] = str[i++];
+		if (is_delimiter(arr[*i]))
+			(*i)++;
+		add_token(cmd, arr[*i], type, *new_cmd);
 	}
-	temp[j] = '\0';
-	return (temp);
-}*/
+}
 
-
-static void	process_tokens(char **temp, t_cmd **cmd)
+static void	process_tokens(char **temp_arr, t_cmd **cmd)
 {
-	token_type	type;
-	bool		new_cmd;
-	int			i;
+	bool			new_cmd;
+	int				i;
 
 	i = 0;
 	new_cmd = true;
-	while (temp[i])
+	while (temp_arr[i])
 	{
-		type = get_type(temp[i], new_cmd);
-		if(type == 0)
-			temp[i] = handle_quotes(temp[i], 0, 0); //alterei rm_quotes para handle_quotes
-		if (is_delimiter(temp[i]))
-			i++;
-		add_token(cmd, temp[i], type, new_cmd);
+		process_t(cmd, temp_arr, &i, &new_cmd);
 		new_cmd = false;
 		i++;
 	}
@@ -65,18 +51,20 @@ static void	process_tokens(char **temp, t_cmd **cmd)
 t_cmd	*get_tokens(t_cmd *cmd, char **h_input)
 {
 	char		**temp;
+	char		**cpy_input;
 
-	while (*h_input)
+	cpy_input = h_input;
+	while (*cpy_input)
 	{
 		add_cmd(&cmd);
-		temp = ft_split_quots(*h_input, ' ');
+		temp = ft_split_quots(*cpy_input, ' ');
 		if (temp)
 		{
 			process_tokens(temp, &cmd);
 			free_array(temp);
 			temp = NULL;
 		}
-		h_input++;
+		cpy_input++;
 	}
 	return (cmd);
 }
@@ -85,11 +73,20 @@ t_cmd	*parse_input(char *input)
 {
 	t_cmd	*cmd;
 	char	**h_input;
+	char	*trimmed;
 
 	cmd = NULL;
 	input = rm_space(input);
-	input = ft_trim(input);
-	h_input = ft_split_quots(input, '|');
+	if (!input)
+		return (NULL);
+	trimmed = ft_trim(input);
+	free(input);
+	if (!trimmed)
+		return (NULL);
+	h_input = ft_split_quots(trimmed, '|');
+	free(trimmed);
+	if (!h_input)
+		return (NULL);
 	cmd = get_tokens(cmd, h_input);
 	free_array(h_input);
 	h_input = NULL;

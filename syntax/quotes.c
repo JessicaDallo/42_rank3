@@ -6,32 +6,32 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 18:39:57 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:43:15 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:28:57 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-bool	process_char(char current, char *prev, char *result, bool *inside_quotes)
+bool	process_char(char current, char *prev, char *result, bool *insid_quote)
 {
-	static char quote_char = '\0';
+	static char	quote_char = '\0';
 
-	if (current == '\'' || current == '\"') 
+	if (current == '\'' || current == '\"')
 	{
-		if (*inside_quotes && current == quote_char)
+		if (*insid_quote && current == quote_char)
 		{
-			*inside_quotes = false;
+			*insid_quote = false;
 			quote_char = '\0';
 		}
-		else if (!*inside_quotes)
+		else if (!*insid_quote)
 		{
-			*inside_quotes = true;
+			*insid_quote = true;
 			quote_char = current;
 		}
 		*result = current;
 		return (true);
 	}
-	if (*inside_quotes || (current != ' ' || (prev && *prev != ' ')))
+	if (*insid_quote || (current != ' ' || (prev && *prev != ' ')))
 	{
 		*result = current;
 		return (true);
@@ -46,10 +46,10 @@ char	*rm_space(char *str)
 	bool	inside_quotes;
 	size_t	j;
 	size_t	i;
-	
+
 	result = (char *)malloc(ft_strlen(str) + 1);
-	if(!result)
-		return(NULL);
+	if (!result)
+		return (NULL);
 	j = 0;
 	i = 0;
 	inside_quotes = false;
@@ -73,13 +73,13 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 	char	*temp;
 	char	*aux;
 	size_t	i;
-	
+
 	output = ft_strdup("");
 	temp = rm_space(str);
 	i = -1;
-	if(temp && temp[0] == '$' && (temp[1] == '\'' || temp[1] == '\"'))
+	if (temp && temp[0] == '$' && (temp[1] == '\'' || temp[1] == '\"'))
 		i++;
-	while(++i < (ft_strlen(temp)))
+	while (++i < (ft_strlen(temp)))
 	{
 		if (temp[i] == '\'' && !d_quote)
 			s_quote = !s_quote;
@@ -93,5 +93,5 @@ char	*handle_quotes(char *str, int s_quote, int d_quote)
 		}
 	}
 	free(temp);
-	return(output);
+	return (output);
 }

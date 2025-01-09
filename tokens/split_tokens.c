@@ -10,23 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 static int	split_delimiter(t_split *spl, char *str, char c)
 {
-	char	*temp;
-
-	temp = NULL;
 	if (str[spl->i] == c && spl->i > spl->init)
 	{
-		temp = ft_strndup(&str[spl->init], spl->i - spl->init);
-		spl->arr[spl->j++] = temp;
+		spl->arr[spl->j++] = ft_strndup(&str[spl->init], spl->i - spl->init);
 		spl->init = spl->i + 1;
-	}
-	if(!temp)
-	{
-		free(temp);
-		temp = NULL;
 	}
 	if ((size_t)spl->i < ft_strlen(str))
 		spl->i++;
@@ -37,13 +28,10 @@ static int	split_delimiter(t_split *spl, char *str, char c)
 
 static void	spl_quotes(t_split *spl, char *str, char c)
 {
-	char	*temp;
-
 	spl->i = spl->i + quote_count(&str[spl->i], str[spl->i]);
 	if (str[spl->i] == c)
 	{
-		temp = ft_strndup(&str[spl->init], spl->i - spl->init);
-		spl->arr[spl->j++] = temp;
+		spl->arr[spl->j++] = ft_strndup(&str[spl->init], spl->i - spl->init);
 		spl->init = spl->i + 1;
 	}
 }
@@ -64,8 +52,6 @@ static void	process_split(t_split *spl, char *str, char c)
 
 static void	process_split_red(t_split *spl, char *str, char c)
 {
-	char	*temp;
-
 	while (str[spl->i] != '\0')
 	{
 		spl->redir = is_redir(spl, str);
@@ -74,12 +60,9 @@ static void	process_split_red(t_split *spl, char *str, char c)
 		else if (spl->redir)
 		{
 			if (spl->i > spl->init)
-			{
-				temp = ft_strndup(&str[spl->init], spl->i - spl->init);
-				spl->arr[spl->j++] = temp;
-			}
-			temp = ft_strndup(&str[spl->i], spl->redir);
-			spl->arr[spl->j++] = temp;
+				spl->arr[spl->j++] = ft_strndup(&str[spl->init], \
+				spl->i - spl->init);
+			spl->arr[spl->j++] = ft_strndup(&str[spl->i], spl->redir);
 			spl->i += spl->redir;
 			spl->init = spl->i;
 		}
@@ -92,7 +75,6 @@ static void	process_split_red(t_split *spl, char *str, char c)
 char	**ft_split_quots(char *str, char c)
 {
 	t_split	spl;
-	char	**arr;
 
 	spl.i = 0;
 	spl.j = 0;
@@ -101,10 +83,9 @@ char	**ft_split_quots(char *str, char c)
 	spl.rlen = len_red(str, c);
 	spl.cwords = ft_count_words(str, c);
 	spl.total = spl.cwords + spl.rlen;
-	arr = ft_calloc(spl.total + 1, sizeof(char *));
-	if (!arr)
+	spl.arr = ft_calloc(spl.total + 1, sizeof(char *));
+	if (!spl.arr)
 		return (NULL);
-	spl.arr = arr;
 	if (c == ' ')
 		process_split_red(&spl, str, c);
 	else

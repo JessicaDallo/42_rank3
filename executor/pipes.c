@@ -6,56 +6,54 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:32:22 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:51:03 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	create_pipes(t_cmd *cmd)
 {
-	t_cmd	*tmp;
-	
-	tmp = cmd;
-	while (tmp)
+	if (!cmd)
+		return ;
+	while (cmd)
 	{
-		if (tmp->next && pipe(tmp->fd) == -1)
+		if (cmd->next && pipe(cmd->fd) == -1)
 		{
-			perror_msg("pipe", "Error to create pipe");
-			return;
+			perror_msg("pipe", "error to create pipe");
+			return ;
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
-	return;
+	return ;
 }
 
 void	close_pipes(t_cmd *cmd)
 {
-	t_cmd   *tmp;
-	
-	tmp = cmd;
-	while (tmp)
+	if (!cmd)
+		return ;
+	while (cmd)
 	{
-		if (tmp->fd[0] != -1)
-			close(tmp->fd[0]);
-		else if (tmp->fd[1] != -1)
-			close(tmp->fd[1]);
-		tmp = tmp->next;
+		if (cmd->fd[0] != -1)
+			close(cmd->fd[0]);
+		if (cmd->fd[1] != -1)
+			close(cmd->fd[1]);
+		cmd = cmd->next;
 	}
 }
 
 void	redir_fds(int redir, int local)
-{  
-	if(redir < 0 || local < 0)
+{
+	if (redir < 0 || local < 0)
 	{
 		error_msg("fd", "No such file or directory", 1);
-		return;
+		return ;
 	}
 	else if (dup2(redir, local) < 0)
 	{
 		perror_msg("dup2", "Error redirecting");
 		close(redir);
-		return;
+		return ;
 	}
 	close(redir);
 }
@@ -70,4 +68,6 @@ void	recover_original_fds(int initial_fds[2])
 {
 	redir_fds(initial_fds[0], STDIN_FILENO);
 	redir_fds(initial_fds[1], STDOUT_FILENO);
+	close(initial_fds[0]);
+	close(initial_fds[1]);
 }

@@ -6,86 +6,70 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:31:10 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:01:03 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:35:32 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-static bool	m_long(char *str)
+static void	exit_mshell(t_minishell *mshell, char *cmd_name)
 {
-	long long result;
-	int			len;
-
-	len = ft_strlen(str);
-	if(len > 20)
-		return (true);
-	result = ft_atoi(str);
-	if (result >= LLONG_MAX || result <= LLONG_MIN)
-		return (true);
-	else
-		return (false);
-}
-
-int	is_num(char *str)
-{
-	if(!str)
-		return (0);
-	else
+	if (g_e_code != 1)
 	{
-		if (*str == '-' || *str == '+')
-			str++;
-		while (*str)
-		{
-			if (!(*str >= '0' && *str <= '9'))
-				return (0);
-			str++;
-		}
+		free(cmd_name);
+		close_pipes(mshell->commands);
+		clear_mshell(mshell);
 	}
-	return (1);
 }
 
-int	get_exit(t_minishell *mshell, t_token *token)
+int	get_exit(t_token *token)
 {
-	mshell->e_code = 0;
-	if (!is_num(handle_quotes(token->input, 0, 0)) || m_long(token->input))
+	char	*temp;
+
+	temp = handle_quotes(token->input, 0, 0);
+	g_e_code = 0;
+	if (!is_num(temp) || m_long(token->input))
 	{
-		error_msg("exit", "numeric argument required", 2); 
-		return((mshell->e_code = 2));
+		error_msg("exit", "numeric argument required", 2);
+		g_e_code = 2;
 	}
 	else if (token->next)
 	{
 		error_msg("exit", "too many arguments", 1);
-		return(mshell->e_code = 1);
+		g_e_code = 1;
 	}
 	else if (token->input)
 	{
-		if (ft_atoi(handle_quotes(token->input, 0, 0)) < 0)
-			mshell->e_code = (256 + ft_atoi(handle_quotes(token->input, 0, 0)));
+		if (ft_atoi(temp) < 0)
+			g_e_code = (256 + ft_atoi(temp));
 		else
-			mshell->e_code = ft_atoi(handle_quotes(token->input, 0, 0)) % 256;
-		clear_mshell(mshell);
+			g_e_code = ft_atoi(temp) % 256;
 	}
-	return(mshell->e_code);
+	free(temp);
+	temp = NULL;
+	return (g_e_code);
 }
 
-int	ft_exit(t_minishell *mshell, t_token *token)
+int	ft_exit(t_minishell *mshell, t_token *token, char *cmd_name)
 {
-	int exit_code;
-	
+	int	exit_code;
+
+	(void)cmd_name;
 	token = token->next;
 	if (!token || !token->input)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit_code = 0;
-		mshell->e_code = exit_code;
+		free(cmd_name);
+		g_e_code = exit_code;
 		clear_mshell(mshell);
 	}
 	else
 	{
-		exit_code = get_exit(mshell, token);
-		mshell->e_code = exit_code;
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		exit_code = get_exit(token);
+		g_e_code = exit_code;
+		exit_mshell(mshell, cmd_name);
 	}
 	return (exit_code);
 }
-

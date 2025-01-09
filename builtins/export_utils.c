@@ -6,11 +6,11 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:11:37 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:03:50 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:23:40 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
 void	ft_env_reorder(char **keys, t_env *env)
 {
@@ -26,10 +26,15 @@ void	ft_env_reorder(char **keys, t_env *env)
 			if (!ft_strcmp(keys[i], temp->key))
 			{
 				if (temp->value && ft_strlen(temp->value) > 0)
-					ft_printf("declare -x %s=\"%s\"\n",temp->key, temp->value);
+					ft_printf("declare -x %s=\"%s\"\n", temp->key, temp->value);
 				else
-					ft_printf("declare -x %s=\"\"\n", temp->key);
-				break;
+				{
+					if (temp->print)
+						ft_printf("declare -x %s=\"\"\n", temp->key);
+					else
+						ft_printf("declare -x %s\n", temp->key);
+				}
+				break ;
 			}
 			temp = temp->next;
 		}
@@ -57,7 +62,7 @@ void	ft_env_sorted(char **keys, int len)
 			i++;
 		}
 		j++;
-	}    
+	}
 }
 
 void	print_export(t_minishell *mshell)
@@ -77,27 +82,4 @@ void	print_export(t_minishell *mshell)
 	ft_env_sorted(keys, mshell->env_size);
 	ft_env_reorder(keys, mshell->env);
 	free_array(keys);
-}
-
-bool	check_key(char *input)
-{
-	int		i;
-
-	i = 0;
-	if (!ft_isalpha(input[i]) && input[i] != '_')
-	{
-		error_msg("export", "not a valid identifier", 1);
-		return (false);
-	}
-	while (input[++i])
-	{
-		if (input[i] == '=')
-			break ;
-		if (!ft_isalnum(input[i]) && input[i] != '_')
-		{
-			error_msg("export", "not a valid identifier", 1);
-			return (false);
-		}
-	}
-	return (true);
 }

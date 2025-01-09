@@ -6,107 +6,131 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:30:14 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 02:18:39 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-int	execpath_error(t_minishell *mshell, char *path)
+int	execpath_error(char *path)
 {
-	if(ft_strchr(path, '/') || path[0] == '.')
+	if (ft_strchr(path, '/') || path[0] == '.')
 	{
 		if (access(path, F_OK) < 0)
 		{
 			error_msg(path, "No such file or directory", 127);
-			return(mshell->e_code = 127);
+			return (g_e_code = 127);
 		}
 		else if (access(path, X_OK) == 0)
 		{
 			error_msg(path, "Is a directory", 126);
-			return(mshell->e_code = 126);
+			return (g_e_code = 126);
 		}
 		else
 		{
 			error_msg(path, "Permission denied", 126);
-			return(mshell->e_code = 126);
+			return (g_e_code = 126);
 		}
 	}
-	return(mshell->e_code);
+	return (g_e_code);
 }
 
-int	check_execpath(t_minishell *mshell, char *path)
+int	check_execpath(char *args, char *path)
 {
-	if(!path || path == NULL)
+	if (!path || path == NULL)
 	{
-		error_msg(mshell->commands->tokens->input, "command not found", 127);
-		return(mshell->e_code = 127);
+		error_msg(args, "command not found", 127);
+		return (g_e_code = 127);
 	}
 	else
-		return(execpath_error(mshell, path));
+		return (execpath_error(path));
 }
 
-char	*get_execpath(t_minishell *mshell, char *cmd_name)
+char	*get_execpath(t_minishell *mshell, char *cmd_name, int i)
 {
 	char	**paths;
 	char	*tmp_path;
 	char	*path;
-	int		i;
-	
-	if(ft_strchr("/.", cmd_name[0]))
-		return(ft_strdup(cmd_name));
+
+	if (ft_strchr("/.", cmd_name[0]))
+		return (ft_strdup(cmd_name));
 	tmp_path = get_value(mshell, "PATH");
-	if(tmp_path)
+	if (tmp_path)
 		paths = ft_split(tmp_path, ':');
-	if(!tmp_path || !paths)
-		return(NULL);
-	i = -1;
-	while(paths[++i])
+	if (!tmp_path || !paths)
+		return (NULL);
+	while (paths[++i])
 	{
-		path = ft_strjoin((ft_strjoin(paths[i], "/")), cmd_name);
-		if(access(path, F_OK) == 0)
+		tmp_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(tmp_path, cmd_name);
+		free(tmp_path);
+		if (access(path, F_OK) == 0)
 		{
 			free_array(paths);
-			return(ft_strdup(path));
+			return (ft_strdup(path));
 		}
 		free(path);
 	}
 	free_array(paths);
-	return(NULL);
+	return (NULL);
 }
 
 void	check_exit_status(t_minishell *mshell)
 {
-	if(WIFEXITED(mshell->e_code))
-		mshell->e_code = WEXITSTATUS(mshell->e_code);
-	else if (WIFSIGNALED(mshell->e_code)) 
-		mshell->e_code = 128 + WTERMSIG(mshell->e_code); 
+	(void)mshell;
+	if (WIFEXITED(g_e_code))
+		g_e_code = WEXITSTATUS(g_e_code);
+	else if (WIFSIGNALED(g_e_code))
+		g_e_code = 128 + WTERMSIG(g_e_code);
 }
+
+
+// static void	check_pid(t_token token);
+// {
+// 	if (ft_strcmp(token->input, "./minishell") == 0)
+// 	{
+// 		signal(SIGINT, SIG_IGN);
+// 		signal(SIGQUIT, SIG_IGN);
+// 	}
+// 	else
+// 	{
+// 		signal(SIGINT, ft_sigint);
+// 		signal(SIGQUIT, ft_sigquit);
+// 	}
+// }
 
 void	run_execve(t_minishell *mshell, t_token *token)
 {
-	char	*executable;
 	char	**args;
 	pid_t	pid;
-	
-	if(!token || !token->input)
-		return;
-	pid = creat_pid(mshell);
+
+	if (!token || !token->input)
+		return ;
 	args = convert_args(mshell, token);
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
-	if(pid == 0)
+	if (!args || !args[0])
+		return ;
+	pid = creat_pid();
+	if (ft_strcmp(token->input, "./minishell") == 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
 	{
 		signal(SIGINT, ft_sigint);
-		if(!args || !args[0])
-			return;
-		executable = get_execpath(mshell, args[0]);
-		if(execve(executable, args, mshell->envp))
-			check_execpath(mshell, executable);
-		exit(mshell->e_code);
+		signal(SIGQUIT, ft_sigquit);
 	}
-	waitpid(pid, &mshell->e_code, 0);
+	if (pid == 0)
+	{
+		//close(mshell->initial_fds[0]);
+		//close(mshell->initial_fds[1]);
+		close_pipes(mshell->commands);
+		check_execve(mshell, args);
+		clear_mshell(mshell);
+	}
+	close_pipes(mshell->commands);
+	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
 	free_array(args);
-	return;
+	return ;
 }

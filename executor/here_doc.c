@@ -6,52 +6,52 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/01 23:31:48 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:51:53 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-int	tmp_heredoc(t_minishell *mshell)
+int	tmp_heredoc(void)
 {
 	int	fd;
-	
+
 	fd = open("/tmp/heredoc_file0001", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if(fd < 0)
+	if (fd < 0)
 	{
-		perror_msg("open","Erro ao abrir o arquivo");
-		mshell->e_code = errno;
-		return(-1);
+		perror_msg("open", "Erro ao abrir o arquivo");
+		g_e_code = errno;
+		return (-1);
 	}
-	return(fd);
+	return (fd);
 }
 
 void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 {
 	char	*line;
-	int		fd;
-	
-	fd = tmp_heredoc(mshell);
+
+	mshell->heredoc_fd = tmp_heredoc();
 	while (1)
 	{
 		line = readline("> ");
+		if (g_e_code == 130)
+		{
+			free(eof);
+			clear_mshell(mshell);
+		}
 		if (!line)
 		{
-			error_msg("warning: here-document delimited by EOF. Wanted", eof, 1);
+			error_msg("warning:here-document delimited by EOF. Wanted", eof, 1);
 			break ;
 		}
 		if (!ft_strcmp(line, eof))
 		{
 			free(line);
-			break;
+			break ;
 		}
-		if(expand)
-			handle_expansions(mshell, &line, 1);
-		ft_putendl_fd(line, fd);
-		free(line);
+		handle_expansion_hd(mshell, line, expand);
 	}
-	close(fd);
-	exit(mshell->e_code);
+	close_heredoc(mshell, eof);
 }
 
 void	ft_heredoc(t_minishell *mshell, char *delim)
@@ -59,58 +59,62 @@ void	ft_heredoc(t_minishell *mshell, char *delim)
 	pid_t	pid;
 	bool	expand;
 	char	*eof;
-	
+
 	eof = handle_quotes(delim, 0, 0);
 	expand = is_expand(delim);
-	pid = creat_pid(mshell);
+	g_e_code = 0;
+	pid = creat_pid();
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, ft_sigquit);
-	if(pid == 0)
+	signal(SIGQUIT, SIG_IGN);
+	if (pid == 0)
 	{
-		signal(SIGINT, ft_sigint_hd); 
+		signal(SIGINT, ft_sigint_hd);
 		read_heredoc(mshell, eof, expand);
-		exit(mshell->e_code);
+		clear_mshell(mshell);
 	}
-	waitpid(pid, &mshell->e_code, 0);
+	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
+	free(eof);
 }
 
-void open_hd(t_minishell *mshell)
+void	open_hd(t_minishell *mshell)
 {
-	int fd;
-
-	fd = open("/tmp/heredoc_file0001", O_RDONLY);
-	if (fd < 0)
+	mshell->heredoc_fd = open("/tmp/heredoc_file0001", O_RDONLY);
+	if (mshell->heredoc_fd < 0)
 	{
 		perror_msg("open", "Erro ao abrir arquivo do heredoc");
-		mshell->e_code = errno;
-		return;
+		g_e_code = errno;
+		return ;
 	}
-	mshell->heredoc_fd = fd;
 	unlink("/tmp/heredoc_file0001");
-	return;
+	return ;
 }
 
-bool has_heredoc(t_minishell *mshell, t_token **tokens)
+bool	has_heredoc(t_minishell *mshell, t_token **tokens)
 {
-	t_token *temp;
-	t_token *aux;
-	bool    flag;
+	t_token	*temp;
+	t_token	*aux;
+	bool	flag;
 
 	temp = *tokens;
 	flag = false;
 	while (temp)
-	{   
+	{
 		aux = temp->next;
 		if (temp->type == HEREDOC)
 		{
-			ft_heredoc(mshell, temp->input);
-			open_hd(mshell);
 			flag = true;
+			ft_heredoc(mshell, temp->input);
+			if (g_e_code == 130)
+			{
+				free_cmd(mshell->commands);
+				mshell->commands = NULL;
+				return (flag);
+			}
 			remove_token(tokens, &temp);
 		}
-		temp = aux;
+		else
+			temp = aux;
 	}
 	return (flag);
 }
-

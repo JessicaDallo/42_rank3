@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/include_builtins.h"
+#include "../includes/minishell.h"
 
 int	get_type(char *cmd, bool new_cmd)
 {
@@ -28,7 +28,7 @@ int	get_type(char *cmd, bool new_cmd)
 		return (ARG);
 }
 
-t_token	*create_token(char *arg, token_type type)
+t_token	*create_token(char *arg, t_token_type type)
 {
 	t_token	*new_token;
 
@@ -53,7 +53,7 @@ static void	add_end_token(t_cmd *temp, t_token *new_token)
 	tmp_token->next = new_token;
 }
 
-void	*add_token(t_cmd **cmd, char *arg, token_type type, bool new_cmd)
+void	*add_token(t_cmd **cmd, char *arg, t_token_type type, bool new_cmd)
 {
 	t_cmd	*temp;
 	t_token	*new_token;

@@ -6,28 +6,36 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:20:19 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/01 23:11:28 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:11:35 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include_builtins.h"
+#include "minishell.h"
 
-int ft_pwd(t_minishell *mshell, t_token *token)
+int	ft_pwd(t_minishell *mshell, t_token *token)
 {
-	char pwd[PATH_MAX];
-	
-	if(token->next)
+	char	*pwd;
+
+	if (token->next)
 	{
-		if(ft_strncmp(token->next->input, "-", 1) == 0)
+		if (ft_strncmp(token->next->input, "-", 1) == 0)
 		{
-			error_msg("pwd", "invalid options", 1); //check if the exit code is correct
-			return (mshell->e_code = 1);
+			error_msg("pwd", "invalid options", 1);
+			return (g_e_code = 1);
 		}
 	}
-	if (getcwd(pwd, sizeof(pwd)) != NULL)
-		ft_putstr_fd(pwd, STDOUT_FILENO);
-	else
-		  perror_msg("pwd", "pwd");
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		pwd = get_value(mshell, "PWD");
+		if (!pwd)
+		{
+			error_msg("pwd", "No such file or directory", 1);
+			return (g_e_code = 1);
+		}
+	}
+	ft_putendl_fd(pwd, STDOUT_FILENO);
+	if (pwd && pwd != get_value(mshell, "PWD"))
+		free(pwd);
+	return (g_e_code = 0);
 }
