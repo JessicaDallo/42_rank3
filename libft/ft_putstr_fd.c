@@ -17,13 +17,9 @@ RETURN VALUE: None.*/
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int	i;
+	int	len;
 
-	i = 0;
-	while (s[i])
-	{
-		write (fd, &s[i], 1);
-		i++;
-	}
+	len = ft_strlen(s);
+	write(fd, s, len);
 	return ;
 }

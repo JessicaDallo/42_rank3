@@ -14,9 +14,14 @@
 
 char	*go_path(t_minishell *mshell, char *env)
 {
-	char		*path;
+	char	*path;
+	char	*value;
 
-	path = ft_strdup(get_value(mshell, env));
+	value = get_value(mshell, env);
+	if (value)
+		path = ft_strdup(value);
+	else
+		path = NULL;
 	if (!path)
 	{
 		if (ft_strcmp(env, "HOME") == 0)
@@ -89,7 +94,7 @@ void	ft_cd(t_minishell *mshell, t_token *token)
 		path = go_path(mshell, "HOME");
 	else
 		get_path(mshell, token->next, &path);
-	if (g_e_code == 1 || !path || !*path)
+	if (g_e_code == 1 || !path)
 	{
 		free(path);
 		return ;

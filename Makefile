@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = cc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 INCLUDE = -I ./includes
 LIBFT_PATH = libft
 LIBFT = -L ${LIBFT_PATH} -lft -lreadline
@@ -67,7 +67,5 @@ leaks: readline.supp
 # 	@echo "    ..." >> readline.supp
 # 	@echo "    fun:add_history" >> readline.supp
 # 	@echo "}" >> readline.supp
-
-#valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --gen-suppressions=all -s --log-file=output.log ./$(NAME)
 
 .PHONY: all clean fclean re

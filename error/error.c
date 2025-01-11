@@ -31,7 +31,7 @@ void	perror_msg(char *cmd, char *str)
 	g_e_code = errno;
 }
 
-void	ds(void)
+void	close_fds(void)
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);

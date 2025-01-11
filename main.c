@@ -62,10 +62,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	mshell;
 
-	(void)argc;
-	(void)argv;
-	init_struct(&mshell, envp);
-	g_e_code = 0;
-	read_input(mshell);
-	clear_mshell(&mshell);
+	if (argc > 1)
+		error_msg(*argv, "too many arguments", 2);
+	else
+	{
+		init_struct(&mshell, envp);
+		g_e_code = 0;
+		read_input(mshell);
+		clear_mshell(&mshell);
+	}
 }
