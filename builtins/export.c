@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:16:30 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 19:12:21 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:06:01 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ bool	check_key(char *input)
 			return (false);
 		}
 	}
-	g_e_code = 0;
 	return (true);
 }
 
@@ -104,6 +103,7 @@ void	ft_export(t_minishell *mshell, t_token *tokens)
 	t_token	*temp;
 
 	temp = tokens->next;
+	g_e_code = 0;
 	if (!temp || !temp->input)
 		print_export(mshell);
 	else

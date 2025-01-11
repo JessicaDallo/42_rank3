@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/05 22:25:24 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:51:03 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,6 @@ void	recover_original_fds(int initial_fds[2])
 {
 	redir_fds(initial_fds[0], STDIN_FILENO);
 	redir_fds(initial_fds[1], STDOUT_FILENO);
+	close(initial_fds[0]);
+	close(initial_fds[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:06:12 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 19:44:45 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 02:18:39 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,22 @@ int	execpath_error(char *path)
 	return (g_e_code);
 }
 
-int	check_execpath(t_token *token, char *path)
+int	check_execpath(char *args, char *path)
 {
 	if (!path || path == NULL)
 	{
-		error_msg(token->input, "command not found", 127);
+		error_msg(args, "command not found", 127);
 		return (g_e_code = 127);
 	}
 	else
 		return (execpath_error(path));
 }
 
-char	*get_execpath(t_minishell *mshell, char *cmd_name)
+char	*get_execpath(t_minishell *mshell, char *cmd_name, int i)
 {
 	char	**paths;
 	char	*tmp_path;
 	char	*path;
-	int		i;
 
 	if (ft_strchr("/.", cmd_name[0]))
 		return (ft_strdup(cmd_name));
@@ -60,7 +59,6 @@ char	*get_execpath(t_minishell *mshell, char *cmd_name)
 		paths = ft_split(tmp_path, ':');
 	if (!tmp_path || !paths)
 		return (NULL);
-	i = -1;
 	while (paths[++i])
 	{
 		tmp_path = ft_strjoin(paths[i], "/");
@@ -88,7 +86,6 @@ void	check_exit_status(t_minishell *mshell)
 
 void	run_execve(t_minishell *mshell, t_token *token)
 {
-	char	*executable;
 	char	**args;
 	pid_t	pid;
 
@@ -98,26 +95,14 @@ void	run_execve(t_minishell *mshell, t_token *token)
 	if (!args || !args[0])
 		return ;
 	pid = creat_pid();
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
+	check_pid(token);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		close(mshell->initial_fds[0]);
-		close(mshell->initial_fds[1]);
-		executable = get_execpath(mshell, args[0]);
-		if (!executable)
-		{
-			check_execpath(token, executable);
-			free_array(args);
-			clear_mshell(mshell);
-		}
-		if (execve(executable, args, mshell->envp))
-			check_execpath(token, executable);
-		free(executable);
-		free_array(args);
+		close_pipes(mshell->commands);
+		check_execve(mshell, args);
 		clear_mshell(mshell);
 	}
+	close_pipes(mshell->commands);
 	waitpid(pid, &g_e_code, 0);
 	check_exit_status(mshell);
 	free_array(args);

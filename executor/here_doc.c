@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:07:43 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 20:04:10 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:51:53 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,9 @@ void	read_heredoc(t_minishell *mshell, char *eof, bool expand)
 			free(line);
 			break ;
 		}
-		if (expand)
-			handle_expansions(mshell, &line, 1);
-		ft_putendl_fd(line, mshell->heredoc_fd);
-		free(line);
+		handle_expansion_hd(mshell, line, expand);
 	}
-	close(mshell->heredoc_fd);
-	free(eof);
-	close_pipes(mshell->commands);
-	clear_mshell(mshell);
+	close_heredoc(mshell, eof);
 }
 
 void	ft_heredoc(t_minishell *mshell, char *delim)

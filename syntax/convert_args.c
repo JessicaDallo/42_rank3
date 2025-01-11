@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:44:11 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/07 19:53:45 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 02:26:18 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,24 @@ int	ft_arraylen(t_minishell *mshell, t_token *token)
 	return (i);
 }
 
-// void	expand_args(t_minishell *mshell, t_token *token)
-// {
-// 	t_token	*tmp;
-
-// 	if (!token || !token->input)
-// 		return ;
-// 	tmp = token;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == CMD || tmp->type == ARG)
-// 			handle_expansions(mshell, &tmp->input, 1);
-// 		tmp = tmp->next;
-// 	}
-// 	g_e_code = 0;
-// }
-
-static int	process_conv_args(char ***temp, char *input, int i)
+bool	loop_convert_args(t_token *tk, int i, char **temp)
 {
-	*temp[i] = handle_quotes(input, 0, 0);
-	if (!*temp[i])
+	while (tk)
 	{
-		free_array(*temp);
-		return (0);
+		if (tk->input && *tk->input)
+		{
+			temp[i] = handle_quotes(tk->input, 0, 0);
+			if (!temp[i])
+			{
+				free_array(temp);
+				return (false);
+			}
+			i++;
+		}
+		tk = tk->next;
 	}
-	return (1);
+	temp[i] = NULL;
+	return (true);
 }
 
 char	**convert_args(t_minishell *mshell, t_token *tk)
@@ -65,7 +58,7 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 	temp = (char **)malloc(sizeof(char *) * (ft_arraylen(mshell, tk) + 1));
 	if (!temp)
 		return (NULL);
-	if (!*tk->input)
+	if (!*tk->input && !tk->next)
 	{
 		free(temp);
 		return (NULL);
@@ -76,16 +69,7 @@ char	**convert_args(t_minishell *mshell, t_token *tk)
 		temp[i++] = ft_strdup(tk->input);
 		tk = tk->next;
 	}
-	while (tk)
-	{
-		if (tk->input && *tk->input)
-		{
-			if (!(process_conv_args(&temp, tk->input, i)))
-				return (NULL);
-			i++;
-		}
-		tk = tk->next;
-	}
-	temp[i] = NULL;
+	if (!loop_convert_args(tk, i, temp))
+		return (NULL);
 	return (temp);
 }

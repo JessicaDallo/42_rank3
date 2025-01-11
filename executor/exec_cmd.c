@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:14 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/07 19:57:43 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/09 01:59:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,11 @@ void	exec_child(t_minishell *mshell, t_cmd *cmd, int *prev_fd)
 	mshell->child[mshell->i++] = pid;
 }
 
-int	get_ncmds(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd)
-	{
-		i++;
-		cmd = cmd->next;
-	}
-	return (i);
-}
-
 void	exec_multi_cmds(t_minishell *mshell)
 {
 	t_cmd	*cmd;
 	int		prev_fd;
 	int		n_cmds;
-	int		j;
 
 	cmd = mshell->commands;
 	prev_fd = -1;
@@ -105,12 +91,7 @@ void	exec_multi_cmds(t_minishell *mshell)
 		exec_child(mshell, cmd, &prev_fd);
 		cmd = cmd->next;
 	}
-	j = 0;
-	while (j < n_cmds)
-	{
-		waitpid(mshell->child[j], &g_e_code, 0);
-		j++;
-	}
+	wait_childs(mshell, n_cmds);
 	check_exit_status(mshell);
 }
 
@@ -136,10 +117,7 @@ void	handle_exec(t_minishell *mshell)
 	}
 	else
 		exec_multi_cmds(mshell);
-	close_pipes(mshell->commands);
 	if (mshell->heredoc_fd != -1)
 		close(mshell->heredoc_fd);
 	recover_original_fds(mshell->initial_fds);
-	close(mshell->initial_fds[0]);
-	close(mshell->initial_fds[1]);
 }
