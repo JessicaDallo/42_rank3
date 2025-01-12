@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:42:24 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/09 01:24:10 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 00:53:45 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	loop_echo(t_minishell *mshell, t_token *token, int *newline, bool *flag)
 	char	*tmp;
 
 	tmp = NULL;
-	if (token && token->input && flag && !ft_strncmp(token->input, "-n", 2))
+	if (token && token->input && *flag && !ft_strncmp(token->input, "-n", 2))
 	{
 		if (check_echo(token, flag, newline))
 			return ;

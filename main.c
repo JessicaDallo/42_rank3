@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:59 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/09 02:23:45 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/11 18:20:14 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	mshell;
 
 	if (argc > 1)
+	{
 		error_msg(*argv, "too many arguments", 2);
+		return (2);
+	}
 	else
 	{
 		init_struct(&mshell, envp);

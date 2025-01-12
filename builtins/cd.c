@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:19:07 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/09 01:19:37 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 02:17:51 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,20 @@ char	*go_path(t_minishell *mshell, char *env)
 
 char	*check_tilde(t_minishell *mshell, char *input)
 {
-	char	*path_expand;
+	char	*path_exp;
 	char	*clean;
+	char	*tmp;
 
-	g_e_code = 0;
 	if (!input || (input[0] == '~' && input[1] == '\0'))
-		return (path_expand = go_path(mshell, "HOME"));
+		return (path_exp = go_path(mshell, "HOME"));
 	else if (input[0] == '~')
-		return (path_expand = ft_strjoin(go_path(mshell, "HOME"), input + 1));
+	{
+		tmp = go_path(mshell, "HOME");
+		if (!tmp)
+			return (ft_strdup(input));
+		else
+			return (path_exp = ft_strjoin(go_path(mshell, "HOME"), input + 1));
+	}
 	clean = handle_quotes(input, 0, 0);
 	if (input[0] == '$' || ((input[0] == '\"' && input[1] == '$')))
 	{
@@ -56,6 +62,25 @@ char	*check_tilde(t_minishell *mshell, char *input)
 	return (clean);
 }
 
+char	*path_clean(t_minishell *mshell, char *input)
+{
+	char	*path_clean;
+
+	if (ft_strncmp(input, "\"\"", 3) == 0)
+		return (ft_strdup("."));
+	path_clean = handle_quotes(input, 0, 0);
+	if (input[0] == '$' || ((input[0] == '\"' && input[1] == '$')))
+	{
+		handle_expansions(mshell, &path_clean, 1);
+		if (!*path_clean)
+		{
+			free(path_clean);
+			return (go_path(mshell, "HOME"));
+		}
+	}
+	return (path_clean);
+}
+
 void	get_path(t_minishell *mshell, t_token *token, char **path)
 {
 	g_e_code = 0;
@@ -66,9 +91,8 @@ void	get_path(t_minishell *mshell, t_token *token, char **path)
 	}
 	else if (token->input[0] == '~')
 	{
-		if (token->input[1] == '\0')
-			*path = go_path(mshell, "HOME");
-		else
+		*path = go_path(mshell, "HOME");
+		if (token->input[1] != '\0' && *path)
 			*path = ft_strjoin(go_path(mshell, "HOME"), token->input + 1);
 	}
 	else if (token->input[0] == '-' && token->input[1] == '\0')
@@ -78,8 +102,7 @@ void	get_path(t_minishell *mshell, t_token *token, char **path)
 			ft_putendl_fd(*path, STDOUT_FILENO);
 	}
 	else
-		*path = handle_quotes(token->input, 0, 0);
-	handle_expansions(mshell, path, 1);
+		*path = path_clean(mshell, token->input);
 }
 
 void	ft_cd(t_minishell *mshell, t_token *token)

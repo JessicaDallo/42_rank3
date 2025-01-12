@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:45:53 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/04 23:00:49 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 00:54:12 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	check_redir(t_minishell *mshell, t_token *temp)
 	bool	redir;
 
 	redir = true;
+	g_e_code = 0;
 	if (temp->type == INPUT_REDIR)
 		redir = redir_input(mshell, temp->input);
 	else if (temp->type == OUTPUT_REDIR)

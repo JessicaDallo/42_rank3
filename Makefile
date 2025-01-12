@@ -6,7 +6,7 @@
 #    By: sheila <sheila@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/06 11:37:28 by shrodrig          #+#    #+#              #
-#    Updated: 2025/01/09 02:30:48 by sheila           ###   ########.fr        #
+#    Updated: 2025/01/12 02:19:15 by sheila           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,5 +67,6 @@ leaks: readline.supp
 # 	@echo "    ..." >> readline.supp
 # 	@echo "    fun:add_history" >> readline.supp
 # 	@echo "}" >> readline.supp
+
 
 .PHONY: all clean fclean re
