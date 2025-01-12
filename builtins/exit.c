@@ -14,7 +14,7 @@
 
 static void	exit_mshell(t_minishell *mshell, char *cmd_name)
 {
-	if (g_e_code != 1)
+	if (g_e_code != 1 || ft_atoi(mshell->commands->tokens->next->input) == 1)
 	{
 		free(cmd_name);
 		close_pipes(mshell->commands);
