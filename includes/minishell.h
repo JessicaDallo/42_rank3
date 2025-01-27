@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:23:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/09 02:28:47 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:58:34 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void		ft_cd(t_minishell *mshell, t_token *token);
 void		get_path(t_minishell *mshell, t_token *token, char **path);
 char		*check_tilde(t_minishell *mshell, char *input);
 char		*go_path(t_minishell *mshell, char *env);
-
+void		cd_minus(t_minishell *mshell, char **path);
 int			is_builtin(t_cmd *commands);
 int			is_builtin(t_cmd *commands);
 void		run_builtin(t_minishell *mshell, t_cmd *commands);

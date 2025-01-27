@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:56:31 by shrodrig          #+#    #+#             */
-/*   Updated: 2025/01/04 22:59:05 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:28:19 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_unset(t_minishell *mshell, t_token *tokens)
 
 	temp = tokens;
 	temp = temp->next;
+	g_e_code = 0;
 	while (temp)
 	{
 		if (!temp->input)

@@ -6,7 +6,7 @@
 /*   By: sheila <sheila@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:09:28 by sheila            #+#    #+#             */
-/*   Updated: 2025/01/09 01:05:30 by sheila           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:56:37 by sheila           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,11 @@ int	is_builtin(t_cmd *commands)
 	if (cmd_name)
 		free(cmd_name);
 	return (0);
+}
+
+void	cd_minus(t_minishell *mshell, char **path)
+{
+	*path = go_path(mshell, "OLDPWD");
+	if (*path)
+		ft_putendl_fd(*path, STDOUT_FILENO);
 }
